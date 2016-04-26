@@ -1,0 +1,344 @@
+<style>
+  h1 {
+    font-size: 3vw; 
+    line-height: 100%;
+    color: #005a9b;
+  }
+  .row-fat {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+</style>
+
+<div class="container">
+<div class="row row-fat">
+
+  
+  <!-- USER BIO AND STATS -->
+  <div class="col-md-3 hidden-sm" style=" -webkit-box-shadow: 0px 2px 5px 0px #888888;
+  -moz-box-shadow: 0px 2px 5px 0px #888888;
+  box-shadow: 0px 2px 5px 0px #888888; padding: 10px;">
+    <div class="row">
+
+      
+      <%= if @user.avatar? 
+            then image_tag @user.avatar_url(:face), class: 'img-responsive'   
+          elsif @user.has_oauth? 
+            then image_tag @user.linked_accounts.first.image_url, class: 'img-responsive' 
+          else 
+            require 'digest'
+            hash_email = Digest::MD5.hexdigest(@user.email.downcase) if @user.email
+            hash_email = Digest::MD5.hexdigest(@user.name.downcase) if !@user.email
+            gravatar_url = 'http://www.gravatar.com/avatar/'
+            # order matter cuz ? and & 
+            size_param = '?s=300'
+            backup_theme= '&d=identicon' # retro
+            format_param = '.png'
+            request_url = gravatar_url + hash_email + size_param + backup_theme
+            image_tag request_url, class: 'img-responsive'
+            # image_tag 'drawings/kid_has_tools.jpg', class: 'img-responsive'
+          end %>
+      
+
+      <!-- USER NAME -->
+      <h2 class="dark-blue" style="margin-bottom: 5px;"><%= @user.name %></h2>
+    
+      <!-- USER NUTSHELL -->
+      <% if current_user == @user %>
+        <%= best_in_place_if current_user == @user, @user, :nutshell, place_holder: "in a nutshell", activator: "#nutshell-activator", :as => :input, class: "best_in_place", style: 'color: darkgray;' %>
+        <span id="nutshell-activator" class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: #C4D8E2; font-size: .8em;"></span>
+      <% else %>
+        <span class="text-muted">
+          <%= @user.nutshell if @user.nutshell.present? %>
+        </span>
+      <% end %>
+      <style>
+        a.modest-link:hover { text-decoration: none;}
+      </style>
+
+      <!-- USER SCHOOL -->
+      <hr>
+      <div class="" style="margin-top: 10px; ">
+      <!-- <p>
+        <%# @user.affiliations.all.each do |aff| %>
+          <%#= aff.inspect %>
+        <%# end %>
+      </p>
+      <p>
+        <%#= @user.school_primary.inspect %>
+      </p> -->
+
+        <%= link_to @user.school_primary, class: 'modest-link' do %>
+          <%= favicon_for(@user.school_primary, 13, 13, 'margin-bottom: 4px;') %>
+          <span class="brand-primary"><%= @user.school_primary.Institution_Name %></span>
+        <% end %>
+
+        <% secondary_affiliations(@user.affiliations).reverse.each do |aff| %>
+          <p>
+            <%= link_to aff.school, class: 'modest-link' do %>
+              <%= favicon_for(aff.school, 13, 13, 'margin-bottom: 4px;') %>
+              <span style="color: gray;"><%= aff.school.Institution_Name %></span>
+            <% end %>
+
+          </p>
+        <% end %>
+
+      </div>
+
+      
+    </div>
+
+    <% if current_user?(@user) %>
+    <div class="row">
+      <hr>
+      <p class="brand-secondary">
+        Linked Accounts
+        <span class="label label-warning">PRIVATE</span>
+      </p>
+
+      <% @user.linked_accounts.all.each do |la| %>
+        <p>
+          <%= icon_for_provider(la.provider, "medium") %>&nbsp;
+
+          <%
+            # Disconnect alerts.
+            warning = "Please be sure!"
+            if @user.linked_accounts.count == 1
+              if @user.has_password
+                warning += " This will remove your last remaining connected account.\n\nYou'll need to use your email and password to log in again."
+              elsif !@user.has_password
+                warning += " This is your last remaining connected account. \n\nYou'll be logged out and will receive an email at the address connected with this account with password reset instructions."
+                warning += "\n\nYour account at Rstacks will not be deleted or altered while you're away!"
+              end
+            end
+          %>
+          
+          <%= link_to disconnect_linked_account_user_path(:linked_account_id => la.id), method: :delete, data: { confirm: "#{warning}"} do %>
+            Disconnect
+          <% end %>
+          
+        </p>
+      <% end %>
+
+      <% providers_not_connected(@user.linked_accounts).each do |p| %>
+        <p>
+        <%= icon_for_provider(p) %>&nbsp;
+        <%= link_to "Connect", "/auth/#{p}" %>
+        </p>
+      <% end %>
+
+    </div>
+    <% end %>
+
+    <div class="row" >
+      <hr>
+      <!-- MEMBER SINCE -->
+      <div style="margin-top: 10px;" class="">
+        <span class="text-muted" style="font-style: italic; font-size: .8em;" >Rstacks member since <%= @user.created_at.strftime("%B %Y") %></span>
+      </div>
+<!-- 
+      <p class="brand-secondary">
+        Tags
+      </p> -->
+
+      <!-- recommendeds would go here -->
+      <%# render 'browse_tags' if @projects.any? %>
+      
+    </div>
+
+    <!-- <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+      <%# render_shareable :buttons=> ['facebook', 'twitter'] if @on_public %></div> -->
+    
+  </div> <!-- end profile side space -->
+
+  <div class="col-md-9">
+    
+    <%= render partial: 'users/timeline', :locals => {:user => @user} %>
+
+  </div>
+
+    
+  <div class="col-md-9">
+
+     <% if current_user?(@user) %>
+      <div class="row" style="margin-bottom: 15px;">
+
+      <style>
+        a.link-decoration-off:hover {
+          text-decoration: none;
+        }
+      </style>
+
+        <div class="col-sm-10 filter-links" style="background-color:">
+
+          <%= link_to user_path, class: "modest-link" do %>
+            <% if @on_public %>
+              <span class="label label-primary">Public</span>
+            <% else %>
+              <span class="label label-primary" style="background-color: white; border: 1px solid #428bca; color: #428bca;">Public</span>
+            <% end %>
+          <% end %>
+          
+       
+          <%= link_to show_bookmarks_user_path, class: "modest-link" do %>
+            <% if @on_bookmarks %>
+              <span class="label label-success">Bookmarks</span>
+            <% else %>
+              <span class="label label-success" style="background-color: white; border: 1px solid #5cb85c; color: #5cb85c;">Bookmarks</span>
+            <% end %>
+          <% end %>
+
+          <%= link_to show_anonymousers_user_path, class: "modest-link" do %>
+            <% if @on_anonymousers %>
+              <span class="label label-warning">Superhero Works</span>
+            <% else %>
+              <span class="label label-warning" style="background-color: white; border: 1px solid  #f0ad4e; color:  #f0ad4e;">Superhero Works</span>
+            <% end %>
+          <% end %>    
+
+          <% if @on_bookmarks %>
+            <span class="text-muted" style="font-size:.8em; color: gray;">This space is private. There are many like it, but this one is yours.</span>
+          <% elsif @on_anonymousers %>
+            <span class="text-muted" style="font-size:.8em; color: gray;">This space is private. There are many like it, but this one is yours.</span>
+          <% end %>
+  
+        </div> <!-- end filter-links -->
+      </div>
+     <% end %>
+
+  </div> <!-- end col-sm-9 -->
+
+    <div class="col-md-9" style="min-height: 500px;">
+
+    <!-- if user has projects, show them, obviously -->
+      <!-- ROWS OF _WORKS -->
+      <%# render 'projects/index2' if @projects.any? %>
+      <!-- <div class="col-md-9"> -->
+      <% if @on_anonymousers %>
+      <div class="row" style="padding-left: 15px;">
+        <p class="brand-secondary">
+          These works belong to you, but no one else knows that!
+        </p>
+      </div>
+      <% end %>
+      <div id="project-uploads">
+        <%= render partial: 'projects/project2', collection: @projects, as: :project if @projects.any? %>
+      </div>
+      <!-- </div> -->
+
+    <!-- PRIVATE SPACES -->
+      <!-- empty space solutions -->
+      <% if !@projects.any? %>
+      <div style="margin-left: 20px;">
+      <% if @on_bookmarks  %>
+        <div class="" style="margin-top: 40px;">
+          <h2 style="color: gray;">no bookmarks yet...</h2>
+          <h4 style="color: gray;">add some by clicking the <span class="glyphicon glyphicon-bookmark"></span> by any work</h4>
+        </div>
+      <% elsif @on_anonymousers %>
+        <div class="" style="margin-top: 40px;">
+          <h2 style="color: gray;">no superhero projects...</h2>
+          <h4 style="color: gray;">you can disguise the identity of the projects you upload by clicking the <span class="glyphicon glyphicon-user"></span> by any work</h4>
+        </div>
+
+    <!-- PUBLIC SPACE -->
+
+      <!-- if not owner -->
+      <% elsif !current_user?(@user)  %>
+        <div class="" style="margin-top: 40px;">
+          <h2 style="color: gray;">nothing to see here, folks</h2>
+          <h4 style="color: gray;">move along, move along...</h4>
+        </div>
+
+      <!-- if owner -->
+      <% elsif current_user?(@user) %>
+        <div class="normal-empty-space" >
+          <h3 class="brand-primary">
+            Feeling a little empty here?
+          </h3>
+          <p class="text-muted">
+            Click the <span class="fa fa-plus"></span> button in the top right to add a project and start building your library.
+          </p>
+        </div>
+
+      <% end %>
+      </div>
+      <% end %>
+
+    </div> <!-- end work upload col-sm-9 -->
+
+    <div class="row load-more-container text-center">
+    <div class="col-sm-12">
+                  <!-- hide our loading gif image so that we show it when making ajax call via jquery -->
+            <%= image_tag "loading_spinner.gif", style: "display:none;", class: "loading-gif" %>
+            <% 
+              path = @user if @on_public
+              path = show_bookmarks_user_path if @on_bookmarks
+              path = show_anonymousers_user_path if @on_anonymousers
+            %>
+            
+            <%= link_to "Load More", path, class: "load-more" if @projects.any? && @total_results > @projects.count && @total_results > 20 %></div>
+    </div>
+
+    <script>
+    $(document).ready(function () {
+        // when the load more link is clicked
+        $('a.load-more').click(function (e) {
+
+            // prevent the default click action
+            e.preventDefault();
+
+            // hide load more link
+            $('.load-more').hide();
+
+            // show loading gif
+            $('.loading-gif').show();
+
+            // get the last id and save it in a variable 'last-id'
+            var last_id = $('.-project').last().attr('data-id');
+
+            // make an ajax call passing along our last user id
+            $.ajax({
+
+                // make a get request to the server
+                type: "GET",
+                // get the url from the href attribute of our link
+                url: $(this).attr('href'),
+                // send the last id to our rails app
+                data: {
+                    project_id: last_id
+                },
+                // the response will be a script
+                dataType: "script",
+
+                // upon success 
+                success: function () {
+                    // hide the loading gif
+                    $('.loading-gif').hide();
+                    // show our load more link
+                    $('.load-more').show();
+
+                    $('.has-tooltip').tooltip();
+                    /* Activating Best In Place */
+                    jQuery(".best_in_place").best_in_place();
+                }
+            });
+
+        });
+    });
+    </script>
+
+
+
+  
+  
+</div> <!-- end row -->
+</div> <!-- end container -->
+
+<script>
+$(document).ready(function() {
+  $('.has-tooltip').tooltip();
+  /* Activating Best In Place */
+  jQuery(".best_in_place").best_in_place();
+});
+</script>

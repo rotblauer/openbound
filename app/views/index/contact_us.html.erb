@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Contact Rstacks</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+  body {
+    background-color: white;
+    color: #2E2F30;
+    text-align: center;
+    font-family: arial, sans-serif;
+    margin: 0;
+  }
+  a { color: blue; }
+  div.dialog {
+    margin-top: 100px;
+    margin-right: 50px;
+    margin-left: 50px;
+    margin-bottom: 100px;
+  }
+  </style>
+</head>
+
+<body>
+  <!-- This file lives in public/404.html -->
+  <div class="dialog">
+    <div>
+    	<h2>We'd love to hear from you.</h2>
+    	<%= mail_to "team@rstacks.org", subject: "Ahem, ", 
+																						 body: "", class: "" do %>
+				<h1 style="color: #76B3DF;">team@rstacks.org</h1>
+			<% end %>
+    </div>
+  </div>
+</body>
+</html>

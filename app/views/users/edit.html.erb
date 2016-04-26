@@ -1,0 +1,78 @@
+<div class="row" style="margin-top: 40px; margin-bottom: 40px;">
+  <style>
+    .edit_user input {
+      border-radius: 0px;
+    }
+  </style>
+
+  <div class="col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+  <div style="background-color: #DEE9EF; padding: 20px;">
+
+    <%= form_for(@user) do |f| %>
+      <%= render 'shared/error_messages' %>
+  
+      <%= image_tag @user.avatar_url(:hand), style: "max-height: 50; max-width: 75; float: left; margin-right: 30px; background-color: white;"%>
+      <%= f.file_field :avatar, class: '', accept: 'image/png,image/gif,image/jpeg', style: "display: inline; margin-left: 0px; margin-top: 10px;" %>
+  
+      <br>
+
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control' %>
+      <p class="signin-advice">Changing your name will also change your URL. <br>If you share a name with someone else, your URL will be appended with a UUID.</p>
+
+      <p class="signin-advice">Registered at 
+
+      <span><%= link_to @user.school_primary.Institution_Name, @user.school_primary %>&nbsp;<%= favicon_for(@user.school_primary, 20, 20, "") if @user.school_primary != School.friendly.find('spy-university') %></span>
+        <% if @user.school_primary == School.friendly.find('spy-university') %>
+          <p class="signin-advice">
+            Add the option to affiliate yourself with a school by changing to your academic email at the link below or connect another account
+            <span class="glyphicon glyphicon-arrow-down"></span>
+          </p>
+        <% end %>
+      
+      </p>
+
+      <p class="signin-advice">Your email is <span style="color: black;"><%= @user.email %></span> <small><%= link_to "change", new_email_update_path, style: "color: blue;", class: "text-muted" %></small> <br><mark>Your email is never visible anywhere on Rstacks.</mark></p>
+
+      <span id="password-change-toggle" style="color: blue;">Change my password</span>
+        <br>
+      <div id="change-password-fields" style="display: none;">
+        <%= f.label :password %>
+        <%= f.password_field :password, class: 'form-control' %>
+
+        <%= f.label :password_confirmation, "Confirmation" %>
+        <%= f.password_field :password_confirmation, class: 'form-control' %>
+      </div> 
+      <br>
+      <%= f.label :superman do %>
+        <%= f.check_box :superman, default: false %>
+        <span>Enable superhero mode?</span>
+      <% end %>
+      <p class="signin-advice">This makes work you upload to be anonymous by default. Work that is anonymous won't show up on your profile.</p>
+      
+      <br>
+      <%= f.submit "Save changes", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+    <div class="storage-bar">
+      <%= render 'users/storage_progress_bar' %>
+    </div>
+  </div>
+
+
+
+  <!-- Statistics (mostly beta-testing oriented) -->
+  <div class="col-sm-4">
+
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  $(function() {
+    $('#password-change-toggle').css('cursor', 'pointer');
+    $('#password-change-toggle').click(function() {
+      $('#change-password-fields').toggle();
+    });
+  });
+</script>

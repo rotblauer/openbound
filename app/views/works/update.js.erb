@@ -1,0 +1,7 @@
+$('.update-version-<%= @work.id %>').addClass('disabled');
+// will be visible if in editorMode, else not
+if ($('.save-button').is(':visible')) {
+	$('.leave-edit-mode-safely-button').show();	
+}
+$('.leave-edit-mode-dangerously-button').hide();		
+$('#diff-different-alert').show();

@@ -1,0 +1,96 @@
+<div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 -work" id="work-face-<%= work.id %>" data-id="<%= work.id %>" >
+
+  <!-- metadata -->
+  <div class="row metadata" >
+    <%= render partial: 'works/metadata', locals: { work: work } %>
+  </div> <!-- end metadata -->
+
+  <div class="row metadata-tags" >
+    <%= render partial: 'works/metadata_tags', locals: { work: work } %>
+  </div>
+
+
+  <div class="row first-page-row" >
+
+    <% 
+
+      if work.file_type_supported?
+        @_id = 'work-preview-button-'+work.id.to_s
+        @_type = 'div'
+        @_data_toggle = 'modal'
+        @_data_target = '#work-preview-'+work.id.to_s
+      else
+        @_id = ''
+        @_type = ''
+        @_data_toggle = ''
+        @_data_target = ''
+      end
+
+    %>
+    
+    <!-- if file type supported, make link to modal preview -->
+    
+      <div id="<%= @_id %>" class="preview-container" type="<%= @_div %>" data-toggle="<%= @_data_toggle %>" data-target="<%= @_data_target %>" >
+        <div class="outer">
+            
+          <!-- see _doc for similar shit w/r/t html vs. md -->
+          <% if (work.docordocx? || work.markdown? || work.type_html? || work.latex?) && work.file_type_supported? %>
+          
+          <div class="shadowy-figure shadowy-figure-text ellipsis multiline">
+            <!-- SMALL TEXT CONTENT PREVIEW  -->
+            <span class="text-content markdown thumb" >
+              <div class="holster"> <!-- holster does equalized unabashed side margins like google docs -->
+              <%= presentable_html(work.file_content_html) if work.file_content_html %>
+              </div>
+            </span>
+            <!--   <span class="text-content markdown" ><%= markdown(work.file_content_md) if work.file_content_md %></span> -->
+          </div>
+          
+          <% elsif (work.plain_text? || work.type_rtf? || work.powerpoint? || work.spreadsheet? || work.open_office? || work.i_works?) && work.file_type_supported? %>
+
+            <div class="shadowy-figure shadowy-figure-text ellipsis multiline">
+              <!-- SMALL TEXT CONTENT PREVIEW  -->
+              <span class="text-content text-file"><%= content_tag('pre', work.file_content_text) %></span>
+            </div>
+
+          <% elsif work.pdf? && work.file_type_supported? %>
+
+            <div  class="">
+              <%= image_tag work.document_url(:png_thumb), class: "shadowy-figure shadowy-figure-image thumb" %>
+            </div>
+
+          <% elsif work.image? && work.file_type_supported? %>
+
+            <div class="">
+              <%= image_tag work.document_url(:thumb), class: "shadowy-figure shadowy-figure-image thumb" %>
+            </div>
+
+          <!-- else preview unsupported file type -->
+          <!-- with no modal preview link -->
+          <% else %>
+
+            <div class="shadowy-figure shadowy-figure-text">
+              <p class="text-center" style="margin-top: 25%; margin-bottom: 50%; font-size: 4em; color: lightgray;">
+                <%= work.file_name.split('.').last.upcase %>
+              </p>
+            </div>
+
+          <% end %>
+            
+        </div> <!-- end outer -->
+      </div> <!-- end preview container -->
+        
+
+        <!-- BUTTONs -->
+        <div id="owner-options" class="row" style="height: 15px; display: float; margin-top: 10px; margin-right: 0px; margin-left: 15px;" >
+          <%= render partial: 'works/preview_buttons', locals: { work: work, project: work.project } if current_user == work.user && !@on_start_page  %>
+        </div>
+
+  </div> <!-- end first page row() -->
+    
+  <!-- MODAL -->
+  <%= render partial: 'works/modal', locals: { work: work } if !@on_start_page %>
+  <% # render partial: 'projects/add_version_modal', locals: {project: work.project} %> 
+</div>
+
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<solr persistent="false">
+  <cores adminPath="/admin/cores" host="${host:}" hostPort="${jetty.port:}">
+    <core name="production"     instanceDir="." dataDir="/mnt/rstacks-production/shared/solr/data"/>
+    <core name="staging"     instanceDir="." dataDir="/mnt/rstacks-staging/shared/solr/data"/>
+    <core name="development" instanceDir="." dataDir="development/data"/>
+    <core name="test"        instanceDir="." dataDir="test/data"/>
+  </cores>
+</solr>

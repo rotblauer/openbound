@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+a_gradient:
+  grad: 1
+  user: Isaac
+  work: alladin_work
+  created_at: <%= 6.months.ago %>
+  updated_at: <%= 1.hour.ago %>  
+
+b_gradient:
+  grad: 1
+  user: James
+  work: hiro_work
+  created_at: <%= 6.months.ago %>
+  updated_at: <%= 1.hour.ago %>

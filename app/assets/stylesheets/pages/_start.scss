@@ -1,0 +1,137 @@
+.tophat {
+	// margin-bottom: 40px;
+	// margin-top: 40px;
+	padding: 10vw;
+	// padding-left: 10vw;
+	// padding-right: 10vw;
+	
+	width: 100%;
+
+	background-color: #5075A7;
+	color: white;
+}
+
+.banner-picture-bg {
+	// background-image: image-url('promo/blur-test-blur.jpg');
+	// 	background-size: cover;
+	// padding: 30px 60px 0px 20px;
+}
+
+.banner-main {
+	padding: 10vw;
+	width: 100%;
+	// background-image: image-url('promo/5009895195_fb306ffcb4_b.jpg');
+	// background-image: image-url('promo/Japanese_high_school_classroom.jpg');
+	background-image: image-url('promo/blur-test-blur.jpg');
+	background-size: cover;
+	color: white;
+	margin-bottom: 50px;
+	h1 {
+		font-size: 5vw;
+	}
+}
+
+.start-section {
+	text-align: center;
+	//border: 1px solid gray;
+	min-height: 180px;
+	width: 100%;
+	vertical-align: middle;
+	display: table;
+	padding: 10px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	.vertical-middling {
+		display: table-cell;
+		vertical-align: middle;
+	}
+}
+
+// make work previews smaller
+#show-how-works-work {
+	-moz-transform: scale(0.75);
+	-webkit-transform: scale(0.75);
+	transform: scale(0.75);
+}
+
+a.linky-link {
+	span {
+		font-size: 2.2em; 
+		color: #76B3DF; 
+		display: float; 
+		position: bottom right; 
+		margin-right: 20px; 
+		margin-top: 40px; 
+		margin-bottom: 0px;
+	}
+	:hover { 
+		text-decoration: underline; 
+	}
+}
+
+.marginator {
+	margin: 2vw;
+}
+.chat-bubble {
+	
+
+	border-radius: 40px !important;
+	margin: 0vw;
+	&.left {
+		// max-width: 45%;
+		h4 { font-size: 2vw; color: white; }
+		border: 3px solid $harvard-crimson;
+		background-color: $harvard-crimson;
+		padding: 10px 10px 10px 15px;
+		position: relative;
+		left: 0px;
+	}
+	&.right {
+		border: 3px solid $yale-blue;
+		background-color: $yale-blue;
+		padding: 10px 20px 10px 20px;
+		position: relative;
+		right: 0px;
+		h4 { 
+			// width: auto;
+			font-size : 2vw; color: white;
+			a { 
+				font-size : 2vw; color: white; 
+				// text-decoration: underline;
+			} 
+		}
+		
+	}
+}
+
+.chat-bubble.left:after 
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 10px 6px 0;
+border-color: $harvard-crimson transparent;
+display: block;
+width: 0;
+z-index: 1;
+margin-left: -6px;
+bottom: -10px;
+left: 10%;
+}
+
+.chat-bubble.right:after 
+{
+content: '';
+position: absolute;
+border-style: solid;
+border-width: 10px 6px 0;
+border-color: $yale-blue transparent;
+display: block;
+width: 0;
+z-index: 1;
+margin-left: -6px;
+bottom: -10px;
+left: 90%;
+}

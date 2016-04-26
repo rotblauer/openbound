@@ -1,0 +1,3 @@
+$('#new-tags-context').removeClass('hidden');
+$('#new-tags-context').append('<span class="tag context off"><%= link_to @suggested.suggestion.strip, @suggested.suggestion.strip => params[:context] %></span><br>');
+$('#tag-suggestion-<%= @suggested.id %>').fadeOut();

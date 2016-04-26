@@ -1,0 +1,8 @@
+<% if @work.new_record? %>
+	alert('The work could not be uploaded: <%= j @work.errors.full_messages.join(', ').html_safe %>');
+<% else %>
+	// $('#work-uploads div:first').before('<%= j render @work %>');
+	// $('#work-uploads div:last').fadeOut();
+	// $('#best_in_place_work_<%= @work.id %>_name').html('<%= @work.file_name %>');
+	// jQuery(".best_in_place").best_in_place(); // reactivates best_in_place after Creation ahhhhhhh.
+<% end %>

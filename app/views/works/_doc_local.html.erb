@@ -1,0 +1,219 @@
+# encoding: utf-8
+
+
+
+	<!-- MARKDOWN -->
+	<!-- show mardown is preference over html because of renderer options -->
+	<% if work.docordocx? || work.markdown? || work.type_html? || work.latex? || work.plain_text? || work.type_rtf? %> 
+		<div class="doc-text-container" > <!-- style="overflow: scroll;" -->
+
+		<% if owner?(@project) %>
+
+		<div class="row" style="margin-bottom: 5px;">
+		<div class="pull-right" style="float: top;">
+
+		<!-- delete button -->
+		<% if @project.works_count > 1 %>    
+		<span>
+			<%= link_to work, method: :delete, remote: true, data: { confirm: "Really want to remove this version?"}, class: "btn btn-xs btn-danger btn-outline delete_version" do %>
+				<small class="glyphicon glyphicon-trash"></small>
+				Delete version
+			<% end %>
+		<% else%>
+			<%= link_to @project, method: :delete, remote: true, data: { confirm: "Really want to delete this project?"}, class: "btn btn-xs btn-danger btn-outline delete_version" do %>
+				<small class="glyphicon glyphicon-trash"></small>
+				Delete version			
+			<% end %>
+		</span>
+		<% end %>
+
+		<!-- LEAVE EDITING BUTTONS   -->
+			<!-- LEAVE DANGEROUSLY -->
+			<button id="" class="btn btn-warning btn-xs btn-outline leave-edit-mode-dangerously-button">
+			  <span class="fa fa-level-up"></span>&nbsp;
+			  Leave editing without saving
+			</button>    
+
+			<!-- LEAVE SAVELY -->
+			<button id="" class="btn btn-default btn-xs btn-outline leave-edit-mode-safely-button">
+			  <span class="fa fa-level-up"></span>&nbsp;
+			  Leave editing
+			</button>              
+
+			<!-- EDIT THIS VERSION -->
+			<a id="" href="#markdown-cheat-sheet" data-toggle="collapse" aria-expanded="false" aria-controls="markdown-cheat-sheet" class="btn btn-primary btn-xs edit-mode-button">
+			  <!-- <span class="fa fa-edit"></span> -->
+			  <span class="fa fa-pencil"></span>
+			  Revise this version
+			</a>
+
+			<!-- SAVE -->
+			<button id="" class="save-button btn btn-success btn-xs disabled update-version-<%= work.id %>">
+			  <span class="fa fa-save"></span>
+			  Save
+			</button>
+			
+			<!-- BEGIN NEW VERSION -->
+			<%= link_to begin_new_version_work_path(work.id) do %>
+			<button id="" class="begin-new-version-button btn btn-success  btn-xs begin-new-version">
+			  <!-- <span class="fa fa-file-text-o"></span>
+			  <span class="fa fa-long-arrow-right"></span>
+			  <span class="fa fa-plus"></span>
+			  <span class="fa fa-file-text"></span> -->
+			 <!--  <span class="fa fa-file-text-o"></span>
+			  <span class="fa fa-plus"></span>
+			  <span class="fa fa-plus"></span> -->
+			  <span class="octicon octicon-git-commit"></span>
+			  
+			  Draft a copy
+			</button>
+			<% end %>
+
+		</div>
+		</div>
+
+		<% else %>
+
+
+
+		<% end %>
+			
+
+				
+				
+				<div id="public-doc-text-view-<%= work.id %>" class="doc-text-content public-doc-text-view">
+
+						
+					<style>
+						
+							<%# work.file_content_css.gsub('<style type="text/css">', "").gsub("</style>", "") if work.file_content_css.html_safe %>
+
+					</style>
+
+
+					<!-- <div class="capture-style" style=""> -->
+						<%= markdown(work.file_content_md) %>
+					<!-- </div> -->
+
+				</div>
+
+
+				<% if owner?(@project) %>
+				
+					<!-- style="display: none;" --> <!-- THIS FIXES THE FAILURE TO DISPLAY TEXT RIGHT AWAY -->
+
+				<div class="editor-area" >
+			
+				<!-- TEXTAREA GOES HERE -->
+					<textarea id="mde-<%= work.id %>" class="editable" ><%= work.file_content_md %></textarea>
+
+				</div>
+
+				<script>
+
+				  $(function () {
+				  	
+				  	// $('.editable').hide();
+				  	// $('.editor-area').hide(); // <-- doesn't do anything different than above
+				  	
+						var versionEditor<%= work.id %> = new SimpleMDE({
+						  element: document.getElementById("mde-<%= work.id %>"),
+						  spellChecker: false
+						});  
+
+						/*----------  elements  ----------*/
+						// var beginNewVersionButton<%= work.id %> = ;
+						
+
+						/*----------  SAVE :: post update from simplemde  ----------*/
+
+						versionEditor<%= work.id %>.codemirror.on("change", function(){
+						    
+								$(".update-version-<%= work.id %>").removeClass('disabled');
+								$('.leave-edit-mode-safely-button').hide();
+
+								$('.leave-edit-mode-dangerously-button').show();
+
+						}); 
+
+						$(".update-version-<%= work.id %>").on('click', function() {
+
+							console.log('begin put');
+							$('.left-without-saving-alert').hide();
+
+						  var updatedFileContentMD = versionEditor<%= work.id %>.value();
+						  
+						  $.ajax({
+						  	type: "PUT",
+						  	url: "<%= work_path(work.id) %>"+".js", // http://stackoverflow.com/questions/6919801/jquery-ajax-request-not-triggering-js-response-from-rails-controller
+						  	// literally an object
+						  	data: { work: { file_content_md: updatedFileContentMD.toString() }},
+						  	success: function (data) {
+						  		// alert("ok!");
+						  		// return false;
+						  		console.log('ajax success');
+						  		// return false;
+						  		$('#versions-different-alert').show();
+
+						  	},
+						  	error: function (data) {
+						  		// alert("no!!");
+						  		console.log('ajax error: ' + data.statusText);
+						  		// return false;
+						  	}
+						  });
+						});
+
+						});
+				  
+				</script>	
+
+				<% end %>
+			
+		</div>
+		
+	<!-- IMAGE -->
+	<% elsif work.image? %>
+		<div class="text-center" style="margin-left: auto; margin-right: auto;">
+			<%= image_tag work.document_url(:fitted), class: "shadowy-figure-image-preview image-show", style: "margin-right: auto; margin-left: auto;" %>
+		</div>
+
+	<!-- PDF -->
+	<% elsif work.pdf? %>
+	<div class="text-center">
+		<iframe  src=<%= work.document_url %> class="pdf" > </iframe>
+		</div>
+
+	<!-- TEXT -->
+	<% elsif work.spreadsheet? || work.powerpoint? || work.open_office? || work.i_works? %> 
+		<div class="doc-text-container">
+			<div class="doc-text-content">
+				<style>
+					pre {
+						background-color: white;
+						border: none;
+					}
+				</style>
+				<%= content_tag('pre', work.file_content_text) %>
+				
+			</div>
+		</div>
+			
+			
+		<!-- <iframe src=<%= work.document_url.force_encoding("UTF-8") %> width="600" height="700" style="border: 1px solid gray;"></iframe> -->
+
+	<!-- IF FILE TYPE NOT SUPPORTED -->
+	<% else %>
+		<div class="text-muted">
+		<p>
+			Right now we only actively support the following file types for indexing and previewing. <br>
+			<ul>
+				<% DocumentUploader::STRONG_ARM.each do |ext| %>
+					<li><%= "."+"#{ext}" %></li>
+				<% end %>
+			</ul>
+			<br>
+			And, while we never make any promises about the content of this site, we particularly never make promises about file types we don't actively support.
+		</p>
+		</div>
+	<% end %>

@@ -1,0 +1,24 @@
+
+
+
+	<!-- FORM FOR GRADIENT -->
+	<% if current_user %>
+	
+		<%= form_for [@work, @gradient], remote: true, id: "gradient-form", name: "gradient-form" do |f| %>
+		  <div class="form-group gradientSlider">
+
+		    <%= f.label :grad, class: 'hidden' %>
+		    <%= f.range_field :grad, :in => 0..255, :step => '1', :default => '@gradient.grad', id: "gradient-slider", animate: true, :startValue => '@gradient.grad', class: "vVertical" %>
+
+		  </div>
+		  <%= f.submit "+ Gradient", class: 'btn btn-primary btn-sm' %>
+		  <span id="grade-success" style="display: none;"><span class="glyphicon glyphicon-ok" style="color: green;"></span></span>
+		 <% end %>
+		
+	<% else %> 
+		<!-- SHOWS CURRENT SLIDER RGB SELECTION -->
+		<%= range_field_tag 'Gradient', '128', min: 0, max: 255, class: 'form-group gradientSlider vVertical' %>
+		<%= submit_tag "Gradient", class: 'btn btn-primary', disabled: true %>
+
+	<% end %>
+

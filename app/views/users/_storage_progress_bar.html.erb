@@ -1,0 +1,17 @@
+<% 
+	# Storage progress bar. 
+	space_used = @user.works.sum(:file_size)
+	space_available = 100.megabytes.to_f # to float
+	space_ratio = space_used/space_available
+	space_percent = space_ratio * 100
+	@integer_storage_space_used = space_percent.round(2)
+	@integer_storage_space_used_percent = @integer_storage_space_used.round
+%>
+<div class="progress">
+  <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="<%= @integer_storage_space_used %>" aria-valuemin="0" aria-valuemax="100" style="width: <%= @integer_storage_space_used %>%;">
+    <span class="sr-only"><%= @integer_storage_space_used %>% full</span>
+  </div>
+  <span style="color: darkgray;">&nbsp; <%= @integer_storage_space_used_percent %>%</span>
+<span>/ 100mb</span>
+</div>
+

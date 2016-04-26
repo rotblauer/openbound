@@ -1,0 +1,36 @@
+<div class="row hidden-xs dash-tophat text-center" style="">
+	
+	<h1 class="type type-skinny type-big-1" style="font-size: 5vw; font-weight: lighter; ">
+		Share your homework. <br><%= link_to learn_path do %><span class="brand-primary">Learn more.</span><% end %>
+	</h1>
+
+	<%= link_to projects_path, class: "modest-link" do %>
+	<p class="">
+		<%= "#{pluralize(Project.all.count, 'project')} with #{pluralize(Work.all.count, 'draft')} (and counting)" %>
+	</p>
+	<% end %>
+
+	<!-- contributing -->
+	<div class="row text-center" style="margin-top: 20px;">
+	<button class="btn btn-primary btn-outline has-triangles" href="#more-about-contributing" data-toggle="collapse" aria-expanded="false" aria-controls="more-about-contributing" style="color: white; border: 2px solid white;">Learn more about contributing <span class="arrow-changer fa fa-level-down"></span></button>
+	</div>
+			
+</div>
+
+<div class="row collapse collapsed text-center" id="more-about-contributing" style="background-color: #E2F5FF;">
+		<div class="col-sm-4 padding">
+			<h2><span class="glyphicon glyphicon-user brand-primary" ></span></h2>
+			<p class="brand-primary" >Any work you add can easily be made completely anonymous.
+			<p style="color: gray;">We call this <em>superhero mode</em>.
+		</div>
+		<div class="col-sm-4 padding">
+			<h2><span class="fa fa-copyright brand-primary"></span></h2>
+			<p class="brand-primary">Yep, you keep your copyright no matter what.</p>
+			<p style="color: gray;">And you could get famous!</p>
+		</div>
+		<div class="col-sm-4 padding">
+			<h2><span class="fa fa-graduation-cap brand-primary"></span></h2>
+			<p class="brand-primary">You can make your education your own <em>by sharing it</em>.</p>
+			<p style="color: gray;">Your creative efforts are worth more than a transcript.</p>
+		</div>
+</div>

@@ -1,0 +1,93 @@
+///////////////////////////////////
+// WORKS-SHOW FORMATTING //
+///////////////////////////////////
+
+.doc-text-container {
+	height: 700px;
+	padding: 2vw;//24px;
+	// horiz l, vert l, blur rad, spread rad
+	@include shadow_box;
+	overflow: scroll;
+}
+.doc-text-content {
+	// overflow: scroll; // <-- removed because was causing two scrollbars?! 
+	padding: 4vw;//48px;
+	// set small margins for iphones and phones
+	@media only screen and (max-width: 480px ) { padding: 0px } 
+
+	blockquote { font-size: inherit; }
+	
+	&.diff-text {
+		padding: 1vw;
+		font-size: 1em;
+	}
+}
+iframe.pdf {
+	width: 100%; 
+	height: 700px; 
+	border: 0px solid white;
+}
+
+.wrapper-citation {
+	color: darken(gray, 10%);
+}
+
+.citation-helper {
+  margin-top: 15px;
+  h5#cite {
+    color: $columbia-blue;
+  }
+}
+#sharing-buttons-horizontal {
+  margin-top: 15px;
+  h5#share {
+    color: $columbia-blue;
+  }
+}
+#sharing-buttons-vertical {
+	overflow: hidden;
+}
+
+// Author vs. User name
+p span.works-show-user-name {
+		color: $works-show-user-name-font-color;
+		a {
+			color: $works-show-user-name-font-color;
+		}
+}
+p span.works-show-author-name {
+		// font-style: italic;
+		color: gray;
+}
+
+// School name 
+p a.works-show-author-school {
+		color: $works-show-school-name-font-color;
+}
+
+// Left column. 
+#tags-and-suggested-tags {
+	p {
+		// line-height: $search_facets_off_line_height;
+	}
+}
+
+// Right column. 
+span#edit-work-link a {
+	color: gray;
+	// font-size: .8em;
+	margin-left: 8px;
+	font-style: italic;
+}
+.download-original-link {
+	// border-left: $gradbook-border-left;
+	// padding-left: $gradbook-padding-left;	
+}
+
+span.glyphicon-for-download {
+    font-size: 5em;
+    color: $columbia-blue;
+}
+span#works-show-bookmark-icon {
+    font-size: 3em;
+}

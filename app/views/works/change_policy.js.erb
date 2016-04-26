@@ -1,0 +1,23 @@
+$('.policy_pony').bind('ajax:success', function() {  
+    <% if @work.project.anonymouse %>
+    	// Changes icon coloring.
+      $(this).addClass('anony');
+      $(this).removeClass('non_anony'); 
+      $('#author-name-<%= @work.project.id %>').addClass('anony');
+      $('#author-name-<%= @work.project.id %>').html('<%= @work.project.author_name %>');
+    <% else %>
+      $(this).removeClass('anony');
+      $(this).addClass('non_anony');
+      $('#author-name-<%= @work.project.id %>').removeClass('anony');
+      $('#author-name-<%= @work.project.id %>').html('<%= link_to @work.project.user.name, @work.project.user.name, style: "color: #76B3DF;" %>');
+    <% end %>
+}); 
+
+$(document).ready(function() {
+
+  // Activating Bootstrap Tooltip 
+  $('.has-tooltip').tooltip();
+  // Activating Best In Place 
+  jQuery(".best_in_place").best_in_place();
+
+});

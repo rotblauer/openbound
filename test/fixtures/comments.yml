@@ -1,0 +1,41 @@
+alladin_comment:
+  user: Alladin
+  work: alladin_work
+  body: أنا أحب هيكل، ولكن تفاصيل تبدو غير متناسقة.
+  created_at: <%= 2.hours.ago %>
+  updated_at: <%= Time.zone.now %>
+
+fengshui_comment:
+  user: Fengshui
+  work: alladin_work  
+  body: 它需要打磨了一下，但我認為你是在正確的軌道。
+  created_at: <%= 2.hours.ago %>
+  updated_at: <%= Time.zone.now %>  
+
+zorba_comment:
+  user: Zorba
+  work: alladin_work  
+  body: Νομίζω ότι ο Αρχιμήδης μπορεί να ήταν σε κάτι εδώ!
+  created_at: <%= 2.hours.ago %>
+  updated_at: <%= Time.zone.now %>
+
+moses_comment:
+  user: Moses
+  work: alladin_work  
+  body: יש עדיין הכשל הלוגי של איך משה לפצל ים זה בשתיים - זה פשוט לא הגיוני בסיפור.
+  created_at: <%= 2.hours.ago %>
+  updated_at: <%= Time.zone.now %>
+
+hiro_comment:
+  user: Hiro
+  work: alladin_work  
+  body: さて喜劇を書き。しかし、あなたは、この材料をどうするつもりですか？
+  created_at: <%= 2.hours.ago %>
+  updated_at: <%= Time.zone.now %>
+
+rasputin_comment:
+  user: Rasputin
+  work: alladin_work  
+  body: Эти колготки выглядела абсолютно ломка! Я надеюсь что ваш следующий производительности.
+  created_at: <%= 2.hours.ago %>
+  updated_at: <%= Time.zone.now %>

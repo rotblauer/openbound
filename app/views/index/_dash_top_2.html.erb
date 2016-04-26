@@ -1,0 +1,66 @@
+<div class="row text-center" style="padding: 5vw; background-color: #dfd;  ">
+
+<div class="col-md-12" style="">  <!-- padding: 40px; -->
+  <h3 class="dartmouth-green"><span style="background-color: #dfd; font-size: 3vw; font-weight: lighter;">Same same, but <span style="background-color: #9f9;">diff</span>.</span></h3>
+  <h5 class="dartmouth-green light">
+    A new old way to see progress.
+  </h5>
+
+</div>
+<div class="col-md-6 col-sm-6" style="padding: 40px;">
+<div style="" >
+  <span class="fa fa-file-text-o fa-5x" style="color: #b00;"></span>
+  <h5 style="color: #b00;">First draft</h5>
+  <h5 class="text-muted">
+    Edits in which <span style="background-color: #fcc;">something was removed</span> will appear in red on the left. 
+  </h5>
+</div>
+</div>
+<div class="col-md-6 col-sm-6" style="padding: 40px;">
+<!-- <div style="max-width: 50%; margin-left: auto; margin-right: auto;" > -->
+  <span class="fa fa-file-text-o fa-5x" style="color: #080;"></span>
+  <h5 style="color: #080;">Second draft</h5>
+  <h5 class="text-muted">
+    And edits which <span style="background-color: #9f9;">added something</span> will appear in green on the right.
+  </h5>
+<!-- </div> -->
+</div>
+<button id="show-diff-demo" class="btn btn-success btn-outline has-triangles" data-toggle="collapse" href="#div-diff-demo" aria-expanded="false" aria-controls="div-diff-demo" style="color: green; border: 2px solid green;">See an example of how this works <span id="arrow-changer-diff" class="arrow-changer fa fa-level-down"></span></button>
+</div>
+
+<div id="div-diff-demo" class="row collapse collapsed" style="background-color: #EBFFEB;">
+
+    <!-- diff -->
+  <!-- diff -->
+  <div class="colorblind-option" >
+      <div class="col-xs-6" style="padding: 10px;"  >
+      <div style="border: 2px dashed #fcc; padding: 10px; ">
+          
+              <div class="doc-text-container" style="max-height: 300px; background-color: white;">
+              <div class="doc-text-content">
+              <div class="diff">
+                  <%= "<div class=\"diff\">\n  <ul>\n    <li class=\"del\"><del># I worked hard on this! </del></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"del\"><del>If you upload two drafts you&#39;ll be able to see the diff like this. </del></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>(And, you can upload as many drafts as you want and compare them all.)</span></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>Woohoo! </span></li>\n  </ul>\n</div>\n".html_safe %>
+              </div>
+              
+              </div>
+              </div>
+      </div>
+      </div>
+
+
+      <!-- latest -->
+      <div class="col-xs-6" style="padding: 10px; " >
+      <div style="border: 2px dashed #9f9; padding: 10px;">
+          
+              <div class="doc-text-container" style="max-height: 300px; background-color: white;">
+              <div class="doc-text-content">
+              <div class="diff">
+                  <%=  "<div class=\"diff\">\n  <ul>\n    <li class=\"ins\"><ins># I worked <strong>even </strong>hard<strong>er</strong> on this! </ins></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"ins\"><ins>If you upload two drafts you&#39;ll be able to see the diff<strong>erence</strong> like this. </ins></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>(And, you can upload as many drafts as you want and compare them all.)</span></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>Woohoo! </span></li>\n  </ul>\n</div>\n".html_safe %>
+              </div>
+              </div>
+              </div>
+      </div>
+      </div>
+  </div>
+
+</div>

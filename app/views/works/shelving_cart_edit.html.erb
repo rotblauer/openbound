@@ -1,0 +1,46 @@
+<% 
+# Should render recently uploaded works with partial: _pencil_spine.
+# Should provide an option to skip without filling in any info. 
+# Should provide js-enabled previews of newly-(re)saved works in final _work format at top.
+# 
+%>
+
+<!-- if there are works that have recently been uploaded! -->
+<% if @works.count > 0 %>
+<div class="row" style="margin-bottom: 20px;">
+	<div class="col-sm-8 col-sm-offset-1">
+		
+		<h1 class='brand-primary'>Awesome!</h1>
+
+		<p style="color: gray;">Now you've got a chance to edit some information about your works, if you'd like.</p>		
+
+		<p style="color: gray;"><span class="brand-primary">Tip:</span> click the <span class="glyphicon glyphicon-user"></span> by your name to hide or show your identity!</p>		
+
+	</div>
+</div>
+
+<div class="col-sm-8 col-sm-offset-1" style="padding: 25px 0px 15px 10px; border: 2px dashed #76B3DF;">
+	<%= render partial: 'works/pencil_spine', collection: @works, as: :work %>
+</div>
+
+<div class="col-sm-1">
+	<%= link_to works_path do %>
+		<button class="btn btn-lg btn-success" style="margin-top: 50px; border-radius: 0px;">Save and continue</button>
+	<% end %>
+</div>		
+
+<!-- no works recently uploaded! -->
+<% else %>
+
+	<h2>You've got upload works before shelving them!</h2>
+
+<% end %>
+
+<script>
+	$(document).ready(function() {
+		// Activating BS tooltip
+		$('.has-tooltip').tooltip();
+	  /* Activating Best In Place */
+	  jQuery(".best_in_place").best_in_place();
+	});
+</script>

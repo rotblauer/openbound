@@ -1,0 +1,72 @@
+<% 
+# Should render recently uploaded works with partial: _pencil_spine.
+# Should provide an option to skip without filling in any info. 
+# Should provide js-enabled previews of newly-(re)saved works in final _work format at top.
+# 
+%>
+
+<!-- if there are works that have recently been uploaded! -->
+<% if @projects.count > 0 %>
+<div class="row" style="margin-bottom: 20px;">
+	<div class="col-sm-8 col-sm-offset-1">
+		
+		<h1 class='brand-primary'>Awesome!</h1>
+
+		<p style="color: gray;">Now you've got a chance to edit some information about your works, if you'd like.</p>		
+
+		<p style="color: gray;"><span class="brand-primary">Tip:</span> click the <span class="glyphicon glyphicon-user"></span> by your name to hide or show your identity for any project!</p>		
+
+	</div>
+</div>
+
+<% @projects.each do |proj| %>
+<div class="row">
+<div class="col-sm-8 col-sm-offset-1">
+<div class="jumbotron svelt svelt-mini">
+	
+	<h4><%= link_to proj.user.name, proj.user %> / <%= link_to proj.name, proj %></h4>
+
+	<p><%= best_in_place proj, :description, :as => :input, class: 'bip-form', inner_class: 'bip-inner', activator: "#proj-description-#{proj.id}" %><span id="proj-description-<%= proj.id %>" class="glyphicon glyphicon-pencil text-muted"></span></p>
+	<p>
+		<span class="brand-secondary">Department tags: </span>
+		    <span class="text-muted">
+		        <%= best_in_place proj, :context_list, place_holder: '              ', activator: "#context-activator-#{proj.id}", :as => :input, class: 'bip-form', inner_class: 'bip-inner' %>
+		    </span>
+		<span id="context-activator-<%= proj.id %>" class="glyphicon glyphicon-pencil glyphicon-edit-work" aria-hidden="true" style="color: lightgray;" title="Edit department tags."></span>
+	</p>
+	<p>
+		<span class="brand-secondary">Subject tags: </span>
+		    <span class="text-muted">
+		        <%= best_in_place proj, :content_list, place_holder: '              ', activator: "#content-activator-#{proj.id}", :as => :input, class: 'bip-form', inner_class: 'bip-inner' %>
+		    </span>
+		<span id="content-activator-<%= proj.id %>" class="glyphicon glyphicon-pencil glyphicon-edit-work" aria-hidden="true" style="color: lightgray;" title="Edit subject tags."></span>
+	</p>
+	<p>anonymouse</p>
+
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-8 col-sm-offset-1" style="padding: 25px 0px 15px 10px; border: 2px dashed #76B3DF;">
+
+	<%= render partial: 'projects/pencil_spine', collection: proj.works.reverse, as: :work %>
+</div>
+</div>
+<% end %>
+
+
+<!-- no works recently uploaded! -->
+<% else %>
+
+	<h2>You've got upload works before shelving them!</h2>
+
+<% end %>
+
+<script>
+	$(document).ready(function() {
+		// Activating BS tooltip
+		$('.has-tooltip').tooltip();
+	  /* Activating Best In Place */
+	  jQuery(".best_in_place").best_in_place();
+	});
+</script>

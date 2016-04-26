@@ -1,0 +1,30 @@
+$sign-in-form-padding: 20px;
+$sign-in-form-background-color: $columbia-light-blue;
+
+// This at Schools#show ie. Beautiful People. 
+.users-list {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 10px 0;
+    // border-bottom: 1px solid $gray-lighter;
+  }
+}
+
+#users-new-form {
+	background-color: $sign-in-form-background-color;
+	padding: $sign-in-form-padding;
+}
+#sessions-new-form {
+	background-color: $sign-in-form-background-color;
+	padding: $sign-in-form-padding;
+}
+
+li a#user-option-link { 
+  color: #76B3DF;
+  font-size: 2em; 
+  background-color: white;
+  padding-top: 10px;
+  margin-left: 10px; 
+}

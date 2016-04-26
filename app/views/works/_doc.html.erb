@@ -1,0 +1,60 @@
+# encoding: utf-8
+
+	<!-- MARKDOWN -->
+	<!-- show mardown is preference over html because of renderer options -->
+	<% if @work.docordocx? || @work.markdown? || @work.type_html? || @work.latex? %> 
+		<div class="doc-text-container">
+			<div class="doc-text-content">
+
+					<!-- this is a little fucked up. but the developers are on strike for better donuts.  -->
+
+				<%= presentable_html(@work.file_content_html) if @work.file_content_html %>
+				<!-- <%= markdown(@work.file_content_md) if @work.file_content_md %> -->
+			</div>
+		</div>
+		
+	<!-- IMAGE -->
+	<% elsif @work.image? %>
+		<div class="text-center" style="margin-left: auto; margin-right: auto;">
+			<%= image_tag @work.document_url(:fitted), class: "shadowy-figure-image-preview image-show", style: "margin-right: auto; margin-left: auto;" %>
+		</div>
+
+	<!-- PDF -->
+	<% elsif @work.pdf? %>
+	<div class="text-center">
+		<iframe src=<%= @work.document_url %> class="pdf" > </iframe>
+		</div>
+
+	<!-- TEXT -->
+	<% elsif @work.plain_text? || @work.type_rtf? || @work.spreadsheet? || @work.powerpoint? || @work.open_office? || @work.i_works? %> 
+		<div class="doc-text-container">
+			<div class="doc-text-content">
+				<style>
+					pre {
+						background-color: white;
+						border: none;
+					}
+				</style>
+				<%= content_tag('pre', @work.file_content_text) %>
+				
+			</div>
+		</div>
+			
+			
+		<!-- <iframe src=<%= @work.document_url.force_encoding("UTF-8") %> width="600" height="700" style="border: 1px solid gray;"></iframe> -->
+
+	<!-- IF FILE TYPE NOT SUPPORTED -->
+	<% else %>
+		<div class="text-muted">
+		<p>
+			Right now we only actively support the following file types for indexing and previewing. <br>
+			<ul>
+				<% DocumentUploader::STRONG_ARM.each do |ext| %>
+					<li><%= "."+"#{ext}" %></li>
+				<% end %>
+			</ul>
+			<br>
+			And, while we never make any promises about the content of this site, we particularly never make promises about file types we don't actively support.
+		</p>
+		</div>
+	<% end %>

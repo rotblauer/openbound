@@ -1,0 +1,149 @@
+<div class="row">
+	<%= form_for @work, id: "google-upload-form" do |f| %>
+		<%= f.text_field :remote_document_url, id: "google_work_document" %>
+		<%= f.submit %>
+	<% end %>
+</div>
+
+<!-- GOOGLE DRIVE PICKER -->
+
+
+<!-- // Scope to use to access user's documents.  -->
+<!-- var scope = ['https://www.googleapis.com/auth/drive.readonly']; -->
+
+
+<button id="pick" class="btn btn-primary" onClick="">Google Drive</button>
+<!-- <pre id="fileInfo"></pre> -->
+
+
+
+		<!-- <div id="result"></div> -->
+
+    <!-- The Google API Loader script. -->
+<script type="text/javascript" src="https://apis.google.com/js/api.js?onload=loadPicker"></script>
+
+
+<script>
+$(document).ready(function() {
+	$('#pick').onClick = loadPicker();	
+	// $('#pick').onClick = createPicker();
+	// createPicker();
+});
+
+
+
+/////////////////////////////////////////////////////////////all dis stuff waz here/////////////////////////////////////////////////////////////
+
+	// function initPicker() {
+	// 	var picker = new FilePicker({
+	// 		apiKey: 'AIzaSyAnYDLf-IB51jHgXb-baOVtB-uBvoPGoLk',
+	// 		// The Client ID obtained from the Google Developers Console. Replace with your own Client D.
+	// 		clientId: '592292275881-goo2qidsn0nrb26n9d8hn4qnn8she0hp.apps.googleusercontent.com',
+	// 		buttonEl: document.getElementById('pick'),
+
+	// 		// var google_upload_form = $('#google_upload'),
+
+	// 		onSelect: function(file) {
+
+	// 			console.log(file);
+	// 			document.getElementById('fileInfo').innerHTML = file.title + '\n' + file.alternateLink +   ' + file.type;
+	// 			_print_metadata(file.id);
+
+	// 			// downloadFile(file);
+
+	// 				// Do something when the file is downloaded.
+	// 				// var google_upload_form = $('#google-upload-form');
+	// 				// google_upload_form.fileupload({
+	// 				// 	dataType: 'script',
+	// 				// 	add: function (e, data) {
+	// 				// 	  types = /(\.|\/)(<%= DocumentUploader::WHITE_ARM.join('|') %>)$/i;
+	// 				// 	  file = data.files[0];
+	// 				// 	  remote_document_url = data.file.downloadUrl[0];
+	// 				// 	  if (types.test(file.type) || types.test(file.name)) {
+	// 				// 	    data.submit();
+	// 				// 	  }
+	// 				// 	  else { alert(file.name + " must be an image (GIF, JPEG, PDF, PNG, BMP) or text-ased (DOC, DOCX, RTF, TXT, HTML, TEX) file."); 
+	// 				// 		}
+	// 				// 	}
+	// 				// });
+
+	// 			// });
+
+	// 			alert('Selected' + file.title);
+	// 		}
+
+	// 	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 		*
+// 		 * Download a file's content.
+// 		 *
+// 		 * @param {File} file Drive File instance.
+// 		 * @param {Function} callback Function to call when the request is complete.
+		 
+
+// 		// function downloadFile(file, callback) {
+// 		//   if (file.downloadUrl) {
+		    
+// 		//     var accessToken = gapi.auth.getToken().access_token;
+		    
+// 		//     var xhr = new XMLHttpRequest();
+// 		//     xhr.open('GET', file.downloadUrl);
+// 		//     xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+// 		//     xhr.onload = function() {
+// 		//     callback(xhr.responseText);
+// 		//     };
+// 		//     xhr.onerror = function() {
+// 		//     callback(null);
+// 		//     };
+// 		//     xhr.send();
+// 		//   } else {
+// 		//     callback(null);
+// 		//   }
+// 		// }
+
+// 	}
+
+// 	function downloadFile(file, callback) {
+// 	    if (file.downloadUrl) {
+// 	        var accessToken = gapi.auth.getToken().access_token;
+// 	        var xhr = new XMLHttpRequest();
+// 	        xhr.open('GET', file.downloadUrl);
+// 	        xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+// 	        xhr.onload = function() {
+// 	            if (typeof callback == "function") {
+// 	                callback(xhr.responseText);
+// 	            }
+// 	        };
+// 	        xhr.onerror = function() {
+// 	            if (typeof callback == "function") {
+// 	                callback(null);
+// 	            }
+// 	        };
+// 	        xhr.send();
+// 	    } else {
+// 	        if (typeof callback == "function") {
+// 	                callback(null);
+// 	            }
+// 	    }
+	// };
+
+
+	/////////////////////////////////////////////////////////////
+
+
+</script>
+
+<script src="https://www.google.com/jsapi?key=AIzaSyAnYDLf-IB51jHgXb-baOVtB-uBvoPGoLk"></script>
+<!-- <script src="https://apis.google.com/js/client.js?onload=initPicker"></script> -->

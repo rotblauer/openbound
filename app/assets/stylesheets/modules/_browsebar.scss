@@ -1,0 +1,108 @@
+// BrowseBar.
+$browsebar-background-color: white;
+
+$search_facets_off_line_height: 180% !important;
+
+
+a span#shuffler {
+	@include tag_spacing;
+}
+
+#browsebar {
+	margin-bottom: 10px;
+	margin-top: 10px;
+	padding-top: 10px;
+	// padding-bottom: 10px;
+	padding-left: 0px;
+	padding-right: 0px;//30px;
+	// background-color: $browsebar-background-color;
+
+	// background-color: lighten($columbia-blue, 40%);
+
+	// border: 2px solid $columbia-blue;
+	// border-radius: 5px;
+
+	ul {
+		-webkit-padding-start: 0px;
+		-webkit-padding-end: 20px;//0px;
+		line-height: 18px; // <-- 18 is document standard. 
+		display: inline-block;
+	}
+
+}
+ul.search_facets_on {
+	// line-height: 150% !important;
+	&.for_user {
+		padding-left: 5px !important;
+	}
+}
+ul.search_facets_off {
+	line-height: $search_facets_off_line_height;
+	padding-left: 0px;
+	display: block //!important;
+}
+ul.school_links_off {
+	margin-bottom: 0px !important;
+}
+ul.school_links_off {
+	margin-bottom: 0px !important;
+}
+
+// for to make tags_on highlighted yeller
+// ul.search_facets_on span {
+// 	// background-color: $tags-on-background-color;
+
+// 	// padding-right: $search-facets-tag-padding-horizontal;
+// 	// padding-left: $search-facets-tag-padding-horizontal;
+// 	// padding-bottom: $search-facets-tag-padding-vertical;
+// 	// padding-top: $search-facets-tag-padding-vertical;
+
+// 	// margin-right: 4px;
+
+// 	:hover {
+// 		text-decoration: line-through;
+// 	}
+
+// 	&.context a {
+// 		color: $contexts-off-background-color;
+// 		border-bottom: 1px solid $contexts-off-background-color;
+// 		&:hover {
+// 			border: none !important;
+// 		}
+// 	}
+
+// 	&.content a {
+// 		color: $contents-off-background-color;
+// 		border-bottom: 1px solid $contents-off-background-color;
+// 		&:hover {
+// 			border: none !important;
+// 		}
+// 	}
+
+
+// }
+// Search facets off for context
+// ul.search_facets_off span.context a {
+// 	background-color: $contexts-off-background-color;
+// 	color: $tags-off-font-color;
+
+// 	// padding-right: $search-facets-tag-padding-horizontal;
+// 	// padding-left: $search-facets-tag-padding-horizontal;
+// 	// padding-bottom: $search-facets-tag-padding-vertical;
+// 	// padding-top: $search-facets-tag-padding-vertical;
+// }
+// // Search facets off for content
+// ul.search_facets_off span.content a {
+// 	background-color: $contents-off-background-color;
+// 	color: $tags-off-font-color;
+
+// 	// padding-right: $search-facets-tag-padding-horizontal;
+// 	// padding-left: $search-facets-tag-padding-horizontal;
+// 	// padding-bottom: $search-facets-tag-padding-vertical;
+// 	// padding-top: $search-facets-tag-padding-vertical;
+// }
+
+
+
+
+

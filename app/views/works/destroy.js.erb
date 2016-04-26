@@ -1,0 +1,4 @@
+$('.delete_pony').bind('ajax:success', function() {  
+        // $alert("The article was deleted.");
+        $(this).closest('#work-face-<%= @work.id %>').fadeOut();
+});  

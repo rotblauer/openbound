@@ -1,0 +1,9 @@
+<br />
+<% if @suggestions.any? %>
+	<p><%= pluralize(@suggestions.count, 'suggestion') %></p>
+	<div class="mystacks-table">
+		<%= render @suggestions %>
+	</div>
+<% else %>
+	<h4 class="text-center">No suggestions here! Move along, move along.</h4>
+<% end %>

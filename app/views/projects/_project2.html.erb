@@ -1,0 +1,124 @@
+<!--                         _           _   ___  
+                       (_)         | | |__ \ 
+        _ __  _ __ ___  _  ___  ___| |_   ) |
+       | '_ \| '__/ _ \| |/ _ \/ __| __| / / 
+       | |_) | | | (_) | |  __/ (__| |_ / /_ 
+       | .__/|_|  \___/| |\___|\___|\__|____|
+ ______| |            _/ |                   
+|______|_|           |__/                     -->
+
+<% 
+	work = project.most_recent_work
+%>
+<div data-id="<%= project.id %>" class="row -project" style="padding: 10px;" >
+	
+	<!-- <p>
+		<b>id:</b><br>
+		<span><% project.updated_at %></span>
+	</p> -->
+
+
+	<h5 class="pull-right">
+		
+		<!-- tallies	 -->
+		<span style="margin-right: 5px;">
+			<span class="small" style="color: green;">
+			<% if project.bookmarks_count > 0 %>
+				<%= project.bookmarks_count %> <span class="glyphicon glyphicon-bookmark"></span>
+			</span>
+			<% end %>
+
+
+		</span>
+
+		<small class="brand-primary hidden-xs" style="margin-right: 3px;">
+			<%= pluralize(project.works_count, 'document') %>
+		</small>
+
+		
+		<span class="text-muted hidden-xs">
+			<!-- TODO: this should show an icon of the file type for each different kind of 
+			file in the project -->
+			<% unique_works_by_type(project).each do |work| %>
+				<%= pretty_doc_type_img(work, '14px;', "") %>
+			<% end %>
+		</span>
+
+	</h5>
+
+	<h4 class="ellipsis" style="max-width: 95%; ">
+
+		<!-- AUTHOR NAME -->
+    <!-- author/user name -->
+    <span style="font-size: 1em; color: gray;" id="author-name-<%= work.id %>" class="<%= 'anony' if work.anonymouse %>">
+      <%= working_author(work) %>
+    </span>
+
+		<span class="brand-secondary">\ </span>
+
+
+		<!-- PROJECT NAME -->
+
+		<% if work.user == current_user %>
+		  <!-- bip activator -->
+		  <!-- <span id="activator-<%= work.id %>" class="glyphicon glyphicon-pencil glyphicon-edit-work" aria-hidden="true" style="color: lightgray;" title="Click to edit work name."></span> -->
+		  <!-- bip title -->
+		  <%= link_to work.project, class: "" do %>
+		    <% # best_in_place work.project, :name, activator: "#activator-#{work.id}", :as => :input, place_holder: "#{work.project.name}" %>
+		    <%= project.name %>
+		  <% end %>
+		  
+		  <span class="brand-secondary" style="font-size: .8em;">
+		    <span  data-toggle="modal" data-target="#add-version-modal-<%= project.id %>">
+		      <span class="glyphicon glyphicon-plus has-tooltip" data-toggle="tooltip" data-placement="top" title="Add version(s)" aria-hidden="true"></span>
+		    </span>
+		  </span>
+		<% else %>
+		  <!-- gradient takes place of bip activator if !owner-->
+		  <% if work.project.name.present? %>
+		    <%= link_to work.project.name, project_path(work.project), class: "" %>
+		  <% else %>
+		    <%= link_to work.name, project_path(work.project), class: ""  %>
+		  <% end %>
+		<% end %>
+
+	</h4>
+
+	<p class="text-muted" style="margin-bottom: 2px;">
+		<%= truncate(project.description || project.most_recent_work.description, length: 100) %>
+	</p>
+
+	      	<% # if (params[:search].present? or params[:context].present? or params[:content].present?) and project.taggings.any? %>
+	      	<% if project.taggings.any? %>
+	      	<div class="row tags" style="padding: 4px 4px 6px 0px; margin-left: -4px; background-color: white; ">
+						<% project.contexts.each do |tag| %>
+							<span class="tag context facet off" style="">
+								<%= link_to tag.name, projects_path(:context => [tag.name]) %>
+							</span>
+						<% end %>
+						<% project.contents.each do |tag| %>
+							<span class="tag content facet off" style="">
+								<%= link_to tag.name, projects_path(:content => [tag.name]) %>
+							</span>
+						<% end %>
+					</div>
+	      	<% end %>
+		
+	<!-- INSTITUTION NAME -->
+
+      <%= link_to project.school do %>
+        <%= favicon_for(project.school, 15, 14, 'display: inline-block; vertical-align: middle; margin-bottom: 1px; margin-right: 3px;') %>
+      <% end %>  
+    
+		<span class="text-muted">
+			<%= link_to project.school.Institution_Name, project.school %>
+		</span>
+
+		<span class="pull-right text-muted" >
+			updated <%= time_ago_in_words(project.updated_at) %> ago
+		</span>
+
+</div>
+<hr>
+
+<%= render partial: 'projects/add_version_modal', locals: {project: project} if owner? project %> 

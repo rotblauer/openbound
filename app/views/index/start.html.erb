@@ -1,0 +1,369 @@
+<%	if logged_in? %>
+
+<%= image_tag('logo - v2.png', height: '75', class: "hidden-xs", style: "display: float; position: relative; margin-left: 10px; margin-top: 0px; margin-bottom: 10px;") %>
+<%= image_tag('B_very_beta.png', height: '50', style: 'margin-top: -13px; margin-left: -15px;') %>
+
+	<div style="position: fixed; top: 10px; right: 20px; z-index: 50; ">
+		<ul style="list-style: none; ">
+			<%= render 'layouts/user_profile_dropdown' %>
+		</ul>
+	</div>
+
+<% else %>
+
+	<!-- <div class="row" style="padding-bottom: 4px; border-bottom: 4px dashed #DEE9EF;"> -->
+	<div class="row hidden-xs" style="<!-- border-bottom: 3px dashed #76B3DF; -->" >
+		
+		<div class="col-sm-4" style="">
+
+			<!-- <p class="text-center" style="font-size: 2.2em; margin-left: 20px; line-height: 2.9em;" > -->
+				<% link_to "Sign up", signin_path, style: 'background-color: white; color: #76B3DF; margin-right: 0px;' %> 
+				<!-- <span style="color: darkgray;">or sign in </span> -->
+			<!-- </p> -->
+			<%= image_tag('logo - v2.png', height: '75', class: "hidden-xs", style: "display: float; position: relative; margin-left: 10px; margin-top: 0px; margin-bottom: 10px;") %>
+			<%= image_tag('B_very_beta.png', height: '50', style: 'margin-top: -13px; margin-left: -15px;') %>
+		</div>
+
+
+		<div class="col-sm-8" style="background-color: #DEE9EF; padding-top: 20px;">
+		<!-- <div class="col-sm-7" style="padding-top: 20px;"> -->
+		<%= form_for(:session, url: login_path) do |f| %>
+			
+			<div class="col-sm-4">
+			  <%= f.email_field :email, class: 'form-control', placeholder: "Email", style: "border-radius: 0px;" %>
+		  </div>
+			<div class="col-sm-4">
+			  <%= f.password_field :password, class: 'form-control', placeholder: "Password", style: "border-radius: 0px;" %>
+			  <p class="signin-advice" style="font-size: .6em;"><%= link_to "Help! I forgot my password!", new_password_reset_path, style: "color: blue;" %></p>
+		  </div>
+			<div class="col-sm-2" style="padding-bottom: 10px;">
+		  	<%= f.submit "Log in", class: "btn btn-primary", style: "border-radius: 0px;" %>
+		  </div>
+		<% end %>
+		<div class="col-sm-2" style="padding-bottom: 10px;">
+			<%= link_to signin_path do %>
+				<button class="btn btn-success" style="border-radius: 0px;">Sign up</button>
+			<% end %>
+
+		</div>
+		</div>
+	</div>
+
+	<div class="row hidden-sm hidden-md hidden-lg pull-right">
+		<%= link_to signin_path do %>
+			<button class="btn btn-success" style="border-radius: 0px; margin-top: 20px;">Sign up</button>
+		<% end %>
+		It's super free. Forever.
+	</div>
+
+<% end %>
+
+
+<!-- top left corner logo for xs screens -->
+<div class="row" >
+	<div>
+		<% # image_tag('logo - v2.png', height: '125', class: "hidden-xs hidden-sm", style: "display: float; position: relative; margin-left: 20px; margin-bottom: 0px;") %>
+		<%= image_tag('logo - v2.png', height: '75', class: "hidden-sm hidden-md hidden-lg", style: "display: float; position: relative; margin-left: 20px; margin-top: 10px; margin-bottom: 0px;") %>
+		<%= image_tag('B_very_beta.png', height: '50', class: "hidden-sm hidden-md hidden-lg", style: 'margin-top: -3px; margin-left: -15px;') %>
+	</div>
+</div> 
+
+
+<%= render partial: 'index/tophat2' %>
+
+
+
+
+<div class="row" style="margin-top: 100px; margin-bottom: 80px; ">
+<div class="col-xs-12">
+		<div class="row" style=""> <!-- background-color: #005a9b; -->
+			<div class="" style="padding-left: 3vw; padding-right: 5vw;"> <!-- col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2 -->
+				<%= render 'works/search_form' %>
+			</div>
+		</div>
+</div>
+</div>
+
+<div class="row" style="margin-top: 50px; padding-top: 0px;  border-top: 3px solid gold; ">
+	<h1 style="position: relative; top: -20px; left: 0px;">
+	<% pitch1 = "This library is built on your work."
+	   pitch2 = "Grow the library." 
+	   pitch3 = "Share your education."
+	   say = [pitch1, pitch2, pitch3].sample %>
+	<span style="background-color: gold; color: white;"><%= say %></span></h1>
+
+	<div class="col-sm-6">
+		<%= render 'works/new_google_upload_dan' %>
+	</div>
+
+	<div class="col-sm-6">
+		<%= render 'works/new_multiple' %>
+	</div>
+</div>
+
+	<div class="row text-center">
+		<a class="has-triangles" href="#more-about-contributing" data-toggle="collapse" aria-expanded="false" aria-controls="more-about-contributing">Learn more about contributing <span class="arrow-changer glyphicon glyphicon-triangle-right"></span></a>
+	</div>
+
+	<div class="row collapse collapsed text-center" id="more-about-contributing" style="margin-top: 20px; background-color: #fffbe5;">
+			<div class="col-sm-4 padding">
+				<h2><span class="glyphicon glyphicon-user brand-primary" ></span></h2>
+				<p class="brand-primary" >Any work you add can easily be made completely anonymous.
+				<p style="color: gray;">We call this <em>superhero mode</em>.<br>Just make sure you <strong>take your name out</strong>. (And you'll even get a cool pen name.)</p></h4>
+			</div>
+			<div class="col-sm-4 padding">
+				<h2><span class="fa fa-copyright brand-primary"></span></h2>
+				<p class="brand-primary">Yep, you keep your copyright no matter what.</p>
+				<p style="color: gray;">And you could get famous!</p>
+			</div>
+			<div class="col-sm-4 padding">
+				<h2><span class="fa fa-graduation-cap brand-primary"></span></h2>
+				<p class="brand-primary">You can make your education your own <br><em>by sharing it</em>.</p>
+				<p style="color: gray;">We guarantee your creative efforts are worth more than a dumb transcript.</p>
+			</div>
+	</div>
+
+
+
+<div class="row text-center" style="margin-top: 50px; padding-top: 50px;  border-top: 3px solid #00693E;">
+
+<div class="col-md-4" style="padding: 40px;">
+  <h3 class="dartmouth-green"><span style="background-color: #dfd;">Same same, but <span style="background-color: #9f9;">diff</span>.</span></h3>
+  <h5 class="dartmouth-green light">
+    A new old way to see progress.
+  </h5>
+
+</div>
+<div class="col-md-4 col-sm-6" style="padding: 40px;">
+<div style="" >
+  <span class="fa fa-file-text-o fa-5x" style="color: #b00;"></span>
+  <h5 style="color: #b00;">First draft</h5>
+  <h5 class="text-muted">
+    Edits in which <span style="background-color: #fcc;">something was removed</span> will appear in red on the left. 
+  </h5>
+</div>
+</div>
+<div class="col-md-4 col-sm-6" style="padding: 40px;">
+<!-- <div style="max-width: 50%; margin-left: auto; margin-right: auto;" > -->
+  <span class="fa fa-file-text-o fa-5x" style="color: #080;"></span>
+  <h5 style="color: #080;">Second draft</h5>
+  <h5 class="text-muted">
+    And edits which <span style="background-color: #9f9;">added something</span> will appear in green on the right.
+  </h5>
+<!-- </div> -->
+</div>
+<a id="show-diff-demo" class="has-triangles" data-toggle="collapse" href="#div-diff-demo" aria-expanded="false" aria-controls="div-diff-demo">See an example of how this works <span id="arrow-changer-diff" class="arrow-changer glyphicon glyphicon-triangle-right"></span></a>
+</div>
+<!-- demo -->
+<div id="div-diff-demo" class="row collapse collapsed" style="margin-top: 20px; background-color: #EBFFEB;">
+
+    <!-- diff -->
+  <!-- diff -->
+  <div class="colorblind-option" >
+      <div class="col-xs-6" style="padding: 10px;"  >
+      <div style="border: 2px dashed #fcc; padding: 10px; ">
+          
+              <div class="doc-text-container" style="max-height: 300px; background-color: white;">
+              <div class="doc-text-content">
+              <div class="diff">
+                  <%= "<div class=\"diff\">\n  <ul>\n    <li class=\"del\"><del># I worked hard on this! </del></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"del\"><del>If you upload two drafts you&#39;ll be able to see the diff like this. </del></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>(And, you can upload as many drafts as you want and compare them all.)</span></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>Woohoo! </span></li>\n  </ul>\n</div>\n".html_safe %>
+              </div>
+              
+              </div>
+              </div>
+      </div>
+      </div>
+
+
+      <!-- latest -->
+      <div class="col-xs-6" style="padding: 10px; " >
+      <div style="border: 2px dashed #9f9; padding: 10px;">
+          
+              <div class="doc-text-container" style="max-height: 300px; background-color: white;">
+              <div class="doc-text-content">
+              <div class="diff">
+                  <%=  "<div class=\"diff\">\n  <ul>\n    <li class=\"ins\"><ins># I worked <strong>even </strong>hard<strong>er</strong> on this! </ins></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"ins\"><ins>If you upload two drafts you&#39;ll be able to see the diff<strong>erence</strong> like this. </ins></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>(And, you can upload as many drafts as you want and compare them all.)</span></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>Woohoo! </span></li>\n  </ul>\n</div>\n".html_safe %>
+              </div>
+              </div>
+              </div>
+      </div>
+      </div>
+  </div>
+
+</div>
+
+<script>
+	$(function () {
+		
+		var hasTriangles = $('.has-triangles');
+		var moreAboutTriangles = $('.arrow-changer');
+
+		// hide demo initially
+		// diffDemo.hide(); 
+
+		hasTriangles.on('click', function() {
+			// diffDemo.toggle();
+			$(this).find('.arrow-changer').toggleClass('glyphicon-triangle-right glyphicon-triangle-bottom');
+		});
+
+	});
+</script>
+
+
+
+<div class="row section" style="margin-top: 50px; padding-top: 50px;  border-top: 3px solid #005a9b;">
+	
+	<div class="col-md-6" style="padding: 30px;">
+	<div style="  border-radius: 0px; padding: 15px 30px 20px 30px;"> <!-- background-color: #005a9b; -->
+		<%= link_to projects_path, class: "linky-link modest-link", style: "" do %>
+			<p style="font-size: 3vw; color: #005a9b;">Browse by tags<% end %> on <span class="department-tag-demo">department</span> or <span class="subject-tag-demo">subject</span></p>
+		
+		<h5 class="brand-secondary">Holden Caulfield here I come...</h5>
+	</div>
+	</div>
+
+	<div class="col-md-6" style="padding: 30px;">
+		
+			
+				<div class="" style="">
+					<% tag_facets = [] %>
+					<ul class='search_facets_off'>
+						<% @context_tags.first(20).each do |tag, value| %>
+							<span class="tag context off"><%= link_to tag, projects_path(:context => [tag]) %></span>
+						<% end %>
+						<% @content_tags.first(20).each do |tag, value| %>
+							<span class="tag content off"><%= link_to tag, projects_path(:content => [tag]) %></span>
+						<% end %>
+					</ul>
+				</div>
+</div>
+
+<!-- SPACER -->
+<div class="row hidden-sm hidden-xs" style="min-height: 200px;"></div>
+
+
+<div class="row section" style="margin-top: 50px; padding-top: 50px; padding-bottom: 50px; border-top: 3px solid #A41034;">
+	
+<div class="col-md-6" style="padding: 30px;">
+<div class="" style=" border-radius: 0px; padding: 15px 30px 20px 30px;">
+	<%= link_to schools_path, class: "linky-link modest-link" do %>
+	<h4 style="font-size: 3vw; color: #A41034; ">Explore work from 8,000+ accredited schools </h4>
+	<%= link_to schools_path, class: "linky-link" do %><h5 class="brand-secondary">Find yours and contribute to its library</h5><% end %>
+	<% end %>
+</div>
+</div>
+
+	<!-- schools -->
+	<!-- <div class="row text-center" style="border-bottom: 4px dashed #DEE9EF; padding-top: 50px; padding-bottom: 50px;"> -->
+	<div class="col-md-6 " style="padding: 30px;">
+		<!-- <div class="col-sm-12" > -->
+			<div class="">
+				<ul class="school_links_off start">
+					<% @top_schools.each do |school| %>
+						<li style="display: inline-block;">
+							
+							<%= favicon_for(school, 14, 14, 'vertical-align: middle; margin-bottom: 2px; margin-left: 6px;') %>
+							<%= link_to school_path(school) do %>
+								<%= school.Institution_Name %>
+							<% end %>
+						</li>
+					<% end %>
+				</ul>
+			</div>
+
+
+				<style>
+					ul.school_links_off.start {
+						list-style-type: none;
+					}
+				</style>
+		<!-- </div> -->
+	</div>
+
+
+
+</div>
+
+
+</div>
+
+<hr>
+
+
+<%= render 'layouts/footer' %>
+
+<!-- three pieces -->
+	<!-- featured student -->
+
+	<!-- scholarships, competitions -->
+
+	<!-- smaller navigation links -->
+
+	<script>
+
+	// disable :hover on touch devices
+	// based on https://gist.github.com/4404503 
+	// via https://twitter.com/javan/status/284873379062890496
+	// + https://twitter.com/pennig/status/285790598642946048
+	// re http://retrogamecrunch.com/tmp/hover
+	// NOTE: we should use .no-touch class on CSS
+	// instead of relying on this JS code
+	// disable :hover on touch devices
+	// based on https://gist.github.com/4404503 
+	// via https://twitter.com/javan/status/284873379062890496
+	// + https://twitter.com/pennig/status/285790598642946048
+	// re http://retrogamecrunch.com/tmp/hover
+	// function removeHoverCSSRule() {
+	//   if ('createTouch' in document) {
+	//     try {
+	//       var ignore = /:hover/;
+	//       for (var i = 0; i < document.styleSheets.length; i++) {
+	//         var sheet = document.styleSheets[i];
+	//         if (!sheet.cssRules) {
+	//           continue;
+	//         }
+	//         for (var j = sheet.cssRules.length - 1; j >= 0; j--) {
+	//           var rule = sheet.cssRules[j];
+	//           if (rule.type === CSSRule.STYLE_RULE && ignore.test(rule.selectorText)) {
+	//             sheet.deleteRule(j);
+	//           }
+	//         }
+	//       }
+	//     }
+	//     catch(e) {
+	//     }
+	//   }
+	// }
+	
+	$(document).ready(function() {
+	  /* Activating Best In Place */
+	  jQuery(".best_in_place").best_in_place();
+	  // $('#everything-else').removeHoverCSSRule();
+	  // $(document).removeHoverCSSRule();
+
+
+
+	});
+// var touch = window.ontouchstart
+//             || navigator.MaxTouchPoints > 0
+//             || navigator.msMaxTouchPoints > 0;
+
+// if (touch) { // remove all :hover stylesheets
+//     try { // prevent crash on browsers not supporting DOM styleSheets properly
+//         for (var si in document.styleSheets) {
+//             var styleSheet = document.styleSheets[si];
+//             if (!styleSheet.rules) continue;
+
+//             for (var ri = styleSheet.rules.length - 1; ri >= 0; ri--) {
+//                 if (!styleSheet.rules[ri].selectorText) continue;
+
+//                 if (styleSheet.rules[ri].selectorText.match(':hover')) {
+//                     stylesheet.deleteRule(ri);
+//                 }
+//             }
+//         }
+//     } catch (ex) {}
+// }
+
+
+	</script>

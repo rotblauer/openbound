@@ -1,0 +1,28 @@
+<h2 id="signin-title"><mark>Join the library!</mark> <span class="h5 text-muted" style="color: gray;">or, <%= link_to "learn more...", learn_path, style: "color: gray;" %></span></h2>
+<div id="users-new-form">
+    <%= form_for(:user, url: users_path) do |f| %>
+      <%= render 'shared/error_messages' %>
+      
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control' %>
+      <p class="signin-advice">You can change this later, too.</p>
+      
+      <%= f.label :email %> <!-- must be <strong style="color: green;">academic</strong>, for now  -->
+      <p class="signin-advice">This email will be used to affiliate you with your school.</p>
+      <%= f.email_field :email, class: 'form-control' %>
+      <p class="signin-advice">You will receive a validation email at this address. We are fanatical about your <%= link_to "privacy", privacy_path, style: "color: blue;" %>.</p>
+      
+
+      <%= f.label :password %>
+      <%= f.password_field :password, class: 'form-control' %>
+      <p class="signin-advice">Must be at least 6 characters.</p>
+
+      <%= f.label :password_confirmation, "Password confirmation" %>
+      <%= f.password_field :password_confirmation, class: 'form-control' %>
+      <p class="signin-advice">You know how it is.</p>
+
+      <br>
+      <%= f.submit "Create my account", class: "form-control btn btn-success" %>
+    <% end %>
+</div>
+

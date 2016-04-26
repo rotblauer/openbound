@@ -1,0 +1,48 @@
+<span id="tag-suggestion-<%= suggested.id %>" class="tag-suggestion">
+		
+		<span class="suggestion" ><%= suggested.suggestion %></span>
+
+		<% if current_user == suggested.work.user %> <!-- only shows suggested tags to owners of works -->
+
+			<style>
+				a.modest-link:hover {
+					text-decoration: none;
+				}
+			</style>
+			
+			<!-- confirm or deny -->
+			<div class="confirm-deny-button-container">
+				<!-- confirm -->
+				<div style="display: inline-block; line-height: 1em; position: relative; top: 4px;">
+
+					<!-- confirm for context -->
+					<%= link_to "suggestions/#{suggested.id}/confirm-context", method: :post, remote: true, class: "suggestion-confirm-button modest-link" do %>
+						<span id="" class="glyphicon glyphicon-ok" aria-hidden="true"></span> <span>context</span>
+					<% end %>   
+					<br style="line-height:.1em;">
+					<!-- confirm for content -->
+					<%= link_to "suggestions/#{suggested.id}/confirm-content", method: :post, remote: true, class: "suggestion-confirm-button modest-link" do %>
+						<span id="" class="glyphicon glyphicon-ok" aria-hidden="true"></span> <span>content</span>
+					<% end %>   
+				
+					<!-- deny -->
+					<%= link_to "suggestions/#{suggested.id}/deny", method: :post, remote: true, class: "suggestion-deny-button" do %>
+						<span id="" class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					<% end %>
+
+
+				</div>
+			</div>
+			
+		<br>
+			<p class="suggester">
+				<% if suggested.user %>
+				 <%= link_to suggested.user.name, suggested.user %>
+				<% else %>
+				 Anonymouse
+				<% end %>
+			</p>
+
+		<% end %>
+
+</span>

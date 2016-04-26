@@ -1,0 +1,75 @@
+.type {
+	.type-big-1 {
+		font-size: 5vw;
+	}
+	.type-big-2 {
+		font-size: 7vw;
+	}
+	.type-big-3 {
+		font-size: 9vw;
+	}
+	.type-skinny {
+		font-weight: lighter;
+	}
+}
+
+
+h1.mega {
+	font-size: 5vw;
+	font-weight: lighter;
+}
+.light-weight {
+	font-weight: lighter;
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+}
+.ellipsis.multiline {
+  white-space: normal;
+}
+.ellipsis.fadeout {
+  -webkit-mask-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
+}
+
+
+.brand-primary {
+	color: $app-primary;
+	&.background {
+		color: white;
+		background-color: $app-primary;
+	}
+}
+
+.brand-secondary {
+	color: $app-secondary;
+	&.background {
+		color: white;
+		background-color: $app-secondary;
+	}
+}
+
+.dartmouth-green {
+	color: $dartmouth-green;
+	&.light {
+		color: lighten($dartmouth-green, 9%);
+	}
+}
+
+.dark-blue {
+	color: $v2-dark-blue;
+}
+
+.harvard-red {
+	color: $harvard-crimson;
+}
+
+.dartmouth-green {
+	color: $dartmouth-green;
+	&.inverse {
+		background-color: $dartmouth-green;
+		color: white;
+	}
+}

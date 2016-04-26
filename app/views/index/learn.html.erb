@@ -1,0 +1,132 @@
+<style>
+	h1 small {
+		color: #DEE9EF;
+	}
+	h4 { color: #76B3DF;
+			 font-size: 1.5em;
+			 line-height: 2em;
+			}
+	h4 mark { /*background-color: #C4D8E2;
+			 				color: white; */
+			 			background-color: yellow;
+			 			color: gray;
+			 			}
+	h5 { color: #76B3DF;
+			 font-size: 1.3em;
+			 line-height: 2em;
+			 margin-bottom: 5px;
+			}
+	p {
+		line-height: 1.6em;
+	}
+</style>
+
+
+<div class="row hidden-xs" style="margin-bottom: 40px; height: 150px;">
+	<!-- <div class="col-sm-12" style="padding-left: 30px; padding-top: 40px; padding-bottom: 40px; min-height: 200px;"> -->
+	<div class="col-sm-12" style="padding-left: 30px; padding-top: 40px; height: 100px;">
+
+		<%= render 'quotation_carousel' %>
+	
+	</div>
+</div>
+
+
+<div class="container relativity" data-spy="scroll" data-target="#spyglass">
+	<div class="row">
+  	<div class="col-lg-8 col-md-12">
+
+  		<!-- HEAD SECTION -->
+  		<section style="color: white; background-color: #76B3DF; padding: 30px; margin: 0px;">
+  			<h1>The Mission of Rstacks.org 
+  			<small>is to create growth in education through the constructive sharing of works by those who learn.</small> </h1> 
+  		</section>
+
+<br>
+<h4 id="story"><mark>The Story. </mark></h4>
+
+<h5>Collaborative learning begins with sharing.</h5>
+<p>OpenMIT/Yale/Stanford, Coursera, and Kahn Academy have proven the value of opening the doors of the classroom. Schoology, Blackboard, and Duolingo have proven the value of bringing technology into the classroom. </p>
+<p>What these technologies have in common is that they augment or replicate the daily behaviors of the typical classroom, like attendance, lectures, deadlines, distributing lesson plans, and turning work in to your teacher. In other words: these platforms enhance pre-existing classroom tools, like the digital chalkboard. </p>
+<p>We aim to change the classroom by turning it inside-out.</p>
+
+<h5>Our Approach: Show and Tell the whole story. </h5>
+<p>In the good ol’ days, schoolwork was kept in desks that hinged open. And still, today, book reports, research essays, art projects, recital recordings, creative writing assignments, etc. live in binders, lockers, and on Google Drive. They exist privately, like secrets between a single student and single teacher. And when school is out they are remembered only with single letter ghosts, A, B, C... 
+</p>
+<p>Rstacks.org is designed to make the productive efforts of each student relevant by creating a space to find and share that work. Wikipedia has built a beautiful encyclopedia — a single book — by facilitating collaboration. Rstacks.org is a library.</p>
+
+<h5>You are not alone. </h5>
+<p>There are an estimated 30 million students in college in the US right now, and an estimated 54 million in K-12. Rstacks.org can connect these and future generations of students with each other by valuing education content and lending a space to forge holistic identities as learners. </p>
+<p>Think you’re the only one writing an essay on the symbolism of the red hat in Catcher in the Rye? Or a comparative analysis of The Prince and Beyond Good and Evil? How about research on mitochondrial enzymes in lobsters? Think again.</p> 
+
+<br>
+<h4 id="solution"><mark>Our Solution. </mark></h4>
+<h5>Stand on the shoulders of… everyone. </h5>
+<p>Rstacks.org allows you to find bibliographies, explore relevant arguments, facts, and citations, study rhetoric and grammar, and browse topics. In short, it does what libraries do, but is not limited by publishing houses, journals, or degrees. </p>
+
+<p>And not only can you check resources out, you can check them in. After all, this is what the internet was designed for (see <a href="learn#appendix" style="color: blue;">Appendix</a>). </p>
+
+<h5>Peer review, reviewed. </h5>
+<p>Getting feedback is an important part of the creative learning process. It’s another set of eyes. Feedback happens in nearly all schools as a one-on-one dialogue between you and your teacher. But why not another set of eyes, too? Or another million? </p>
+<p>Writing for a large audience is different than writing for a small one. It is more demanding, and more welcoming. By providing directly relevant material and references for research as well as simple feedback systems, Rstacks.org allows you to learn from the work of others in order to build your own, and in kind for your work to help others build theirs.</p>
+<p>Rstacks.org is a place to build your own academic portfolio. It can represent your identity as a student, an identity which you can easily share with curious friends, employers, admissions offices, and collaborators. </p>
+<p>Before, the question was: What grade did you get?
+Now, the question can be: What do you have to say? </p>
+
+
+<br>
+<h4 id="theapp"><mark>The Application. </mark></h4>
+
+<h5>Learn from what others have to say, and join the conversation.</h5>
+<p><%=link_to "Sign-up and login", signin_path, style: 'color: blue;' %> <span style="text-decoration: line-through;">with your .edu email account</span>. </p>
+<p>As a member, you're able to publish and manage your own work portfolio for archiving and sharing, recommend others' work, and save a collection of private bookmarks, as well as view member profiles, browse school libraries, suggest tags, and leave comments. </p>
+<p>And while of course we encourage you to stand behind your work, we completely understand if sometimes you'd rather stay anonymous. Any work you upload can be made anonymous; we call it superhero mode. Please visit our <%= link_to "Privacy Policy", privacy_path, style: "color: blue;" %> to learn more. <span class="text-muted">Mark Twain who?</span></p> 
+
+
+<h5>Is this for ME?</h5>
+<p>YES. You don’t need to be “an academic” to use Rstacks. We want learners, thinkers, do-ers. We want students, teachers, professors, and everyone in between. We want original compositions, rough drafts, final drafts, good art, bad art, research, papers, sonnets, school newspaper articles, theses, haikus, WHATEVER: anything and everything that you produce in your quest to learn and learn from each other.</p>
+<p>By sharing your education, you value it, and it becomes your own.</p>
+
+	<%= image_tag('rachel.gif', height: '200') %>
+
+<h5>Replace plagiarism with citation.</h5>
+<p>Rstacks.org is no more a tool for cheating than any library is. This information is free, and so are you. It is up to you how to use it. </p>
+<p>To find our whole speal on copyrights, visit our <%= link_to "Terms and Conditions", terms_and_conditions_path, style: "color: blue;" %>.</p>
+
+<h5>Open your desk to opportunity. </h5>
+<p></p>
+<p>While access to the works of others is perhaps the best gift of all, which only you can give each other, we understand that it’s difficult to follow your passion(s) when they don’t always make ends meet -- sometimes your could use a little help financing the next week, month, or year of your learning. </p>
+<p>We don’t want to make money an incentive, nor a replacement for those nasty, vexatious grades. But if time is money, and money is time, then maybe a bit more time for learning and creating can happen if we can finagle you a bit more money. </p>
+<p>SO….Once we have some money to give away, we’ll let you know. Until then, please <%= link_to 'let us know', root_path, style: "color: blue;" %> if you’d like to contribute money to sponsor a program like this, or just get your name written someplace fancy ;-) </p>
+
+<br>
+<h4 id="next"><mark>What's next for us?</mark></h4>
+<h5>We're working on...</h5>
+<p>
+<ul>
+	<li><span style="text-decoration: line-through;">Integrate your account with Google Drive so you can publish stuff, like, so easily.</span> &nbsp; <span class="glyphicon glyphicon-ok brand-primary"></span></li>
+	<li>Sign in with your existing accounts, like Facebook or LinkedIn.</li>
+	<li></li>
+</ul>
+</p>
+<h5>Interested in helping?</h5>
+<p>We are <strong>always</strong> looking for really awesome people. If you'd like to help out, please <%= link_to 'contact us', contact_us_path %>.</p>
+
+
+<br>
+<h4 id="appendix"><mark>Appendix. </mark></h4>
+
+<h5>A Brief History of the Origins of the Internet.</h5>
+<p style="color: gray;">Research into packet switching started in the early 1960s and packet switched networks such as Mark I at NPL in the UK,[14]ARPANET, CYCLADES,[15][16] Merit Network,[17] Tymnet, and Telenet, were developed in the late 1960s and early 1970s using a variety of protocols. The ARPANET in particular led to the development of protocols for internetworking, where multiple separate networks could be joined together into a network of networks.[18]</p>
+
+<p style="color: gray;">The first two nodes of what would become the ARPANET were interconnected between Leonard Kleinrock's Network Measurement Center at the <mark style="background-color: #DEE9EF; color: gray;">UCLA's School of Engineering and Applied Science</mark> and Douglas Engelbart's NLS system at <mark style="background-color: #DEE9EF; color: gray;">SRI International (SRI)</mark> in Menlo Park, California, on 29 October 1969.[19] The third site on the ARPANET was the Culler-Fried Interactive Mathematics center at the <mark style="background-color: #DEE9EF; color: gray;">University of California at Santa Barbara</mark>, and the fourth was the <mark style="background-color: #DEE9EF; color: gray;">University of Utah Graphics Department</mark>. In an early sign of future growth, there were already fifteen sites connected to the young ARPANET by the end of 1971.[20][21] These early years were documented in the 1972 film Computer Networks: The Heralds of Resource Sharing.</p>
+
+<p style="color: gray;">Early international collaborations on ARPANET were sparse. For various political reasons, European developers were concerned with developing the X.25 networks.[22] Notable exceptions were the Norwegian Seismic Array (NORSAR) in June 1973, followed in 1973 by Sweden with satellite links to the Tanum Earth Station and Peter T. Kirstein's research group in the UK, initially at the Institute of Computer Science, <mark style="background-color: #DEE9EF; color: gray;">University of London</mark> and later at <mark style="background-color: #DEE9EF; color: gray;">University College London</mark>.[23][24][25]</p>
+
+<p style="color: gray;">In December 1974, RFC 675 – Specification of Internet Transmission Control Program, by Vinton Cerf, Yogen Dalal, and Carl Sunshine, used the term internet as a shorthand for internetworking and later RFCs repeat this use.[26] Access to the ARPANET was expanded in 1981 when the National Science Foundation (NSF) developed the Computer Science Network (CSNET). In 1982, the Internet Protocol Suite (TCP/IP) was standardized and the concept of a world-wide network of fully interconnected TCP/IP networks called the Internet was introduced.</p>
+
+ <span class="text-muted" style="font-size: .8em;"><a style="color: blue;" href="https://en.wikipedia.org/wiki/History_of_the_Internet">https://en.wikipedia.org/wiki/History_of_the_Internet</a></span>
+
+ 		</div> <!-- /div Thesis Statement content -->
+	</div>
+</div>

@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3" style="margin-top: 60px; margin-bottom: 100px;">
+  	<h2><mark>Reset your password.</mark></h2>
+		<div style="background-color: #DEE9EF; padding: 20px;">  
+	    <%= form_for(:password_reset, url: password_resets_path) do |f| %>
+	      <%= f.label :email %>
+	      <%= f.email_field :email, class: 'form-control', style: 'border-radius: 0px;' %>
+				<p class="signin-advice">You will receive an email right away at this address.</p>
+	      <%= f.submit "Submit", class: "btn btn-primary", style: 'border-radius: 0px;' %>
+	    <% end %>
+	  </div>
+  </div>
+</div>

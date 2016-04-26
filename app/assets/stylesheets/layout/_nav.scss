@@ -1,0 +1,185 @@
+// "rooftop" is id for main navbar non-collapsed
+#rooftop li {
+  font-size: 12px;
+  a {
+    color: gray;
+  }
+}
+
+// Searchbar <-- is a leetle fucked up. 
+.searchbar {
+  display: table;
+  .searchfield .form-control{
+    color: black;
+  }
+}
+
+ul#user-dropdown-menu {
+  text-align: right !important;
+}
+
+/* .brand logo without resizing */
+#logo {
+  // max-height: 40px;
+  // overflow: visible;
+  // padding-top: 0;
+  // padding-bottom: 0;
+  // margin-left: 20px;
+  // margin-right: 10px;
+  background-color: $logo-background-color;
+  color: $logo-font-color;
+  font-size: 1.4em;
+  // border: 1px solid $columbia-blue;
+}
+
+#logo:hover > #logo:focus {
+  //background-color: #fff;
+  text-decoration: underline;
+}
+
+li#signinbutton a {
+  // background-color: $columbia-blue;
+  // background-color: $app-primary;
+  background-color: $dartmouth-green;
+  color: white; 
+}
+li#signinbutton:hover > li#signinbutton:focus a {
+  text-decoration: underline;
+  // background-color: #fff;
+  // color: #76B3DF;
+}
+
+// Fixing searchbar CSS
+.navbar-form .input-group > .form-control {
+    width: 300px;
+}
+.input-group-btn {
+  font-size: inherit;
+}
+
+
+
+// Favicon taken from School website. 
+img.user-school-logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+////////////////////////////////////////////////////////////
+/* Navbar-Redpen */ // Color scheme for nav by isaac, where mostly everything is white. 
+////////////////////////////////////////////////////////////
+
+/* Set navbar Toggle Color */
+.navbar-toggle {
+  position: relative;
+  float: right;
+  padding: 9px 10px;
+  margin-top: 8px;
+  margin-right: 15px;
+  margin-bottom: 8px;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 0px;
+}
+.navbar-toggle:focus {
+  outline: 0;
+}
+.navbar-toggle .icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 0px;
+}
+.navbar-toggle .icon-bar + .icon-bar {
+  margin-top: 4px;
+}
+.navbar-redpen {
+  /*background-color: #FFEB3B;*/
+  background-color: #fff;
+  border-color: #fff;
+  // border-top: 2px dashed #C4D8E2;
+
+  // border-bottom: 2px dashed $columbia-medium-blue;
+  // border-bottom: 2px dashed $app-medium;
+
+
+  padding-bottom: 5px;
+  padding-top: 5px;
+  // position: fixed;
+}
+.navbar .navbar-redpen .navbar-brand {
+  color: #000000  ;
+}
+.navbar-redpen.navbar-brand {
+  color: #000000  ;
+}
+.navbar-brand .active > a {
+  color: #000000  ;
+}
+// changed , -> >
+.navbar-redpen .navbar-brand:hover > .navbar-redpen .navbar-brand:focus {
+  color: #FFFFF;
+}
+.navbar-redpen .navbar-text {
+  color: #000000;
+}
+.navbar-redpen .navbar-nav > li > a {
+  color: #000000;
+}
+.navbar-redpen .navbar-nav > li > a:hover, .navbar-redpen .navbar-nav > li > a:focus {
+  color: #000000;
+}
+.navbar-redpen .navbar-nav > .active > a, .navbar-redpen .navbar-nav > .active > a:hover, .navbar-redpen .navbar-nav > .active > a:focus {
+  color: #000000;
+  border-color: #000;
+  /*underline text here*/
+}
+.navbar-redpen .navbar-nav > .open > a, .navbar-redpen .navbar-nav > .open > a:hover, .navbar-redpen .navbar-nav > .open > a:focus {
+  color: #000000;
+  border-color: #000;
+  /*background-color: #FFEB3B;*/
+   /*underline text here*/
+}
+.navbar-redpen .navbar-toggle {
+  border-color: #FFF;
+}
+// changed , -> >
+.navbar-redpen .navbar-toggle:hover > .navbar-redpen .navbar-toggle:focus {
+  background-color: #FFF;
+}
+.navbar-redpen .navbar-toggle .icon-bar {
+  background-color: #000000;
+}
+.navbar-redpen .navbar-collapse,
+.navbar-redpen .navbar-form {
+  border-color: #fff;
+}
+.navbar-redpen .navbar-link {
+  color: #000000;
+}
+// changed
+.navbar-redpen .navbar-link:hover > .navbar-link:focus {
+  color: #000000;
+}
+
+@media (max-width: 767px) {
+  .navbar-redpen .navbar-nav .open .dropdown-menu > li > a {
+    color: #000000;
+  }
+  .navbar-redpen .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-redpen .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #FFFFF;
+  }
+  .navbar-redpen .navbar-nav .open .dropdown-menu > .active > a, .navbar-redpen .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-redpen .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #FFFFF;
+    background-color: #fff;
+  /*underline text here*/
+  }
+}
+
+
+
+

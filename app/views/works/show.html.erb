@@ -1,0 +1,240 @@
+<style>
+	input, button {
+		border-radius: 0px !important;
+	}
+</style>
+<div class="container">
+<div class="row" ng-controller="WorksController">
+	
+<div class="row">
+	
+			
+	<div class="col-xs-12 col-sm-10 col-md-8 col-md-offset-2">
+		<!-- WORK STATS -->
+		
+			
+			<% if owner?(@work) %>
+				<!-- activator -->
+				<h3 style="margin-bottom: 3px;">
+					<span id="activator" class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: gray;"></span>
+					<%= best_in_place @work, :name, place_holder: "#{@work.file_name}", activator: "#activator", :as => :input, class: "best_in_place" %>
+
+					
+				<!-- EDIT WORK LINK -->
+				
+				<span id="edit-work-link" style="float: right;">
+					
+					  <div class="owner-options text-center" style="margin-top: 5px;">  
+					
+					      <!-- EDIT -->
+					      <%= link_to edit_work_path(@work) do %>
+					        <span id="edit-or-delete-option" class="glyphicon glyphicon-pencil has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Edit" aria-hidden="true" style="color: gray; font-size: 80%;"></span>
+					      <% end %>
+					      <!-- DELETE --> 
+					      <%= link_to @work, method: :delete, remote: true, data: { confirm: 'Are you really really sure you want to remove this literature from the reach of millions of hungry, striving minds?' }, class: "delete_pony" do %>
+					        <span id="edit-or-delete-option" class="glyphicon glyphicon-trash has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Delete" aria-hidden="true" style="color: gray; font-size: 80%;"></span>
+					      <% end %> 
+					
+					  </div>
+					
+				</span>
+
+
+
+				</h3>
+				<span id="activator_desc" class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: gray; font-size: .8em;"></span>
+				<span class="text-muted" style="color: lightgray;"><%= best_in_place @work, :description, place_holder: "add a short description here, if you want", activator: "#activator_desc", :as => :input, class: "best_in_place" %></span>
+				
+			<% else %>
+					<span class="ellipsis"><%= working_title(@work) %></span>
+				</h3>
+				<span class="text-muted"><%= @work.description if @work.description.present? %></span>
+			<% end %>
+
+			<p style='margin-bottom: 0px;'>
+				<!-- MAKE ANONYMOUSE, OR NOT -->
+				<% if owner?(@work) %>
+				  <%= link_to change_policy_path(@work), class: "modest-link policy_pony #{"anony" if @work.anonymouse} #{"non_anony" if !@work.anonymouse}", method: :patch, remote: true do %>
+				    <span id="policy-option" class="glyphicon glyphicon-user has-tooltip" data-toggle="tooltip" data-placement="left" title="Superhero On/Off" aria-hidden="true" aria-hidden="true"></span>
+				  <% end %>
+				<% end %>
+				<span style="font-size: .9em; color: gray;" id="author-name-<%= @work.id %>" class="<%= 'anony' if @work.anonymouse %>">
+				 	<%= working_author(@work) %>
+				</span>
+				<span style="font-size: .7em;">
+				<%= link_to @work.school_name, school_path(@work.school), "id" => "works-show-author-school" %></span>
+			</p>
+			<span class="text-muted" style="font-size: .7em;">Published <%= @work.created_at.strftime("%e %b %Y") %></span>
+
+			
+		
+			<span class="pull-right" style="margin-bottom: 5px;">
+				<%# render partial: 'bookmarks/form' %>
+			</span>
+
+	</div>
+
+	<div class="col-xs-4 col-sm-2 text-right">
+		
+	</div>
+	
+</div>	
+<div class="row" >
+	
+	<!-- COL-SM-2 -->	
+	<div class="col-md-2 hidden-sm hidden-xs">
+		
+		<div class="bigger-top-margin" style="">
+			<div id="sharing-buttons-horizontal">
+
+			<div class="share-a-work" style="margin-bottom: 20px;">
+				<%= render_shareable :buttons=> ['facebook', 'twitter'] %>
+			</div>
+				
+					<style>
+						.modest-link:hover { text-decoration: none;}
+					</style>
+			<div style="margin-bottom: 15px;" >
+			<!-- mail a link -->
+			<%= mail_to "team@rstacks.org", subject: "[Rstacks] #{if @work.name.present? then @work.name else @work.file_name end}", 
+																				 body: "#{request.original_url}", class: "modest-link" do %>
+					<button class="btn btn-primary btn-sm">
+					<span>Email </span><span class="glyphicon glyphicon-envelope" ></span> </button>
+			<% end %>
+			</div>
+
+		<!-- download link -->
+		
+			<% if current_user %>
+				<%= link_to @work.document_url, class: "modest-link", style: ""  do %>
+					<div style="margin-bottom: 15px;">
+						<style>
+							.tooltip-inner {
+								max-width: 300px;
+								background-color: black;
+								color: white;
+							}
+							.tooltip-arrow {
+							
+							  /* margin-left: -5px; */
+							  /*border-top-color: gray; /* black */
+							  /* border-width: 0 5px 5px; */
+							  display: none;
+							}
+						</style>
+						<button class='btn btn-warning btn-sm has-tooltip' role="tooltip" data-toggle="tooltip" data-placement="right" title="<%= @work.file_name %> (<%= number_to_human_size(@work.file_size) %>)" >
+						<span>Download </span>
+						<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span></button>
+
+						<!-- <span class="text-muted"><%= @work.file_name %> (<%= number_to_human_size(@work.file_size) %>)</span> -->
+					</div>
+				<% end %>
+			<% end %>
+			</div> <!-- /end sharing ubtton horizaontal -->
+
+			<div class="other-works-by-this-user" style='margin-top: 20px; border-top: 1px solid lightgray; word-wrap: break-word;'>
+				<% if !@work.anonymouse && @work.user.works.where(anonymouse: false).count > 1 %>
+				<h5>also by <%= working_author(@work) %></h5>
+				<% @work.user.works.where.not(id: @work.id).where(anonymouse: false).order('bookmarks_count desc').order('impressions_count desc').first(5).each do |w| %>
+					<div class="text-stuff">
+						<p style="margin-bottom: 0px;"><%= link_to working_title(w), w %></p>
+						<p class="text-muted"><small><%= w.created_at.strftime("%e %b %Y") %></small></p>
+					</div>
+				<% end %>
+				<% end %>
+
+			</div>
+		</div> <!-- /bigger top margin -->
+
+	</div> <!-- /COL-SM-2 -->
+
+
+	<!-- COL-SM-8 -->
+	<div class="col-xs-12 col-sm-10 col-md-8 work-body">
+
+		<% if @work.pdf? %>
+					<p class='text-center'>This is a <strong><%= @work.content_type.split('/').last %></strong> document, it will probably work well to <%= link_to "view directly in your browser", @work.document_url, style: "color: #428bca" %>.</p>
+		<% end %>
+
+		<!-- Da WORK -->
+		<%= render 'works/doc' %>
+		
+		<!-- SHARING BUTTONS -->
+		<style>
+		.bigger-top-margin { margin-top: 20px;}
+		</style>
+
+		
+
+		<div class="col-xs-12 col-sm-12 bigger-top-margin">
+			<div class="citation-helper">
+				<%= render 'works/citation_helper' %>
+			</div>
+		</div> <!-- end col-sm-6 -->
+
+		<!-- COMMENTS SECTIONS -->
+		<div class="col-sm-12">
+			<% # render partial: 'comments/new' %>
+			<% if @work.comments.any? %>
+				<% # render 'comments/index' %>
+			<% end %> 
+		</div>
+
+	</div> <!-- col-SM-8 -->
+
+	<!-- COL-SM-2 -->
+	<!-- tag stuff -->
+	<div class="hidden-xs col-sm-2">
+
+		<div id="tags-and-suggested-tags">
+			<p class="work-tags">
+
+				<% if @work.contexts.any? %>
+				<p class="text-muted">Department</p>
+				<% @work.contexts.each do |tag| %>
+					<span class="tag context off">
+						<%= link_to tag.name, tag.name => params[:context] %>
+					</span>
+					<br>
+				<% end %>
+				<% end %>
+				<span id="new-tags-context"></span>
+
+				<% if @work.contents.any? %>
+				<p class="text-muted">Subject</p>
+				<% @work.contents.each do |tag| %>
+					<span class="tag content off">
+						<%= link_to tag.name, tag.name => params[:content] %>
+					</span>
+					<br>
+				<% end %>
+				<% end %>
+				<span id="new-tags-content"></span>
+
+			</p>
+			<div class="tag-suggestions">
+
+			<% if @suggested_tags.any? %>
+			<p class="text-muted">Suggestions</p>
+				<%= render @suggested_tags %>
+			</div>
+			<% end %>
+
+			<%= render partial: 'suggesteds/new' if !(current_user == @work.user) %>
+		</div>
+	</div>
+
+
+</div>
+
+</div>
+
+<script>
+	$(document).ready(function() {
+		$('.has-tooltip').tooltip();
+	  /* Activating Best In Place */
+	  jQuery(".best_in_place").best_in_place();
+	  
+	});
+</script>
+</div>

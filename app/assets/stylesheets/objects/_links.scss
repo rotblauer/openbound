@@ -1,0 +1,19 @@
+// fixed footer link background was #000
+// a {
+//   color: #000;
+//   &:visited {
+//     color: #000;
+//   }
+//   &:hover {
+//     color: blue;
+//   }
+// }
+
+a.modest-link {
+	text-decoration: none;
+	color: inherit;
+	:hover { text-decoration: none; }
+	:active { text-decoration: none; }
+	:focus { text-decoration: none; }
+}
+

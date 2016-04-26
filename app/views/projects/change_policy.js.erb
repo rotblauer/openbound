@@ -1,0 +1,27 @@
+$('.policy_pony').bind('ajax:success', function() {  
+    // console.log('change_policy - projects firing!');
+    // console.log('@project.id: <%= @project.id %>');
+    // console.log('@project.user.name: <%= @project.user.name %>');
+    // console.log('@project.author_name: <%= @project.author_name %>');
+    <% if @project.anonymouse %>
+    	// Changes icon coloring.
+      $(this).addClass('anony');
+      $(this).removeClass('non_anony'); 
+      $('#author-name-<%= @project.recent_work_id %>').addClass('anony');
+      $('#author-name-<%= @project.recent_work_id %>').html('<%= @project.author_name %>');
+    <% else %>
+      $(this).removeClass('anony');
+      $(this).addClass('non_anony');
+      $('#author-name-<%= @project.recent_work_id %>').removeClass('anony');
+      $('#author-name-<%= @project.recent_work_id %>').html('<%= link_to @project.user.name, @project.user.name, style: "color: #76B3DF;" %>');
+    <% end %>
+}); 
+
+$(document).ready(function() {
+
+  // Activating Bootstrap Tooltip 
+  $('.has-tooltip').tooltip();
+  // Activating Best In Place 
+  jQuery(".best_in_place").best_in_place();
+
+});

@@ -1,0 +1,45 @@
+<div class="school-div">
+	<div class="" style="margin: 5px;">
+
+	<div style="float: right;">
+		<span class="text-muted" style="font-size: .9em;">
+			<span class="brand-primary">
+				<span class="octicon octicon-book" style="font-size: 1em;"></span> <%= school.projects.count %> 
+			</span>
+			<span class="glyphicon glyphicon-user" style="font-size: .9em;"></span> <%= school.users.count%> 
+			</span>
+		</div>
+
+		<!-- SCHOOL FAVICON and NAME-->
+		
+		<%= link_to school do %>
+			<%= favicon_for(school, 20, 20, 'float: left; margin-right: 5px;') %>
+			<div style="display: block;">
+				<span id="school_name_index"><%= link_to school.Institution_Name, school_path(school) %></span> 
+				<div style="position: relative; left: 0px;">
+					<span class="text-muted" style="color: gray; font-size: .8em;"><%= school.Institution_City %>, <%= school.Institution_State %></span>
+					<span><%= link_to "#{school.Institution_Web_Address}", "http://#{school.Institution_Web_Address}", style: "color: gray; font-size: .8em; line-height: .8em;" %></span>
+				</div>
+			</div>
+		<% end %>
+			
+		<!-- MOST FREQUENT TAGS -->
+		<div style="display: block;">
+
+			<% context_count_hash(school, 3).each do |key, value| %>
+				<span class="label label-context">
+					<%= link_to key, projects_path(:context => [key], :school_name => [school.Institution_Name]) %> (<%= value %>)
+				</span>
+			<% end %>
+
+			<% content_count_hash(school, 2).each do |key, value| %>
+				<span class="label label-content">
+					<%= link_to key, projects_path(:content => [key], :school_name => [school.Institution_Name]) %> (<%= value %>)
+				</span>
+			<% end %>
+
+		</div>
+
+	</div>
+</div>
+

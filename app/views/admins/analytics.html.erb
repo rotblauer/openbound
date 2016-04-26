@@ -1,0 +1,508 @@
+<!-- number of visits per day -->
+<style>
+	.anal-row { height: 400px; }
+	.row-fat { 
+		/*margin-top: 50px; 
+		margin-bottom: 50px;*/
+		padding-top: 20px; 
+		padding-bottom: 20px;
+
+	}
+	h1 {
+		font-size: 5vw; line-height: 100%;
+	}
+</style>
+
+<% 
+	usum=0
+	uusum=0
+	wsum=0
+	wwsum=0
+
+%>
+
+<h1 class="text-muted">
+	Growth
+</h1>
+<div class="row row-fat">
+	<h3 class="brand-secondary">
+		<span class="fa fa-eye"></span>
+		Overall visits.</h3>
+	<p class="brand-secondary">
+		Last 60 days.
+	</p>
+	<div class="col-md-12">
+		<%= line_chart Visit.group_by_day(:started_at, last: 60).count %>
+		<%# line_chart [
+									# last: 5
+	                {name: "Visits", data: Visit.group_by_day(:started_at, last: 30).count},
+	                {name: "Members", data: User.group_by_day(:created_at, last: 30).count},
+	                {name: "Works", data: Work.group_by_day(:created_at, last: 30).count}
+	                # {name: "Works", data: Work.group_by_day(:created_at).order("day asc").count.map { |x,y| { x => (wwsum += y)} }.reduce({}, :merge)}
+    ] %>
+	</div>
+</div>
+
+<hr>
+
+<div class="row row-fat">
+
+	<div class="col-md-12">
+		<h3 class="brand-secondary">
+			# <span class="fa fa-file"></span>
+				<span class="fa fa-user"></span>
+			Overall cumulative members and works.</h3>
+		<p class="brand-secondary">
+			All time, grouped by week.
+		</p>
+			<%# line_chart Work.group_by_day(:created_at).count %>
+			
+			<%= line_chart [
+				# last 30
+				{name: "Works", data: Work.group_by_week(:created_at).order("week asc").count.map { |x,y| { x => (wsum += y)} }.reduce({}, :merge) },
+				{name: "Members", data: User.group_by_week(:created_at).order("week asc").count.map { |x,y| { x => (usum += y)} }.reduce({}, :merge)}
+				]
+			%>
+	</div>
+
+</div>
+
+<hr>
+
+<h1 class="text-muted">
+	Projects and works
+</h1>
+
+<!-- WORKS STATS -->
+<div class="row row-fat">
+	
+	<div class="col-sm-3" style="height: 100%;">
+		<h3 class="brand-secondary">
+			<span class="fa fa-file"></span> /
+			<span class="fa fa-book"></span>
+		</h3>
+		<p class="brand-secondary">
+			Average works per project.
+		</p>
+		<h1 class="brand-primary text-center" style="">
+			<%= Project.average(:works_count) %>
+		</h1>
+
+		<h3 class="brand-secondary">
+			<span class="fa fa-file-text-o"></span> /
+			<span class="fa fa-file"></span>
+		</h3>
+		<p class="brand-secondary">
+			Average revisions per work.
+		</p>
+		<h1 class="brand-primary text-center" style="">
+			<%= Work.average(:revisions_count) %>
+		</h1>
+
+	</div>
+	
+	<div class="col-sm-3">
+		<h3 class="brand-secondary">
+			<span class="fa fa-file"></span> /
+			<span class="fa fa-user"></span> 
+		</h3>
+		<p class="brand-secondary">
+			Average works per member.
+		</p>
+		<h1 class="brand-primary">
+			<%= User.average(:works_count) %>
+		</h1>
+
+		<h3 class="brand-secondary">
+			<span class="fa fa-bookmark"></span> /
+			<span class="fa fa-user"></span> 
+		</h3>
+		<p class="brand-secondary">
+			Average bookmarks per member.
+		</p>
+		<h1 class="brand-primary">
+			<%= User.average(:bookmarks_count) %>
+		</h1>
+
+	</div>
+
+	<div class="col-sm-6">
+		<h3 class="brand-secondary">
+			<%= image_tag('Google-Drive-Icon.png', height: 30, style: "text-align: bottom;") %> / 
+			<span class="fa fa-cloud-upload"></span>
+		</h3>
+		<p class="brand-secondary">
+			Google imports vs local uploads.
+		</p>
+		<%= pie_chart Work.group(:source_from).count %>
+	</div>
+	
+</div>
+
+<!-- WORK TOP -->
+<div class="row row-fat">
+	<div class="col-sm-6">
+		<h3 class="brand-secondary">
+			<span class="fa fa-arrow-up"></span>
+			Top 10 most viewed projects.
+		</h3>
+		<table class="table">
+			<th>
+				<span style="color: green;">
+					<span class="fa fa-eye"></span>
+				</span> 
+			</th>
+			<th>
+				Project
+			</th>
+			<th>
+				Member
+			</th>
+
+		<% Project.order('impressions_count desc').first(10).each do |p| %>
+			<tr>
+				<td><%= p.impressions_count %> </td>
+				<td><%= favicon_for(p.school, 14, 14, "") %> <%= link_to p.name, p %></td>
+				<td><%= link_to p.user.name, p.user %></td>
+			</tr>
+		<% end %>
+		</table>
+	</div>
+
+	<div class="col-sm-6">
+		<h3 class="brand-secondary">
+			<span class="fa fa-arrow-up"></span>
+			Top 10 most bookmarked projects.
+		</h3>
+		<table class="table">
+			<th>
+				<span style="color: green;">
+					<span class="fa fa-bookmark"></span>
+				</span> 
+			</th>
+			<th>
+				Project
+			</th>
+			<th>
+				Member
+			</th>
+
+		<% Project.order('bookmarks_count desc').first(10).each do |p| %>
+			<tr>
+				<td><%= p.bookmarks_count %> </td>
+				<td><%= favicon_for(p.school, 14, 14, "") %> <%= link_to p.name, p %></td>
+				<td><%= link_to p.user.name, p.user %></td>
+			</tr>
+		<% end %>
+		</table>
+		
+	</div>	
+
+</div>
+
+<hr>
+
+<h1 class="text-muted">
+	Users and members
+</h1>
+
+<!-- USERS STATS -->
+<div class="row row-fat">
+
+	<div class="col-sm-6">
+		<h3 class="brand-secondary">
+			<span class="fa fa-eye"></span> / 
+			<span class="fa fa-user"></span>
+			<span class="fa fa-user brand-primary"></span>
+		</h3>
+		<p class="brand-secondary">
+			Visits by members vs unregistereds.
+		</p>
+		<% 
+			memcount = Visit.where.not(user_id: nil).count
+			unregcount = Visit.where(user_id: nil).count
+		%>
+		<%= pie_chart ({"Members" => memcount, "Unregistered" => unregcount})
+		%>
+		<%# pie_chart Visit.joins(:user).group(:name).count %>
+	</div>
+
+	<div class="col-sm-6">
+		<h3 class="brand-secondary">
+			<span class="fa fa-eye"></span> / 
+			<span class="fa fa-user brand-primary"></span>
+		</h3>
+		<p class="brand-secondary">
+			Visits by members.
+		</p>
+		<%# pie_chart Visit.group(:user_id).count %>
+		<%= pie_chart Visit.joins(:user).group(:name).count %>
+	</div>
+
+</div>
+
+<!-- USERS TOP -->
+<div class="row row-fat">
+	<div class="col-sm-6">
+		<h3 class="brand-secondary">
+			<span class="fa fa-arrow-up"></span>
+			Top 10 members by sign ins. 
+		</h3>
+		<table class="table">
+			<th>
+				<span style="color: green;">
+					<span class="fa fa-sign-in"></span>
+				</span> 
+			</th>
+			<th>
+				Member
+			</th>
+
+		<% User.order('sign_in_count desc').first(10).each do |p| %>
+			<tr>
+				<td><%= p.sign_in_count %> </td>
+				<td><%= favicon_for(p.school_primary, 14, 14, "") %> <%= link_to p.name, p %></td>
+			</tr>
+		<% end %>
+		</table>
+	</div>
+	
+	<div class="col-sm-6">
+		<h3 class="brand-secondary">
+			<span class="fa fa-arrow-up"></span>
+			Top 10 members by works count. 
+		</h3>
+		<table class="table">
+			<th>
+				<span style="color: green;">
+					<span class="fa fa-file"></span>
+				</span> 
+			</th>
+			<th>
+				Member
+			</th>
+
+		<% User.order('works_count desc').first(10).each do |p| %>
+			<tr>
+				<td><%= p.works_count %> </td>
+				<td><%= favicon_for(p.school_primary, 14, 14, "") %> <%= link_to p.name, p %></td>
+			</tr>
+		<% end %>
+		</table>
+	</div>
+
+</div>
+
+<div class="row row-fat">
+	
+	<div class="col-xs-12 anal-row">
+		<h3 class="brand-secondary">Visits per US region.</h3>
+		<%= geo_chart Visit.top(:region), library: {region: 'US', resolution: 'provinces'}  %>
+	</div>
+
+	<div class="col-xs-12 anal-row">
+		<h3 class="brand-secondary">Visits per country.</h3>
+		<%= geo_chart Visit.top(:country) %>
+	</div>
+
+
+
+</div>
+
+<div class="row row-fat" >
+	<h3 class="brand-secondary">
+		Last 100 visits.
+	</h3>
+	<div class="scroll-holder" style="max-height: 400px; overflow: scroll;">
+	<table class="table" >
+		
+			<th>
+				Time
+			</th>
+			<th>
+				User name?
+			</th>
+			<th>
+				Browser
+			</th>
+			<th>
+				Device
+			</th>
+			<th>
+				City, Region
+			</th>
+			<th>
+				Referring domain
+			</th>
+			<th>
+				Total visits
+			</th>
+
+		<%
+			# group by visitor id so we can see returning users even if they aren't logged in
+			fake_names = {}
+			# might assign more names than we need but that's ok
+			Visit.order('started_at desc').group(:visitor_id).first(100).each do |visit|
+				fake_names[visit.visitor_id.to_s] = Faker::Name.first_name
+			end
+
+
+		%>
+		
+		<% Visit.order('started_at desc').first(100).each do |visit| %>
+		<tr>
+			<td>
+				<%= visit.started_at.strftime("%l:%M%P, %d %b") %>
+			</td>
+			<td>
+				<%= if visit.user_id? then link_to User.find(visit.user_id).name, User.find(visit.user_id) else "<span class='text-muted'>#{fake_names[visit.visitor_id.to_s]}</span>".html_safe end %>
+			</td>
+			<td>
+				<%= browser_icon visit.browser %>
+			</td>
+			<td>
+				<%= device_icon visit.device_type %>
+			</td>
+			<td>
+				<%= "#{visit.city}, #{visit.region}" %>
+			</td>
+			<td>
+				<%= link_to visit.referring_domain %>
+			</td>
+			<td>
+				<%= Visit.where(visitor_id: visit.visitor_id).count %>
+			</td>
+		</tr>
+		<% end %>
+	</table>
+	</div>
+</div>
+
+<hr>
+<h1 class="text-muted">
+	Schools
+</h1>
+
+<div class="row row-fat">
+
+	<div class="col-sm-3">
+		<h3 class="brand-secondary">
+			Academic schools registered.
+		</h3>
+		<h1 class="brand-primary">
+			<%= School.where(is_academic: true).count %>
+		</h1>
+	</div>
+
+	<div class="col-sm-3">
+		<h3 class="brand-secondary">
+			Schools with members.
+		</h3>
+		<h1 class="brand-primary">
+			<%= School.where.not(affiliations_count: 0).where(is_academic: true).count %>
+		</h1>
+	</div>
+
+	<div class="col-sm-3">
+		<h3 class="brand-secondary has-tooltip" data-toggle="tooltip" data-placement="top" aria-hidden="true" title="For schools with members.">
+			Average members per school.
+		</h3>
+		<h1 class="brand-primary">
+			<%= School.where.not(affiliations_count: 0).average(:affiliations_count).round %>
+		</h1>
+	</div>
+
+	<div class="col-sm-3">
+		<h3 class="brand-secondary has-tooltip" data-toggle="tooltip" data-placement="top" aria-hidden="true" title="For schools with members.">
+			Average works per school.
+		</h3>
+		<h1 class="brand-primary">
+			<%= School.where.not(affiliations_count: 0).average(:works_count).round %>
+		</h1>
+	</div>
+
+</div>
+
+<div class="row row-fat">
+	<div class="col-xs-12">
+		<%
+			spyuid = School.friendly.find('spy-university').id
+			# User.where.not(school_id: spyuid).count
+		%>
+		<h3 class="brand-secondary">
+			By member affiliation.
+		</h3>
+		<%# pie_chart({"Affiliated with a school" => User.where.not(school_id: spyuid).count, "Not affiliated with a school" => User.where(school_id: spyuid).count}) %>
+		<%= pie_chart Affiliation.joins(:school).group(:Institution_Name).count %>
+	</div>
+</div>
+
+<div class="row row-fat">
+	<div class="col-xs-12">
+	<h3 class="brand-secondary">
+		By number of works. <small class="brand-secondary">Hover to see works count.</small>
+	</h3>
+	<br>
+	<br>
+		<% School.where.not(affiliations_count: 0).each do |s| %>
+			<span class="has-tooltip" data-toggle="tooltip" data-placement="top" title='<%= "#{s.Institution_Name}, #{pluralize(s.works_count, 'work')} " %>' aria-hidden="true">
+			<%= favicon_for(s, 28, 28, "") %> 
+			</span>
+		<% end %>
+	</div>
+	<div style="height: 150px;"></div>
+</div>
+
+
+
+<hr>
+<h1 class="text-muted">
+	Site engagement
+</h1>
+
+<div class="row row-fat">
+	<div class="col-sm-12">
+		<h3 class="brand-secondary">
+			<span class="fa fa-eye"></span> / <span class="fa fa-clock-o"></span>
+		</h3>
+		<p class="brand-secondary">
+			Visits per hour of day. (Membership agnostic.)
+		</p>
+		<%= column_chart Visit.group_by_hour_of_day(:started_at, format: "%l %P").count %>
+	</div>
+</div>
+
+<div class="row row-fat">
+	<div class="col-sm-12">
+		<h3 class="brand-secondary">
+			Top actions.
+		</h3>
+		<p class="brand-secondary">
+			All inclusive.
+		</p>
+		<%= pie_chart Ahoy::Event.group(:name).count %>
+	</div>
+</div>
+
+
+<div class="row row-fat">
+
+	<div class="col-sm-6 anal-row">
+		<h3 class="brand-secondary">Top devices.</h3>
+		<%= pie_chart Visit.top(:device_type) %>
+	</div>
+	<div class="col-sm-6 anal-row">
+		<h3 class="brand-secondary">Top os.</h3>
+		<%= pie_chart Visit.top(:os) %>
+	</div>
+	<div class="col-sm-6 anal-row">
+		<h3 class="brand-secondary">Top browsers.</h3>
+		<%= pie_chart Visit.top(:browser) %>
+	</div>
+	<div class="col-sm-6 anal-row">
+		<h3 class="brand-secondary">Top referring domains.</h3>
+		<%= pie_chart Visit.top(:referring_domain) %>
+	</div>
+
+</div>
+

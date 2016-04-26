@@ -1,0 +1,27 @@
+// Disbanded stately for the present. May be stylistic to have on Schools/index or /show or something later. 
+// .stately {
+//     width: 600px;     /* width and font size must match */
+//     font-size: 600px; /*width and font size must match */
+//     color: #f0f0f0;
+//     background-color: #fff;
+// }
+
+// Changed to 
+.well {
+  background-color: $school-well-background-color;
+}
+// Num. users, num. works. 
+.school-index-subinfo {
+	margin-left: 25px;
+}
+
+.school-logo {
+	margin-right: auto; 
+	margin-left: auto;
+
+}
+img#school-logo {
+	margin-right: auto; 
+	margin-left: auto;
+	display: block;
+}

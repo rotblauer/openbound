@@ -1,0 +1,11 @@
+<%= form_for([@work, @work.suggesteds.build]) do |f| %>
+
+  <div class="form-group">
+    <%= f.label :suggestion, class: 'hidden' %>
+    <p style="font-size: .7em; color: lightgray; margin: 0px;">Seperate tags with a comma</p>
+    <%= f.text_field :suggestion, class: 'form-control', required: true %>
+  </div>
+ 
+  <%= f.submit "OK", class: 'btn btn-primary btn-sm', id: "submit-suggested" %>
+ 
+<% end %>

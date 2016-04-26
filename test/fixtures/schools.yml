@@ -1,0 +1,49 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+Bowdoin:
+  institution_id: 1
+  institution_name: MyString
+  institution_address: MyString
+  institution_city: MyString
+  institution_state: MyString
+  institution_zip: MyString
+  institution_phone: MyString
+  institution_opeid: MyString
+  institution_ipeds_unitid: MyString
+  institution_web_address: MyString
+  accreditation_type: MyString
+  agency_name: MyString
+  agency_status: MyString
+  program_name: MyString
+  accreditation_status: MyString
+  accreditation_date_type: MyString
+  periods: MyString
+  last_action: MyString
+  created_at: <%= 2.months.ago %>
+  updated_at: <%= 2.hours.ago %>
+  works_count: 0
+  users_count: 7
+
+Columbia:
+  institution_id: 2
+  institution_name: MyString
+  institution_address: MyString
+  institution_city: MyString
+  institution_state: MyString
+  institution_zip: MyString
+  institution_phone: MyString
+  institution_opeid: MyString
+  institution_ipeds_unitid: MyString
+  institution_web_address: MyString
+  accreditation_type: MyString
+  agency_name: MyString
+  agency_status: MyString
+  program_name: MyString
+  accreditation_status: MyString
+  accreditation_date_type: MyString
+  periods: MyString
+  last_action: MyString
+  created_at: <%= 2.months.ago %>
+  updated_at: <%= 2.hours.ago %>
+  works_count: 0
+  users_count: 1

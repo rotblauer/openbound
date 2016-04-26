@@ -1,0 +1,16 @@
+// Signin.
+$signin-advice-font-size: .9em;
+
+.signin-bunch {
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.signin-advice {
+	color: $signin-advice-font-color;
+	font-size: $signin-advice-font-size;
+}
+
+h2#signin-title {
+	font-size: 1.8em;	
+}

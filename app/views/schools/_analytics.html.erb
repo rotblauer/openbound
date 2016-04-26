@@ -1,0 +1,72 @@
+<style>
+	.row-fat {
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+	h1 {
+		font-size: 5vw; line-height: 100%;
+	}
+</style>
+
+<!-- <h1 class="text-muted">
+	Schools
+</h1>
+
+ -->
+
+<div class="row row-fat hidden-xs">
+
+	<div class="col-sm-3 ">
+		<h3 class="brand-secondary">
+			Academic schools registered.
+		</h3>
+		<h1 class="brand-primary">
+			<%= School.where(is_academic: true).count %>
+		</h1>
+	</div>
+
+	<div class="col-sm-3 ">
+		<h3 class="brand-secondary">
+			Schools with members.
+		</h3>
+		<h1 class="brand-primary">
+			<%= School.where.not(affiliations_count: 0).where(is_academic: true).count %>
+		</h1>
+	</div>
+
+	<div class="col-sm-3 ">
+		<h3 class="brand-secondary has-tooltip" data-toggle="tooltip" data-placement="top" aria-hidden="true" title="For schools with members.">
+			Average members per school.
+		</h3>
+		<h1 class="brand-primary">
+			<%= School.where.not(affiliations_count: 0).average(:affiliations_count).round %>
+		</h1>
+	</div>
+
+	<div class="col-sm-3 ">
+		<h3 class="brand-secondary has-tooltip" data-toggle="tooltip" data-placement="top" aria-hidden="true" title="For schools with members.">
+			Average works per school.
+		</h3>
+		<h1 class="brand-primary">
+			<%= School.where.not(affiliations_count: 0).average(:works_count).round %>
+		</h1>
+	</div>
+
+</div>
+
+<div class="row row-fat">
+	
+	<div class="col-sm-12">
+		<p class="brand-secondary">
+			First 100 schools with the most affiliations.
+		</p>
+		<% School.where.not(affiliations_count: 0).order('affiliations_count desc').first(100).each do |s| %>
+			<%= link_to s, class:'modest-link' do %>
+			<span class="has-tooltip" data-toggle="tooltip" data-placement="top" title='<%= "#{s.Institution_Name}, #{pluralize(s.works_count, 'work')} " %>' aria-hidden="true">
+			<%= favicon_for(s, 28, 28, "") %> 
+			</span>
+			<% end %>
+		<% end %>
+	</div>
+</div>
+

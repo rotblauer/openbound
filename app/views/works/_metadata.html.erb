@@ -1,0 +1,96 @@
+<div class="metadata-container" style="">
+
+
+<span style="color: lightgray; float: right; margin-left: 5px;" >
+<%= pretty_content_type(work) %>
+
+<% #if work.project.works_count > 1 %>
+  <% #work.project.works_count  %>
+  <!-- <span class="glyphicon glyphicon-file"></span> -->
+<% #end %>
+
+</span>
+
+
+
+
+<div class="ellipsis"> 
+  <div class="title-etc">
+
+    <!-- b_i_p & title -->
+    
+      <span class="scale-font-to-screen-size" style="">
+        <% if work.user == current_user %>
+          <!-- bip activator -->
+          <!-- <span id="activator-<%= work.id %>" class="glyphicon glyphicon-pencil glyphicon-edit-work" aria-hidden="true" style="color: lightgray;" title="Click to edit work name."></span> -->
+          <!-- bip title -->
+          <%= link_to work.project, class: "-work-name" do %>
+            <% # best_in_place work.project, :name, activator: "#activator-#{work.id}", :as => :input, place_holder: "#{work.project.name}" %>
+            <%= project.name %>
+          <% end %>
+        <% else %>
+          <!-- gradient takes place of bip activator if !owner-->
+          <% # render partial: "works/gradient", locals: { work: work } %>
+          <% if work.project.name.present? %>
+            <%= link_to work.project.name, project_path(work.project), class: "-work-name" %>
+          <% else %>
+            <%= link_to work.name, project_path(work.project), class: "-work-name"  %>
+          <% end %>
+        <% end %>
+      </span> 
+
+  </div>
+</div> <!-- end ellipsis -->
+
+<div class="author-etc">
+  <!-- author & school -->
+  <!-- MAKE ANONYMOUSE, OR NOT -->
+  <% if owner?(work) and !@on_start_page %>
+  
+    
+      <!-- <span class="policy-option glyphicon glyphicon-user <%# if work.project.anonymouse then "anony" else "non_anony" end %>"></span> -->
+ 
+  
+  <% end %>
+
+  
+
+    
+    <%= link_to project.school do %>
+      <%= favicon_for(project.school, 12, 11, 'display: inline-block; vertical-align: baseline; margin-bottom: -1px;') %>
+    <% end %>  
+    
+    <!-- author/user name -->
+    <span style="font-size: 1em; color: gray;" id="author-name-<%= work.id %>" class="<%= 'anony' if work.anonymouse %>">
+      <%= working_author(work) %>
+    </span>
+</div>
+
+<% if false %>
+<div class="stats-etc">
+
+  <!-- views and bookmarks counts -->
+
+  <span class="text-muted" style="font-size: .8em;">
+    <% if work.project.impressions_count > 0 %>
+      <%= work.project.impressions_count %>
+      <span class="glyphicon glyphicon-eye-open" style="color: lightgray;"></span>
+    <% end %></span>
+  <span id="comment-count" style="font-size: .8em; background-color: #f9fdef;"><% if work.comments.count > 0 %><%= pluralize(work.project.comments.count, 'comment') %><% end %></span>
+
+  <% if current_user %>
+
+    <div class="user-options" style="float: right;">
+      <!-- RECOMMENDER -->
+      <!-- BOOKMARK IT, OR UN- -->
+      <%= link_to bookmark_path(work.project), method: :patch, remote: true, class: "modest-link bookmark_pony #{"bookmarked_true" if current_user.bookmarks.find_by(project_id: work.project.id, bookmarked: true)} #{"bookmarked_ribbon_default" if !current_user.bookmarks.find_by(project_id: work.project.id, bookmarked: true)}" do %>
+        <span class="glyphicon glyphicon-bookmark has-tooltip" style="font-size: 1em;" data-toggle="tooltip" data-placement="left" title="Bookmark" aria-hidden="true"></span>
+      <% end %>    
+    </div>
+    
+  <% end %>
+
+
+</div>
+<% end %>
+</div>

@@ -1,0 +1,17 @@
+      <!-- need to manage the circle and the square separately, but together. -->
+
+      <% 
+      # generate rgb color for gradient
+
+      # generate rgb color for popularness
+        # returns ratio of how popular the work is compared to the most popular works
+        # replaces 255 - view_rgb
+        ######popular_rgb = (work.popularity_contest * 255)
+
+      %> 
+      <span class="">      
+        <% if work.gradient_count > 0 %>
+         <span class="">      
+            <span class="glyphicon glyphicon-certificate" aria-hidden="true" style="background-color: rgb(<%= work.popularity_contest %>, 255, <%= work.popularity_contest %>); color: rgb(<%= 255 - work.gradient_average_rgb %>, 255, <%= 255 - work.gradient_average_rgb %>);"></span>
+         </span>
+        <% end %></span>

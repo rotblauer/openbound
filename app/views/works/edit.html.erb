@@ -1,0 +1,16 @@
+<div class="row">
+	<div class="col-sm-6">
+		<%= render 'works/form' %>
+		
+	</div>
+	<!-- COL-SM-8 -->
+	<div class="col-sm-6 work-body">
+
+		<!-- Da WORK -->
+		<%= link_to work_path, style: "color: gray;", class: "modest-link" do %>
+		
+			<%= render 'works/doc' %>
+
+		<% end %>
+	</div> <!-- col-SM-8 -->
+</div><!-- row -->

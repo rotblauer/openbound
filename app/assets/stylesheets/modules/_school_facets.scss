@@ -1,0 +1,24 @@
+#school_facets {
+	margin-bottom: 10px;
+	margin-top: 10px;
+
+	padding-top: 10px;
+	padding-bottom: 4px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+ul.school_links_off {
+	-webkit-padding-start: 0px;
+	list-style-type: none;
+	line-height: 240%;	
+}
+
+ul.school_links_on {
+	line-height: 18px;
+	display: block;
+}
+
+span.badge-works-count {
+	color: white;
+	background-color: $columbia-medium-blue;
+}

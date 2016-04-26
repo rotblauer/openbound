@@ -1,0 +1,158 @@
+<!--                         _           _   
+                       (_)         | |  
+        _ __  _ __ ___  _  ___  ___| |_ 
+       | '_ \| '__/ _ \| |/ _ \/ __| __|
+       | |_) | | | (_) | |  __/ (__| |_ 
+       | .__/|_|  \___/| |\___|\___|\__|
+ ______| |            _/ |              
+|______|_|           |__/               
+ -->
+
+
+<!-- TODO: change .-work to .-project? -->
+<div class="<%= if @bigger_partials then 'col-xs-6 col-sm-4 col-md-4 col-lg-4 -work' else 'col-xs-6 col-sm-4 col-md-3 col-lg-2 -work' end %>" id="work-face-<%= project.id %>" data-id="<%= project.id %>" >
+
+	<!-- DECLARE LOCAL VAR `WORK` AS PROJECT'S MOST RECENT WORK -->
+	<% work = project.most_recent_work %>
+
+	
+	<!-- COPY & PASTE FROM _WORK -->
+
+	<!-- metadata -->
+
+
+	<!-- <div class="row metadata-tags" > -->
+	  <% render partial: 'works/metadata_tags', locals: { work: work, project: project } %>
+	<!-- </div> -->
+
+	<div class="row first-page-row" >
+
+	  <% 
+
+	    if work.file_type_supported?
+	      @_id = 'work-preview-button-'+work.id.to_s
+	      @_type = 'div'
+	      @_data_toggle = 'modal'
+	      @_data_target = '#work-preview-'+work.id.to_s
+	    else
+	      @_id = ''
+	      @_type = ''
+	      @_data_toggle = ''
+	      @_data_target = ''
+	    end
+
+	  %>
+	  
+	  <!-- if file type supported, make link to modal preview -->
+	  
+
+	    <!-- <div id="<%= @_id %>" class="preview-container" type="<%= @_div %>" data-toggle="<%= @_data_toggle %>" data-target="<%= @_data_target %>" > -->
+			
+	    <div class="preview-container">
+	    	<!-- <a href='<%= project_path(project) %>' class="modest-link" style="height: 100%;">    -->
+	      <div id="outer-<%= project.id %>" class="outer">
+	      <script>
+	      	$('#outer-<%=project.id%>').click(function() {
+	      		window.location = "<%= project_path(project) %>";
+	      	});
+	      </script>
+	    	
+	      	<!-- if there are multiple versions, make it a stack -->
+	      	<% if project.works_count > 1 && (work.docordocx? || work.markdown? || work.type_html? || work.latex? || work.plain_text? || work.type_rtf? ) && work.file_type_supported? %>
+	      		<div id="stacked-id-<%=project.id%>" class="stacked"></div>    
+	      	<% end %>
+
+					 
+	        <!-- see _doc for similar shit w/r/t html vs. md -->
+	        <% if (work.docordocx? || work.markdown? || work.type_html? || work.latex? || work.plain_text? || work.type_rtf?) && work.file_type_supported? %>
+	        
+		        <div class="shadowy-figure shadowy-figure-text stacked ellipsis multiline">
+		          <!-- SMALL TEXT CONTENT PREVIEW  -->
+		          <span class="text-content markdown thumb" >
+		            <div class="holster" > <!-- holster does equalized unabashed side margins like google docs -->
+		            <%# presentable_html(work.file_content_html) if work.file_content_html %>
+		            <%= if work.file_content_md then markdown(work.file_content_md) else markdown(work.file_content_md) end %>
+		            </div>
+		          </span>
+		        </div>
+	        
+	        <% elsif (work.powerpoint? || work.spreadsheet? || work.open_office? || work.i_works?) && work.file_type_supported? %>
+
+	          <div class="shadowy-figure shadowy-figure-text ellipsis multiline">
+	            <!-- SMALL TEXT CONTENT PREVIEW  -->
+	            <span class="text-content text-file"><%= content_tag('pre', work.file_content_text) %></span>
+	          </div>
+
+	        <% elsif work.pdf? && work.file_type_supported? %>
+
+	          <div  class="" style="width: 100%; height: 100%;">
+	            <%= image_tag work.document_url(:png_thumb), class: "shadowy-figure shadowy-figure-image thumb", style: "z-index: -1; max-height: 100%; height: auto;" %>
+	          </div>
+
+	        <% elsif work.image? && work.file_type_supported? %>
+
+	          <div class="" style="width: 100%; height: 100%;">
+	          	<% if !@bigger_partials %>
+		            <%= image_tag work.document_url(:thumb), class: "shadowy-figure shadowy-figure-image thumb", style: "margin-top: 60px; max-width: 100%; height: auto;"  %> <!-- margin-top: 60px; -->
+	            <% else %>
+								<%= image_tag work.document_url(:preview), class: "shadowy-figure shadowy-figure-image thumb", style: "margin-top: 60px; max-width: 100%; height: auto;"  %> <!-- margin-top: 60px; -->
+	            <% end %>
+	          </div>
+
+	        <!-- else preview unsupported file type -->
+	        <!-- with no modal preview link -->
+	        <% else %>
+
+	          <div class="shadowy-figure shadowy-figure-text" style="width: 100%; height: 100%;">
+	            <div class="text-center" style="margin-top: 25%; margin-bottom: 50%;  font-size: 4em; color: lightgray;">
+	              <p style='line-height: 200%; position: relative;'>
+	              <%= work.file_name.split('.').last.upcase %>
+	              </p>
+	            </div>
+	          </div>
+
+	        <% end %>
+
+					<div class="row">
+	        <div class="metadata" style="position: relative; bottom: 0px; z-index: 10;" >
+
+	              	<% if (params[:search].present? or params[:context].present? or params[:content].present?) and project.taggings.any? %>
+	              	<div class="row tags" style="padding: 4px 4px 6px 4px; background-color: white; ">
+	        					<% project.contexts.each do |tag| %>
+	        						<span class="label label-context" style="line-height: .6em;">
+	        							<%= link_to tag.name, projects_path(:context => [tag.name]) %>
+	        						</span>
+	        					<% end %>
+	        					<% project.contents.each do |tag| %>
+	        						<span class="label label-content" style="line-height: .6em;">
+	        							<%= link_to tag.name, projects_path(:content => [tag.name]) %>
+	        						</span>
+	        					<% end %>
+	        				</div>
+	              	<% end %>
+
+	          <%= render partial: 'works/metadata', locals: { work: work, project: project } %>
+	        </div> <!-- end metadata -->
+	        </div>
+	          
+	    	       
+	      </div> <!-- end outer -->
+	    	<!-- </a>> end link_to project  -->
+	    </div> <!-- end preview container -->
+	  	
+	      
+
+	      <!-- BUTTONs -->
+	      <div id="owner-options" class="row" style="max-height: 13px; position: relative; bottom: 0px; padding-top: 10px; margin-right: 0px; padding-left: 15px;" >
+	        <%= render partial: 'works/preview_buttons', locals: { work: work, project: project } %>
+	      </div>
+
+	</div> <!-- end first page row() -->
+	  
+	<!-- MODAL -->
+	<% render partial: 'projects/modal', locals: { project: project, work: work } if !@on_start_page %>
+	<%= render partial: 'projects/add_version_modal', locals: {project: project} if owner? project %> 
+	
+
+
+</div>

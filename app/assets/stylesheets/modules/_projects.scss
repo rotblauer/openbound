@@ -1,0 +1,57 @@
+/*=====================================
+=            Projects/Show            =
+=====================================*/
+
+.jumbotron {
+	&.svelt {
+		padding: 10px 30px 10px 30px;
+		background-color: lighten($app-secondary, 15%); // (f7fafb)
+		margin-bottom: 0px;
+		border-radius: 0px;
+		.text-small {
+			font-size: 12px;
+		}
+		&.sub-svelt {
+			// margin-top: -10px;
+			background-color: #FBFBFB;
+			padding-bottom: 15px;
+		}
+		&.svelt-mini {
+			padding: 5px 15px 5px 15px;
+			margin-bottom: 0px;
+			p {
+				font-size: 1.2em;
+			}
+		}
+	}
+}
+
+.project-show-buttons {
+	margin-top: 0px;
+	padding-top: 10px;
+	padding-left: 30px;
+	background-color: #F9FBFB;
+	padding-bottom: 10px;
+}	
+
+.projects-show-description {
+	padding: 10px 10px 10px 30px;
+}
+
+/*=====  End of Projects/Show  ======*/
+
+
+/*================================
+=            _project            =
+================================*/
+
+.metadata-container {
+	background-color: #f7fafb; 
+	// border: 5px solid #f7fafb; 
+	height: 50px;
+	padding: 5px 5px 5px 8px;
+	// float: bottom;
+}
+
+
+/*=====  End of _project  ======*/

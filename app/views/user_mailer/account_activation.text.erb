@@ -1,0 +1,10 @@
+Hi <%= @user.name %>,
+
+Welcome to Rstacks! Please follow the link below to activate your account:
+
+<%= edit_account_activation_url(@user.activation_token, email: @user.email) %> 
+
+(and make it snappy - the link will expire in 2 hours!)
+
+Happy learning, 
+Isaac

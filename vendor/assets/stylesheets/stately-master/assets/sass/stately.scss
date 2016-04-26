@@ -1,0 +1,33 @@
+$map_width: 300px;
+$map_bgd_color: #eeeeee;
+$map_border_radius: 0;
+
+/** Stately setup
+*************************************/
+@import "_setup.scss";
+
+/** Style customizations
+*************************************/
+@import "_customizations.scss";
+
+#intrideans {	
+    @include mapstyle(intrideans);
+} // #intrideans
+
+#election {
+	
+    @include mapstyle(political);	
+	
+} // #election
+
+#presidents {
+  
+    @include mapstyle(neutral);
+  
+} // #presidents
+
+#plain {
+  
+    @include mapstyle(plain);
+  
+} // #presidents

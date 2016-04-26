@@ -1,0 +1,91 @@
+// Facets
+
+
+// span > a 
+.facet {
+	// font-size: ;
+	// line-height: ;
+}
+
+
+//$base-color: $app-primary; //$columbia-blue;
+//$base-color-light: $app-secondary;
+$base-color: darken($app-primary, 9%);
+$base-color-light: lighten($app-primary, 5%);
+$base-color-alt: white;
+
+// ---- Tags ---- //
+.tag {
+	@include tag_spacing;
+
+
+	display: inline-block;
+
+	// ---- Context ---- //
+	&.context {
+		// $context-color: darken($base-color, 9%);
+		$context-color: $base-color;
+
+		&.facet { @extend .facet !optional; }
+
+		&.on {
+			@include tag_spacing; 
+			@include tag_coloring($context-color, $base-color-alt);
+			@include tag_on_underline_through($context_color); }
+		&.off a {
+			@include tag_spacing; 
+			@include tag_coloring($base-color-alt, $context-color) }
+	}
+	
+	// ---- Content ---- //
+	&.content {
+		$content-color: $base-color-light;//lighten($base-color, 5%);
+
+		&.facet { @extend .facet !optional; }
+
+		&.on {
+			@include tag_spacing; 
+			@include tag_coloring($content-color, $base-color-alt);
+			@include tag_on_underline_through($content_color); }
+		&.off a {
+			@include tag_spacing; 
+			@include tag_coloring($base-color-alt, $content-color); 
+			//@include tag_coloring($base-color, $base-color-alt);
+			// border: 1px solid $base-color;
+		}
+	}
+}
+.department-tag-demo {
+	color: $base-color-alt;
+	background-color: $base-color;
+}
+.subject-tag-demo {
+	color: $base-color-alt;
+	background-color: $base-color-light;	
+}
+
+// ---- Schools ---- //
+.school {
+	@include tag_spacing;
+	$base-color: darken($columbia-blue, 20%);
+	$base-color-alt-school: white;
+
+	display: inline-block;
+
+	&.facet { @extend .facet !optional; }
+
+	&.on a {
+		@include tag_spacing; 
+		margin-right: 0px;
+		@include tag_on_underline_through($base-color);
+	}
+	&.off a {
+		@include tag_spacing; 
+	}
+}
+a.link-to-school {
+		text-decoration: none !important;
+		margin-right: 8px;
+}
+
+

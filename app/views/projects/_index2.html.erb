@@ -1,0 +1,119 @@
+<!-- project title - author - school - content type - version count -->
+	
+	<%# render @projects if !@projects.empty? %>
+
+	<div class="row" style="padding-top: 5px; padding-bottom: 5px;">
+		<div class="col-md-3">
+			<% if current_user %>
+				<%= image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
+				<br>
+			<% end %>
+			
+			<div>
+				<%= render partial: 'projects/hyrbrid_browse2' %>
+			</div>
+		</div>
+
+
+		
+		<div class="col-md-9">
+			<!-- if querying -->
+			<% if params[:search] || params[:content] || params[:context] || params[:school_name] %>
+				
+				
+				<div id="project-uploads">
+					<%= render partial: 'projects/project2', collection: @projects, as: :project %>
+				</div>
+
+			<!-- if not querying -->
+			<% else %>
+
+				<!-- make templates available for yielding -->
+				<%= render 'index/unauth_dash_main' %>
+				<%= render 'index/auth_dash_main' %>
+			
+			<%= yield :unauth_dash_main if !current_user %>
+			
+			<%# yield :auth_dash_main if current_user %>
+			<% if current_user %>
+
+				<!-- projects index while dashboard+followable not yet implemented -->
+				<div id="project-uploads">
+					<%= render partial: 'projects/project2', collection: @projects, as: :project %>
+				</div>
+
+				<!-- load more -->
+				<div class="row load-more-container text-center">
+				        <!-- hide our loading gif image so that we show it when making ajax call via jquery -->
+					<%= image_tag "loading_spinner.gif", style: "display:none;", class: "loading-gif" %>
+					<%= link_to "Load More", projects_path, class: "load-more-projects" %>
+				</div>
+
+				<script>
+				$(function () {
+					// when the load more link is clicked
+					$('a.load-more-projects').click(function (e) {
+
+					    // prevent the default click action
+					    e.preventDefault();
+					    console.log('this is firing!');
+
+					    // hide load more link
+					    $('.load-more-projects').hide();
+
+					    // show loading gif
+					    $('.loading-gif').show();
+
+					    // get the last id and save it in a variable 'last-id'
+					    var last_id = $('.-project').last().attr('data-id');
+					    // console.log('last_id -> ' + last_id);
+
+
+					    // make an ajax call passing along our last user id
+					    $.ajax({
+
+					        // make a get request to the server
+					        type: "GET",
+					        // get the url from the href attribute of our link
+					        url: $(this).attr('href'),
+					        // send the last id to our rails app
+					        data: {
+					            id: last_id
+					            // updated_at: last_id
+					        },
+					        // the response will be a script
+					        dataType: "script",
+
+					        // error: function (e) {
+					        // 	console.log(e);
+					        // 	// hacky solve to fix 200 (OK) response when no projects to load.
+					        // 	// idk why doesn't happen for Works. 
+					        // 	console.log(e.error);
+					        // 	}
+					        // },
+
+					        // upon success 
+					        success: function () {
+					            // hide the loading gif
+					            $('.loading-gif').hide();
+					            // show our load more link
+					            $('.load-more-projects').show();
+					            console.log('ajax success!');
+
+					            $('.has-tooltip').tooltip();
+					            /* Activating Best In Place */
+					            jQuery(".best_in_place").best_in_place();
+					        }
+					    });
+
+					});
+				});
+				</script>
+			<% end %>
+
+		<% end %>
+		</div>
+
+		<!-- if not querying -->
+		
+	</div>

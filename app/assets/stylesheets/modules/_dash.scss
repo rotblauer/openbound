@@ -1,0 +1,44 @@
+.dash-main-wrapper-unauth {
+	section {
+
+		.middling {
+			@include vertical-align();
+		}
+
+		border: 1px solid red;
+		text-align: center;
+		/*background-image: url("http://lorempixel.com/400/200/people/");*/
+		/*background-size: 100%;*/
+		// height: 200px;
+		margin-bottom: 20px;
+		&.section-large {
+			// padding: 3vw;
+			height: 10vw;
+		}
+		&.section-medium {
+			// padding: 2vw;
+			height: 7vw;
+		}
+		&.section-small {
+			// padding: 1vw;
+			height: 4vw;
+		}
+	}	
+}
+
+.dash-tophat {
+	// margin-bottom: 40px;
+	// margin-top: 40px;
+	padding: 5vw;
+	// padding-left: 10vw;
+	// padding-right: 10vw;
+	
+	width: 100%;
+
+	background-color: #5075A7;
+	color: white;
+	// color: $v2-dark-blue;
+	// font-family: 'Amatic SC', cursive;	
+}
+
+

@@ -1,0 +1,12 @@
+<% if current_user %>
+	<%= link_to bookmark_path(project), method: :patch, remote: true, class: "bookmark_pony #{"bookmarked_true" if current_user.bookmarks.find_by(project_id: project.id, bookmarked: true)} #{"bookmarked_ribbon_default" if !current_user.bookmarks.find_by(project_id: project.id, bookmarked: true)}" do %>
+		
+	  <span id="works-show-bookmark-icon" class="glyphicon glyphicon-bookmark has-tooltip" data-toggle="tooltip" data-placement="right" title="Bookmark" ></span>
+	  
+	<% end %>
+<% else %>
+	<%= link_to signin_path, class: "bookmarked_ribbon_default" do %>
+	  <span id="works-show-bookmark-icon" class="glyphicon glyphicon-bookmark has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Log in to bookmark"></span>
+	<% end %>
+<% end %>
+

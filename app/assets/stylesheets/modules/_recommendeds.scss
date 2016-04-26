@@ -1,0 +1,40 @@
+.recommendations-box {
+	margin-top: 15px;
+}
+.my_recommendations {
+	padding-top: 8px;
+	padding-right: 8px;
+
+	border-top: 1px solid lightblue;
+	ul { 
+		list-style: none; 
+		padding-left: 0px;
+		li {
+			.fluff {
+				padding-top: 3px;
+				padding-bottom: 3px;
+			}
+			.item {
+				background-color: white;
+				padding-left: 5px;
+				border-left: 2px solid lightblue;
+				display: inline-block;
+				a.recommended-work {
+					padding-right: 10px;
+				}
+				a.recommended-author {
+					
+				}
+			}
+		}
+	}
+}
+	.recommended_true {
+		span {
+			color: $columbia-blue;
+		}
+	}
+	.recommended_false {
+		span { color: lightgray; 
+		}
+	}

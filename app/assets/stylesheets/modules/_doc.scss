@@ -1,0 +1,60 @@
+// this handles RedCarpet-rendered markdown
+	// which we've got either through ReverseMarkdown or w2m
+.doc-text-container { // ...content
+	// 1.2 em is base, see _general.scss
+	h1 { font-size: 1.8em; }
+	h2 { font-size: 1.6em; }
+	h3 { font-size: 1.5em; }
+	h4 { font-size: 1.4em; }
+	h5 { font-size: 1.3em; }
+	h6 { font-size: 1.25em; }
+	blockquote { font-size: 1.2em; }
+}
+
+
+// full view
+// edit
+div.CodeMirror.cm-s-paper.CodeMirror-wrap.CodeMirror-fullscreen {
+	padding-left: 20vw;
+	padding-right: 20vw;
+}
+// preview
+div.CodeMirror.cm-s-paper.CodeMirror-wrap.CodeMirror-fullscreen {
+	div.editor-preview.editor-preview-active {
+		padding-left: 20vw;
+		padding-right: 20vw;
+		background-color: lighten($dillinger-select-blue, 50%);
+	}
+}
+
+// split view
+// edit
+div.CodeMirror.cm-s-paper.CodeMirror-wrap.CodeMirror-fullscreen.CodeMirror-sided {
+	padding-left: 5vw;
+	padding-right: 5vw;
+}
+// preview
+div.editor-preview-side.editor-preview-active-side {
+	padding-left: 5vw;
+	padding-right: 5vw;	
+	background-color: lighten($dillinger-select-blue, 50%);
+}
+
+.doc-text-content.diff-text {
+
+}
+
+// small (& generic) markdown editing 
+div.CodeMirror.cm-s-paper.CodeMirror-wrap {
+	background-color: white;
+	// http://stackoverflow.com/questions/3296644/hiding-the-scrollbar-on-an-html-page
+	// hide scrollbar
+	::-webkit-scrollbar { 
+	    display: none; 
+	}
+}
+
+// small view markdown preview active
+div.editor-preview.editor-preview-active {
+	background-color: lighten($dillinger-select-blue, 50%);
+}

@@ -1,0 +1,56 @@
+@mixin box_sizing {
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+@mixin shadow_box {
+	// horiz l, vert l, blur rad, spread rad
+	-webkit-box-shadow: 0px 2px 5px 0px #888888;
+	-moz-box-shadow: 0px 2px 5px 0px #888888;
+	box-shadow: 0px 2px 5px 0px #888888;
+}
+@mixin shadow_box_stacked {
+	// horiz l, vert l, blur rad, spread rad
+	-webkit-box-shadow: 0px 0px 0px 3px #888888,
+											0px 2px 5px 6px lighten(#888888, 20%);
+	-moz-box-shadow: 0px 2px05px00px3#888888,
+											0px 2px 5px 6px lighten(#888888, 20%);
+	box-shadow: 0px 2px 5px 0px 0888388,
+											0px 2px 5px 6px lighten(#888888, 20%);
+}
+
+@mixin tag_spacing {
+	// padding: 4px 3px 4px 3px;
+	padding-top: 3px;
+	padding-right: 4px; 
+	padding-bottom: 3px;
+	padding-left: 4px;
+	// margin: 0px 5px 0px 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+}
+
+// accepts args: font, background
+@mixin tag_coloring($font-color, $bg-color) {
+	color: $font-color; 
+	background-color: $bg-color;
+}
+
+@mixin tag_on_underline_through($color) {
+	border-bottom: 1px solid $color; 
+	&:hover { border: none !important; text-decoration: line-through; }
+	&:focus { border: none !important; text-decoration: line-through; }
+}
+
+//http://zerosixthree.se/vertical-align-anything-with-just-3-lines-of-css/
+/* Mixin */
+@mixin vertical-align($position: relative) {
+  position: $position;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}

@@ -1,0 +1,107 @@
+# encoding: utf-8
+<div class="col-sm-4 col-md-3 col-lg-3" style="border-right: 3px solid white; height: 300px; padding-right: 5px; padding-left: 20px;" id="work-face-<%= work.id %>">
+<div style="margin: 5px;">
+
+  <div class="row" id="metadata" style="max-height: 60px;">
+
+    <%= render partial: 'works/metadata', locals: { work: work } %>
+
+  </div> <!-- end metadata -->
+
+  <div class="row" style="max-height: 30px; margin-bottom: 8px;">
+    <%= render partial: 'works/metadata_tags', locals: { work: work } %>
+  </div>
+  
+  
+
+  <div id="first-page" class="row">
+  
+          <style>
+            #first-page #hover-options {
+              visibility: hidden;
+            }
+            #first-page:hover #hover-options {
+              visibility: visible;
+            }
+          </style>
+     
+
+       <% if work.docordocx? || work.markdown? || work.type_html? %>
+          <div class="shadowy-figure shadowy-figure-text ellipsis multiline" style="max-height: 200px;">
+              
+            <!-- modal shit would go here -->
+
+            <!-- this constrains the images in the work-face preview to be no bigger than the preview div -->
+            <style>
+              #text-content img {
+                max-width: 100%;
+                height: auto;
+              }
+            </style>
+             <!-- SMALL TEXT CONTENT PREVIEW  -->
+             <style>
+              .really-modest-link:hover {
+                color: inherit;
+              }
+             </style>
+               <%= link_to work, class: 'modest-link really-modest-link' do %>
+              <span id="text-content" ><%= markdown(work.file_content_md) %></span>
+              <% end %>
+          </div>
+
+      <% elsif work.plain_text? || work.type_rtf? || work.spreadsheet? || work.powerpoint? %>
+        <style>
+          .text-file pre {
+            font-size: .3em;
+            background-color: white;
+            border: none;
+          }
+        </style>
+        <div class="shadowy-figure shadowy-figure-text ellipsis multiline" style="max-height: 200px;">
+          <%= link_to work, class: 'modest-link really-modest-link' do %>
+            <span id="text-content" class="text-file" ><%= content_tag('pre', work.file_content_text) %></span> 
+          <% end %>
+        </div>
+      <% elsif work.pdf? %>
+        <div class="row">
+          <div style="margin-left: auto; margin-right: auto;" class="text-center">
+          <%= link_to work do %>
+            
+              <%= image_tag work.document_url(:png_thumb), style: "margin-top: 10px; max-height: 200px;", class: "shadowy-figure shadowy-figure-image" %>
+            
+          <% end %>
+          </div>
+        </div>
+
+       <% elsif work.image? %>
+  
+        <div class="row">
+          <div style="margin-left: auto; margin-right: auto;" class="text-center">
+          <%= link_to work do %>
+           <%= image_tag work.document_url(:thumb), style: "margin-top: 10px;", class: "shadowy-figure shadowy-figure-image" %>
+          <% end %>
+          </div>
+        </div>
+
+
+         
+       <% elsif work.pdf? %>
+         <div class="shadowy-figure shadowy-figure-text">
+           <p class="text-center" style="margin-top: 25%; margin-bottom: 50%; font-size: 4em; color: lightgray;">PDF</p>
+         </div>
+
+       <% elsif work.file_type_supported? %>
+         <div class="shadowy-figure shadowy-figure-text">
+           <p class="text-center" style="margin-top: 25%; margin-bottom: 50%; font-size: 4em; color: lightgray;">
+             <%= work.file_name.split('.').last.upcase %>
+           </p>
+         </div>
+       <% end %>
+
+
+     
+  </div> <!-- end first-page row -->
+
+
+</div>
+</div>

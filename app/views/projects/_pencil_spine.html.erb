@@ -1,0 +1,91 @@
+<% 
+# Should show image preview of uploaded work, if available. 
+# Should show editable fields for newly uploaded works. 
+# Editable fields should be handled with b_i_p, if possible. 
+## Title (v. placeholder == filename)
+## Description
+## Department tags
+## supject tags
+## Superhero work boolean
+## link_to Save
+%>
+
+<style>
+
+</style>
+
+<!-- increase margin-left as children become more -->
+<%
+	# @proj = work.project
+	# if work.id == @proj.recent_work_id # is first
+	# 	marginator = '0'
+	# elsif work.id == @proj.works.second.id # is second
+	# 	marginator = '20'
+	# elsif work.id == @proj.works.third.id # is third
+	# 	marginator == '40'
+	# elsif work.id == @proj.works.fourth.id # is fourth
+	# 	marginator == '60'
+	# else 
+	# 	marginator == '80'
+	# end
+%>
+
+<div class="row -work" >
+	<div class="cardboard-box">
+
+			<div class="col-xs-4">
+			<div class="preview-container" style="max-width: 150px;">
+				<div class="outer">
+					 <% if work.docordocx? || work.markdown? || work.type_html? || work.latex? %>
+					  <div class="shadowy-figure shadowy-figure-text ellipsis multiline">
+					    <!-- SMALL TEXT CONTENT PREVIEW  -->
+					    <span class="text-content markdown" ><%= presentable_html(work.file_content_html) if work.file_content_html %></span>
+					    <!-- <span class="text-content markdown" ><%= markdown(work.file_content_md) if work.file_content_md %></span> -->
+					  </div>
+					
+					<% elsif work.plain_text? || work.type_rtf? || work.powerpoint? || work.spreadsheet? || work.open_office? || work.i_works? %>
+					  <div class="shadowy-figure shadowy-figure-text ellipsis multiline">
+					    <!-- SMALL TEXT CONTENT PREVIEW  -->
+					    <span class="text-content text-file"><%= content_tag('pre', work.file_content_text) %></span>
+					  </div>
+
+					<% elsif work.pdf? %> 
+					  <div  class="">
+					    <%= image_tag work.document_url(:png_thumb), class: "shadowy-figure shadowy-figure-image thumb" %>
+					  </div>
+
+					<% elsif work.image? %>
+					  <div class="">
+					    <%= image_tag work.document_url(:thumb), class: "shadowy-figure shadowy-figure-image thumb" %>
+					    </div>
+					<% end %>
+				</div>
+			</div>
+			</div> 
+
+			<div class="data-holder col-xs-8" style="">
+				<!-- title -->
+				<p style="line-height: 2em;">
+					<sub class="text-muted" style="color: #76B3DF; padding: 3px;">Title</sub>
+					<%= best_in_place work, :name, :as => :input, class: 'bip-form', inner_class: 'bip-inner' %>
+					<!-- bip activator -->
+		      <!-- <span id="name-activator-<%= work.id %>" class="glyphicon glyphicon-pencil glyphicon-edit-work" aria-hidden="true" style="color: lightgray;" title="Edit work name."></span> -->
+				</p>
+
+				<!-- description -->
+				<p style="line-height: 2em;">
+					<sub class="text-muted" style="color: #76B3DF; padding: 3px;">Description</sub>
+					<%= best_in_place work, :description, place_holder: "              ", activator: "#desc-activator-#{work.id}", :as => :input, class: 'bip-form', inner_class: 'bip-inner' %>
+					<span id="desc-activator-<%= work.id %>" class="glyphicon glyphicon-pencil glyphicon-edit-work" aria-hidden="true" style="color: lightgray;" title="Edit work description.">edit</span>
+				</p>
+
+
+				<p style="line-height: 2em;">
+					<%= work.created_at.strftime("%l:%M%P, %d %b '%y") %>
+				</p>
+
+			</div>
+			
+
+	</div>
+</div>

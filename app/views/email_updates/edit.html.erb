@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3" style="margin-top: 60px; margin-bottom: 100px;">
+  	<h2><mark>Confirm your email change.</mark></h2>
+		<div style="background-color: #f9fdef; padding: 20px;">  
+	    <%= form_for(@user, url: edit_email_update_path(params[:id])) do |f| %>
+				
+				<%= hidden_field_tag :uuid, @user.uuid %>
+				<%= hidden_field_tag :new_email, @user.new_email %>
+
+				<p>Are you sure you want to change your email to <%= @user.new_email? %></p>
+
+				<p class="signin-advice">This will change your email permanently.</p>
+	      <%= f.submit "Yep!", class: "btn btn-primary" %>
+
+	    <% end %>
+	  </div>
+  </div>
+</div>

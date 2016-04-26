@@ -1,0 +1,149 @@
+// Gradients and bookmarks.
+$gradbook-margin-bottom: 20px;
+$gradbook-padding-left: 10px;
+
+.gradients-form {
+	margin-bottom: $gradbook-margin-bottom;
+	padding-left: $gradbook-padding-left;
+}
+.bookmarks-form {
+	margin-bottom: $gradbook-margin-bottom;
+	padding-left: $gradbook-padding-left;
+}
+
+.bookmarked_ribbon_default {
+	span { color: lightgray; }
+}
+.bookmarked_true {
+	span { color: green; }
+}
+
+input[type=range].vVertical {
+    -webkit-appearance: none;
+    // background-color: green;
+    background-image: image-url("gradient.jpg");
+    width: 100px;
+    height:10px;
+    margin-top: 25px;
+    margin-bottom: 50px;
+    
+    -webkit-transform:rotate(270deg);       
+    -moz-transform:rotate(270deg);
+    -o-transform:rotate(270deg);
+    -ms-transform:rotate(270deg);
+    transform:rotate(270deg);
+
+    // z-index: 0;
+}
+input[type=range].vHorizon {
+    -webkit-appearance: none;
+    background-color: pink;
+    height: 10px;
+    width:200px;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background-color: $columbia-blue;
+    width: 10px;
+    height: 10px;
+}
+
+
+/////////////////////////
+// Failed gradient slider efforts. Here for posterity. 
+////////////////////////
+
+// #gradient_grad {
+//     -webkit-appearance: slider-vertical;
+// }
+
+//////////////////////////
+
+// .gradientSlider input[type=range]{
+//   -webkit-transform: rotate(90);
+// }
+
+//////////////////////////////
+
+// .gradientSlider input[type=range]{
+//   -webkit-appearance: slider-vertical;
+// }
+
+// .gradientSlider input[type=range]{        
+//     width:20px;
+//     height:140px;
+//     border:2px solid blue;
+//     display:block;
+//     -webkit-transform:rotate(90deg); // Safari and Chrome        
+//     -moz-transform:rotate(90deg);
+//     -o-transform:rotate(90deg);
+//     -ms-transform:rotate(90deg);
+//     transform:rotate(90deg);
+//     z-index: 0; 
+// }
+
+//////////////////////////
+
+// .gradientSlider {
+//   position: relative;
+//   transform: rotate(90deg);
+//   width: 125px;
+//   height: 20px;
+// }
+// .gradientSlider:before {
+//   content: " ";
+//   left: 10px;
+//   top: 1px;
+//   position: absolute;
+//   border-top: 9px solid transparent;
+//   border-bottom: 9px solid transparent;
+//   border-left: 115px solid #ccc;
+// }
+// .gradientSlider input[type=range] {
+//   outline: none;
+//   -webkit-appearance: none;
+//   height: 20px;
+//   padding: 0;
+//   width: 125px;
+//   background: transparent;
+//   position: relative;
+//   margin: 0;
+//   cursor: pointer;
+// }
+// .gradientSlider input[type=range]::-webkit-slider-thumb {
+//   -webkit-appearance: none;
+//   background: #69a80e;
+//   height: 20px;
+//   width: 20px;
+//   border: 1px solid #fff;
+//   border-radius: 50%;
+// }
+// .gradientSlider input[type=range]::-moz-range-track {
+//   border: none;
+//   background-color: transparent;
+// }
+// .gradientSlider input[type=range]::-moz-range-thumb {
+//   background: #69a80e;
+//   height: 20px;
+//   width: 20px;
+//   border: 1px solid #fff;
+//   border-radius: 50%;
+// }
+// .gradientSlider input[type=range]::-ms-fill-lower, .gradientSlider input[type=range]::-ms-fill-upper {
+//   background: transparent;
+// }
+// .gradientSlider input[type=range]::-ms-track {
+//   height: 18px;
+//   border: none;
+//   background-color: transparent;
+//   margin: 0;
+// }
+// .gradientSlider input[type=range]::-ms-thumb {
+//   background: #69a80e;
+//   height: 20px;
+//   width: 20px;
+//   border: 1px solid #fff;
+//   border-radius: 50%;
+//   height: 17px;
+//   width: 17px;
+// }

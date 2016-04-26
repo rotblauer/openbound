@@ -1,0 +1,636 @@
+<!-- Modal -->
+<div class="modal fade" id="addProjects" tabindex="-1" role="dialog" aria-labelledby="addProjects">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body"  >
+      <span class="pull-right text-muted">
+        <span class="fa fa-close close-add-projects-modal"></span>
+        <script>
+          $('.close-add-projects-modal').on('click', function(){
+            $('#addProjects').modal('hide');
+            // TODO: shift focus so `plus` button doesn't stay highlighted
+          });
+        </script>
+      </span>
+        <div class="row">
+          <div class="text-center col-sm-12" style="padding-top: 70px;">
+
+            <!-- IF CURRENT_USER   -->
+            <!-- google drive logo should open filepicker -->
+
+            <% if logged_in? %>
+
+              <!-- #pick is linked to new FilePicker prototype -->
+              <button type="button" id="pickFromModal" style="border: none; background-color: white; display: block; margin-left: auto; margin-right: auto;"> 
+                <%= image_tag('Google-Drive-Icon.png', height: '50') %>
+              </button> 
+
+            <% else %>
+              
+              <!-- IF NO CURRENT_USER (NOT LOGGED IN) -->
+              <!-- google drive logo should redirect to login/signup -->
+              <a href="<%= signup_url %>">
+              <button type="button" style="border: none; background-color: white; display: block; margin-left: auto; margin-right: auto;"> 
+                <%= image_tag('Google-Drive-Icon.png', height: '50') %>
+              </button> 
+              </a>
+              
+            <% end %>
+
+            <h3 class='brand-primary'>Import from Google Drive</h3> 
+            <% if !logged_in? %>
+              <p>(Don't forget to <a style="color: blue;" href="<%= signup_url %>">sign in</a> first!)</p>
+            <% end %>
+
+            <h4 class="google-select-multiple-instructions brand-secondary" style="display: block;">Hold <b>shift</b> or <b>command</b> to<br> select multiple documents at once!</h4> 
+            
+            <br>
+            
+            <div id="google-file-preview-container" class="google-file-preview-container col-sm-6 col-sm-offset-3" style="display: none;">
+            <div id="show-file-name"></div>
+
+            </div>
+            <div class="submit-button-container col-sm-12" >
+              <button class="btn btn-success btn-lg" style="display: none; margin-left: auto; margin-right: auto; border-radius: 0px;" id='the-submit-button' >Submit</button>
+
+              <%= image_tag('loading_spinner.gif', height: '50', style: 'display: none; margin: auto;', id: 'the-loading-spinner') %>
+            </div>
+           
+           <!-- form waz here -->
+
+
+
+          </div>
+
+            <!-- testes boxers waz here -->
+
+
+          <script>
+            var array_post_json = [];
+
+            function initPicker() {
+
+              var array_show_file_names = [];
+              var array_user_id = [];
+              var user_id = <%= if logged_in? then current_user.id else 0 end %>; // 
+              var array_html_response = [];
+              var array_file_name = [];
+              var array_content_type = [];
+              var array_source_from = [];
+              var array_alternate_link = [];
+
+              // 
+              // var array_post_json = [];
+              
+              var picker = new FilePicker({
+                apiKey: '<%= ENV["GOOGLE_DRIVE_API_KEY"]%>',
+                clientId: '<%= if Rails.env.development? then ENV["GOOGLE_DRIVE_CLIENT_ID_DEV"] else ENV["GOOGLE_DRIVE_CLIENT_ID_ELSE"] end %>',
+                buttonEl: document.getElementById('pickFromModal'),
+                
+                // called from _fileGetCallback in filepicker_dan.js. 
+                // called when file details have been retrieved from Google Drive
+                onSelect: function(file) {
+                  //\\
+                  console.log(file); // <-- log the file! look at it. 
+
+                  // Show the modal again.
+                  $("#addProjects").modal('show');
+                  $("#localUploadModal").hide();
+                  $("#dumbSpacer").show();
+
+                  // Figure out what kind of file we're working with. (image, document)
+                  var isImage;
+                  var isDocument;
+                  isImage = file.mimeType.indexOf('image') !== -1 ? true : false ; // bool 
+                  isDocument = file.mimeType.indexOf('document') !== -1 ? true : false; // bool
+                  isPowerpoint = file.mimeType.indexOf('powerpoint') !== -1 ? true : false; // bool
+                    //\\
+                    console.log('isImage, isDocument, isPowerpoint', isImage, isDocument, isPowerpoint);
+                    console.log('file.mimeType', file.mimeType);
+
+
+                  // Case document setup
+                  var xhrGetURL; 
+                  var docAlternateLink = file.alternateLink;
+                    //\\
+                    console.log('setting docAlternateLink => ' + docAlternateLink);
+
+                  if (isDocument || isPowerpoint) {
+                    var content_type = "text/html"; // great for DOCUMENTs
+                    xhrGetURL = file.exportLinks[content_type];
+
+                  }
+                  else if (isImage) {
+                    // Case image setup
+                    var fileId = file.id;  // https://developers.google.com/drive/web/manage-downloads
+                    var altMediaUrl = 'https://www.googleapis.com/drive/v2/files/';
+                    var selfLink = file.selfLink; //"https://www.googleapis.com/drive/v2/files/0B_LxamWsB7xRNkZGMC1nQzhrTzg"
+                    var altMediaQ = '?alt=media';
+                    xhrGetURL = selfLink + altMediaQ;
+                  }
+
+
+                  // https://developers.google.com/drive/v2/reference/files/get
+
+                  // DECLARE function
+                  function downloadFile(file, callback) { // ["text/plain"] => working
+
+                    if ( xhrGetURL ) {
+
+                      var accessToken = gapi.auth.getToken().access_token;
+                      var xhr = new XMLHttpRequest();
+                      xhr.open('GET', xhrGetURL); // pick the content type we want to receive, ie xhrGetHTML for DOCs
+                      xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+                      xhr.onload = function() {
+                        //\\
+                        console.log('onload: ');
+                        console.log('xhr => ' + xhr);
+                        // console.log('xhr.responseText => ' + xhr.responseText);
+
+                        callback(xhr.responseText); // send "file contents" (whatever that means) to the callback
+                        
+                      };
+                      xhr.onerror = function() {
+                        callback(null);
+                        console.log('xhr.onerror');
+                      };
+                      xhr.send();
+
+                    // Case no export links.          
+                    } else {
+                      callback(null); // <-- send null to callback
+                      console.log('xhrGetURL was false!?');
+                    }
+                  }
+
+                  // DO function
+                  downloadFile(file, 
+                    function callback(responseText){ 
+                      //\\
+                      // console.log('responseText =>' + responseText);
+
+                      // document.getElementById('response-text-preview').innerHTML = responseText; // if requesting text/html, this will be (you guessed it) 
+                      $('#response-text-preview').text(responseText);
+                      // document.getElementById('document').value = file.alternateLink;
+
+
+                      document.getElementById('google-file-preview-container').style.display = 'block';
+                      // ===
+
+                      // array_show_file_names.push(JSON.stringify(file.title));
+
+                      // array_user_id.push(JSON.stringify(user_id));
+                      // array_file_name.push(JSON.stringify(file.title));
+                      // array_html_response.push(JSON.stringify(responseText));
+                      // array_content_type.push(JSON.stringify(content_type));
+                      // array_source_from.push('google_drive');
+
+                      // ===
+                      // SHOW_SELECTED_FILES_FORMATTER
+
+
+                      array_show_file_names.push(file.title + '<br>');
+
+                      var html_string_file_names = ''; 
+                      leng = array_show_file_names.length;
+
+                      // file.thumbnailLink
+
+                      // surrounding html strings for showing file.names in the DOM
+                      var html_ahead = '<p class="google-uploads-file-preview"><%= image_tag("google-document-icon.png") %>';//'<img src="images/google-document-icon.png" />';
+                      var html_behind = '</p>';
+                      
+                      for (i=0; i<leng; i++) {
+                        var x = array_show_file_names[i];
+                        html_string_file_names += html_ahead + x + html_behind; // x is file.title for i
+                      }
+
+                      // array_file_name.push(file.title);
+                      // array_html_response.push(responseText);
+                      // array_content_type.push(content_type);
+                      // array_source_from.push('google_drive');
+
+                      JSONfileObj = {}; // declare obj which will be populated and then pushed to macro JSON post array
+                      JSONfileObj.file_name = file.title;
+                      JSONfileObj.file_content_html = responseText;
+                      JSONfileObj.content_type = content_type;
+                      JSONfileObj.source_from = 'google_drive';
+                      JSONfileObj.alternate_link = docAlternateLink; // we want to remeber the link back to google, just in case
+
+
+                      // document.getElementById('show-file-name').innerHTML = array_show_file_names;  // show the files that have been selected
+                      document.getElementById('show-file-name').innerHTML = html_string_file_names;
+
+                      // document.getElementById('file-content-html').value = responseText;
+                      // document.getElementById('file-name').value = file.title;
+                      // document.getElementById('content-type').value = content_type;
+                      // document.getElementById('source-from').value = 'google_drive';
+
+                      // single array to post via ajax json
+
+                      array_post_json.push(JSONfileObj); // this will be called for each file, filling the JSON post request to look like
+                      // [{ :first_name => 'Jamie' }, { :first_name => 'Jeremy' }]
+                      console.log('JSONfileObj stringed => ' + JSON.stringify(JSONfileObj));
+                      console.log('array_post_json => ' + array_post_json);
+
+                      // 
+                      
+                      // ARRAYS
+                      // ===
+                      // document.getElementById('show-file-name').innerHTML = array_show_file_names;
+
+                      // document.getElementById('file-content-html').value = array_html_response;
+                      // document.getElementById('file-name').value = array_file_name;
+                      // document.getElementById('content-type').value = array_content_type;
+                      // document.getElementById('source-from').value = array_source_from;
+                      // ===
+
+                      // DISPLAY BUTTON
+                      document.getElementById('the-submit-button').style.display = 'block';
+                      
+                      // PREVIEWS
+                      // document.getElementById('id-preview').innerHTML = file.id;
+                      // document.getElementById('title-preview').innerHTML = file.title;
+                      // document.getElementById('webcontent-link-preview').innerHTML = file.downloadUrl;
+                      // document.getElementById('thumbnail-link-preview').innerHTML = file.thumbnailLink;
+                    }
+                  );
+                }
+              });
+
+              $('#the-submit-button').click(function () {
+
+                // Stringify our postable-array
+                // var stringed = JSON.stringify(array_post_json);
+
+                // hide button
+                this.style.display = 'none'; 
+                // show loading spinner
+                document.getElementById('the-loading-spinner').style.display = 'block'; 
+
+
+                // SET UP POSTABLE DATA FROM GOOGLE-DERIVED OBJECTS
+                    // var postable = [];
+
+                    // var len = array_post_json.length;
+                    // console.log('len' + len);
+                    // for (i=0; i<len; i++) {
+                    //  var stringer = '"work"=>' + JSON.stringify(array_post_json[i]);
+                    //  postable.push(stringer);
+                    //  console.log('postable '+ postable);
+                    // }
+                    // var post_string = JSON.stringify(postable);
+                    // console.log('post_string ' + post_string);
+
+                var stringer = JSON.stringify(array_post_json);
+                
+
+                // SET UP POST REQUEST @ /google-drive
+                var request = new XMLHttpRequest();
+                request.onload = callbacker;
+                request.open("post", "<%= google_drive_url %>");
+                // request.open("post", "http://localhost:3000/google-drive");
+                // request.open("post", "http://staging.rstacks.org/google-drive");
+                request.setRequestHeader("Content-Type", "application/json");
+                // request.send('{"my_data":"back to basics"}');
+                request.send('{ "work" : '+stringer+' }'); // note,  JSON format (not ruby => format)
+                
+
+                function callbacker (data) {
+                  console.log('callbacker data => ' + data);
+                  // console.log(this.getResponseHeader("project_id"));
+                  // hacky redirect to shelving cart without handle validations errors. 
+                  // console.log("project_url at project => " + "<%= project_url(@w.project.id) if !@w.nil? %>")
+                  window.location = "<%= work_imported_url %>"; 
+                  // return false;
+
+                  // window.location = 'http://localhost:3000/shelving_cart';
+                  // window.location = 'http://staging.rstacks.org/shelving_cart';
+                }
+
+              });
+            } 
+
+
+
+            $(document).ready(function(){
+
+              $('#testers').text('document is ready and jquery working');
+
+              // $('#the-submit-button').click(function () {
+
+              //  // Stringify our postable-array
+              //  var stringed = JSON.stringify(array_post_json);
+
+              //  $.ajax({
+              //    type: 'POST',
+              //    url: '/works',
+              //    data: stringed,
+              //    success: function (data){
+              //      alert('OK!');
+              //      return false;
+              //    },
+              //    error: function (data) {
+              //      return false;
+              //    }
+              //  });
+              // });
+
+
+                // http://stackoverflow.com/questions/17559563/sending-ajax-post-jquery-in-rails-application
+              // $ ->
+              //   $("h1").click ->
+              //     $.ajax({
+              //       type: "POST",
+              //       url: "/products",
+              //       data: { product: { name: "Filip", description: "whatever" } },
+              //       success:(data) ->
+              //         alert data.id
+              //         return false
+              //       error:(data) ->
+              //         return false
+              //     })
+              
+
+              ////// this was misguided because THIS HAS NOTHING TO DO WITH UPLOADING FILES
+              // the form DOM
+              // var google_form = $('#new_google_work');
+              // // submit button DOM
+              // var submit_button = $('#the-submit-button');
+              // // turn off disabling submit button here b/c taken care of above with display attrs
+              // // google_form.find(':input[type="submit"').prop('disabled', true); // disable submit btn
+              // google_form.fileupload({
+              //  dataType: 'script',
+              //  add: function(e, data) {
+              //    submit_button.click(function() {
+              //      data.submit();
+              //    })
+              //  }
+              // })
+
+
+
+            });
+
+          </script>
+
+          <script src="https://www.google.com/jsapi?key=<%= ENV['GOOGLE_DRIVE_API_KEY'] %>"></script>
+          <script src="https://apis.google.com/js/client.js?onload=initPicker"></script>
+
+
+
+
+        </div>
+        
+
+        <div id="localUploadModal">
+        <hr>
+        <div class="row" >
+        <% if !@on_start_page %>
+        <!-- IF NOT ON START PAGE -->
+
+        <div class="panel foundational">
+
+        <%= form_for Work.new, html: { multipart: true, id: "newWorkModal" } do |f| %>
+
+        <div class="row">
+            <div class="col-sm-4">
+              <div id="file-browser-button-div" class="form-group text-left" style="padding-top: 5%; padding-bottom: 2%; " >
+                <%= f.hidden_field :user_id, value: "#{current_user.id if logged_in?}" %>
+                <%= f.file_field :document, multiple: true, name: 'work[document]' %>
+                <br>
+                
+              </div>
+            </div>
+        </div><!-- /row -->
+
+        <div class="row right-margin-zero">
+          <div class="col-sm-12">
+              
+                <div id="dropzoneModal" class="dropzone">
+                  Drop files here to upload
+                </div>
+                <br>
+
+              <div class="col-sm-12"> 
+                <div class="progress-wrapper">
+                  <p>Bitrate: 
+                    <span class="bitrate"></span> 
+                    <span class="process hidden" style="margin-left: 40px;">Extracting, converting, stacking... </span>
+                  </p>
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar">
+                      0%
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+          </div>
+        </div><!-- /row -->
+
+        <% end %> 
+
+        </div>
+
+
+        <% else %> 
+        <!-- ON START PAGE -->
+
+        <div class="panel foundational">
+
+        <%= form_for Work.new, html: { multipart: true, id: "newWorkModal"} do |f| %>
+
+        <div class="row">
+            <div class="col-sm-12">
+              <div id="file-browser-button-div" class="form-group" style="padding-top: 2%; padding-bottom: 2%;">
+                <%= f.hidden_field :user_id, value: "#{current_user.id if logged_in?}" %>
+                <%= f.file_field :document, multiple: true, name: 'work[document]' %>
+                <br>
+                
+              </div>
+            </div>
+        </div><!-- /row -->
+
+        <div class="row right-margin-zero">
+          <div class="col-sm-12">
+              
+                <div id="dropzoneModal" class="dropzone">
+                  Drop files here to upload
+                </div>
+                <br>
+
+              <div class="col-sm-12"> 
+                <div class="progress-wrapper">
+                  <p>Bitrate: 
+                    <span class="bitrate"></span> 
+                    <span class="process hidden" style="margin-left: 40px;">Extracting, converting, stacking... </span>
+                  </p>
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar">
+                      0%
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+          </div>
+        </div><!-- /row -->
+
+        <% end %> 
+
+        </div>
+
+        <% end %>
+
+
+        <script>
+          $(document).ready(function() {
+
+            // Activating Bootstrap Tooltip 
+            $('.has-tooltip').tooltip();
+            // Activating Best In Place 
+            jQuery(".best_in_place").best_in_place();
+            // 'use strict';
+            var multiple_works_form = $('#newWorkModal');
+            // http://stackoverflow.com/questions/7755966/how-do-i-use-jquery-to-disable-a-forms-submit-button-until-every-required-field
+            // $form = $('#new_work'); // cache
+            multiple_works_form.find(':input[type="submit"]').prop('disabled', true); // disable submit btn
+            multiple_works_form.find(':input').change(function() { // monitor all inputs for changes
+                var disable = false;
+                multiple_works_form.find(':input').not('[type="submit"]').each(function(i, el) { // test all inputs for values
+                    if ($.trim(el.value) === '') {
+                        disable = true; // disable submit if any of them are still blank
+                    }
+                });
+                multiple_works_form.find(':input[type="submit"]').prop('disabled', disable);
+            });
+
+            multiple_works_form.fileupload({
+              // http://stackoverflow.com/questions/17451629/maxfilesize-and-acceptfiletypes-in-blueimp-file-upload-plugin-do-not-work-why
+
+              // add: function(e, data) {
+              //         var uploadErrors = [];
+              //         var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
+              //         if(data.files[0]['type'].length && !acceptFileTypes.test(data.files[0]['type'])) {
+              //             uploadErrors.push('Not an accepted file type');
+              //         }
+              //         if(data.files[0]['size'].length && data.files[0]['size'] > 5000000) {
+              //             uploadErrors.push('Filesize is too big');
+              //         }
+              //         if(uploadErrors.length > 0) {
+              //             alert(uploadErrors.join("\n"));
+              //         } else {
+              //             data.submit();
+              //         }
+              // },
+
+              dataType: 'script',
+              dropZone: $('#dropzoneModal'),
+
+              // add: function (e, data) {
+              //   var acceptedTypes = /(\.|\/)(<%= DocumentUploader::WHITE_ARM.join('|') %>)$/i;
+              //   file = data.files[0];
+              //   if (acceptedTypes.test(file.type) || acceptedTypes.test(file.name)) {
+              //     data.submit();
+              //   }
+              //   else { alert(file.name + " must be an image (GIF, JPEG, PDF, PNG, BMP) or text-based (DOC, DOCX, RTF, TXT, MD, HTML) file, \n and it must be less than 5 megabytes."); }
+              // }
+
+              add: function (e, data) {
+                var uploadErrors = [];
+                acceptedTypes = /(\.|\/)(<%= DocumentUploader::WHITE_ARM.join('|') %>)$/i;
+                file = data.files[0];
+                if (data.files[0]['type'].length && !( acceptedTypes.test(file.type) || acceptedTypes.test(file.name) ) ) {
+                  uploadErrors.push(file.name + ' is not an accepted file type. \n\nWe currently accept: \n.jpg .jpeg .gif .png .bmp \n.doc .docx .ppt .pptx .xls .xlsx \n.txt .md .tex .rtf .csv .html \n.pdf \n.odt .odp .ods \n.pages .numbers .key');
+                }
+                if (data.files[0].size > 5242880) {
+                  uploadErrors.push(file.name + ' is too big. Maximum file size is 5mb.');
+                }
+                if (uploadErrors.length > 0) {
+                    alert(uploadErrors.join('\n\n'));
+                } 
+                else {
+                  data.submit();
+                }
+              }
+            });
+
+            // Progress stuff. 
+            // Progress bar.
+            var wrapper = multiple_works_form.find('.progress-wrapper');
+            var progress_bar = wrapper.find('.progress-bar');
+             
+            multiple_works_form.on('fileuploadstart', function() {
+              wrapper.show();
+            });
+             
+            multiple_works_form.on('fileuploaddone', function() {
+              wrapper.hide();
+              progress_bar.width(0); // Revert progress bar's width back to 0 for future uploads
+            });
+             
+            multiple_works_form.on('fileuploadprogressall', function (e, data) {
+              var progress = parseInt(data.loaded / data.total * 100, 10);
+              progress_bar.css('width', progress + '%').text(progress + '%');
+            });
+
+            // Bitrate.
+            var bitrate = wrapper.find('.bitrate');
+            // Process. 
+            var process = wrapper.find('.process');
+            // var spinner = wrapper.find('.spinner');
+             
+            multiple_works_form.on('fileuploadprogressall', function (e, data) {
+              bitrate.text((data.bitrate / 1024).toFixed(2) + 'Kb/s');
+             
+              var progress = parseInt(data.loaded / data.total * 100, 10);
+              progress_bar.css('width', progress + '%').text(progress + '%');
+
+              if ((data.loaded / data.total) == 1) {
+                process.removeClass('hidden');
+                // spinner.removeClass('hidden');
+              }
+            });
+
+          });
+
+          $(document).bind('dragover', function (e) {
+            var dropZone = $('#dropzoneModal'),
+                    timeout = window.dropZoneTimeout;
+            if (!timeout) {
+              dropZone.addClass('in');
+            } else {
+              clearTimeout(timeout);
+            }
+            var found = false,
+                    node = e.target;
+            do {
+              if (node === dropZone[0]) {
+                found = true;
+                break;
+              }
+              node = node.parentNode;
+            } while (node != null);
+            if (found) {
+              dropZone.addClass('hover');
+            } else {
+              dropZone.removeClass('hover');
+            }
+            window.dropZoneTimeout = setTimeout(function () {
+              window.dropZoneTimeout = null;
+              dropZone.removeClass('in hover');
+            }, 100);
+
+          });
+
+        </script>
+        </div>
+        </div>
+        <div id="dumbSpacer" style="height: 70px; display: none;"></div>
+
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,96 @@
+Diffy::CSS  -->
+<!-- see _vendor_tweaks.scss -->
+
+<%
+
+	html1 = @work1.file_content_html
+	html2 = @work2.file_content_html
+
+	# markdown as is (handled with PandocRuby in work.rb)
+	md1 = @work1.file_content_md
+	md2 = @work2.file_content_md
+	# ReverseMarkdown option
+	md1r = ReverseMarkdown.convert(html1, unknown_tags: :pass_through)
+	md2r = ReverseMarkdown.convert(html2, unknown_tags: :pass_through)
+
+	txt1 = @work1.file_content_text
+	txt2 = @work2.file_content_text
+%>
+
+<div class="row">
+	<div class="col-sm-6">
+		<h4>PandocRuby html -> markdown</h4>
+		<pre>
+			<%= markdown PandocRuby.html(html1).to_markdown %>
+		</pre>
+	</div>
+
+	<div class="col-sm-6">
+		<h4>ReverseMarkdown html -> markdown</h4>
+		<pre>
+			<%= markdown ReverseMarkdown.convert(html1, unknown_tags: :pass_through) %>
+		</pre>
+	</div>
+</div>
+
+<h1>diffy</h1>
+<div class="row">
+	
+	<!-- COLUMN 1 -->
+	<div class="col-sm-6">
+		<!-- erbish -->
+		<%
+			
+		%>
+		<h4>Diffy::Diff.new(md2, md1).to_s</h4>
+		<pre>
+			<%= Diffy::Diff.new(md2, md1).to_s %>
+		</pre>
+
+	</div>
+
+	<!-- COLUMN 2 -->
+	<div class="col-sm-6">
+		<!-- erbish -->
+		<%
+
+		%>
+		<!-- <div class="colorblind"> -->
+		<h4>Diffy::Diff.new(md2, md1).to_s(:html).html_safe</h4>
+		<div class="diff">
+			<%= Diffy::Diff.new(md2, md1).to_s(:html).html_safe %>
+		</div>
+		<!-- </div> -->
+
+	</div>
+
+</div> <!-- END ROW -->
+
+<div class="row">
+	<button class="btn btn-primary" id="colorblindButton">
+		colorblind
+	</button>
+	<div id="colorblind-option">
+	<div class="col-sm-6">
+		<div class="diff">
+			<%=  Diffy::SplitDiff.new(md2r, md1r, :format => :html).left.html_safe %>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="diff">
+			<%= Diffy::SplitDiff.new(md2r, md1r, :format => :html).right.html_safe %>
+		</div>
+	</div>
+	</div>
+</div>
+
+<script>
+	$(function () {
+		var colorblindButton = $('#colorblindButton');
+		var colorblindDiv = $('#colorblind-option');
+		colorblindButton.on('click', function (){
+			colorblindDiv.toggleClass('colorblind');
+		})
+	});
+</script>
+

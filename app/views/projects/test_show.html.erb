@@ -1,0 +1,459 @@
+<h1>this is now the old projects#show</h1>
+
+<h1>
+  <%= best_in_place @project, :name, place_holder: "#{@project.name}", activator: "#activator", :as => :input, class: "best_in_place" %>
+  <span id="activator" class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: gray;"></span>
+</h1>
+<p>
+    id: <%= @project.id %>, <br>
+    diff#: <%= @diffs.count %> <br>
+    versions: <%= @project.works.count %>
+</p>
+    
+<div class="row" style="margin-bottom: 20px;">
+    <!-- toggle buttons for show and diff -->
+    <!-- http://www.bootply.com/92189 -->
+  <div class="btn-group btn-toggle"> 
+    <button id="show-version-button" class="btn btn-primary active">versions</button>
+    <button id="show-diff-button" class="btn btn-default">diff</button>
+  </div>
+</div>
+
+
+
+<div id='version-display' class='row'>
+
+    <!-- show all works (versions) associated to this project -->
+    <!-- and option for uploads -->
+    <div class="col-sm-3">
+
+    <!-- link to add version modal -->
+    <div class="add-version-button text-center" data-toggle="modal" data-target="#add-version-modal-<%= @project.id %>" >
+    
+    <h4 class="">
+        <span class="glyphicon glyphicon-plus"></span>
+      <% # link_to add_version_path(@project) do %>
+        
+        add version
+      <% # end %>
+    </h4>
+    </div>
+    <!-- display: none -->
+    <span id="currently-viewed-id" style="display: none;"><%= @most_recent_work.id %></span>
+    
+    <p class="brand-secondary">
+        <!-- <span class="glyphicon glyphicon-arrow-up"></span> -->
+        latest
+    </p>
+    <% @works.all.each do |work| %>
+        
+        <!-- list available versions -->
+        <!-- click to toggle version visibility -->
+        <p id="<%= work.id %>" class="click-me <%= work.id == @most_recent_work.id ? 'open-version' : 'closed-version' %>" style="">
+            <span class="version-ids" style="display: none;"><%= work.id %></span>
+            <span class="version-file-content-htmls" style="display: none;"><%= work.file_content_html %></span>
+            <strong><%= work.name %></strong>
+            <%= work.description if !work.description.nil? %> <br>
+            <small><%= work.created_at.strftime("%e %b %Y") %></small> <br>
+        </p>
+    <% end %>
+    <p class="brand-secondary">earliest</p>
+  
+
+
+        
+
+    </div> <!-- !col-sm-3 -->
+
+
+    <!-- COL-SM-9 -->
+    <div class="col-sm-9">
+        
+        <!-- comments by project or work selector -->
+        <div class="row" style="margin-bottom: 20px;">
+            <!-- toggle buttons for show and diff -->
+            <!-- http://www.bootply.com/92189 -->
+          <div class="btn-group btn-group-sm btn-toggle "> 
+            <button id="" class="btn btn-primary active show-comments-by-work">by work</button>
+            <button id="" class="btn btn-default show-comments-by-project">by project</button>
+          </div>
+        </div>
+
+        <% @works.each do |work| %>
+
+            <div id="work-version-display-<%= work.id %>" style="<%= unless @most_recent_work.id == work.id then 'display: none;' else 'display: visible;' end %>">
+                
+            <!-- title -->
+            <h4>
+              <%= best_in_place work, :name, place_holder: "#{work.file_name}", activator: "#work-name-activator-work-id-#{work.id}", :as => :input, class: "best_in_place" %>
+              <span id="work-name-activator-work-id-<%= work.id %>" class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: gray;"></span>
+            </h4>
+                
+            <%= render partial: "works/doc_local", locals: {work: work} %>
+            <strong>id: </strong><%= work.id %> <br>
+            <strong>@project.comments.all.count:</strong><%= @project.comments.all.count %>
+
+            
+            <% comms = work.comments.all %>
+            <% wcomms = work.comments %>
+            <% project_comments = @project.comments.all %>
+            
+            <%= render partial: 'comments/form', locals: {work: work, comms: wcomms} %>
+
+            <div class="comments-by-work">
+                <% comms.where(work_id: work.id).each do |comm| %>
+                    <%= render partial: 'comments/comment', locals: {work: work, comment: comm} %>
+                <% end %>
+            </div>
+            <div class="comments-by-project" style="display: none;">
+                <% project_comments.each do |comm| %>
+                    <%= render partial: 'comments/comment', locals: {work: work, comment: comm} %>
+                <% end %>
+            </div>
+                
+            </div>
+        <% end %>
+        }
+    </div>
+
+</div> <!-- !ROW -->
+
+
+
+<div id="diff-display" class="row">
+<% if @diffs.any? %>
+
+
+<div class="row">
+<div class="col-sm-8">
+<select name="" id="diff-selector" class="form-control">
+    <% @diffs.each do |diff| %>
+        <option value="<%= diff.id %>" <%= diff.work2 == @most_recent_work.id and diff.work1 == @project.works.second.id ? 'selected' : '' %>><%= diff_compare_name(diff.work1, diff.work2) %></option>
+    <% end %>
+</select>
+</div>
+
+<button class="btn btn-default pull-right has-tooltip" data-toggle="tooltip" data-placement="left" title="Colorblind?" aria-hidden="true" id="colorblindButton">
+    <span class="glyphicon glyphicon-eye-open h" ></span>
+</button>
+</div>
+
+
+
+
+<span id="currentlyVisibleDiffId" style="display: none;" value=""><%= @diffs.first.id %></span>
+
+    <% @diffs.each do |diff| %>
+    
+
+
+    
+    <!-- style sets default to most recent diff vs second-most-recent -->
+    <div id="diff-show-<%= diff.id %>" class="div-showing-diffs">
+
+
+        <!-- compared versions title -->
+        <!-- <h1><%= diff.id %><%= diff_compare_name(diff.work1, diff.work2) %></h1> -->
+
+        <!-- diff -->
+        <div class="colorblind-option" >
+            <div class="col-sm-6">
+                <h4 class="text-muted"><%= Work.find(diff.work1).name %></h4>
+                    <div class="doc-text-container">
+                    <div class="doc-text-content">
+                    <div class="diff">
+                        <%= diff.left.html_safe %>
+                    </div>
+                    
+                    </div>
+                    </div>
+            </div>
+
+            <!-- latest -->
+            <div class="col-sm-6">
+                <h4 class="text-muted"><%= Work.find(diff.work2).name %></h4>
+                    <div class="doc-text-container">
+                    <div class="doc-text-content">
+                    <div class="diff">
+                        <%=  diff.right.html_safe %>
+                    </div>
+                    </div>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+        
+    <% end %>
+
+<% else %><!-- else no diffs to show -->
+
+    <!-- demo -->
+    <div class="div-diff-demo">
+
+        <!-- diff -->
+        <div class="col-sm-6">
+            <h2 class="text-muted">first draft</h2>
+            <!--    <div class="doc-text-container">
+                <div class="doc-text-content"> -->
+                <pre>
+# No diffs yet!
+Upload a second draft and you'll see the <span style="background-color: pink">diff</span> <span style="background-color: lightgreen;">difference</span> here!
+                </pre>
+                
+            <!--    </div>
+                </div> -->
+            
+        </div>
+
+        <!-- latest -->
+        <div class="col-sm-6">
+            <h2 class="text-muted">second draft</h2>
+            <!--    <div class="doc-text-container">
+                <div class="doc-text-content"> -->
+                <pre>
+# No diffs yet!
+Upload a second draft and you'll see the difference here!
+                </pre>
+            <!--    </div>
+                </div> -->
+        </div>
+
+    </div>
+<% end %> 
+</div> <!-- end diff display -->
+
+
+<!-- END RENDERED HTML -->
+
+<%= render partial: 'projects/add_version_modal', locals: {project: @project} %>
+
+
+<!-- END ADD_VERSION MODAL -->
+
+<!-- JAVASCRIPTS -->
+
+<script>
+  $(document).ready(function() {
+    /*====================================
+    =            diff colorer            =
+    ====================================*/
+    
+    /*----------  regexes for added content  ----------*/
+    // var added = /(\{\+)(.*?)(\+\})/gi;
+    // var removed = /(\[\-)(.*?)(\-\])/gi;
+    var added = /(\{\+)([\s\S]*?)(\+\})/gim; // regex over multiple lines (whitespace agnostic)
+    var removed = /(\[\-)([\s\S]*?)(\-\])/gim;
+
+    
+
+    /*----------  highlight (change background color) all instances in all text matching the regex  ----------*/
+        // http://stackoverflow.com/questions/1444409/in-javascript-how-can-i-replace-text-in-an-html-page-without-affecting-the-tags
+
+    function replaceInElement(element, find, replace) {
+        // iterate over child nodes in reverse, as replacement may increase
+        // length of child node list.
+        for (var i= element.childNodes.length; i-->0;) {
+            var child= element.childNodes[i];
+            if (child.nodeType==1) { // ELEMENT_NODE
+                var tag= child.nodeName.toLowerCase();
+                if (tag!='style' && tag!='script') // special case, don't touch CDATA elements
+                    replaceInElement(child, find, replace);
+            } else if (child.nodeType==3) { // TEXT_NODE
+                replaceInText(child, find, replace);
+            }
+        }
+    }
+
+    function replaceInText(text, find, replace) {
+        var match;
+        var matches= [];
+        while (match= find.exec(text.data))
+            matches.push(match);
+        for (var i= matches.length; i-->0;) {
+            match= matches[i];
+            text.splitText(match.index);
+            text.nextSibling.splitText(match[0].length);
+            text.parentNode.replaceChild(replace(match), text.nextSibling);
+        }
+    }
+
+    /*----------  highlight strings changed  ----------*/
+
+    // var replaceIn = document.getElementById('color-me');
+    var replaceIn = document.body;
+    
+    // added
+    replaceInElement(replaceIn, added, function(match) {
+        var matchedString = match[0];
+        var span = document.createElement('span');
+        var trimmed = matchedString.replace(added, "$2"); // replace match with second capture group
+        span.style.backgroundColor = "lightgreen";
+        span.appendChild(document.createTextNode(trimmed));
+     return span;
+    });
+
+    // removed
+    replaceInElement(replaceIn, removed, function(match) {
+        var matchedString = match[0];
+        var span = document.createElement('span');
+        var trimmed = matchedString.replace(removed, "$2"); 
+        span.style.backgroundColor = "pink";
+        span.appendChild(document.createTextNode(trimmed));
+     return span;
+    });
+    
+    /*=====  End of diff colorer  ======*/
+
+    /*----------  use html tags  ----------*/
+ 
+    // var inserted = document.getElementsByClassName('diffins');
+    // var deleted = document.getElementsByClassName('diffout');
+
+    // var inserted_arr = Array.prototype.slice.call(inserted);
+    // var deleted_arr = Array.prototype.slice.call(deleted);
+    
+    // console.log(inserted);
+    // for (i=0; i<inserted.length; i++) {
+    //  inserted[i].style.backgroundColor = "green";
+    // }
+
+    // for (i=0; i<deleted.length; i++) {
+    //  deleted[i].style.backgroundColor = "pink";
+    // }
+
+    /*===========================================
+    =            pick version viewer            =
+    ===========================================*/
+    
+    // id: work-version-list-item-265 <-- click to toggle display
+    // id: work-version-display-265 <-- toggle display of
+
+    // how to find which version is currently showing
+    var currentlyViewedId = parseInt(document.getElementById('currently-viewed-id').innerHTML);
+    // console.log('currentlyViewedId: ' + currentlyViewedId); // check
+
+    // hides currently shown work and shows select work by id
+    $('.click-me').on('click', function (){
+        console.log('this.id: ' + this.id);
+            var currentDisplay = $('#work-version-display-'+currentlyViewedId);
+            // console.log('currentDisplay: ' + currentDisplay);
+            // hide it.
+            currentDisplay.hide();
+            // find self id work to display
+            var toDisplay = $('#work-version-display-'+this.id);
+            // show self id work.
+            toDisplay.show();
+            // set currentlyViewedId
+            currentlyViewedId = this.id;
+
+            // set button styles by toggling open/closed-version classes (in _diff.scss)
+            $('.open-version').removeClass('open-version').addClass('closed-version');
+            $(this).removeClass('closed-version').addClass('open-version');
+
+    });
+
+      // handle toggling classes
+      // http://www.bootply.com/92189
+      $('.btn-toggle').click(function() {
+          $(this).find('.btn').toggleClass('active');  
+          
+          if ($(this).find('.btn-primary').size()>0) {
+            $(this).find('.btn').toggleClass('btn-primary');
+          }
+          if ($(this).find('.btn-danger').size()>0) {
+            $(this).find('.btn').toggleClass('btn-danger');
+          }
+          if ($(this).find('.btn-success').size()>0) {
+            $(this).find('.btn').toggleClass('btn-success');
+          }
+          if ($(this).find('.btn-info').size()>0) {
+            $(this).find('.btn').toggleClass('btn-info');
+          }
+          
+          $(this).find('.btn').toggleClass('btn-default');
+      });
+
+      $('#show-version-button').on('click', function() {
+        $('#version-display').show();
+        $('#diff-display').hide();
+      });
+      $('#show-diff-button').on('click', function() {
+        $('#version-display').hide();
+        $('#diff-display').show();
+      });
+
+      $('.show-comments-by-project').on('click', function() {
+        $('.comments-by-project').show();
+        $('.comments-by-work').hide();
+      });
+      $('.show-comments-by-work').on('click', function() {
+        $('.comments-by-project').hide();
+        $('.comments-by-work').show();
+      });
+
+      $('#diff-display').hide();
+      $('.comments-by-project').hide();
+      // $('#diff-display-example').hide();
+    
+    /*=====  End of pick version viewer  ======*/
+
+    /*===================================
+    =            Diff picker            =
+    ===================================*/
+
+    // hide everything we don't need (but keep an array around)
+    var diff_array_list = $('.div-showing-diffs');
+    console.log(diff_array_list, diff_array_list.length);
+ 
+    // hide all but selected option (defaults to @diffs.first)
+    function showOnlySelectedDiff () {
+        diff_array_list.each( function (i) {
+        // console.log("this: " + $(this));
+        // console.log("diff-selector val: " + $('#diff-selector option:selected').val());
+        if ( $(this).attr("id") == 'diff-show-' + $('#diff-selector').val() ) {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });     
+    }
+    showOnlySelectedDiff(); // init
+    
+        
+
+    $('#diff-selector').change(function (){
+        showOnlySelectedDiff();
+    });
+    
+    /*=====  End of Diff picker  ======*/
+
+
+    /*=========================================
+    =            Colorblind option            =
+    =========================================*/
+    var colorblindButton = $('#colorblindButton');
+    var colorblindDiv = $('.colorblind-option');
+    colorblindButton.on('click', function (){
+        console.log('toggling colorblind');
+        colorblindDiv.toggleClass('colorblind');
+        console.log(colorblindDiv.attr('class'));
+        colorblindButton.toggleClass('btn-primary').toggleClass('btn-default');
+        // colorblindButton.toggleClass('btn-default');
+    })
+    
+    
+    /*=====  End of Colorblind option  ======*/
+    
+    
+    $('.has-tooltip').tooltip();
+    /* Activating Best In Place */
+    jQuery(".best_in_place").best_in_place();
+    
+    
+
+  });
+
+</script>
+
+

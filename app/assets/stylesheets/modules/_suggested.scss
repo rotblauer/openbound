@@ -1,0 +1,56 @@
+// Suggested tags. 
+$suggested-tag-font-color: darken($columbia-blue, 5%);
+$suggested-tag-background-color: white;
+$suggested-tag-border-color: $columbia-blue;
+
+
+.tag-suggestions {
+	padding-left: 3px;
+}
+span.tag-suggestion {
+	span.suggestion {
+		background-color: $suggested-tag-background-color;
+		color: $suggested-tag-font-color;
+		border: 1px solid $suggested-tag-border-color;
+
+		@include tag_spacing;
+
+		margin-right: 0px;
+	}
+	.confirm-deny-button-container {
+		display: inline-block;
+	}
+	a.suggestion-confirm-button span {
+			line-height: .6em;
+			background-color: white;
+			color: lighten(green, 10%);
+			font-size: .8em; 
+	}
+	a.suggestion-deny-button span {
+			line-height: .6em;
+			background-color: white;
+			color: darken(red, 10%); 
+	}
+	p.suggester {
+		background-color: $suggested-tag-background-color;
+		color: $suggested-tag-font-color;
+		font-size: .6em;
+		margin-bottom: 0px;
+		a {
+			color: $columbia-blue;
+			:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+
+#tags-and-suggested-tags {
+	margin-bottom: $gradbook-margin-bottom;
+	padding-right: $gradbook-padding-left;
+}
+
+input#submit-suggested {
+	align: pull-right;
+}

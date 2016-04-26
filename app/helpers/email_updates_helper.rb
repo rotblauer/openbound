@@ -1,0 +1,2 @@
+module EmailUpdatesHelper
+end

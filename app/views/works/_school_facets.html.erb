@@ -1,0 +1,38 @@
+  <div id="school_facets">
+
+  <% 
+    schools_html = ''
+    existing_school_query = []
+
+    if params[:school_name].present? 
+      existing_school_query = params[:school_name]
+    end
+
+    school_links_off = ''
+    school_links_on = ''
+
+
+    @hot_schools.each do |school, index|
+      break if index == 5;
+
+      if (params[:school_name].kind_of?(Array) and params[:school_name].include? school.Institution_Name)
+        school_query = existing_school_query - [school.Institution_Name]
+        school_links_on << "<li class='school_li_on'><span class='school_link_on'>#{favicon_for(school, 12, 12, 'display: inline-block; margin-bottom: 2px;')}&nbsp;#{link_to school.Institution_Name, :search => params[:search], :content => params[:content], :context => params[:context], :school_name => school_query}<span></li>"
+      elsif @search.results.size > 0
+        school_query = existing_school_query + [school.Institution_Name]
+        school_links_off << "<li>#{favicon_for(school, 12, 12, 'display: inline-block; margin-bottom: 2px;')}&nbsp;#{link_to school.Institution_Name, :search => params[:search], :content => params[:content], :context => params[:context], :school_name => school_query}</li>"
+      end
+    end
+
+    # schools_html << "<strong>Filter by tags</strong>"
+    if school_links_on.size > 0
+      schools_html << "<ul class='school_links_on'>#{school_links_on}</ul>"
+    end
+    if school_links_off.size > 0
+      schools_html << "<ul class='school_links_off'>#{school_links_off}</ul>"
+    end
+  %>
+  
+  <%= raw schools_html.html_safe %>
+    
+</div>

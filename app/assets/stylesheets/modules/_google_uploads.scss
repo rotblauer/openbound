@@ -1,0 +1,21 @@
+// div container
+.google-file-preview-container {
+	border: 2px dashed $columbia-blue;
+	text-align: left;
+	// top, right, bottom, left
+	padding: 25px 10px 20px 50px;
+}
+
+// p element innerHTML populated by js 
+.google-uploads-file-preview {
+	font-size: 1.7em;
+	> img {
+		margin-right: 10px;
+		vertical-align: middle;
+		margin-top: -3px;
+	}
+}
+
+.submit-button-container {
+	padding: 10px;
+}

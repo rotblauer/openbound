@@ -1,0 +1,40 @@
+<div id="project-uploads">
+	<%= render @projects if !@projects.empty? %>
+</div>
+
+
+<script>
+	
+	// update: doesn't fix it because it doesn't responsively handle window resizing. 
+	// shit. going to bs breakpoints hardcoding. 
+
+	// make sure all the _projects have the same god damn height
+	// fixes either a sass or something issue where 33% height was coming out
+	// as either 305 vs 307, 480 vs 482 pixels and throwing off the whole grid layout
+	// with extra whitespace
+	
+		// var allWorks = $('.-work');
+
+		// // console.log('allWorks count -> ' + allWorks.length);
+
+
+		// var originalHeights = [];
+
+		// $.each(allWorks, function(i){
+		// 	originalHeights.push($(this).height());
+		// });
+
+		// // console.log('originalHeights -> ' + originalHeights.toString());
+
+
+		// // Math.min.apply(Math,_array); // 1
+		// var daMin = Math.min.apply(Math, originalHeights);
+
+		// // console.log('originalHeights.min -> ' + daMin);
+
+		// allWorks.height(daMin);
+		
+		
+		
+	
+</script>

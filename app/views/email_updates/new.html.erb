@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3" style="margin-top: 60px; margin-bottom: 100px;">
+  	<h2><mark>Change your email.</mark></h2>
+		<div style="background-color: #f9fdef; padding: 20px;">  
+	    <%= form_for(:email_update, url: email_updates_path) do |f| %>
+	      <%= f.label :new_email %>
+	      <%= f.email_field :new_email, class: 'form-control' %>
+				<p class="signin-advice">You will receive a confirmation email right away at this address. <br>
+				Your current email (<%= @user.email %>) will not change until the new email is confirmed. </p>
+	      <%= f.submit "Submit", class: "btn btn-primary" %>
+	      <%= f.submit "Cancel", class: "btn btn-default btn-sm" %>
+	    <% end %>
+	  </div>
+  </div>
+</div>

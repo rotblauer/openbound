@@ -1,0 +1,26 @@
+<div class="row hidden-xs tophat text-center" style="">
+	
+	<h1 class="mega">
+		Open your education. <%= link_to learn_path do %><span class="brand-primary">Learn more.</span><% end %>
+	</h1>
+
+	<%= link_to projects_path, class: "modest-link" do %>
+	<p class="">
+		<%= "#{pluralize(Project.all.count, 'project')} with #{pluralize(Work.all.count, 'draft')} (and counting)" %>
+	</p>
+	<% end %>
+
+	<!--  collapse collapsed -->
+<!-- 	<div id="tophat-more" class="row " style="margin-top: 60px;">
+		<div class="container">
+			<div class="col-sm-6 text-center" style="padding: 10px;">
+				<div class="padding"style="border-radius: 10px; background-color: #00693E; ">
+					<h2 class="brand-primary light-weight">Is it cheating? <br><span class="light-weight" style="color: white;">It's a library.</span></h2>
+					
+				</div>
+				
+			</div>
+		</div>
+	</div> -->
+			
+</div>

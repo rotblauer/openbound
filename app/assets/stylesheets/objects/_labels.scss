@@ -1,0 +1,32 @@
+span.label.label-context {
+	background-color: darken($columbia-blue, 9%);
+	margin-right: 2px;
+	color: white;
+	font-weight: 300;	
+	border-radius: 0px;
+	a {
+		color: white;
+		font-weight: 300;	
+	}
+}
+
+span.label.label-content {
+	background-color: lighten($columbia-blue, 9%);
+	margin-right: 2px;
+	color: white;
+	font-weight: 300;	
+	border-radius: 0px;
+	a {
+		color: white;
+		font-weight: 300;	
+	}
+}
+
+span.label.suggestion {
+	background-color: white;
+	color: $columbia-blue;
+	span.badge {
+		background-color: $columbia-blue;
+		color: white;
+	}
+}

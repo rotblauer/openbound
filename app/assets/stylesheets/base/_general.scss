@@ -1,0 +1,41 @@
+// I don't trust any of this. But it seems to work widely.
+
+body {
+//   background-color: #fff;
+//   color: #333;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  //font-family: verdana, arial, helvetica, sans-serif;
+  font-size: 1.2em; //11px; // was 13
+//   line-height: 16px;
+	
+	// height: 100%; // double scrollbar fix?
+}
+// * html .clearfix { height: 1%; } // double scrollbar fix?
+
+// p, span, ol, ul, td {
+//   font-family: verdana, arial, helvetica, sans-serif;
+//   font-size: 11px; // was 13
+//   line-height: 18px;
+// }
+
+// pre {
+//   background-color: #eee;
+//   padding: 10px;
+//   font-size: 10px; // was 11
+// }
+
+
+
+// div {
+//   &.field, &.actions {
+//     margin-bottom: 10px;
+//   }
+// }
+
+mark {
+  background-color: $mark-background-color;
+}
+
+.padding {
+	padding: 30px;
+}

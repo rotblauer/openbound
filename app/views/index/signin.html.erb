@@ -1,0 +1,87 @@
+<style>
+	input.form-control {
+		border-radius: 0px;
+	}
+	.fat {
+		padding-top: 20px;
+		margin-bottom: 20px;
+	}
+	.suck {
+		margin-top: -20px;
+	}
+</style>
+<% if !current_user %>
+
+<% if !Rails.env.production? %>
+<div class="row">
+<div class="fat">
+		
+		<h3 class="brand-primary">
+			Sign in with another account.
+		</h3>
+		<p class="brand-secondary">
+			We request only default permissions + education history. 
+		</p>
+
+		<style>
+			.tint:before {
+				content: "";
+				display: block;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 5px;
+				right: 5px;
+				
+				background: rgba(10,10,10, 0.2);
+				/*transition: all .3s linear;*/
+			}
+		</style>		
+
+			<div class="col-xs-2 text-center" >
+				<%= link_to "/auth/facebook" do %>
+					<%= image_tag "oauth-icons/facebook-logo-circle.png", height: 50, width: 50, style: "text-align: middle;" %>
+				<% end %>
+			</div>
+
+</div>
+</div>
+<% end %>
+
+
+<hr>
+
+<div class="row" >
+<h3 class="brand-primary">
+	Sign in (or up!) here. 
+</h3>
+<p class="brand-secondary">
+	Use your school email to become affiliated with your school. 
+</p>
+<% else %>
+<div class="row">
+	<h3 class="brand-primary">
+		Hey! You're already signed in as <%= current_user.name %>.
+	</h3>
+</div>
+<% end %>
+	<% if !current_user %>
+	<div class="col-sm-6 col-md-5 col-md-offset-1 signin-bunch">
+		<%= render 'sessions/new' %>
+	</div>
+	
+	<div class="col-sm-6 col-md-5 signin-bunch">
+		<%= render 'users/new' %>
+	</div>
+	<% else %>
+		<div class="col-sm-8 col-sm-offset-2 text-center">
+			<div class="" style="margin: 60px;">
+				<%= link_to logout_path, method: :delete, style: "font-size: 4em; color: #76B3DF" do %>
+					<button class="btn btn-lg btn-danger btn-outline">
+						<span>Logout</span>
+					</button>
+				<% end %>
+			</div>
+		</div>
+	<% end %>
+</div> 

@@ -1,0 +1,38 @@
+<style>
+	
+	section#head { 
+		padding-bottom: 5px;
+		border-bottom: 1px dashed #76B3DF;
+	}
+	section#body {
+		padding: 15px;
+	}
+
+</style>
+
+<section id="head">
+	<%= image_tag('logo - v2.png', height: '50') %>
+</section>
+
+<section id="body">
+	<div class="container">
+
+
+			<p>Hi <%= @user.name %>,</p>
+
+			<p>
+			Welcome to Rstacks! Please follow the link below to activate your account:
+			</p>
+
+			<%= link_to "Activate ahoy!", edit_account_activation_url(@user.activation_token, email: @user.email) %>
+			<span class="text-muted">(and make it snappy - the link will expire in 2 hours!)</span>
+
+			<small>By following this link you agree to <%= link_to "Rstacks' Terms & Conditions", terms_and_conditions_url %>, among which you guarantee to take responsibility for the things you upload. </small>
+
+			<p>Happy learning,
+			<br>
+			Isaac</p>
+
+
+	</div>
+</section>

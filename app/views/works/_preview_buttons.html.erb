@@ -1,0 +1,39 @@
+
+
+<!-- END MODAL PREVIEW -->
+<!-- OPTIONS FOR OWNER -->
+  <% if work.user == current_user %>
+  <div class="pull-left">  
+
+      <!-- DELETE --> 
+      <%= link_to work.project, method: :delete, remote: true, data: { confirm: "Removing this project will also remove #{work.project.works_count} versions. \n\nAre you really really sure you want to remove this literature from the reach of millions of hungry, striving minds? " }, class: "delete_pony" do %>
+        <small id="edit-or-delete-option" class="glyphicon glyphicon-trash has-tooltip" data-toggle="tooltip" data-placement="right" title="Delete" aria-hidden="true" style="color: lightgray;"></small>
+      <% end %> 
+
+  </div>
+
+  <div class="pull-right" style="margin-right: 5px;">
+
+    
+      <span class="brand-primary">
+      <!-- <span class="has-tooltip" data-toggle="tooltip" data-placement="left" title="Add version" aria-hidden="true"> -->
+        
+        <span  data-toggle="modal" data-target="#add-version-modal-<%= project.id %>">
+          <%= pluralize(project.works_count, "version") %>&nbsp;
+          <small class="glyphicon glyphicon-plus has-tooltip" data-toggle="tooltip" data-placement="top" title="Add version" aria-hidden="true"></small>
+        </span>
+      <!-- </span> -->
+      </span>
+    
+  </div>
+
+  <% else %>
+
+  <div class="pull-right" style=" padding-right: 8px;">
+    <span class="brand-primary" >
+      <%= pluralize(project.works_count, "version") %>
+    </span>
+
+  </div>
+
+  <% end %>

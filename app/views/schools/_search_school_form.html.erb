@@ -1,0 +1,43 @@
+					<%= form_tag(schools_path, :method => 'get', id: "searchschools_form", class: "navbar-form", role: 'search') do %>
+					<div class="input-group-btn" style="float: right;">
+						<%= button_tag(type: "submit", class: 'btn btn-default', style: "border-radius: 0px; border: none;", :name => nil) do %>
+							<span class="glyphicon glyphicon-search" style="color: gray;"></span>
+						<% end %>
+					</div>
+
+					<div class="input-wrapper">
+							<%= text_field_tag :searchschools, params[:searchschools], placeholder: "What school are you interested in?", class: "form-control", style: "border-radius: 0px;" %>
+					</div>
+
+					<% end %>
+					<div class="text-center">
+						<% if not params[:searchschools].blank? %>
+							<h5 class="page-title"><small style="color: gray;"> <%= pluralize(@schools.total_entries, 'result') %> for "<span><%= params[:searchschools] %></span>" </small> </h5>
+						<% end %>
+					</div>
+
+			<style>
+				form#searchschools_form { overflow: hidden; margin-left: 40px; }
+				form#searchschools_form input { box-sizing: border-box; 
+																  margin: 0;
+																	/*border-right: 0px;*/
+																	/*border-left: 0px;*/
+																/*	border-top: 0px solid white;*/
+																}
+				form#searchschools_form > div { position:relative;
+  															 margin-right:40px; /* same with `button width` + `button distance from search field` */}
+  			form#searchschools_form > div.input-wrapper { overflow: hidden; }
+  			form#searchschools_form input[type="text"] {
+  			  /*display:block;*/
+  			  width:100%;
+  			}
+  			form#searchschools_form input[type="button"] {
+  			  display:block;
+  			  float: right;
+  			  width:100px; /* this is the `button width` */
+  			  position:absolute;
+  			  top:0;
+  			  left:100%; /* push to the right! */
+  			  margin-left:10px; /* this is the `button distance from search field` */
+  			}
+			</style>

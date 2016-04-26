@@ -1,0 +1,31 @@
+<h5 id="cite">Cite it: &nbsp;
+	<span id="mla" class="label label-success cite-buttons">MLA</span>
+	<span id="apa" class="label label-default cite-buttons">APA</span>
+</h5>
+
+<!-- MLA -->
+<!-- https://owl.english.purdue.edu/owl/resource/747/08/ -->
+<div id="mla-citation" class="wrapper wrapper-citation" >
+<pre><% if @work.anonymouse %><%=@work.author_name %>.<% else %><%=@work.user.name %>.<% end %> <% if @work.name? %>"<%= @work.name.strip %>."<% else %>"<%= @work.file_name.strip %>."<% end %> Rstacks.org, <%= @work.created_at.strftime("%e %b %Y") %>. Web. <%=Time.zone.now.strftime("%e %b %Y") %>. <%= "<" %><%= request.original_url %><%=">" %>
+</pre>
+</div>
+
+<!-- APA -->
+<!-- http://www.easybib.com/reference/guide/apa/website -->
+<div id="apa-citation" class="wrapper wrapper-citation" style="display: none;">
+<pre><%= if @work.anonymouse then @work.author_name else @work.user.name end %>. (<%= @work.created_at.strftime("%Y, %B %d") %>). <span style="font-style: italic;"><% if @work.name? %><%= @work.name.strip %>.<% else %><%= @work.file_name %>.<% end %></span> Retrieved from <%= request.original_url %>.</pre>
+</div>
+
+<script>
+	$(document).ready(function() {
+		$('.cite-buttons').css('cursor', 'pointer');
+		$('.cite-buttons').css('cursor', 'pointer');
+	  $('.cite-buttons').click(function () {
+			$('#mla').toggleClass('label-success').toggleClass('label-default')
+			$('#apa').toggleClass('label-success').toggleClass('label-default')
+			$('#mla-citation').toggle();
+			$('#apa-citation').toggle();
+	  });
+	  
+	})
+</script>

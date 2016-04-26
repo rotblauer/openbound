@@ -1,0 +1,16 @@
+<!-- non functioning 20150511 -->
+<div class="panel foundational">
+	<h1>This library is built on your work.</h1>
+	<h1>Grow the library, because your education matters. Drag'n'drop anywhere.</h1>
+	
+	<div class="pull-center">
+  <%= form_for Work.new, html: { multipart: true } do |f| %>
+    <%= f.file_field :document %>
+    	<br>
+    
+    <%= f.submit "Upload!", class: 'btn btn-primary' %>
+  <% end %>
+  </div>
+
+</div>
+

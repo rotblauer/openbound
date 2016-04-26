@@ -1,0 +1,15 @@
+<%= render 'unauth_dash_main' %>
+<%= render 'unauth_dash_side' %>
+<%= render 'auth_dash_side' %>
+<%= render 'auth_dash_main' %>
+
+
+<div class="col-sm-3">
+	<%= yield :unauth_dash_side if !current_user %>
+	<%= yield :auth_dash_side if current_user %>
+</div>
+<div class="col-sm-9">
+	<%= yield :unauth_dash_main if !current_user %>
+	<%= yield :auth_dash_main if current_user %>
+</div>
+

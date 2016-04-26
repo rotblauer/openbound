@@ -1,0 +1,3 @@
+$('#new-tags-content').removeClass('hidden');
+$('#new-tags-content').append('<span class="tag content off"><%= link_to @suggested.suggestion.strip, @suggested.suggestion.strip => params[:content] %></span><br>');
+$('#tag-suggestion-<%= @suggested.id %>').fadeOut();

@@ -1,0 +1,12 @@
+Hi <%= @user.name %>! 
+
+To change the email associated with your Rstacks account, follow the link below:
+
+<%= edit_email_update_url(@user.email_update_token, new_email: @user.new_email) %>
+
+But make it snappy - this link will expire in two hours!
+
+
+If you did or do not wish to change your email, please ignore this email and everything will stay as it is.
+
+

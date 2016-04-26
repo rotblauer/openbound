@@ -1,0 +1,28 @@
+<%
+	# school -> :school
+%>
+
+<tr class="-school dark-blue">
+
+	<td><%= favicon_for(school, 18, 18, 'text-align: middle;') %></td>
+	<td ><%= link_to school.Institution_Name, school_path(school) %></td>
+
+	<td><%= school.works_count %></td>
+	<td><%= school.affiliations_count %></td>
+	
+
+	<td>
+		<% context_count_hash(school, 3).each do |key, value| %>
+			<span class="label label-context">
+				<%= link_to key, projects_path(:context => [key], :school_name => [school.Institution_Name]) %> (<%= value %>)
+			</span>
+		<% end %>
+	
+		<% content_count_hash(school, 3).each do |key, value| %>
+			<span class="label label-content">
+				<%= link_to key, projects_path(:content => [key], :school_name => [school.Institution_Name]) %> (<%= value %>)
+			</span>
+		<% end %>
+	</td>
+
+</tr>

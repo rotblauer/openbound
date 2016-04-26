@@ -1,0 +1,18 @@
+<%= form_for([work, comms.build]) do |f| %>
+
+  <div class="form-group">
+    <%= f.label :body, class: 'hidden' %>
+		<% if current_user %>
+    	<%= f.text_area :body, class: 'form-control', required: true, placeholder: "Add a comment" %>
+    <% else %>
+    	<%= f.text_area :body, class: 'form-control', required: true, placeholder: "Sign in to leave a comment!" %>
+    <% end %>
+  </div>
+ 	
+ 	<% if current_user %>
+  	<%= f.submit class: 'btn btn-primary' %>
+  <% else %>
+  	<%= f.submit class: 'btn btn-primary', disabled: true %>
+  <% end %>
+ 
+<% end %>

@@ -1,0 +1,89 @@
+<!-- Navbar redpen -->
+<div class="navbar navbar-redpen clearfix" role="navigation">
+<div class="container">
+
+
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header">
+	  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#rooftop">
+	    <span class="sr-only">Toggle navigation</span>
+	    <span class="icon-bar"></span>
+	    <span class="icon-bar"></span>
+	    <span class="icon-bar"></span>
+	  </button>
+
+	  
+		<%= link_to root_path do %>
+			<%= image_tag('logo - v2.png', height: '75', style: 'margin-top: -13px; margin-left: 10px;') %>
+		<% end %>
+		<%# image_tag('B_very_beta.png', height: '50', style: 'margin-top: -13px; margin-left: -15px;') %>
+	</div>
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	<div class="collapse navbar-collapse" id="rooftop">
+	    <ul class="nav navbar-nav navbar-right ">
+
+				<% if current_user %>
+	    	<li class="highlight-active-link has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Add a project" aria-hidden="true">
+	    		
+	    		<a href="" data-toggle="modal" data-target="#addProjects" style="background-color: gold; color: white;">
+	    			<span class="fa fa-plus"></span>
+	    			<!-- &nbsp;create -->
+	    		</a>
+	    	</li>
+				<% end %>
+
+
+				<!-- if not in the projects world, link back to it -->
+				<% if !(params[:controller] == 'projects') %>  <!-- , :action => 'index' -->
+						
+						<li class="hightlight-active-link has-tooltip"  data-toggle="tooltip" data-placement="bottom" title="Browse projects" aria-hidden="true">
+							<%= link_to "<span class='octicon octicon-book'></span>".html_safe, projects_path %>
+						</li>					
+				
+
+				<% elsif not (params[:controller] == 'schools') %>
+	
+					<li class="highlight-active-link has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Browse schools" aria-hidden="true">
+						<%= link_to "<span class='fa fa-university'></span>".html_safe, schools_path %>
+					</li>
+
+				<% end %>
+	    	
+
+				<% if logged_in? %>
+					<%= render 'layouts/user_profile_dropdown' %>
+				<% else %>
+						<li id="signinbutton"><%= link_to "Sign In", signin_path %></li>
+				<% end %>
+				
+	    </ul>
+		
+		<!-- THIS IS WHERE THE OLD SEARCHBAR WAS -->
+		<%= render 'works/search_form' %>
+  </div><!-- /.navbar-collapse -->
+
+
+</div><!-- / navbar container-fluid -->
+</div><!-- / navbar redpen -->
+
+<%= render 'projects/add_projects_modal' %>
+
+<script>
+// $(function () {
+	$("#pickFromModal").on('click', function() {
+		$("#addProjects").modal('hide');
+	});
+// });
+	
+</script>
+
+<script>
+// $(document).ready(function () {
+// 	var url = window.location;
+// 	// Will also work for relative and absolute hrefs
+// 	$('li.highlight-active-link a').filter(function() {
+// 	    return this.href == url;
+// 	}).parent().addClass('active');
+// });
+</script>
+

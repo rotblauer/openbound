@@ -1,0 +1,23 @@
+$('.bookmark_pony').bind('ajax:success', function() {  
+
+    <% if current_user.bookmarks.find_by(project_id: @project.id, bookmarked: true) %> // was bookmarked
+      $(this).addClass('bookmarked_true');
+      $(this).removeClass('bookmarked_ribbon_default'); 
+
+      $('#bookmark-words-<%= @project.id %>').text('Unbookmark'); // <-- dont' know why these don't run. class is hidden for now. 
+
+      
+    <% else %> // was un-bookmarked
+      $(this).removeClass('bookmarked_true');
+      $(this).addClass('bookmarked_ribbon_default');
+      $('#bookmark-words-<%= @project.id %>').text('Bookmark'); // <-- dont' know why these don't run. class is hidden for now. 
+      
+      <% if @on_bookmarks %> // THIS DOENS'T RUN. DON'T KNOW WHY. 
+      	$('#work-face-<%= @project.id %>').fadeOut();
+      <% end %>
+    <% end %>
+
+    var val = $(this).find('#project-bookmark-count').text();
+    console.log('val => ' + val);
+    $(this).find('#project-bookmark-count').text('<%= "#{@project.bookmarks.where(bookmarked: true).count}" %>');
+}); 

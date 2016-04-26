@@ -1,0 +1,22 @@
+<%= link_to user do %>
+<div style="display: inline-block; margin: 10px; width: 12%;">
+	
+	<!-- picture -->
+	<div>
+		<%= image_tag user.avatar_url(:hand), style: "height: 100px; width: 100px;" %>
+	</div>
+
+	<!-- name -->  
+	<div >
+  	<%= link_to user.name, user %> 
+  </div>
+
+	<!-- delete option for houdini -->
+	<% if current_user %>
+		<% if current_user.admin? && !current_user?(user) %>
+		| <%= link_to "delete", user, method: :delete,
+		                              data: { confirm: "You sure?" } %>
+		<% end %>
+	<% end %>
+</div>
+<% end %>

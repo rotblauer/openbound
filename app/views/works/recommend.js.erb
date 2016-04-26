@@ -1,0 +1,9 @@
+$('.recommendation_pony').bind('ajax:success', function() {  
+    <% if current_user.recommendeds.find_by(work_id: @work.id) %> // was bookmarked
+      $(this).addClass('recommended_true');
+      $(this).removeClass('recommended_false'); 
+    <% else %> // was un-bookmarked
+      $(this).removeClass('recommended_true');
+      $(this).addClass('recommended_false');
+    <% end %>
+}); 
