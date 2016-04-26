@@ -22,8 +22,8 @@ Gemfile.lock
 # Ignore deploy info. 
 /config/deploy.rb
 # Ignore carrierwave initializer with fog creds.
-/config/initializers/carrierwave.rb
-/config/initializers/shareable.rb
+# /config/initializers/carrierwave.rb
+# /config/initializers/shareable.rb
 
 # Ignore the default SQLite database.
 /db/*.sqlite3

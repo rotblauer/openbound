@@ -65,6 +65,7 @@ module Rstacks
     # this tells Rails "how to interpret content"
     config.encoding = "utf-8"
 
+    # LOAD ENV VARS from local_env.yml. 
     # http://railsapps.github.io/rails-environment-variables.html
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
