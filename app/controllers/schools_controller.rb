@@ -1,5 +1,5 @@
 require 'lazy_high_charts'
-require 'wikipedia' # per gem 'wikipedia-client'
+# require 'wikipedia' # per gem 'wikipedia-client'
 
 class SchoolsController < ApplicationController
 	include ApplicationHelper
@@ -81,15 +81,18 @@ class SchoolsController < ApplicationController
 		@projects = @search.results
 		@total_results = @projects.total_entries
 
-		
-		page = Wikipedia.find(@school.Institution_Name.gsub('-', ' '))
+		# I'm going to move all of this to a static one-time-run rake task. 
+		# The problem is for under-the-radar schools, the request is hanging and 
+		# causing our http request to last for hours, which eventually overloads the 
+		# passenger qeue. 		
+		# page = Wikipedia.find(@school.Institution_Name.gsub('-', ' '))
 
-		if !page.text.nil?
-			@wiki_summary = page.summary 
-			@wiki_url = page.fullurl 
-		else 
-			@wiki_summary = 'No summary available.' 
-		end 
+		# if !page.text.nil?
+		# 	@wiki_summary = page.summary 
+		# 	@wiki_url = page.fullurl 
+		# else 
+		# 	@wiki_summary = 'No summary available.' 
+		# end 
 		# @wiki = {}
 		# @wiki['summary'] = page.summary
 		# @wiki['fullurl'] = page.fullurl

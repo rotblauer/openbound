@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160411151725) do
+ActiveRecord::Schema.define(version: 20160428175935) do
 
   create_table "affiliations", force: :cascade do |t|
     t.integer  "user_id",          limit: 4
@@ -246,6 +246,9 @@ ActiveRecord::Schema.define(version: 20160411151725) do
     t.integer  "logo_height",              limit: 4
     t.string   "logo_content_type",        limit: 255
     t.integer  "logo_file_size",           limit: 4
+    t.text     "wikipedia_summary",        limit: 65535
+    t.string   "wikipedia_coords",         limit: 255
+    t.string   "wikipedia_url",            limit: 255
   end
 
   add_index "schools", ["slug"], name: "index_schools_on_slug", unique: true, using: :btree

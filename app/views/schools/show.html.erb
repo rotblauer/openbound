@@ -40,12 +40,14 @@
 
 				<div id="map"></div>
 				<script>
+
+					// This will err if no coords present but will not hang page. 
 		      var map;
 		      function initMap() {
 
 		      	var schoolLocation = {
-		      		lat: <%= @school.geocode_lat %>, 
-		      		lng: <%= @school.geocode_lng %>
+		      		lat: <%= @school.geocode_lat || JSON.parse @school.wikipedia_coords[0] %>, 
+		      		lng: <%= @school.geocode_lng || JSON.parse @school.wikipedia_coords[1] %>
 		      	};
 
 		        var map = new google.maps.Map(document.getElementById('map'), {
