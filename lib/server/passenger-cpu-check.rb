@@ -10,10 +10,6 @@ IO.popen("passenger-status") do |io|
     $lines = io.readlines
 end
 
-# $xpid = '0'
-# $xcpu = '0'
-# $not_killed = {}
-# $killed = {}
 $pids = []
 
 # puts "Checking memory usage..."
@@ -27,8 +23,6 @@ $lines.each do |line, i|
     if line.match(/CPU\:\s(\d+)/)
         puts "Checking #{line}"
         cpu_usage = $1.to_f
-        
-        puts "CPU usage: #{cpu_usage}%"
 
         if cpu_usage > LIMIT
             last_pid = $pids.pop
