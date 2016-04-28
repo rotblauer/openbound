@@ -46,9 +46,25 @@
 		      function initMap() {
 
 		      	var schoolLocation = {
-		      		lat: <%= @school.geocode_lat || JSON.parse @school.wikipedia_coords[0] %>, 
-		      		lng: <%= @school.geocode_lng || JSON.parse @school.wikipedia_coords[1] %>
-		      	};
+		      		lat: <%= 
+		      						if @school.wikipedia_coords
+		      							JSON.parse(@school.wikipedia_coords[0])
+		      						elsif @school.geocode_lat 
+		      						 	@school.geocode_lat 
+		      						 else 
+		      						 	# will either get and save coords or die tryin'
+		      						 	@school.getCoords[lat]
+		      						end
+		      					%>, 
+		      		lng: <%= 
+		      						if @school.wikipedia_coords
+		      							JSON.parse(@school.wikipedia_coords[1])
+		      						elsif @school.geocode_lng 
+		      						 	@school.geocode_lng 
+		      						 else 
+		      						 	@school.getCoords[lng]
+		      						end
+		      					%>
 
 		        var map = new google.maps.Map(document.getElementById('map'), {
 		          center: schoolLocation,
@@ -113,9 +129,14 @@
 						<p class="brand-secondary">About</p>
 						<p class="text-muted" style="line-height: 150%;">
 
-							<%= @wiki_summary.truncate_words(50) %>
+							<%= if @school.wikipedia_summary
+										@school.wikipedia_summary.truncate_words(50)  
+									else 
+										puts 'No summary available.'
+									end
+							%>
 							<div style="display: inline-block;">
-							<%= link_to 'Continue reading on Wikipedia <span class="fa fa-external-link"></span>'.html_safe, @wiki_url, target:'_blank' if @wiki_summary != 'No summary available.'%>
+							<%= link_to 'Continue reading on Wikipedia <span class="fa fa-external-link"></span>'.html_safe, @school.wikipedia_url, target:'_blank' if @school.wikipedia_url %>
 							</div>
 						</p>
 					</div>
