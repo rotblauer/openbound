@@ -41,30 +41,26 @@
 				<div id="map"></div>
 				<script>
 
-					// This will err if no coords present but will not hang page. 
 		      var map;
 		      function initMap() {
 
 		      	var schoolLocation = {
 		      		lat: <%= 
-		      						if @school.wikipedia_coords
+		      						if !@school.wikipedia_coords.nil?
 		      							JSON.parse(@school.wikipedia_coords)[0]
-		      						elsif @school.geocode_lat 
+		      						elsif !@school.geocode_lat.nil?
 		      						 	@school.geocode_lat 
-	      							else 
-		      						 	# will either get and save coords or die tryin'
-		      						 	
+	      							else # get coords or die tryin
 		      						 	@school.getCoords
 												@school.geocode_lat							
 		      						end
 		      					%>, 
 		      		lng: <%= 
-		      						if @school.wikipedia_coords
+		      						if !@school.wikipedia_coords.nil?
 		      							JSON.parse(@school.wikipedia_coords)[1]
-		      						elsif @school.geocode_lng 
+		      						elsif !@school.geocode_lng.nil? 
 		      						 	@school.geocode_lng 
 	      						 	else 
-	      						 		
 		      						 	@school.getCoords
 												@school.geocode_lng		      						 							
 		      						end

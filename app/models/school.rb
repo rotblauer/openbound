@@ -114,14 +114,9 @@ class School < ActiveRecord::Base
 					puts ":) #{self.Institution_Name}.".green
 					puts "  @ [#{self.geocode_lat}, #{self.geocode_lng}]".green
 					# puts "  @@ #{school.geocode_json}".white.on_black
-					self.reload
-					return {
-						lat: self.geocode_lat,
-						lng: self.geocode_lng
-					}
+				
 				else 
 					puts ":( Couldn't save #{self.Institution_Name}".red
-					return nil
 				end
 
 			# Else request failed. 
@@ -135,6 +130,11 @@ class School < ActiveRecord::Base
 		rescue Exception => e
 
 		end
+		self.reload
+		return {
+			lat: self.geocode_lat,
+			lng: self.geocode_lng
+		}
 	end
 
 	############################################
