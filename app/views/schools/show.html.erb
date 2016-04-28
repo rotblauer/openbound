@@ -48,23 +48,28 @@
 		      	var schoolLocation = {
 		      		lat: <%= 
 		      						if @school.wikipedia_coords
-		      							JSON.parse(@school.wikipedia_coords[0])
+		      							JSON.parse(@school.wikipedia_coords)[0]
 		      						elsif @school.geocode_lat 
 		      						 	@school.geocode_lat 
-		      						 else 
+	      							else 
 		      						 	# will either get and save coords or die tryin'
-		      						 	@school.getCoords[lat]
+		      						 	
+		      						 	@school.getCoords
+												@school.geocode_lat							
 		      						end
 		      					%>, 
 		      		lng: <%= 
 		      						if @school.wikipedia_coords
-		      							JSON.parse(@school.wikipedia_coords[1])
+		      							JSON.parse(@school.wikipedia_coords)[1]
 		      						elsif @school.geocode_lng 
 		      						 	@school.geocode_lng 
-		      						 else 
-		      						 	@school.getCoords[lng]
+	      						 	else 
+	      						 		
+		      						 	@school.getCoords
+												@school.geocode_lng		      						 							
 		      						end
 		      					%>
+		      		}
 
 		        var map = new google.maps.Map(document.getElementById('map'), {
 		          center: schoolLocation,
