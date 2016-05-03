@@ -73,69 +73,74 @@ class School < ActiveRecord::Base
 	  end
 	end
 
-	def getCoords
-		gapi_key = Rails.application.secrets.google_api_key
-		base_url = 'https://maps.googleapis.com/maps/api/geocode/json?'
-		api_key_parameter = "&key=#{gapi_key}"
-		formatted_address_query = 'address='
+	# def getCoords
+	# 	gapi_key = Rails.application.secrets.google_api_key
+	# 	base_url = 'https://maps.googleapis.com/maps/api/geocode/json?'
+	# 	api_key_parameter = "&key=#{gapi_key}"
+	# 	formatted_address_query = 'address='
 
-		formatted_address_query += self.Institution_Address + ", " if !self.Institution_Address.nil?
-		formatted_address_query += self.Institution_City + ", " + self.Institution_State
+	# 	formatted_address_query += self.Institution_Address + ", " if !self.Institution_Address.nil?
+	# 	formatted_address_query += self.Institution_City + ", " + self.Institution_State
 		
-		# replace spaces as per google demo
-		formatted_address_query.gsub!(' ', '+')
-		query = base_url + formatted_address_query + api_key_parameter
+	# 	# replace spaces as per google demo
+	# 	formatted_address_query.gsub!(' ', '+')
+	# 	query = base_url + formatted_address_query + api_key_parameter
 
-		begin
-			# query_string = build_query(self, base_url, api_key_parameter)
-			uri = URI.parse(query)
-			http = Net::HTTP.new(uri.host, uri.port)
-			http.use_ssl = true
-			http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+	# 	begin
+	# 		puts 'Beginning grabbing school geocode.'
 
-			request = Net::HTTP::Get.new(uri.request_uri)
+	# 		# query_string = build_query(self, base_url, api_key_parameter)
+	# 		uri = URI.parse(query)
+	# 		http = Net::HTTP.new(uri.host, uri.port)
+	# 		http.use_ssl = true
+	# 		http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+	# 		puts " Doing request."
+	# 		request = Net::HTTP::Get.new(uri.request_uri)
 			
-			response = http.request(request)
+	# 		puts " Responsing."
+	# 		response = http.request(request)
+
 			
-			if (response.code.to_i == 200)
+	# 		if (response.code.to_i == 200)
 
-				# Confirm affirm response code. 
-				puts "#{response.code} - #{self.Institution_Name}".white.on_green
+	# 			# Confirm affirm response code. 
+	# 			puts "#{response.code} - #{self.Institution_Name}".white.on_green
 
-				# @param {String}
-				# @return {Object}
-				objectifiedBod = JSON.parse response.body
+	# 			# @param {String}
+	# 			# @return {Object}
+	# 			objectifiedBod = JSON.parse response.body
 				
-				if self.update_attributes(
-					geocode_json: response.body.to_s,
-					geocode_lat: objectifiedBod['results'][0]['geometry']['location']['lat'].to_f,
-					geocode_lng: objectifiedBod['results'][0]['geometry']['location']['lng'].to_f)
+	# 			if self.update_attributes(
+	# 				geocode_json: response.body.to_s,
+	# 				geocode_lat: objectifiedBod['results'][0]['geometry']['location']['lat'].to_f,
+	# 				geocode_lng: objectifiedBod['results'][0]['geometry']['location']['lng'].to_f)
 					
-					puts ":) #{self.Institution_Name}.".green
-					puts "  @ [#{self.geocode_lat}, #{self.geocode_lng}]".green
-					# puts "  @@ #{school.geocode_json}".white.on_black
+	# 				puts ":) #{self.Institution_Name}.".green
+	# 				puts "  @ [#{self.geocode_lat}, #{self.geocode_lng}]".green
+	# 				# puts "  @@ #{school.geocode_json}".white.on_black
 				
-				else 
-					puts ":( Couldn't save #{self.Institution_Name}".red
-				end
+	# 			else 
+	# 				puts ":( Couldn't save #{self.Institution_Name}".red
+	# 			end
 
-			# Else request failed. 
-			else
+	# 		# Else request failed. 
+	# 		else
 
-				puts "Request failed.".red.on_white
-				puts "RESPONSE #{response.code} - #{response.message}".red.on_white
-				puts "^~> SCHOOL name: #{school.Institution_Name}".red.on_white
+	# 			puts "Request failed.".red.on_white
+	# 			puts "RESPONSE #{response.code} - #{response.message}".red.on_white
+	# 			puts "^~> SCHOOL name: #{school.Institution_Name}".red.on_white
 			
-			end
-		rescue Exception => e
-
-		end
-		self.reload
-		return {
-			lat: self.geocode_lat,
-			lng: self.geocode_lng
-		}
-	end
+	# 		end
+	# 	rescue Exception => e
+	# 		puts e 
+	# 	end
+	# 	self.reload
+	# 	return {
+	# 		lat: self.geocode_lat,
+	# 		lng: self.geocode_lng
+	# 	}
+	# end
 
 	############################################
 	## stuff for exporting/importing the archived CSV from the gov't

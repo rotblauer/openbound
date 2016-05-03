@@ -1,4 +1,5 @@
 require 'lazy_high_charts'
+require 'json'
 # require 'wikipedia' # per gem 'wikipedia-client'
 
 class SchoolsController < ApplicationController
@@ -80,6 +81,19 @@ class SchoolsController < ApplicationController
 		
 		@projects = @search.results
 		@total_results = @projects.total_entries
+
+		if !@school.wikipedia_coords.nil?
+			@school_coords_lat = JSON.parse(@school.wikipedia_coords)[0]
+			@school_coords_lng = JSON.parse(@school.wikipedia_coords)[1]
+		elsif !@school.geocode_json.nil?
+			@school_coords_lat = @school.geocode_lat
+			@school_coords_lng = @school.geocode_lng
+		else 
+			# TODO: FIXME
+			@school_coords_lat = 0
+			@school_coords_lng = 0
+		end
+
 
 		# I'm going to move all of this to a static one-time-run rake task. 
 		# The problem is for under-the-radar schools, the request is hanging and 
