@@ -25,6 +25,8 @@ Gemfile.lock
 # /config/initializers/carrierwave.rb
 # /config/initializers/shareable.rb
 
+/config/environments
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
