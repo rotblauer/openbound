@@ -27,6 +27,8 @@ Gemfile.lock
 
 /config/environments
 
+/debug
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
