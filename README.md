@@ -1,6 +1,3 @@
-### [Staging site](ec2-52-27-198-224.us-west-2.compute.amazonaws.com) for the bleeding edge.
-
-----
 
 ### [Issues](https://bitbucket.org/rstackers/rstacks/issues?status=new&status=open) for fix-me's, works-in-progress, incoming features, proposed enhancements.
 
