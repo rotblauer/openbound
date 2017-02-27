@@ -3,7 +3,7 @@ Free your work. Learn more.
 
 
 ### The big idea
-If Khan Academy, Open MIT, and Blackboard (etc!) are turning the classroom inside out, we want to turn it upside down. 
+If Khan Academy, Open MIT, and Blackboard (etc!) are turning the classroom inside out, we want to turn it upside down. We think the work of the classroom should be free.
 
 
 ### The stack
