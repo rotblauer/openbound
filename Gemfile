@@ -10,9 +10,10 @@ gem 'mysql2', '~> 0.3.18'
 
 ## DEPLOY GEMS
 # use Puma for deploy server with EB
-# gem 'puma'
+gem 'puma'
+
 # use Rubber for deploy
-gem 'rubber' #, '3.1.0' # 2.0.4
+# gem 'rubber' #, '3.1.0' # 2.0.4
 # use passenger for deploy server
 # commented for now because i think rubber will take care of it on deploy side
 # gem 'passenger'
@@ -23,7 +24,7 @@ gem 'bcrypt', '3.1.9'
 # Use faker for generating fake seed data
 gem 'faker', '1.4.2'
 
-## IHA commented #20150713 trying to fix mobile clicking issue. 
+## IHA commented #20150713 trying to fix mobile clicking issue.
 # Use angular-rails-csrf for post token auth
 # gem 'angular_rails_csrf'
 gem 'active_model_serializers'
@@ -63,7 +64,7 @@ gem 'jquery-rails'
 # Use best_in_place for in-line editing of work.name and maybe some other stuff later
 gem 'best_in_place', '~> 3.0.1'
 # Use Angularjs for sweet javascripting
-# Angular.min is incorporated through the asset pipeline and managed by Bower. 
+# Angular.min is incorporated through the asset pipeline and managed by Bower.
 # gem 'angularjs-rails'
 # gem 'angular-rails-templates'
 
@@ -91,20 +92,20 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # ----------- Uploads ------------ #
 
-## Removed github version because I think eb was having a problem with it. 20150624. IHA. 
-#, github: 'Springest/jquery-fileupload-rails' # This is a more recently maintained branch. 
-gem 'jquery-fileupload-rails' 
+## Removed github version because I think eb was having a problem with it. 20150624. IHA.
+#, github: 'Springest/jquery-fileupload-rails' # This is a more recently maintained branch.
+gem 'jquery-fileupload-rails'
 gem 'carrierwave'
-# Use Fog for CarrierWave S3 file storage. 
+# Use Fog for CarrierWave S3 file storage.
 gem "fog-aws" #, "~> 1.3.1"
 
 # ----------- Conversions & Formatting ------------ #
 
-# You have to have both mini and r. 
+# You have to have both mini and r.
 # gem 'mini_magick'
 gem 'rmagick', '2.13.2', :require => 'RMagick' #, require: false # redundant to mini_magick (creates circular reference)
 # Enables asynch batch uploading via AJAX (note: depends on jquery-rails gem)
-gem 'remotipart', '~> 1.2' 
+gem 'remotipart', '~> 1.2'
 # Enables file_size validation
 gem 'file_validators' # https://github.com/musaffa/file_validators before upload
 
@@ -119,11 +120,11 @@ gem 'diffy' # https://github.com/samg/diffy
 # gem 'carrierwave-docsplit'
 gem 'html-pipeline'
 gem 'github-markdown' ## dependency for html-pipline
-# Enables, like, html_escape method. 
+# Enables, like, html_escape method.
 gem 'escape_utils'
-# Markdown rendering pipeline. 
-gem 'redcarpet' 
-# For parsing html. 
+# Markdown rendering pipeline.
+gem 'redcarpet'
+# For parsing html.
 gem 'nokogiri', '1.6.6.2' #, '1.5.0'
 # for paging with angular arpaging directive (.per(10) etc)
 gem 'kaminari'
@@ -140,9 +141,9 @@ gem 'impressionist'
 # gem 'acts_as_tree'
 
 ## Gems for querying work documents
-## Use Sunspot for searchw with richtext indexing. 
+## Use Sunspot for searchw with richtext indexing.
 # removed because it isn't listed as necessary on https://github.com/sunspot/sunspot
-# gem 'sunspot' 
+# gem 'sunspot'
 gem 'sunspot_rails'
 gem 'sunspot_solr'
 # removed because i'm not sure what they are good for
@@ -154,19 +155,19 @@ gem 'progress_bar'
 # Use Devise for User Authentication -- at least for users :trackable
 gem 'devise'
 
-# Oauth. 
+# Oauth.
 gem 'omniauth'
 gem 'omniauth-facebook'
 
-# Counter culture gem should fix double counting on belong_to counter_cache. 
-# As of 4.2 Rails this issue is still unresolved in the master branch, with no obvious workaround. 
+# Counter culture gem should fix double counting on belong_to counter_cache.
+# As of 4.2 Rails this issue is still unresolved in the master branch, with no obvious workaround.
 gem 'counter_culture', '~> 0.1.33'
 
-# Use FriendlyID for generating sexy permalink slugs for works, users, and schools. 
+# Use FriendlyID for generating sexy permalink slugs for works, users, and schools.
 gem 'friendly_id', '~> 5.1.0'
 gem 'fuzzily' # for fuzzy school name finding
 
-# Use SWOT to check if email are academic. 
+# Use SWOT to check if email are academic.
 # https://github.com/leereilly/swot
 gem 'swot'
 
@@ -174,9 +175,9 @@ gem 'swot'
 # https://github.com/hermango/shareable
 gem 'shareable'
 
-gem 'colorize' # for making ruby output colored. fancy. 
+gem 'colorize' # for making ruby output colored. fancy.
 
-# Use High Charts gem 
+# Use High Charts gem
 gem 'lazy_high_charts'
 
 gem 'time_difference'
@@ -192,21 +193,29 @@ gem 'wikipedia-client'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-# Staging should be identical to production. 
-group :production, :staging do 
+# Staging should be identical to production.
+group :production, :staging do
   # Use for batch async upload.
   gem 'rack-cache', :require => 'rack/cache'
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # This is a dependency for Rubber. 
-  gem 'therubyracer', platforms: :ruby
+  # This is a dependency for Rubber.
+  # gem 'therubyracer', platforms: :ruby
 end
 
-group :development, :staging do 
+group :development, :staging do
   # Used that one time for transferring db data (particularly entirely only Schools) from sqlite3 db to mysql2 db;
-  # it dumps all info from the db as it is into your seeds.rb file. 
+  # it dumps all info from the db as it is into your seeds.rb file.
   gem 'seed_dump'
- # gem 'sunspot_solr' 
+ # gem 'sunspot_solr'
   gem 'table_print'
+end
+
+group :development do
+  gem 'capistrano',         require: false
+  gem 'capistrano-rvm',     require: false
+  gem 'capistrano-rails',   require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano3-puma',   require: false
 end
 
 

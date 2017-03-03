@@ -1,20 +1,52 @@
-gemfile = File.expand_path(File.join(__FILE__, '..', 'Gemfile'))
-if File.exist?(gemfile) && ENV['BUNDLE_GEMFILE'].nil?
-  puts "Respawning with 'bundle exec'"
-  exec("bundle", "exec", "cap", *ARGV)
-end
+# Load DSL and Setup Up Stages
+require 'capistrano/setup'
+require 'capistrano/deploy'
 
-load 'deploy' if respond_to?(:namespace) # cap2 differentiator
+require 'capistrano/rails'
+require 'capistrano/bundler'
+require 'capistrano/rvm'
+require 'capistrano/puma'
 
-env = ENV['RUBBER_ENV'] ||= (ENV['RAILS_ENV'] || 'production')
-root = File.dirname(__FILE__)
+# Loads custom tasks from `lib/capistrano/tasks' if you have any defined.
+Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
 
-# this tries first as a rails plugin then as a gem
-$:.unshift "#{root}/vendor/plugins/rubber/lib/"
-require 'rubber'
 
-Rubber::initialize(root, env)
-require 'rubber/capistrano'
 
-Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
-load 'config/deploy'
+# # Load DSL and set up stages
+# require "capistrano/setup"
+
+# # Include default deployment tasks
+# require "capistrano/deploy"
+
+# # Load the SCM plugin appropriate to your project:
+# #
+# # require "capistrano/scm/hg"
+# # install_plugin Capistrano::SCM::Hg
+# # or
+# # require "capistrano/scm/svn"
+# # install_plugin Capistrano::SCM::Svn
+# # or
+# require "capistrano/scm/git"
+# install_plugin Capistrano::SCM::Git
+
+# # Include tasks from other gems included in your Gemfile
+# #
+# # For documentation on these, see for example:
+# #
+# #   https://github.com/capistrano/rvm
+# #   https://github.com/capistrano/rbenv
+# #   https://github.com/capistrano/chruby
+# #   https://github.com/capistrano/bundler
+# #   https://github.com/capistrano/rails
+# #   https://github.com/capistrano/passenger
+# #
+# # require "capistrano/rvm"
+# # require "capistrano/rbenv"
+# # require "capistrano/chruby"
+# # require "capistrano/bundler"
+# # require "capistrano/rails/assets"
+# # require "capistrano/rails/migrations"
+# # require "capistrano/passenger"
+
+# # Load custom tasks from `lib/capistrano/tasks` if you have any defined
+# Dir.glob("lib/capistrano/tasks/*.rake").each { |r| import r }
