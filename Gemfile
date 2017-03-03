@@ -12,7 +12,7 @@ gem 'mysql2', '~> 0.3.18'
 # use Puma for deploy server with EB
 # gem 'puma'
 # use Rubber for deploy
-gem 'rubber', '3.1.0' # 2.0.4
+gem 'rubber' #, '3.1.0' # 2.0.4
 # use passenger for deploy server
 # commented for now because i think rubber will take care of it on deploy side
 # gem 'passenger'
