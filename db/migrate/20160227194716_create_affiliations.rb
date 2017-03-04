@@ -2,10 +2,11 @@ class CreateAffiliations < ActiveRecord::Migration
 
   def change
 
-    rename_column :schools, :users_count, :affiliations_count
+    add_column :schools, :users_counts, :integer, null: false, default: 0
+    # rename_column :schools, :users_count, :affiliations_count
     add_column :users, :affiliations_count, :integer, null: false, default: 0
 
-    
+
     create_table :affiliations do |t|
       t.belongs_to :user, index: true
       t.belongs_to :school, index: true
@@ -25,7 +26,7 @@ class CreateAffiliations < ActiveRecord::Migration
     # Init.
 
     spy_u_id = School.friendly.find('spy-university').id
-    
+
 
     User.all.each do |user|
 
@@ -33,8 +34,8 @@ class CreateAffiliations < ActiveRecord::Migration
       sid = user.school_id
       school_name = School.find(sid).Institution_Name
       if sid == spy_u_id
-        defaulty = true 
-      else 
+        defaulty = true
+      else
         defaulty = false
       end
 
@@ -43,17 +44,15 @@ class CreateAffiliations < ActiveRecord::Migration
         school_id: sid,
         is_fallback: defaulty
         )
-      
+
       if aff.save
         puts "Saved affiliation for #{user.name} at #{school_name} -  Defaulty? #{defaulty}; ? #{sid} == #{spy_u_id}"
-      else 
+      else
         puts "Shit."
       end
     end
 
-    
+
 
   end
 end
-
-
