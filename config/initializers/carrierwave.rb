@@ -1,3 +1,7 @@
+require 'carrierwave/storage/abstract'
+require 'carrierwave/storage/file'
+require 'carrierwave/storage/fog'
+
 # require 'fog'
 require 'carrierwave/processing/rmagick'
 if Rails.env.production?
