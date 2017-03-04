@@ -4,22 +4,22 @@
 # or operating system, you probably want to add a global ignore instead:
 #   git config --global core.excludesfile '~/.gitignore_global'
 
-# Always. 
+# Always.
 .DS_Store
 
 # Ignore bundler config.
 /.bundle
-Gemfile.lock
+# Gemfile.lock
 
 # Ignore branch dumps; they are symlinked to Dropbox.
 /.db_branch_dumps
 
-# Ignore env variable configgers. 
+# Ignore env variable configgers.
 /config/local_env.yml
 /config/secrets.yml
-# Ignore all rubber config. 
+# Ignore all rubber config.
 /config/rubber
-# Ignore deploy info. 
+# Ignore deploy info.
 /config/deploy.rb
 # Ignore carrierwave initializer with fog creds.
 # /config/initializers/carrierwave.rb
@@ -32,7 +32,7 @@ Gemfile.lock
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
-# Ignore the seeders. 
+# Ignore the seeders.
 /db/seeds
 /db/seed_uploads
 
@@ -46,17 +46,17 @@ Gemfile.lock
 # Ignore rake with phone numbers
 /lib/tasks/notifiable.rake
 
-# Ignore node_modules. 
+# Ignore node_modules.
 /node_modules
 
 # Ignore the development-uploaded files.
 /public/uploads
 /public/school
 /public/system
-# Ignore all precompiled assets. 
+# Ignore all precompiled assets.
 /public/assets
 
-# Ignore the strange thing for google site verification. 
+# Ignore the strange thing for google site verification.
 /public/google*
 
 # Ignore retired.
@@ -73,7 +73,7 @@ Gemfile.lock
 /solr/development/data/tlog
 /solr/pids
 
-# Ignore temp. 
+# Ignore temp.
 /tmp
 
 
