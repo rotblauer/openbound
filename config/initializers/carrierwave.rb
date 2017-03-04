@@ -6,7 +6,6 @@ require 'carrierwave/storage/fog'
 require 'carrierwave/processing/rmagick'
 if Rails.env.production?
   CarrierWave.configure do |config|
-    config.storage :fog
     # This was turned off and worked fine. 
     # config.fog_provider = 'fog/aws'                        # required
     config.fog_credentials = {
@@ -15,6 +14,7 @@ if Rails.env.production?
       aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY_I'],                        # required
       region:                'us-west-2'                  # optional, defaults to 'us-east-1'
     }
+    config.storage :fog
     config.fog_directory  = 'rstacks-library'                          # required
     config.fog_public     = true                                        # optional, defaults to true
     config.fog_attributes = { 'Cache-Control' => "max-age=#{365.day.to_i}" } # optional, defaults to {}
