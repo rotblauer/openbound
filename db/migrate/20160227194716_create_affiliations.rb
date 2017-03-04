@@ -4,7 +4,7 @@ class CreateAffiliations < ActiveRecord::Migration
 
     add_column :schools, :users_count, :integer, null: false, default: 0
     # rename_column :schools, :users_count, :affiliations_count
-    add_column :users, :affiliations_count, :integer, null: false, default: 0
+    # add_column :users, :affiliations_count, :integer, null: false, default: 0
 
 
     create_table :affiliations do |t|
