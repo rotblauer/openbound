@@ -23,14 +23,24 @@ test:
 # These should be set to the host machine instead of hardcoded, but there they are, 
 # sucka. 
 
+# production:
+#   adapter: mysql2
+#   # encoding: utf8
+#   # database: <%= ENV["RDS_DB_NAME"] %>
+#   # username: <%= ENV["RDS_USERNAME"] %>
+#   # password: <%= ENV["RDS_PASSWORD"] %>
+#   # host: <%= ENV["RDS_HOSTNAME"] %>
+#   # port: <%= ENV["RDS_PORT"] %>
+
 production:
   adapter: mysql2
-  # encoding: utf8
-  # database: <%= ENV["RDS_DB_NAME"] %>
-  # username: <%= ENV["RDS_USERNAME"] %>
-  # password: <%= ENV["RDS_PASSWORD"] %>
-  # host: <%= ENV["RDS_HOSTNAME"] %>
-  # port: <%= ENV["RDS_PORT"] %>
+  encoding: utf8
+  database: <%= ENV["DB_NAME"] %>
+  username: <%= ENV["DB_USERNAME"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
+  host: localhost # <%= ENV["RDS_HOSTNAME"] %>
+  port: 3306 #<%= ENV["RDS_PORT"] %>
+
 
 # This should be different than production. Junk data. 
 staging:
