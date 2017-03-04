@@ -64,8 +64,8 @@ class ApplicationController < ActionController::Base
     end
 
     def redirect_to_org
-      domain_to_redirect_to = 'rstacks.org'
-      domain_exceptions = ['rstacks.org', 'www.rstacks.org', 'staging.rstacks.org'] #ec2-52-38-222-148.us-west-2.compute.amazonaws.com
+      domain_to_redirect_to = 'openbound.org'
+      domain_exceptions = ['openbound.org', 'www.openbound.org', 'staging.openbound.org'] #ec2-52-38-222-148.us-west-2.compute.amazonaws.com
       should_redirect = !(domain_exceptions.include? request.host)
       # if not trying to get to staging
       # if !['staging.rstacks.org'].include? request.host
