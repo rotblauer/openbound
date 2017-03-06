@@ -20,7 +20,7 @@
 # Ignore all rubber config.
 /config/rubber
 # Ignore deploy info.
-/config/deploy.rb
+# /config/deploy.rb
 # Ignore carrierwave initializer with fog creds.
 # /config/initializers/carrierwave.rb
 # /config/initializers/shareable.rb
