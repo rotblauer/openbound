@@ -40,7 +40,7 @@ set :scm,           :gitcopy #:git
 # set :log_level,     :debug
 # set :keep_releases, 5
 
-set :bundle_without,  [:development, :test, :production]
+set :bundle_flags,    "--deployment --quiet --no-update-sources"
 
 ## Linked Files & Directories (Default None):
 # set :linked_files, %w{config/database.yml}
@@ -90,6 +90,7 @@ namespace :deploy do
   after  :finishing,    :cleanup
   after  :finishing,    :restart
 end
+
 
 # ps aux | grep puma    # Get puma pid
 # kill -s SIGUSR2 pid   # Restart puma
