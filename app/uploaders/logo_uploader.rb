@@ -1,11 +1,11 @@
 # encoding: utf-8
-require 'carrierwave/processing/mime_types'
+# require 'carrierwave/processing/mime_types'
 require 'carrierwave/processing/rmagick'
 class LogoUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
   include CarrierWave::RMagick
-  include CarrierWave::MimeTypes
+  # include CarrierWave::MimeTypes
   # include CarrierWave::MiniMagick
 
   ## Storage handled in initializers/carrierwave.rb.

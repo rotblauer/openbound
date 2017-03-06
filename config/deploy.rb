@@ -40,7 +40,7 @@ set :scm,           :gitcopy #:git
 # set :log_level,     :debug
 # set :keep_releases, 5
 
-set :bundle_flags,    "--deployment --quiet --local"
+set :bundle_flags,    "--deployment --quiet" # --local"
 
 ## Linked Files & Directories (Default None):
 # set :linked_files, %w{config/database.yml}

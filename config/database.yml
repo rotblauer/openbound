@@ -39,7 +39,8 @@ production:
   username: <%= ENV["DB_USERNAME"] %>
   password: <%= ENV["DB_PASSWORD"] %>
   host: localhost # <%= ENV["RDS_HOSTNAME"] %>
-  port: 3306 #<%= ENV["RDS_PORT"] %>
+  port: /var/run/mysqld/mysqld.sock
+  # port: 3306 #<%= ENV["RDS_PORT"] %>
 
 
 # This should be different than production. Junk data. 

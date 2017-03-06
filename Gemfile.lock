@@ -218,9 +218,11 @@ GEM
       activesupport (>= 2)
       nokogiri (>= 1.4)
     htmlentities (4.3.4)
+    httpclient (2.8.3)
     i18n (0.8.1)
-    impressionist (1.5.2)
-      nokogiri (~> 1.6)
+    impressionist (1.5.1)
+      httpclient (~> 2.2)
+      nokogiri (~> 1.5)
     ipaddress (0.8.3)
     jbuilder (2.6.3)
       activesupport (>= 3.0.0, < 5.2)
@@ -519,7 +521,7 @@ DEPENDENCIES
   hightop
   html-pipeline
   htmlentities
-  impressionist
+  impressionist (= 1.5.1)
   jbuilder (~> 2.0)
   jquery-fileupload-rails
   jquery-rails

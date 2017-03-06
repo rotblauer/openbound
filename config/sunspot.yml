@@ -1,9 +1,9 @@
 production:
   solr:
-    hostname: ec2-52-24-58-239.us-west-2.compute.amazonaws.com #rubber will append to this file #prod_start...
+    hostname: 138.197.122.6 # ec2-52-24-58-239.us-west-2.compute.amazonaws.com #rubber will append to this file #prod_start...
     port: 8983
     log_level: WARNING
-    path: /solr/production
+    path: /solr/default #production
     # this to avoid sunspot telling solr to make solr commits after each save, which in events like uploading 7
     # pdfs at once will overheat solr and cause a MaxWarmingSearchers=5 error. Will instead rely on 
     # autoCommit configured in solrconfig.xml element <updateHandler>

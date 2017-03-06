@@ -5,7 +5,7 @@ class FaviconUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
   include CarrierWave::RMagick
-  include CarrierWave::MimeTypes
+  # include CarrierWave::MimeTypes
   # include CarrierWave::MiniMagick
 
   ## Storage handled in initializers/carrierwave.rb.

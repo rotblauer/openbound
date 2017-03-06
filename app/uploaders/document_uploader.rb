@@ -3,11 +3,11 @@ require 'html/pipeline'
 require 'yomu'
 require 'pandoc-ruby'
 require 'escape_utils'
-require 'carrierwave/processing/mime_types'
+# require 'carrierwave/processing/mime_types'
 require 'carrierwave/processing/rmagick'
 require 'RMagick'
 class DocumentUploader < CarrierWave::Uploader::Base
-  include CarrierWave::MimeTypes
+  # include CarrierWave::MimeTypes
   include CarrierWave::RMagick
 
   ## This depends on every work *always* being connected to an existing user. 
