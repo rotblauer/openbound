@@ -6,7 +6,8 @@ gem 'rails', '4.2.0'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
 # http://stackoverflow.com/questions/32457657/rails-4-gemloaderror-specified-mysql2-for-database-adapter-but-the-gem-i
-gem 'mysql2', '~> 0.3.18'
+# gem 'mysql2', '~> 0.3.18'
+gem 'pg'
 
 ## DEPLOY GEMS
 # use Puma for deploy server with EB

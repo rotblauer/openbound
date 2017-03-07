@@ -16,13 +16,13 @@ ActiveRecord::Schema.define(version: 20160428175935) do
   create_table "affiliations", force: :cascade do |t|
     t.integer  "user_id",          limit: 4
     t.integer  "school_id",        limit: 4
-    t.boolean  "is_primary",       limit: 1,   default: false, null: false
-    t.boolean  "is_assignment",    limit: 1,   default: true,  null: false
-    t.boolean  "is_preference",    limit: 1,   default: false, null: false
-    t.boolean  "is_active",        limit: 1,   default: true,  null: false
+    t.boolean  "is_primary",          default: false, null: false
+    t.boolean  "is_assignment",       default: true,  null: false
+    t.boolean  "is_preference",       default: false, null: false
+    t.boolean  "is_active",           default: true,  null: false
     t.string   "concentration",    limit: 255
-    t.boolean  "graduated",        limit: 1
-    t.boolean  "is_fallback",      limit: 1
+    t.boolean  "graduated"        
+    t.boolean  "is_fallback"      
     t.datetime "created_at",                                   null: false
     t.datetime "updated_at",                                   null: false
     t.string   "provider",         limit: 255
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20160428175935) do
   add_index "affiliations", ["user_id"], name: "index_affiliations_on_user_id", using: :btree
 
   create_table "ahoy_events", force: :cascade do |t|
-    t.uuid     "visit_id",   limit: 16
+    t.uuid     "visit_id"
     t.integer  "user_id",    limit: 4
     t.string   "name",       limit: 255
     t.text     "properties", limit: 65535
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20160428175935) do
 
   create_table "bookmarks", force: :cascade do |t|
     t.integer  "user_id",    limit: 4,                 null: false
-    t.boolean  "bookmarked", limit: 1, default: false, null: false
+    t.boolean  "bookmarked",  default: false, null: false
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
     t.integer  "project_id", limit: 4
@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 20160428175935) do
   create_table "linked_accounts", force: :cascade do |t|
     t.integer  "user_id",             limit: 4
     t.string   "provider",            limit: 255
-    t.string   "uid",                 limit: 255
+    t.string   "uid"
     t.string   "name",                limit: 255
     t.string   "email",               limit: 255
     t.string   "first_name",          limit: 255
@@ -165,12 +165,12 @@ ActiveRecord::Schema.define(version: 20160428175935) do
     t.datetime "created_at",                                        null: false
     t.datetime "updated_at",                                        null: false
     t.integer  "works_count",       limit: 4,        default: 0,    null: false
-    t.boolean  "is_public",         limit: 1,        default: true, null: false
-    t.boolean  "is_collaborative",  limit: 1,        default: true, null: false
+    t.boolean  "is_public",                 default: true, null: false
+    t.boolean  "is_collaborative",          default: true, null: false
     t.string   "name",              limit: 255
     t.string   "slug",              limit: 255
     t.integer  "recent_work_id",    limit: 4
-    t.boolean  "anonymouse",        limit: 1
+    t.boolean  "anonymouse"        
     t.string   "school_name",       limit: 255
     t.integer  "impressions_count", limit: 4,        default: 0,    null: false
     t.integer  "bookmarks_count",   limit: 4,        default: 0,    null: false
@@ -226,7 +226,7 @@ ActiveRecord::Schema.define(version: 20160428175935) do
     t.integer  "works_count",              limit: 4,     default: 0, null: false
     t.integer  "affiliations_count",       limit: 4,     default: 0, null: false
     t.string   "slug",                     limit: 255
-    t.boolean  "is_academic",              limit: 1
+    t.boolean  "is_academic"            
     t.string   "favicon",                  limit: 255
     t.string   "remote_favicon_url",       limit: 255
     t.integer  "favicon_width",            limit: 4
@@ -258,8 +258,8 @@ ActiveRecord::Schema.define(version: 20160428175935) do
     t.integer  "work_id",      limit: 4,                   null: false
     t.integer  "author_id",    limit: 4,                   null: false
     t.string   "suggestion",   limit: 128
-    t.boolean  "approved",     limit: 1,   default: false, null: false
-    t.boolean  "open",         limit: 1,   default: true,  null: false
+    t.boolean  "approved",        default: false, null: false
+    t.boolean  "open",            default: true,  null: false
     t.datetime "created_at",                               null: false
     t.datetime "updated_at",                               null: false
     t.string   "suggester_ip", limit: 255
@@ -304,13 +304,13 @@ ActiveRecord::Schema.define(version: 20160428175935) do
     t.datetime "created_at",                                       null: false
     t.datetime "updated_at",                                       null: false
     t.string   "password_digest",      limit: 255
-    t.boolean  "admin",                limit: 1,   default: false
+    t.boolean  "admin",                   default: false
     t.string   "activation_digest",    limit: 255
-    t.boolean  "activated",            limit: 1,   default: false
+    t.boolean  "activated",               default: false
     t.datetime "activated_at"
     t.string   "remember_digest",      limit: 255
     t.integer  "school_id",            limit: 4
-    t.boolean  "superman",             limit: 1,   default: false, null: false
+    t.boolean  "superman",                default: false, null: false
     t.integer  "works_count",          limit: 4,   default: 0,     null: false
     t.integer  "bookmarks_count",      limit: 4,   default: 0,     null: false
     t.string   "reset_digest",         limit: 255
@@ -321,19 +321,19 @@ ActiveRecord::Schema.define(version: 20160428175935) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",   limit: 255
     t.string   "last_sign_in_ip",      limit: 255
-    t.string   "uuid",                 limit: 255
+    t.string   "uuid"
     t.string   "nutshell",             limit: 255
     t.string   "avatar",               limit: 255
     t.string   "ed_level",             limit: 255
     t.string   "new_email",            limit: 255
     t.string   "email_update_digest",  limit: 255
     t.datetime "email_update_sent_at"
-    t.boolean  "new_email_confirmed",  limit: 1,   default: false
+    t.boolean  "new_email_confirmed",     default: false
     t.integer  "projects_count",       limit: 4,   default: 0,     null: false
     t.integer  "comments_count",       limit: 4,   default: 0,     null: false
-    t.boolean  "has_oauth",            limit: 1,   default: false, null: false
-    t.boolean  "created_as_oauth",     limit: 1,   default: false, null: false
-    t.boolean  "has_password",         limit: 1,   default: true,  null: false
+    t.boolean  "has_oauth",               default: false, null: false
+    t.boolean  "created_as_oauth",        default: false, null: false
+    t.boolean  "has_password",            default: true,  null: false
     t.integer  "affiliations_count",   limit: 4,   default: 0,     null: false
   end
 
@@ -341,7 +341,7 @@ ActiveRecord::Schema.define(version: 20160428175935) do
   add_index "users", ["slug"], name: "index_users_on_slug", unique: true, using: :btree
 
   create_table "visits", force: :cascade do |t|
-    t.uuid     "visitor_id",       limit: 16
+    t.uuid     "visitor_id"
     t.string   "ip",               limit: 255
     t.text     "user_agent",       limit: 65535
     t.text     "referrer",         limit: 65535
@@ -385,7 +385,7 @@ ActiveRecord::Schema.define(version: 20160428175935) do
     t.text     "file_content_md",      limit: 16777215
     t.text     "file_content_html",    limit: 16777215
     t.integer  "gradient_average_rgb", limit: 4,        default: 0,     null: false
-    t.boolean  "anonymouse",           limit: 1,        default: false, null: false
+    t.boolean  "anonymouse",                   default: false, null: false
     t.string   "author_name",          limit: 255
     t.string   "school_name",          limit: 255
     t.text     "file_content_text",    limit: 16777215
@@ -397,10 +397,7 @@ ActiveRecord::Schema.define(version: 20160428175935) do
     t.integer  "impressions_count",    limit: 4,        default: 0,     null: false
     t.string   "source_from",          limit: 255
     t.integer  "project_id",           limit: 4
-    t.boolean  "is_latest_version",    limit: 1
-    t.string   "project_name",         limit: 255
-    t.text     "file_content_css",     limit: 16777215
-    t.string   "alternate_link",       limit: 255
+    t.boolean  "is_latest_version"    
     t.integer  "revisions_count",      limit: 4,        default: 0,     null: false
     t.integer  "comments_count",       limit: 4,        default: 0,     null: false
   end
