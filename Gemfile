@@ -3,21 +3,11 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
 
-# Use sqlite3 as the database for Active Record
-# gem 'sqlite3'
-# http://stackoverflow.com/questions/32457657/rails-4-gemloaderror-specified-mysql2-for-database-adapter-but-the-gem-i
-# gem 'mysql2', '~> 0.3.18'
 gem 'pg'
 
 ## DEPLOY GEMS
 # use Puma for deploy server with EB
 gem 'puma'
-
-# use Rubber for deploy
-# gem 'rubber' #, '3.1.0' # 2.0.4
-# use passenger for deploy server
-# commented for now because i think rubber will take care of it on deploy side
-# gem 'passenger'
 
 # Use bcrypt for password crypto v
 # Use ActiveModel has_secure_password
@@ -104,7 +94,7 @@ gem "fog-aws" #, "~> 1.3.1"
 
 # You have to have both mini and r.
 # gem 'mini_magick'
-gem 'rmagick', '2.13.2', :require => 'RMagick' #, require: false # redundant to mini_magick (creates circular reference)
+gem 'rmagick', '2.13.2', :require => false # :require => 'RMagick' #, require: false # redundant to mini_magick (creates circular reference)
 # Enables asynch batch uploading via AJAX (note: depends on jquery-rails gem)
 gem 'remotipart', '~> 1.2'
 # Enables file_size validation

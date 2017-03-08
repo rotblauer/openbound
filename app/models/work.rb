@@ -21,7 +21,7 @@ class Work < ActiveRecord::Base
   counter_culture :user
   counter_culture :school
   counter_culture :project
-  
+
   has_many :comments, dependent: :destroy
   has_many :gradients, dependent: :destroy
   # has_many :bookmarks, dependent: :destroy # --> projects
@@ -33,15 +33,15 @@ class Work < ActiveRecord::Base
   ############################################
   ## Gem integrations
   ############################################
-  
+
   acts_as_taggable_on :contexts, :contents
   is_impressionable counter_cache: true, unique: :session_hash # column: impressions_count (int)
-  
+
   # FriendlyID for pretty URLs
   extend FriendlyId
     friendly_id :slug_candidates, use: :slugged # <-- def :slug_candidates in private
 
-  # Humps ahead. 
+  # Humps ahead.
   mount_uploader :document, DocumentUploader
 
   # Solr search method attributes
@@ -56,12 +56,12 @@ class Work < ActiveRecord::Base
     text :content_list, boost: 1.5 # <-- repeated as text to allow for querying
     string :context_list, multiple: true
     text :context_list, boost: 1.5 # <-- repeated as text to allow for querying
-    
+
     ### Using exclusively plain text for search indexing. Avoids query results for 'span', 'head', 'meta', 'style'
       # text :file_content_md, boost: 2.0
       # text :file_content_html, boost: 2.0
     text :file_content_text, boost: 2.0
-    
+
     text :author_name
     time :updated_at
     time :created_at
@@ -71,7 +71,7 @@ class Work < ActiveRecord::Base
     string :school_id
     string :user_id
     boolean :anonymouse
-    
+
     boolean :is_latest_version
     integer :project_id
     text :project_name, boost: 3.0
@@ -81,16 +81,16 @@ class Work < ActiveRecord::Base
   ############################################
   ## Validations
   ############################################
-  
+
   validates :user_id, presence: true
 
-  # Skips validation for document presence in test env. 
-  if !Rails.env.test? 
-    validates :document, 
+  # Skips validation for document presence in test env.
+  if !Rails.env.test?
+    validates :document,
       file_size: { less_than_or_equal_to: 5.megabytes, message: " must be less than 5 megabytes!" } # <-- comment all document validation while seeding
   end
 
-  # Make sure there is some work uploaded - either a file or file content. 
+  # Make sure there is some work uploaded - either a file or file content.
   validate :has_some_work_shit
     def has_some_work_shit
       if [self.document, self.remote_document_url, self.file_content_html, self.file_content_md, self.file_content_text].reject(&:blank?).size == 0
@@ -98,7 +98,7 @@ class Work < ActiveRecord::Base
       end
     end
 
-  # See private methods. 
+  # See private methods.
   validate :user_has_reasonable_total_upload_mass, on: [:create, :update]
   validate :description_is_short, on: [:create, :update]
 
@@ -107,7 +107,7 @@ class Work < ActiveRecord::Base
   ############################################
 
   # ----------- Skip gerrymandering ------------ #
-  
+
 
 
   # ----------- Create ------------ #
@@ -137,18 +137,18 @@ class Work < ActiveRecord::Base
   before_save :update_upload_attributes, :set_author_name
 
   # ----------- Update ------------ #
-  
+
   after_update :update_if_file_content_md_changed, :update_diffs_if_any, :save_revision
     def update_diffs_if_any
       unless self.project.works_count == 1
         make_diffs # if self.file_content_md_changed?
       end
     end
-    def update_if_file_content_md_changed 
+    def update_if_file_content_md_changed
 
       puts "self.file_content_md_changed? => #{self.file_content_md_changed?}"
-          
-      update_textuals if self.file_content_md_changed? # This should not error for images. 
+
+      update_textuals if self.file_content_md_changed? # This should not error for images.
 
     end
     def save_revision
@@ -156,33 +156,33 @@ class Work < ActiveRecord::Base
           project_id: self.project.id,
           data: self.attributes.to_json
         )
-      if new_revision.save 
+      if new_revision.save
         puts "************ AWESOME. Revision saved. ****************"
-      else 
+      else
         puts "************ BOOOOOO. Revision not saved :-( ****************"
       end
     end
 
 
   # ----------- Destroy ------------ #
-  
+
   before_destroy :delete_tags, prepend: true
 
   # Project#before_destroy :destroy_all_works call this by destroying a work(s) individually
   after_destroy :delegate_latest_version, :remove_related_diffs, :destroy_project_no_more_works
     def delegate_latest_version
-      proj = self.project 
+      proj = self.project
       puts "project frozen? #{proj.frozen?}"
       unless proj.frozen? # proj will be frozen if it's being destroyed
         # if !proj.works[-1].nil?
         #   runner_up = proj.works.last # should be second to last work
-        # else # works[-2] IS nil, meaning only one work left 
+        # else # works[-2] IS nil, meaning only one work left
         #   runner_up = proj.first # if only one remaining work
-        # end  
-        runner_up = proj.works.last # Can choose .last because _the deleted work no longer belongs to the project_, apparently. 
+        # end
+        runner_up = proj.works.last # Can choose .last because _the deleted work no longer belongs to the project_, apparently.
         proj.update_attributes!(recent_work_id: runner_up.id) if !runner_up.nil? # update project work pointer attr
         runner_up.update_attributes!(is_latest_version: true) if !runner_up.nil? # update work is_latest_version attr
-      else 
+      else
         puts "-----------------------> Project was frozeeeen. delegate_latest_version probably didn't work"
       end
     end
@@ -192,7 +192,7 @@ class Work < ActiveRecord::Base
       # Foo.where('foo= ? OR bar= ?', 'bar', 'bar')
       diffs = Diff.where('work1 = ? OR work2 = ?', s_id, s_id)
       puts "diffs frozen? #{diffs.frozen?}"
-      unless diffs.frozen? 
+      unless diffs.frozen?
         diffs.all.each { |d| d.destroy } if diffs.any?
       end
     end
@@ -202,14 +202,14 @@ class Work < ActiveRecord::Base
         proj.destroy
       end
     end
-  
+
   # This is one way to extract the image pages *locally* with Docsplit.
   # require 'split'
   # after_create :extract_first_page_images, if: :is_extractable? #, on: :create
   # extract :to => :thumbs, :sizes => { :large => "300x", :medium => "500x" } #, if: :pdf?, on: :create
 
   # ----------- Commit ------------ #
-  
+
   # Parent works_count
   # after_commit :update_user_works_count, on: [:create, :destroy]
   # after_commit :update_school_works_count, on: [:create, :destroy]
@@ -223,7 +223,7 @@ class Work < ActiveRecord::Base
   # May convert md -> html & plain.
   # May convert plain -> html & markdown.
   def init_textuals
-    # Prioritize markdown. 
+    # Prioritize markdown.
     if self.file_content_md
       markdown_to_html_and_text
     elsif self.file_content_html
@@ -233,23 +233,23 @@ class Work < ActiveRecord::Base
     elsif self.file_content_text
       text_to_md
       text_to_html
-    elsif self.image? 
+    elsif self.image?
       # do nothing
-    else 
+    else
       errors.add("There is no textual content for work id: #{self.id}")
     end
   end
 
-  # Will _always_ be coming from changed markdown. 
+  # Will _always_ be coming from changed markdown.
   def update_textuals
-    # FIXME: this will remove all classes from Google Drive, which identify versions (I think) and styling. 
-    # Fuck it. 
+    # FIXME: this will remove all classes from Google Drive, which identify versions (I think) and styling.
+    # Fuck it.
     markdown_to_html_and_text
   end
 
   # When coming from google (w2m and the HTML::Pipeline::MarkdownFilter don't leave extraneous tags coming from DocumentUploader)
   ## I turned keep CSS on.
-  def clean_html 
+  def clean_html
       cleaned = ConverterMachine.clean_html(self) # => {html: clean html, css: Nokogiri extracted <style>...</style>}
       self.update_attributes!(file_content_html: cleaned[:html], file_content_css: cleaned[:css])
   end
@@ -257,7 +257,7 @@ class Work < ActiveRecord::Base
   # Convert html to markdown unless DocumentUploader has already taken care of that (ie if the upload is coming from Google Drive)
   def html_to_markdown
     html_decoded = ConverterMachine.html_markdown(self)
-    
+
     # Update the work.
     unless self.update_attributes!(file_content_md: html_decoded)
       errors.add("There was an error updating MD for work id: #{self.id}")
@@ -266,20 +266,20 @@ class Work < ActiveRecord::Base
 
   def html_to_plain
     plain = ConverterMachine.html_text(self)
-    
-    # Update the work. 
+
+    # Update the work.
     unless self.update_attributes!(file_content_text: plain)
       errors.add("There was an error updating TEXT for work id: #{self.id}")
     end
   end
 
   def text_to_md
-  	# Remember, update_columns skips callbacks and validations. 
+  	# Remember, update_columns skips callbacks and validations.
     self.update_columns(file_content_md: self.file_content_text)
   end
 
   def text_to_html
-    # TODO: make this better. 
+    # TODO: make this better.
     self.update_column(:file_content_html, self.file_content_text)
   end
 
@@ -303,11 +303,11 @@ class Work < ActiveRecord::Base
   end
 
   def document_basename
-    return self.file_name.chomp('.pdf') # FIXME: this does not look good. 
+    return self.file_name.chomp('.pdf') # FIXME: this does not look good.
   end
 
   ############################################
-  ## COUNT UPDATERS 
+  ## COUNT UPDATERS
   ############################################
 
   # Count on relations.
@@ -344,9 +344,9 @@ class Work < ActiveRecord::Base
   ############################################
   ## Integrate with Projects
   ############################################
-  
+
   # ----------- Initial ------------ #
-  
+
   # assign each existing work to a new project
     # that project should be owned by the work's user
     # that project should be associated to the work's school
@@ -362,12 +362,12 @@ class Work < ActiveRecord::Base
   def assign_to_project
     da_user = self.user # get user
     if self.project == nil
-      new_project = da_user.projects.build( 
-          
+      new_project = da_user.projects.build(
+
           # user_id: self.id, # handled through build method
           school_id: self.school_id,
           name: self.name,
-          
+
           file_content_md: self.file_content_md,
           file_content_html: self.file_content_html,
           file_content_text: self.file_content_text,
@@ -383,8 +383,8 @@ class Work < ActiveRecord::Base
           bookmarks_count: self.bookmarks_count
 
         )
-      
-      if new_project.save 
+
+      if new_project.save
         self.update_attributes(project_id: new_project.id, is_latest_version: true, project_name: self.name)
         puts "Successfully saved " + new_project.name.to_s
       else
@@ -392,12 +392,12 @@ class Work < ActiveRecord::Base
       end
 
     # this should only be necessary in development scenario
-    else 
+    else
       puts "Project id: " + self.project.id.to_s + " already exists for this work id: " + self.id.to_s
-    end 
-    
+    end
+
   end
-    
+
 
   # ----------- Eternal ------------ #
 
@@ -406,7 +406,7 @@ class Work < ActiveRecord::Base
   end
 
   def init_or_update_project # after_create
-    if self.is_original? 
+    if self.is_original?
       init_project
       # set_as_latest_version
     else
@@ -426,7 +426,7 @@ class Work < ActiveRecord::Base
       # user_id: self.id, # handled through build method
       school_id: self.school_id, # merged from user.school.Institution_ID
       name: self.name, # take on name of work
-      
+
       file_content_md: self.file_content_md, # these are of most recent, will be replaced as versions are added
       file_content_html: self.file_content_html,
       file_content_text: self.file_content_text,
@@ -436,7 +436,7 @@ class Work < ActiveRecord::Base
 
       anonymouse: self.anonymouse, # and work gets this from user
       author_name: self.author_name, # ditto
-      school_name: self.school_name, 
+      school_name: self.school_name,
       )
 
     if new_project.save
@@ -468,7 +468,7 @@ class Work < ActiveRecord::Base
       neighbors.push(work.id)
     end
     # remove current work.id so have the *other* neighbors
-    neighbors.delete(self.id) 
+    neighbors.delete(self.id)
     neighbors.each do |neighbor| # neighbor => work id
       generate_diff(neighbor, self.id)
     end
@@ -483,21 +483,21 @@ class Work < ActiveRecord::Base
     puts "---------------------------------> generating diff for #{wA} and #{wB}"
     # sort by magnitude of id
     # returns w1 has earlier id than w2
-    wA < wB ? w1id = wA : w1id = wB 
-    wA < wB ? w2id = wB : w2id = wA 
+    wA < wB ? w1id = wA : w1id = wB
+    wA < wB ? w2id = wB : w2id = wA
 
     # get refs to whole works
     w1 = Work.find(w1id)
     w2 = Work.find(w2id)
 
     # check they belong to same project
-    errors.add(:project, "projects don't match") unless w1.project_id == w2.project_id 
+    errors.add(:project, "projects don't match") unless w1.project_id == w2.project_id
 
     project = Project.find(w2.project_id) # same as w1
 
 
     # ----------- make diffs ------------ #
-    
+
     # set values to diff from neighbord
     w1_md = w1.file_content_md.force_encoding("UTF-8") if !w1.file_content_md.nil?
     w1_html = w1.file_content_html.force_encoding("UTF-8") if !w1.file_content_html.nil?
@@ -508,7 +508,7 @@ class Work < ActiveRecord::Base
     diff_html_val = Diffy::Diff.new(w1_md ,w2.file_content_md).to_s(:html)
     diff_text_val = Diffy::Diff.new(w1_text ,w2.file_content_text).to_s
 
-    ### ALWAYS DIFF INTO :HTML FORMAT SO WE CAN DISPLAY IT NEATLY. 
+    ### ALWAYS DIFF INTO :HTML FORMAT SO WE CAN DISPLAY IT NEATLY.
     ### ALWAYS DIFF !EMPTY RIGHT/LEFT
     diff_left_val = Diffy::SplitDiff.new(w1_md ,w2.file_content_md, :format => :html, :allow_empty_diff => false).left if !w1_md.nil?
     diff_right_val = Diffy::SplitDiff.new(w1_md ,w2.file_content_md, :format => :html, :allow_empty_diff => false).right if !w1_md.nil?
@@ -567,7 +567,7 @@ class Work < ActiveRecord::Base
       SecureRandom.uuid
     end
 
-    # Saves upload content_type and file_size as attributes. 
+    # Saves upload content_type and file_size as attributes.
     def update_upload_attributes
       if document.present? && document_changed?
         self.content_type = document.file.content_type
@@ -576,7 +576,7 @@ class Work < ActiveRecord::Base
       end
     end
 
-    # Sets work's associated school name before create. 
+    # Sets work's associated school name before create.
     def set_school_name
       self.school_name = self.user.school_primary.Institution_Name
       # also set school id
@@ -590,21 +590,21 @@ class Work < ActiveRecord::Base
       end
     end
 
-    # Sets author_name, which reflects either true creator's name or penname, depending on user's privacy choices. 
+    # Sets author_name, which reflects either true creator's name or penname, depending on user's privacy choices.
     def set_author_name
       # Handles toggling between fake and real names (at edit)
       if anonymouse_changed?
         if self.anonymouse
           self.author_name = Faker::Name.name
-        else 
+        else
           self.author_name = self.user.name
-        end 
-      end  
+        end
+      end
       # Handles
       if !self.anonymouse
         self.author_name = self.user.name
-      end 
-    end  
+      end
+    end
 
     def delete_tags
       self.context_list = ''

@@ -1,5 +1,5 @@
 class Project < ActiveRecord::Base
-  
+
   ############################################
   ## Associations
   ############################################
@@ -9,8 +9,8 @@ class Project < ActiveRecord::Base
 
   counter_culture :user
   counter_culture :school
-  
-  # dependent: destroy for works and/or diffs causes `can't modify frozen hash` error, 
+
+  # dependent: destroy for works and/or diffs causes `can't modify frozen hash` error,
   # so it's handled manually in before_destroy :destroy_all_works
   has_many :works#, dependent: :destroy
   has_many :revisions
@@ -23,7 +23,7 @@ class Project < ActiveRecord::Base
   ## Gem integrations
   ############################################
 
-  acts_as_taggable_on :contexts, :contents 
+  acts_as_taggable_on :contexts, :contents
   is_impressionable counter_cache: true, unique: :session_hash
 
   extend FriendlyId
@@ -36,8 +36,8 @@ class Project < ActiveRecord::Base
     # integer, boolean is filterable, ie project any_of do / :with()
 
   # accepts_nested_attributes_for :works, allow_destroy: true, :reject_if => proc { |attributes| attributes['file_content_md'].blank? }
-  
-  searchable do 
+
+  searchable do
     integer :id
     text :name, boost: 3.0
     text :description, boost: 3.0
@@ -46,7 +46,7 @@ class Project < ActiveRecord::Base
     text :content_list, boost: 1.5 # <-- repeated as text to allow for querying
     string :context_list, multiple: true
     text :context_list, boost: 1.5 # <-- repeated as text to allow for querying
-    
+
     text :author_name
     time :updated_at
     time :created_at
@@ -54,7 +54,7 @@ class Project < ActiveRecord::Base
     string :school_name # <-- un-removed because dirties "search works" (ie query="Minnesota" would return works from UofM, not works pertaining to Minnesota)
     #text :school_name
     string :school_id
-    string :user_id # string, really? 
+    string :user_id # string, really?
     boolean :anonymouse
 
     text :works do
@@ -67,7 +67,7 @@ class Project < ActiveRecord::Base
   ############################################
   ## Validations
   ############################################
-  
+
   validates :user_id, presence: true
   validates :school_id, presence: true
   validates :recent_work_id, presence: true
@@ -76,7 +76,7 @@ class Project < ActiveRecord::Base
   ############################################
   ## Callbacks
   ############################################
-  
+
   # TODO: fix infinite stack for after_update_callback
   before_save :set_author_name
   after_save :set_works_project_name
@@ -98,7 +98,7 @@ class Project < ActiveRecord::Base
   ############################################
   ## Self definers
   ############################################
-  
+
   # def update_bookmarked_count
   #   self.update_attribute(:bookmarked_count, self.bookmarks.where(bookmarked: true).count)
   # end
@@ -118,7 +118,7 @@ class Project < ActiveRecord::Base
   ############################################
 
   # ----------- init Project tags ------------ #
-  
+
   def sync_tags_to_children_works
     works = self.works.all
     works.each do |work|
@@ -128,7 +128,7 @@ class Project < ActiveRecord::Base
     self.save
   end
 
-  # # Gather umbrellas of works' context and contents tag lists. 
+  # # Gather umbrellas of works' context and contents tag lists.
   # def inclusive_contexts_list
   #   project_contexts_list = [] # create an array of all unique tags on project's versions
   #   self.works.all.each do |work|
@@ -164,28 +164,28 @@ class Project < ActiveRecord::Base
   	def slug_candidates
   		if self.name? # this could change if name changes
   			self.name
-  		else 
+  		else
   	  	SecureRandom.uuid
   	  end
   	end
 
-    # Sets author_name, which reflects either true creator's name or penname, depending on user's privacy choices. 
+    # Sets author_name, which reflects either true creator's name or penname, depending on user's privacy choices.
     def set_author_name
       # Handles toggling between fake and real names (at edit)
       if self.attribute_changed?(:anonymouse)
         if self.anonymouse
           self.author_name = Faker::Name.name
-          
-        else 
+
+        else
           self.author_name = self.user.name
 
-        end 
-      end  
+        end
+      end
       # Handles
       if !self.anonymouse
         self.author_name = self.user.name
-      end 
-    end  
+      end
+    end
 
     def set_works_project_name
       if self.attribute_changed?(:name)

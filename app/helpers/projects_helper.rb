@@ -30,7 +30,7 @@ module ProjectsHelper
 
 
 	def unique_works_by_type(project)
-		works = project.works.group(["source_from", "content_type"])
+		works = project.works.group(["id", "source_from", "content_type"])
 		works
 	end
 	
