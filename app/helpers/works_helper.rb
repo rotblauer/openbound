@@ -1,7 +1,6 @@
 require 'converter-machine.rb'
 module WorksHelper
 
-  include ActsAsTaggableOn::TagsHelper
   include ConverterMachine
 
   def owner? work

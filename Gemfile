@@ -126,7 +126,7 @@ gem 'htmlentities'
 
 ## Gems for work metadata
 # Use tagging
-gem 'acts-as-taggable-on'
+# gem 'acts-as-taggable-on'
 # Use impressionist for page views counts
 gem 'impressionist', '1.5.1'
 # Use folder system for uploads && nested comments(?)

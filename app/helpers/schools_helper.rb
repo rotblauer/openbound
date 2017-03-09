@@ -1,6 +1,5 @@
 module SchoolsHelper
 
-	include ActsAsTaggableOn::TagsHelper
 
 	# Favicon for school instance.
 	def favicon_for(school, width, height, style)
