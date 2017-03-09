@@ -287,7 +287,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
       def image?(new_file) # [image/jpeg] (<-- == .jpg also) [image/png] [image/gif]
         if new_file
-          new_file.content_type.start_with? 'image'
+          new_file.content_type.include? 'image'
         end
       end
 

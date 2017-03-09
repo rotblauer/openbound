@@ -2,6 +2,7 @@
 
 
 
+
 <div class="row" style="height: 20px;">
 </div>
 
@@ -178,7 +179,7 @@
                         <ul class="dropdown-menu dropdown-menu-center">
 
                           <!-- original file -->
-                          <% if work.document_url %>
+                          <% if work.document_url.present? %>
                           <li>
                             <%= link_to work.document_url, class: 'modest-link' do %>
                               <span class="brand-primary"><%= work.file_name %></span>&nbsp;<sup style="color: green;">original</sup>

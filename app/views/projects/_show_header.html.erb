@@ -121,7 +121,7 @@
             Add document to project
         </button>
 
-        <%= link_to "delete", project_path(project), method: :delete, class: "text-danger small" %>
+        <%= link_to "delete", project_path(project), method: :delete, class: "text-danger small", data: { confirm: "Really really delete this project and all it's documents?"} %>
         <% end %>
     </div>
 
