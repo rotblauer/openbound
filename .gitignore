@@ -16,16 +16,13 @@
 
 # Ignore env variable configgers.
 /config/local_env.yml
-/config/secrets.yml
+# /config/secrets.yml
 # Ignore all rubber config.
-/config/rubber
 # Ignore deploy info.
 # /config/deploy.rb
 # Ignore carrierwave initializer with fog creds.
 # /config/initializers/carrierwave.rb
 # /config/initializers/shareable.rb
-
-/config/environments
 
 /debug
 
@@ -37,14 +34,11 @@
 /db/seed_uploads
 
 # Ignore custom tasks (seeders, grabbers, deployers).
-/lib/tasks
+# /lib/tasks
 
 # Ignore all logfiles and tempfiles.
 /log/*
 !/log/.keep
-
-# Ignore rake with phone numbers
-/lib/tasks/notifiable.rake
 
 # Ignore node_modules.
 /node_modules
@@ -67,11 +61,6 @@
 
 # Ignore secretary.
 /secretary
-
-# Ignore solr/dev files (index, etc).
-/solr/development/data/index
-/solr/development/data/tlog
-/solr/pids
 
 # Ignore temp.
 /tmp

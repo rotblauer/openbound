@@ -1,6 +1,6 @@
 <style>
 	h1 {
-		font-size: 3vw; 
+		font-size: 3vw;
 		line-height: 100%;
 		color: #005a9b;
 	}
@@ -15,7 +15,7 @@
 	<h1 >
 		<%= link_to schools_path, class:'modest-link' do %>
 		<span class="brand-secondary">
-			schools \  
+			schools \
 		</span>
 		<% end %>
 		<sup>
@@ -34,7 +34,7 @@
 					#map {
 						height: 200px;
 						width: 100%;
-						
+
 					}
 				</style>
 
@@ -45,10 +45,10 @@
 		      function initMap() {
 
 		      	var schoolLocation = {
-		      		lat: <%= 
+		      		lat: <%=
 		      						@school_coords_lat
-		      					%>, 
-		      		lng: <%= 
+		      					%>,
+		      		lng: <%=
 		      						@school_coords_lng
 		      					%>
 		      		}
@@ -73,13 +73,13 @@
 				<p class="text-muted">
 				<span class="fa fa-map-marker"></span>
 				<%= @school.Institution_City %>, <%= @school.Institution_State %></p>
-				
+
 				<p class="text-muted">
 				<span class="fa fa-external-link"></span>
 				<%= link_to @school.Institution_Web_Address, "http://#{@school.Institution_Web_Address}", target:'_blank' %></p>
 
 				</div>
-										
+
 			</div>
 
 			<div class="panel panel-default">
@@ -87,9 +87,9 @@
 
 					<span class="dark-blue">
 						<span class="fa fa-users"></span>
-						<%= pluralize @school.affiliations_count, 'affiliated member' %>	
+						<%= pluralize @school.affiliations_count, 'affiliated member' %>
 					</span>
-					
+
 					<div class="portrait-gallery" style="overflow: scroll;">
 						<% @school.affiliations.each do |aff| %>
 							<%= link_to aff.user do %>
@@ -107,18 +107,18 @@
 		<div class="col-sm-9">
 			<div class="row">
 				<div class="col-sm-8" style="max-height: 280px; overflow: scroll;">
-				
+
 				<!-- 	<p>
 						<%# raw @wiki %>
 					</p> -->
-				
+
 					<div class="col-sm-12">
 						<p class="brand-secondary">About</p>
 						<p class="text-muted" style="line-height: 150%;">
 
 							<%= if @school.wikipedia_summary
-										@school.wikipedia_summary.truncate_words(50)  
-									else 
+										@school.wikipedia_summary.truncate_words(50)
+									else
 										puts 'No summary available.'
 									end
 							%>
@@ -139,31 +139,31 @@
 								max-height: 80px;
 							}
 						</style>
-				
+
 					</div> -->
-				
+
 				</div>
-				
+
 				<div class="col-sm-4">
 
 					<!-- test logo -->
 					<div class="col-sm-12 ">
 						<%= image_tag @school.logo, class: 'img-responsive', style:'margin-left:auto;margin-right:auto;' if @school.logo.present? %>
 					</div>
-				
-					
-					
+
+
+
 				</div>
 			</div>
 
 			<div class="row row-fat">
 
 				<div class="col-sm-12" style="padding: 30px;">
-					<p class="brand-secondary">Top tags by 
+					<p class="brand-secondary">Top tags by
 						<span class="label label-context" style="font-size: 80%;">Department</span>
 						<span class="label label-content" style="font-size: 80%;">Topic</span>
 					</p>
-									
+
 					<style>
 						.label {
 							margin: 5px;
@@ -173,13 +173,13 @@
 							/*font-size: 2em;*/
 						}
 					</style>
-									
+
 					<%#%> context_count_hash(@school, 10).each do |key, value| %>
 						<span class="label label-context">
 							<%#%>= link_to key, projects_path(:context => [key], :school_name => [@school.Institution_Name]) %> (<%#= value %>)
 						</span>
 					<% #end %>
-									
+
 					<%#%> content_count_hash(@school, 10).each do |key, value| %>
 						<span class="label label-content">
 							<%#%>= link_to key, projects_path(:content => [key], :school_name => [@school.Institution_Name]) %> (<%#= value %>)
@@ -190,8 +190,8 @@
 				<hr class="brand-secondary">
 				</div>
 
-				
-	
+
+
 				<div class="col-sm-12">
 				<div class="row">
 				<div class="col-sm-12">
@@ -202,41 +202,41 @@
 				</div>
 
 					<% if @projects.count > 0 %>
-					
-							
+
+
 						<div id="project-uploads">
 						  <%= render partial: 'projects/project2', collection: @projects, as: :project if @projects.any? %>
 						</div>
-					
+
 						<div class="row load-more-container text-center">
 						        <!-- hide our loading gif image so that we show it when making ajax call via jquery -->
 							<%= image_tag "loading_spinner.gif", style: "display:none;", class: "loading-gif" %>
 							<%= link_to "Load More", @school, class: "load-more" if @total_results > @projects.count %>
 						</div>
-					
+
 						<script>
 						$(document).ready(function () {
 						    // when the load more link is clicked
 						    $('a.load-more').click(function (e) {
-					
+
 						        // prevent the default click action
 						        e.preventDefault();
-					
+
 						        // hide load more link
 						        $('.load-more').hide();
-					
+
 						        // show loading gif
 						        $('.loading-gif').show();
-					
+
 						        // get the last id and save it in a variable 'last-id'
 						        var last_id = $('.-project').last().attr('data-id');
 						        // console.log('last_id', last_id);
-					
+
 						        // make an ajax call passing along our last user id
 						        $.ajax({
-					
+
 						        	// console.log('doing ajax request');
-					
+
 						            // make a get request to the server
 						            type: "GET",
 						            // get the url from the href attribute of our link
@@ -247,37 +247,37 @@
 						            },
 						            // the response will be a script
 						            dataType: "script",
-					
-						            // upon success 
+
+						            // upon success
 						            success: function () {
 						            		// console.log('success ajax');
 						                // hide the loading gif
 						                $('.loading-gif').hide();
 						                // show our load more link
 						                $('.load-more').show();
-					
+
 						                $('.has-tooltip').tooltip();
 						                /* Activating Best In Place */
 						                jQuery(".best_in_place").best_in_place();
 						            }
 						        });
-					
+
 						    });
 						});
 						</script>
-					
+
 					<% elsif (@projects.count == 0) && params[:search].present? %>
-					
+
 						<div class="row">
 							<h2 class="text-center" style="color: gray;">no matching projects found - bummer!</h2>
 						</div>
-					
+
 					<% else %>
-						
+
 						<div class="row">
 								<h2 class="text-center" style="color: gray;">no projects yet... what a bunch of slackers!</h2>
 						</div>  <!-- end work uploads div -->
-					
+
 					<% end %></div>
 			</div>
 
@@ -286,10 +286,8 @@
 
 
 	</div>
-	
-	
+
+
 
 
 </div>
-
-

@@ -2,7 +2,7 @@ module SchoolsHelper
 
 	include ActsAsTaggableOn::TagsHelper
 
-	# Favicon for school instance. 
+	# Favicon for school instance.
 	def favicon_for(school, width, height, style)
 		# don't use a favicon if the work is associate with Spy University
 		if false # school == School.friendly.find('spy-university')
@@ -13,24 +13,24 @@ module SchoolsHelper
 		# images are saved to S3 on production and staging
 		elsif !Rails.env.development? #!Rails.env.production?
 			image_tag(school.favicon_url, width: width, height: height, style: style)
-		
+
 		elsif school.Institution_Web_Address
 			source = "http://www.google.com/s2/favicons?domain="+school.Institution_Web_Address
 			image_tag source, width: width, height: height, style: style
 			# return raw '<img height="'+height.to_s+'" width="'+width.to_s+'" src="'+source.to_s+'" style="'+style+'"></img>'.html_safe
-		else 
-			image_tag(school.favicon_url, width: width, height: height, style: style)	
+		else
+			image_tag(school.favicon_url, width: width, height: height, style: style)
 		end
 	end
 
-	# Return tags per school by joining associated works table. 
+	# Return tags per school by joining associated works table.
 	# Args: school instance, first(number) of tag counts desired
-	# 
+	#
 	#
 	def tag_count_hash(school, number)
 		school_tags_with_count = Hash.new
 		school.projects.tag_counts_on(:tags).each do |tag|
-	 		school_tags_with_count["#{tag.name}"] = tag.joins("INNER JOIN projects ON taggings.taggable_id = projects.id").where("projects.school_id = #{school.id}").count 
+	 		school_tags_with_count["#{tag.name}"] = tag.joins("INNER JOIN projects ON taggings.taggable_id = projects.id").where("projects.school_id = #{school.id}").count
 		end
 		return school_tags_with_count.sort_by {|k,v| v}.reverse.first(number)
 	end
@@ -38,13 +38,13 @@ module SchoolsHelper
 	def content_count_hash(school, number)
 		school_tags_with_count = Hash.new
 		school.projects.tag_counts_on(:contents).each do |tag|
-	 		school_tags_with_count["#{tag.name}"] = tag.taggings.joins("INNER JOIN projects ON taggings.taggable_id = projects.id").where("projects.school_id = #{school.id}").count 
+	 		school_tags_with_count["#{tag.name}"] = tag.taggings.joins("INNER JOIN projects ON taggings.taggable_id = projects.id").where("projects.school_id = #{school.id}").count
 		end
 		return school_tags_with_count.sort_by {|k,v| v}.reverse.first(number)
 	end
 
 
-	# Top tags charts for schools, by tag and by content. 
+	# Top tags charts for schools, by tag and by content.
 	#
 	def tag_chart(tag_count_hash)
 
@@ -76,10 +76,10 @@ module SchoolsHelper
 							 :minorGridLineColor => '#FFFFFF',
 							 :tickColor => '#FFFFFF',
 							 :minorTickColor => '#FFFFFF',
-							 :lineColor => '#FFFFFF', 
+							 :lineColor => '#FFFFFF',
 							 :ceiling => ceiling,
-							 :title => { :text => nil }, 
-							 :allowDecimals => false, 
+							 :title => { :text => nil },
+							 :allowDecimals => false,
 							 :labels => { :enabled => false }
 							)
 			f.series(:name => 'Contexts', :xAxis => 0, :data => tag_count_hash)
@@ -106,7 +106,7 @@ module SchoolsHelper
 
 		content_chart = LazyHighCharts::HighChart.new('graph') do |f|
 			f.title({ :text => 'Top Subject Tags', :style => {:color => '#9bc8e8'}})
-			f.xAxis [				
+			f.xAxis [
 				{ :categories => content_categories,
 					:reversed => false,
 					:gridLineColor => '#FFFFFF',
@@ -121,10 +121,10 @@ module SchoolsHelper
 							 :minorGridLineColor => '#FFFFFF',
 							 :tickColor => '#FFFFFF',
 							 :minorTickColor => '#FFFFFF',
-							 :lineColor => '#FFFFFF', 
+							 :lineColor => '#FFFFFF',
 							 :ceiling => ceiling,
-							 :title => { :text => nil }, 
-							 :allowDecimals => false, 
+							 :title => { :text => nil },
+							 :allowDecimals => false,
 							 :labels => { :enabled => false }
 							)
 			f.series(:name => 'Contexts', :xAxis => 0, :data => content_count_hash.reverse)
