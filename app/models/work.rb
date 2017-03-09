@@ -395,7 +395,7 @@ class Work < ActiveRecord::Base
           works_count: 1,
           recent_work_id: self.id,
 
-          anonymouse: self.anonymouse,
+          anonymouse: self.anonymouse?,
           author_name: self.author_name,
           school_name: self.school_name,
 
@@ -454,7 +454,7 @@ class Work < ActiveRecord::Base
       works_count: 1, # is first work
       recent_work_id: self.id, # as original work
 
-      anonymouse: self.anonymouse, # and work gets this from user
+      anonymouse: self.anonymouse?, # and work gets this from user
       author_name: self.author_name, # ditto
       school_name: self.school_name,
       )
@@ -604,7 +604,7 @@ class Work < ActiveRecord::Base
     end
 
     def set_anonymity_before_create
-      if self.user.superman
+      if self.user.superman?
         self.author_name = Faker::Name.name
         self.anonymouse = true
       end
@@ -614,14 +614,14 @@ class Work < ActiveRecord::Base
     def set_author_name
       # Handles toggling between fake and real names (at edit)
       if anonymouse_changed?
-        if self.anonymouse
+        if self.anonymouse?
           self.author_name = Faker::Name.name
         else
           self.author_name = self.user.name
         end
       end
       # Handles
-      if !self.anonymouse
+      if !self.anonymouse?
         self.author_name = self.user.name
       end
     end
