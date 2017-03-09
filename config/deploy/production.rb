@@ -42,9 +42,9 @@
 # Global options
 # --------------
  set :ssh_options, {
-   keys: %w(~/ia/.ssh/id_rsa_mh),
-   forward_agent: false,
-   # auth_methods: %w(password),
+ #   keys: %w(~/.ssh/id_rsa_mh),
+ #   # forward_agent: false,
+ #   # auth_methods: %w(password),
    port: 1026
  }
 #
