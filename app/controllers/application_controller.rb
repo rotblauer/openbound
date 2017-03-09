@@ -68,7 +68,7 @@ class ApplicationController < ActionController::Base
       domain_exceptions = ['openbound.org', 'www.openbound.org', 'staging.openbound.org'] #ec2-52-38-222-148.us-west-2.compute.amazonaws.com
       should_redirect = !(domain_exceptions.include? request.host)
       # if not trying to get to staging
-      # if !['staging.rstacks.org'].include? request.host
+      # if !['staging.openbound.org'].include? request.host
       new_url = "#{request.protocol}#{domain_to_redirect_to}#{request.fullpath}" 
       # else 
       #   new_url = "ec2-52-27-198-224.us-west-2.compute.amazonaws.com#{request.fullpath}"
