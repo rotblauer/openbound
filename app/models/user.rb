@@ -88,7 +88,6 @@ class User < ActiveRecord::Base
     validates :avatar, file_size: { less_than_or_equal_to: 5.megabytes } # <-- comment all document validation while seeding
   end
 
-  acts_as_tagger # reallly.....? <-- would like to use to personalize and count taggings so tags can become weighted. currently not in use. 
   devise :trackable # fills in 4 or 5 columns in user table about session history stuff like IP, log-in count
   is_impressionable # 'impressionist' gem method for tracking view counts; towards user-popularity stats stuff
 
