@@ -34,7 +34,6 @@ class Work < ActiveRecord::Base
   ## Gem integrations
   ############################################
 
-  acts_as_taggable_on :contexts, :contents
   is_impressionable counter_cache: true, unique: :session_hash # column: impressions_count (int)
 
   # FriendlyID for pretty URLs
@@ -46,36 +45,37 @@ class Work < ActiveRecord::Base
 
   # Solr search method attributes
   # note the difference between `text` and `string` -- `text` is searchable normally (query), the other can run facets
-  searchable do
-    integer :id
-    text :name, boost: 3.0
-    text :description, boost: 3.0
-    text :document
-    text :file_name, stored: true
-    string :content_list, multiple: true
-    text :content_list, boost: 1.5 # <-- repeated as text to allow for querying
-    string :context_list, multiple: true
-    text :context_list, boost: 1.5 # <-- repeated as text to allow for querying
+  # searchable do
+  #   integer :id
+  #   text :name, boost: 3.0
+  #   text :description, boost: 3.0
+  #   text :document
+  #   text :file_name, stored: true
 
-    ### Using exclusively plain text for search indexing. Avoids query results for 'span', 'head', 'meta', 'style'
-      # text :file_content_md, boost: 2.0
-      # text :file_content_html, boost: 2.0
-    text :file_content_text, boost: 2.0
+  #   # string :content_list, multiple: true
+  #   # text :content_list, boost: 1.5 # <-- repeated as text to allow for querying
+  #   # string :context_list, multiple: true
+  #   # text :context_list, boost: 1.5 # <-- repeated as text to allow for querying
 
-    text :author_name
-    time :updated_at
-    time :created_at
-    # integer :school_id
-    string :school_name # <-- un-removed because dirties "search works" (ie query="Minnesota" would return works from UofM, not works pertaining to Minnesota)
-    #text :school_name
-    string :school_id
-    string :user_id
-    boolean :anonymouse
+  #   ### Using exclusively plain text for search indexing. Avoids query results for 'span', 'head', 'meta', 'style'
+  #     # text :file_content_md, boost: 2.0
+  #     # text :file_content_html, boost: 2.0
+  #   text :file_content_text, boost: 2.0
 
-    boolean :is_latest_version
-    integer :project_id
-    text :project_name, boost: 3.0
-  end
+  #   text :author_name
+  #   time :updated_at
+  #   time :created_at
+  #   # integer :school_id
+  #   string :school_name # <-- un-removed because dirties "search works" (ie query="Minnesota" would return works from UofM, not works pertaining to Minnesota)
+  #   #text :school_name
+  #   string :school_id
+  #   string :user_id
+  #   boolean :anonymouse
+
+  #   boolean :is_latest_version
+  #   integer :project_id
+  #   text :project_name, boost: 3.0
+  # end
 
 
   ############################################
@@ -214,6 +214,24 @@ class Work < ActiveRecord::Base
   # after_commit :update_user_works_count, on: [:create, :destroy]
   # after_commit :update_school_works_count, on: [:create, :destroy]
   # after_commit :update_project_works_count, on: [:create, :destroy]
+
+  def self.search(query:nil, tags:[], schools:[], id:nil, page:1, per_page:24)
+    # puts "query: #{query}"
+    # puts "tags: #{tags}"
+    # puts "school: #{school_name}"
+    # puts "id: #{id}"
+    # puts "per_page: #{per_page}"
+    q = self.all
+    q = q.basic_search(query) if !query.nil?
+    q = q.where.contains(:tags => tags) if tags.any?
+    q = q.where(:school_name => schools) if schools.any?
+    q = q.where("id > ?", id) if id.is_a? Numeric
+
+    return q.order(created_at: :desc)
+            .limit(per_page)
+            .offset(( page-1 )*per_page)
+            # .order_by(:created_at, :desc)
+  end
 
   ############################################
   ## Callback definitions
@@ -607,7 +625,6 @@ class Work < ActiveRecord::Base
     end
 
     def delete_tags
-      self.context_list = ''
-      self.content_list = ''
+      self.tags = []
     end
 end

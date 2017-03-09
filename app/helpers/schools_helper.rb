@@ -27,10 +27,10 @@ module SchoolsHelper
 	# Args: school instance, first(number) of tag counts desired
 	# 
 	#
-	def context_count_hash(school, number)
+	def tag_count_hash(school, number)
 		school_tags_with_count = Hash.new
-		school.projects.tag_counts_on(:contexts).each do |tag|
-	 		school_tags_with_count["#{tag.name}"] = tag.taggings.joins("INNER JOIN projects ON taggings.taggable_id = projects.id").where("projects.school_id = #{school.id}").count 
+		school.projects.tag_counts_on(:tags).each do |tag|
+	 		school_tags_with_count["#{tag.name}"] = tag.joins("INNER JOIN projects ON taggings.taggable_id = projects.id").where("projects.school_id = #{school.id}").count 
 		end
 		return school_tags_with_count.sort_by {|k,v| v}.reverse.first(number)
 	end
@@ -44,26 +44,26 @@ module SchoolsHelper
 	end
 
 
-	# Top tags charts for schools, by context and by content. 
+	# Top tags charts for schools, by tag and by content. 
 	#
-	def context_chart(context_count_hash)
+	def tag_chart(tag_count_hash)
 
-		context_categories = []
-			context_count_hash.each do |k,v|
-				context_categories.push(k)
+		tag_categories = []
+			tag_count_hash.each do |k,v|
+				tag_categories.push(k)
 			end
 
-		context_values = []
-			context_count_hash.each do |k,v|
-				context_values.push(-1*v)
+		tag_values = []
+			tag_count_hash.each do |k,v|
+				tag_values.push(-1*v)
 			end
 
-		ceiling = context_values.max
+		ceiling = tag_values.max
 
-		context_chart = LazyHighCharts::HighChart.new('graph') do |f|
+		tag_chart = LazyHighCharts::HighChart.new('graph') do |f|
 			f.title({ :text => 'Top Department Tags', :style => { :color => '#519ed6'}})
 			f.xAxis [
-				{ :categories => context_categories,
+				{ :categories => tag_categories,
 					:gridLineColor => '#FFFFFF',
 					:minorGridLineColor => '#FFFFFF',
 					:tickColor => '#FFFFFF',
@@ -82,12 +82,12 @@ module SchoolsHelper
 							 :allowDecimals => false, 
 							 :labels => { :enabled => false }
 							)
-			f.series(:name => 'Contexts', :xAxis => 0, :data => context_count_hash)
+			f.series(:name => 'Contexts', :xAxis => 0, :data => tag_count_hash)
 			f.chart(:defaultSeriesType=> 'bar', :height => 200 )
 			f.plot_options( {:bar => {:color => '#519ed6'}} )
 			f.legend(:enabled => false)
 		end
-		return high_chart('context_chart', context_chart)
+		return high_chart('tag_chart', tag_chart)
 	end
 
 	def content_chart(content_count_hash)

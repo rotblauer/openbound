@@ -11,52 +11,78 @@ class ProjectsController < ApplicationController
   include ApplicationHelper
 
   def index
-    # Sunspot Solr :search
-    @search = Project.search do 
-      fulltext params[:search]
-      order_by(:created_at, :desc) # created_at
-      facet :context_list
-      facet :content_list
-      facet :school_name
-      with(:id).less_than(params[:id]) if params[:id] # load more from n+ -> 
-      # with(:updated_at).less_than(params[:updated_at]) if params[:updated_at]
 
-      ## [copy & paste from works_controller]
-      # if searching, include more results per page
-      if params[:search] || params[:tag]
-        paginate(:page => params[:page] || 1, :per_page => 24)
-      else 
-        paginate(:page => params[:page] || 1, :per_page => 24)
-      end
+    tags = []
+    schools = []
 
-      any do 
-        if params[:context].present?
-          any_of do # changing to all_of does "drill down" style, this more "browsy" style
-            params[:context].each do |tag|
-              with(:context_list, tag)
-            end
-          end
-        end
-        if params[:content].present?
-          any_of do # changing to all_of does "drill down" style, this more "browsy" style
-            params[:content].each do |tag|
-              with(:content_list, tag)
-            end
-          end
-        end
-        # http://localhost:3000/?page=5&school_name%5B%5D=University+of+Nevada+-+Reno&school_name%5B%5D=Bowdoin+College
-        # with(:school_name, params[:school_name]) if params[:school_name].present?
-        if params[:school_name].present? 
-         any_of do # this allows for browsing Bowdoin and Cornell (where Bowdoin OR Cornell)
-            params[:school_name].each do |school|
-              with(:school_name, school) # if params[:school_name].present?
-            end
-          end
-        end
+    if params[:tag].present?
+      params[:tag].each do |tag|
+        tags.push tag
       end
     end
-    @projects = @search.results
-    @total_count = @projects.total_entries
+
+    if params[:school_name].present?
+      params[:school_name].each do |school|
+        schools.push school
+      end
+    end
+
+    q = params[:search]
+    q = nil if params[:search].blank?
+
+    @projects = Project.search(query: q,
+                         tags: tags,
+                         schools: schools,
+                         id: params[:id],
+                         page: params[:page] || 1,
+                         per_page: params[:per_page] || 24)
+
+    # # Sunspot Solr :search
+    # @search = Project.search do 
+    #   fulltext params[:search]
+    #   order_by(:created_at, :desc) # created_at
+    #   facet :context_list
+    #   facet :content_list
+    #   facet :school_name
+    #   with(:id).less_than(params[:id]) if params[:id] # load more from n+ -> 
+    #   # with(:updated_at).less_than(params[:updated_at]) if params[:updated_at]
+
+    #   ## [copy & paste from works_controller]
+    #   # if searching, include more results per page
+    #   if params[:search] || params[:tag]
+    #     paginate(:page => params[:page] || 1, :per_page => 24)
+    #   else 
+    #     paginate(:page => params[:page] || 1, :per_page => 24)
+    #   end
+
+    #   any do 
+    #     if params[:context].present?
+    #       any_of do # changing to all_of does "drill down" style, this more "browsy" style
+    #         params[:context].each do |tag|
+    #           with(:context_list, tag)
+    #         end
+    #       end
+    #     end
+    #     if params[:content].present?
+    #       any_of do # changing to all_of does "drill down" style, this more "browsy" style
+    #         params[:content].each do |tag|
+    #           with(:content_list, tag)
+    #         end
+    #       end
+    #     end
+    #     # http://localhost:3000/?page=5&school_name%5B%5D=University+of+Nevada+-+Reno&school_name%5B%5D=Bowdoin+College
+    #     # with(:school_name, params[:school_name]) if params[:school_name].present?
+    #     if params[:school_name].present? 
+    #      any_of do # this allows for browsing Bowdoin and Cornell (where Bowdoin OR Cornell)
+    #         params[:school_name].each do |school|
+    #           with(:school_name, school) # if params[:school_name].present?
+    #         end
+    #       end
+    #     end
+    #   end
+    # end
+    # @projects = @search.results
+    # @total_count = @projects.total_entries
 
     # Personalized. 
     if current_user
@@ -71,7 +97,7 @@ class ProjectsController < ApplicationController
       # TODO: add projects_count attr to School and make it count here
 
     desired_number_of_school_facets = 10
-    if @search.results.any? 
+    if @projects.any? 
       # Schools associated with resulting works (first page), 
       # could be [Bowdoin College, Bowdoin College, Bowdoin College, Colby College].
       project_schools = []

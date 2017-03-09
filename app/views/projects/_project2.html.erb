@@ -89,16 +89,11 @@
 	</p>
 
 	      	<% # if (params[:search].present? or params[:context].present? or params[:content].present?) and project.taggings.any? %>
-	      	<% if project.taggings.any? %>
+	      	<% if project.tags.any? %>
 	      	<div class="row tags" style="padding: 4px 4px 6px 0px; margin-left: -4px; background-color: white; ">
-						<% project.contexts.each do |tag| %>
+						<% project.tags.each do |tag| %>
 							<span class="tag context facet off" style="">
-								<%= link_to tag.name, projects_path(:context => [tag.name]) %>
-							</span>
-						<% end %>
-						<% project.contents.each do |tag| %>
-							<span class="tag content facet off" style="">
-								<%= link_to tag.name, projects_path(:content => [tag.name]) %>
+								<%= link_to tag, projects_path(:tag => [tag]) %>
 							</span>
 						<% end %>
 					</div>

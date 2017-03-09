@@ -23,7 +23,6 @@ class Project < ActiveRecord::Base
   ## Gem integrations
   ############################################
 
-  acts_as_taggable_on :contexts, :contents
   is_impressionable counter_cache: true, unique: :session_hash
 
   extend FriendlyId
@@ -37,31 +36,31 @@ class Project < ActiveRecord::Base
 
   # accepts_nested_attributes_for :works, allow_destroy: true, :reject_if => proc { |attributes| attributes['file_content_md'].blank? }
 
-  searchable do
-    integer :id
-    text :name, boost: 3.0
-    text :description, boost: 3.0
+  # searchable do
+  #   integer :id
+  #   text :name, boost: 3.0
+  #   text :description, boost: 3.0
 
-    string :content_list, multiple: true
-    text :content_list, boost: 1.5 # <-- repeated as text to allow for querying
-    string :context_list, multiple: true
-    text :context_list, boost: 1.5 # <-- repeated as text to allow for querying
+  #   # string :content_list, multiple: true
+  #   # text :content_list, boost: 1.5 # <-- repeated as text to allow for querying
+  #   # string :context_list, multiple: true
+  #   # text :context_list, boost: 1.5 # <-- repeated as text to allow for querying
 
-    text :author_name
-    time :updated_at
-    time :created_at
-    # integer :school_id
-    string :school_name # <-- un-removed because dirties "search works" (ie query="Minnesota" would return works from UofM, not works pertaining to Minnesota)
-    #text :school_name
-    string :school_id
-    string :user_id # string, really?
-    boolean :anonymouse
+  #   text :author_name
+  #   time :updated_at
+  #   time :created_at
+  #   # integer :school_id
+  #   string :school_name # <-- un-removed because dirties "search works" (ie query="Minnesota" would return works from UofM, not works pertaining to Minnesota)
+  #   #text :school_name
+  #   string :school_id
+  #   string :user_id # string, really?
+  #   boolean :anonymouse
 
-    text :works do
-      # http://stackoverflow.com/questions/3244588/how-to-map-more-than-one-attribute-with-activerecord
-      works.map{|f| [f.file_content_text, f.name]}
-    end
-  end
+  #   text :works do
+  #     # http://stackoverflow.com/questions/3244588/how-to-map-more-than-one-attribute-with-activerecord
+  #     works.map{|f| [f.file_content_text, f.name]}
+  #   end
+  # end
 
 
   ############################################
@@ -122,34 +121,11 @@ class Project < ActiveRecord::Base
   def sync_tags_to_children_works
     works = self.works.all
     works.each do |work|
-      self.context_list.add(work.context_list)
-      self.content_list.add(work.content_list)
+      self.tags.concat(work.tags)
+      self.tags.concat(work.tags)
     end
     self.save
   end
-
-  # # Gather umbrellas of works' context and contents tag lists.
-  # def inclusive_contexts_list
-  #   project_contexts_list = [] # create an array of all unique tags on project's versions
-  #   self.works.all.each do |work|
-  #     # contexts
-  #     work.context_list.each do |context|
-  #       project_contexts_list.push(context) unless !project_contexts_list.find_index(context).nil?
-  #     end
-  #   end
-  #   return project_contexts_list
-  # end
-
-  # def inclusive_contents_list
-  #   project_contents_list = [] # create an array of all unique tags on project's versions
-  #   self.works.all.each do |work|
-  #     # contents
-  #     work.content_list.each do |content|
-  #       project_contents_list.push(content) unless !project_contents_list.find_index(content).nil?
-  #     end
-  #   end
-  #   return project_contents_list
-  # end
 
   # ----------- init impressions inheritance ------------ #
   def collect_impressions_init
@@ -157,6 +133,25 @@ class Project < ActiveRecord::Base
     self.update_attributes(impressions_count: children_view_total)
   end
 
+  def self.search(query:nil,
+                  tags:[],
+                  schools:[],
+                  id:nil,
+                  page:1,
+                  per_page:24,
+                  school_id:nil)
+
+    q = self.all
+    q = q.basic_search(query) if !query.nil?
+    q = q.where.contains(:tags => tags) if tags.any?
+    q = q.where(:school_name => schools) if schools.any?
+    q = q.where("id < ?", id) if id.is_a? Numeric
+    q = q.where(school_id: school_id) if !school_id.nil?
+
+    return q.order(created_at: :desc)
+            .limit(per_page)
+            .offset(( page-1 )*per_page)
+  end
 
 
   private
@@ -196,8 +191,7 @@ class Project < ActiveRecord::Base
     end
 
     def delete_tags
-      self.context_list = ''
-      self.content_list = ''
+      self.tags = []
     end
 
 end

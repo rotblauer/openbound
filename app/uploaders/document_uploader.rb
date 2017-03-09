@@ -5,18 +5,18 @@ require 'pandoc-ruby'
 require 'escape_utils'
 # require 'carrierwave/processing/mime_types'
 require 'carrierwave/processing/rmagick'
-require 'RMagick'
+# require 'RMagick'
 class DocumentUploader < CarrierWave::Uploader::Base
   # include CarrierWave::MimeTypes
   include CarrierWave::RMagick
 
-  ## This depends on every work *always* being connected to an existing user. 
+  ## This depends on every work *always* being connected to an existing user.
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.user.uuid.to_s}/#{model.slug}" 
+    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.user.uuid.to_s}/#{model.slug}"
   end
 
   def cache_dir
-    "#{Rails.root}/tmp/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}" # MUST BE DOUBLE QUOTED STRINGS 
+    "#{Rails.root}/tmp/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}" # MUST BE DOUBLE QUOTED STRINGS
     # http://stackoverflow.com/questions/8854725/rails-3-getting-errnoeacces-permission-denied-when-uploading-files-on-product
   end
 
@@ -25,30 +25,30 @@ class DocumentUploader < CarrierWave::Uploader::Base
     WHITE_ARM
   end
 
-  # Allowed file types. 
-  WHITE_ARM = 
-    %w(
-      jpg jpeg gif png bmp
-      txt html rtf md
-      doc docx
-      pdf 
-      ppt xls pptx xlsx
-      csv
-      odt ods odp 
-      tex
-      pages numbers key
-      )
-      # x-latex
-  
-  # Actively supported file types for previewing. 
-  STRONG_ARM = 
+  # Allowed file types.
+  WHITE_ARM =
     %w(
       jpg jpeg gif png bmp
       txt html rtf md
       doc docx
       pdf
       ppt xls pptx xlsx
-      odt ods odp 
+      csv
+      odt ods odp
+      tex
+      pages numbers key
+      )
+      # x-latex
+
+  # Actively supported file types for previewing.
+  STRONG_ARM =
+    %w(
+      jpg jpeg gif png bmp
+      txt html rtf md
+      doc docx
+      pdf
+      ppt xls pptx xlsx
+      odt ods odp
       tex
       pages numbers key
       )
@@ -62,11 +62,11 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
 
   ############################################
-  ##   These methods are designed to extract as simply as possible the file contents into their 
-  ##   nearest possible attribute type, ie Markdown, HTML, or plain text. 
+  ##   These methods are designed to extract as simply as possible the file contents into their
+  ##   nearest possible attribute type, ie Markdown, HTML, or plain text.
   ##   They only save extracted text into a single column.
-  ##   Filling out the rest of the columns is delegated through a Work.after_create callback 
-  ##   to Work.init_textuals. 
+  ##   Filling out the rest of the columns is delegated through a Work.after_create callback
+  ##   to Work.init_textuals.
   ############################################
 
 
@@ -80,9 +80,9 @@ class DocumentUploader < CarrierWave::Uploader::Base
     # like the pandoc adds \# to escape it's headers, while w2m doesn't
     # > pandoc -s example30.docx -t markdown -o example35.md
     md = WordToMarkdown.new(file.path).to_s
-    
+
     # set file content to utf8 version
-    md_utf8 = md.force_encoding("UTF-8") 
+    md_utf8 = md.force_encoding("UTF-8")
     model.file_content_md = md_utf8
   end
 
@@ -90,7 +90,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
   process :read_file_contents_to_text_attribute, :if => :plain_text_document?
   def read_file_contents_to_text_attribute
     text = File.read(file.path)
-    
+
     # set file content to utf8 version
     text_utf8 = text.force_encoding("UTF-8")
     model.file_content_text = text_utf8
@@ -121,7 +121,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
   # HTML
   process :read_file_contents_to_html_attribute, :if => :html_document?
 
-  ## .html -[ReverseMarkdown.convert]-> md 
+  ## .html -[ReverseMarkdown.convert]-> md
   def read_file_contents_to_html_attribute
     html_content = File.read(file.path)
     html_content_utf8 = html_content.force_encoding("UTF-8")
@@ -133,7 +133,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
   def convert_latex_to_markdown
     # https://github.com/alphabetum/pandoc-ruby
     # Pandoc can also be set to take a file path as the first argument. For security reasons, this is disabled by default, but it can be enabled and used as follows
-    PandocRuby.allow_file_paths = true 
+    PandocRuby.allow_file_paths = true
 
     md_content = PandocRuby.convert(file.path, :from => :latex, :to => :markdown)
     md_content_utf8 = md_content.force_encoding("UTF-8")
@@ -141,38 +141,38 @@ class DocumentUploader < CarrierWave::Uploader::Base
   end
 
   # JPEG JPG GIF PNG
-  # Creates a thumb , preview, and fitted (works/show) versions of any image, also keeping the original. 
-  ## Fitted for works/show. 
+  # Creates a thumb , preview, and fitted (works/show) versions of any image, also keeping the original.
+  ## Fitted for works/show.
   version :fitted, :if => :image? do
     # process :resize_to_limit => [600, 600]
     process :resize_to_limit => [600, 600]
   end
-  ## Preview for _modal. 
+  ## Preview for _modal.
   version :preview, from_version: :fitted, :if => :image? do
     # process :resize_to_limit => [360, 360]
     process :resize_to_limit => [360, 360]
   end
-  ## Thumb for _work. 
+  ## Thumb for _work.
   version :thumb, from_version: :preview, :if => :image? do
     # process :resize_to_limit => [160, 200]
     process :resize_to_limit => [160, 200]
   end
 
-  # PDF 
-  # Take only the first page. 
+  # PDF
+  # Take only the first page.
   def cover
     begin
-      
+
       manipulate! do |frame, index|
         # frame if index.zero?
         frame if (index == 0)
       end
-    
+
     rescue ::Magick::ImageMagickError => e
       raise CarrierWave::ProcessingError, I18n.translate(:"errors.messages.rmagick_processing_error", :e => e, :default => I18n.translate(:"errors.messages.rmagick_processing_error", :e => e, :locale => :en))
-    
+
     end
-  end     
+  end
 
   # PNG_thumb
   version :png_thumb, :if => :pdf_document? do
@@ -185,7 +185,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
     end
   end
   # PNG_preview
-  version :png_preview, :if => :pdf_document? do 
+  version :png_preview, :if => :pdf_document? do
     process :cover
     process :convert => :png
     process :resize_to_limit => [600, 1000]
@@ -200,7 +200,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
     Rails.logger.debug "#{file.content_type}"
     self.file.instance_variable_set(:@content_type, "image/png")
   end
-  
+
   private
 
     def store_dimensions
@@ -224,7 +224,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
   protected
 
-  
+
       def open_office?(new_file) # [odt, odp, ods]
         if new_file
           %w( application/vnd.oasis.opendocument.text
@@ -309,7 +309,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
         end
       end
 
-    
-    
+
+
 
 end

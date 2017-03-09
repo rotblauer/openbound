@@ -11,108 +11,136 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160428175935) do
+ActiveRecord::Schema.define(version: 20170308065134) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "affiliations", force: :cascade do |t|
-    t.integer  "user_id",          limit: 4
-    t.integer  "school_id",        limit: 4
-    t.boolean  "is_primary",          default: false, null: false
-    t.boolean  "is_assignment",       default: true,  null: false
-    t.boolean  "is_preference",       default: false, null: false
-    t.boolean  "is_active",           default: true,  null: false
+    t.integer  "user_id"
+    t.integer  "school_id"
+    t.integer  "is_primary",       limit: 2,   default: 0, null: false
+    t.integer  "is_assignment",    limit: 2,   default: 1, null: false
+    t.integer  "is_preference",    limit: 2,   default: 0, null: false
+    t.integer  "is_active",        limit: 2,   default: 1, null: false
     t.string   "concentration",    limit: 255
-    t.boolean  "graduated"        
-    t.boolean  "is_fallback"      
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.integer  "graduated",        limit: 2
+    t.integer  "is_fallback",      limit: 2
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.string   "provider",         limit: 255
     t.string   "institution_type", limit: 255
     t.string   "year",             limit: 255
   end
 
-  add_index "affiliations", ["school_id"], name: "index_affiliations_on_school_id", using: :btree
-  add_index "affiliations", ["user_id"], name: "index_affiliations_on_user_id", using: :btree
+  add_index "affiliations", ["school_id"], name: "public_affiliations_school_id1_idx", using: :btree
+  add_index "affiliations", ["user_id"], name: "public_affiliations_user_id0_idx", using: :btree
 
   create_table "ahoy_events", force: :cascade do |t|
-    t.uuid     "visit_id"
-    t.integer  "user_id",    limit: 4
+    t.binary   "visit_id"
+    t.integer  "user_id"
     t.string   "name",       limit: 255
-    t.text     "properties", limit: 65535
+    t.text     "properties"
     t.datetime "time"
   end
 
-  add_index "ahoy_events", ["time"], name: "index_ahoy_events_on_time", using: :btree
-  add_index "ahoy_events", ["user_id"], name: "index_ahoy_events_on_user_id", using: :btree
-  add_index "ahoy_events", ["visit_id"], name: "index_ahoy_events_on_visit_id", using: :btree
+  add_index "ahoy_events", ["time"], name: "public_ahoy_events_time2_idx", using: :btree
+  add_index "ahoy_events", ["user_id"], name: "public_ahoy_events_user_id1_idx", using: :btree
+  add_index "ahoy_events", ["visit_id"], name: "public_ahoy_events_visit_id0_idx", using: :btree
 
   create_table "bookmarks", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4,                 null: false
-    t.boolean  "bookmarked",  default: false, null: false
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.integer  "project_id", limit: 4
+    t.integer  "user_id",                          null: false
+    t.integer  "work_id",                          null: false
+    t.integer  "bookmarked", limit: 2, default: 0, null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.integer  "project_id"
   end
 
-  add_index "bookmarks", ["project_id", "user_id"], name: "index_bookmarks_on_project_id_and_user_id", using: :btree
-  add_index "bookmarks", ["project_id"], name: "index_bookmarks_on_project_id", using: :btree
+  add_index "bookmarks", ["project_id", "user_id"], name: "public_bookmarks_project_id3_idx", using: :btree
+  add_index "bookmarks", ["project_id"], name: "public_bookmarks_project_id2_idx", using: :btree
+  add_index "bookmarks", ["user_id", "work_id"], name: "public_bookmarks_user_id0_idx", unique: true, using: :btree
+  add_index "bookmarks", ["work_id"], name: "public_bookmarks_work_id1_idx", using: :btree
 
   create_table "comments", force: :cascade do |t|
-    t.integer  "user_id",    limit: 4,     null: false
-    t.integer  "work_id",    limit: 4,     null: false
-    t.text     "body",       limit: 65535, null: false
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
-    t.integer  "project_id", limit: 4,     null: false
+    t.integer  "user_id",    null: false
+    t.integer  "work_id",    null: false
+    t.text     "body",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "project_id", null: false
   end
 
-  add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
-  add_index "comments", ["work_id", "user_id"], name: "index_comments_on_work_id_and_user_id", using: :btree
+  add_index "comments", ["user_id"], name: "public_comments_user_id0_idx", using: :btree
+  add_index "comments", ["work_id", "user_id"], name: "public_comments_work_id1_idx", using: :btree
 
   create_table "diffs", force: :cascade do |t|
-    t.integer  "work1",      limit: 4,        null: false
-    t.integer  "work2",      limit: 4,        null: false
-    t.integer  "project_id", limit: 4
-    t.text     "diff_md",    limit: 16777215
-    t.text     "diff_html",  limit: 16777215
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.text     "diff_text",  limit: 16777215
-    t.text     "left",       limit: 16777215
-    t.text     "right",      limit: 16777215
-    t.text     "right_text", limit: 16777215
-    t.text     "left_text",  limit: 16777215
+    t.integer  "work1",      null: false
+    t.integer  "work2",      null: false
+    t.integer  "project_id"
+    t.text     "diff_md"
+    t.text     "diff_html"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text     "diff_text"
+    t.text     "left"
+    t.text     "right"
+    t.text     "right_text"
+    t.text     "left_text"
   end
 
-  add_index "diffs", ["project_id"], name: "index_diffs_on_project_id", using: :btree
+  add_index "diffs", ["project_id"], name: "public_diffs_project_id0_idx", using: :btree
+
+  create_table "forkdestinations", force: :cascade do |t|
+    t.integer  "forkable_id"
+    t.string   "forkable_type",    limit: 255
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "points_to"
+    t.string   "points_to_name",   limit: 255
+    t.string   "points_to_author", limit: 255
+  end
+
+  add_index "forkdestinations", ["forkable_type", "forkable_id"], name: "public_forkdestinations_forkable_type0_idx", using: :btree
+
+  create_table "forkoriginations", force: :cascade do |t|
+    t.integer  "forkable_id"
+    t.string   "forkable_type", limit: 255
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "points_to"
+  end
+
+  add_index "forkoriginations", ["forkable_type", "forkable_id"], name: "public_forkoriginations_forkable_type0_idx", using: :btree
 
   create_table "friendly_id_slugs", force: :cascade do |t|
     t.string   "slug",           limit: 255, null: false
-    t.integer  "sluggable_id",   limit: 4,   null: false
+    t.integer  "sluggable_id",               null: false
     t.string   "sluggable_type", limit: 50
     t.string   "scope",          limit: 255
     t.datetime "created_at"
   end
 
-  add_index "friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true, using: :btree
-  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type", using: :btree
-  add_index "friendly_id_slugs", ["sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_id", using: :btree
-  add_index "friendly_id_slugs", ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type", using: :btree
+  add_index "friendly_id_slugs", ["slug", "sluggable_type", "scope"], name: "public_friendly_id_slugs_slug0_idx", unique: true, using: :btree
+  add_index "friendly_id_slugs", ["slug", "sluggable_type"], name: "public_friendly_id_slugs_slug1_idx", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_id"], name: "public_friendly_id_slugs_sluggable_id2_idx", using: :btree
+  add_index "friendly_id_slugs", ["sluggable_type"], name: "public_friendly_id_slugs_sluggable_type3_idx", using: :btree
 
   create_table "gradients", force: :cascade do |t|
-    t.integer  "grad",       limit: 4, null: false
-    t.integer  "user_id",    limit: 4, null: false
-    t.integer  "work_id",    limit: 4, null: false
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.integer  "grad",       null: false
+    t.integer  "user_id",    null: false
+    t.integer  "work_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "gradients", ["user_id", "work_id"], name: "index_gradients_on_user_id_and_work_id", unique: true, using: :btree
-  add_index "gradients", ["work_id"], name: "index_gradients_on_work_id", using: :btree
+  add_index "gradients", ["user_id", "work_id"], name: "public_gradients_user_id0_idx", unique: true, using: :btree
+  add_index "gradients", ["work_id"], name: "public_gradients_work_id1_idx", using: :btree
 
   create_table "impressions", force: :cascade do |t|
     t.string   "impressionable_type", limit: 255
-    t.integer  "impressionable_id",   limit: 4
-    t.integer  "user_id",             limit: 4
+    t.integer  "impressionable_id"
+    t.integer  "user_id"
     t.string   "controller_name",     limit: 255
     t.string   "action_name",         limit: 255
     t.string   "view_name",           limit: 255
@@ -120,68 +148,69 @@ ActiveRecord::Schema.define(version: 20160428175935) do
     t.string   "ip_address",          limit: 255
     t.string   "session_hash",        limit: 255
     t.string   "message",             limit: 255
-    t.text     "referrer",            limit: 65535
+    t.text     "referrer"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "impressions", ["controller_name", "action_name", "ip_address"], name: "controlleraction_ip_index", using: :btree
-  add_index "impressions", ["controller_name", "action_name", "request_hash"], name: "controlleraction_request_index", using: :btree
-  add_index "impressions", ["controller_name", "action_name", "session_hash"], name: "controlleraction_session_index", using: :btree
-  add_index "impressions", ["impressionable_type", "impressionable_id", "ip_address"], name: "poly_ip_index", using: :btree
-  add_index "impressions", ["impressionable_type", "impressionable_id", "request_hash"], name: "poly_request_index", using: :btree
-  add_index "impressions", ["impressionable_type", "impressionable_id", "session_hash"], name: "poly_session_index", using: :btree
-  add_index "impressions", ["impressionable_type", "message", "impressionable_id"], name: "impressionable_type_message_index", using: :btree
-  add_index "impressions", ["user_id"], name: "index_impressions_on_user_id", using: :btree
+  add_index "impressions", ["controller_name", "action_name", "ip_address"], name: "public_impressions_controller_name0_idx", using: :btree
+  add_index "impressions", ["controller_name", "action_name", "request_hash"], name: "public_impressions_controller_name1_idx", using: :btree
+  add_index "impressions", ["controller_name", "action_name", "session_hash"], name: "public_impressions_controller_name2_idx", using: :btree
+  add_index "impressions", ["impressionable_type", "impressionable_id", "ip_address"], name: "public_impressions_impressionable_type3_idx", using: :btree
+  add_index "impressions", ["impressionable_type", "impressionable_id", "request_hash"], name: "public_impressions_impressionable_type4_idx", using: :btree
+  add_index "impressions", ["impressionable_type", "impressionable_id", "session_hash"], name: "public_impressions_impressionable_type5_idx", using: :btree
+  add_index "impressions", ["impressionable_type", "message", "impressionable_id"], name: "public_impressions_impressionable_type6_idx", using: :btree
+  add_index "impressions", ["user_id"], name: "public_impressions_user_id7_idx", using: :btree
 
   create_table "linked_accounts", force: :cascade do |t|
-    t.integer  "user_id",             limit: 4
+    t.integer  "user_id"
     t.string   "provider",            limit: 255
-    t.string   "uid"
+    t.string   "uid",                 limit: 255
     t.string   "name",                limit: 255
     t.string   "email",               limit: 255
     t.string   "first_name",          limit: 255
     t.string   "last_name",           limit: 255
     t.string   "image_url",           limit: 255
     t.string   "location",            limit: 255
-    t.text     "oauth_info_json",     limit: 16777215
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
-    t.text     "oauth_raw_info_json", limit: 16777215
+    t.text     "oauth_info_json"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.text     "oauth_raw_info_json"
     t.string   "accesstoken",         limit: 255
   end
 
-  add_index "linked_accounts", ["provider", "uid"], name: "index_on_provider_and_uid", using: :btree
-  add_index "linked_accounts", ["uid"], name: "index_linked_accounts_on_uid", using: :btree
-  add_index "linked_accounts", ["user_id"], name: "index_linked_accounts_on_user_id", using: :btree
+  add_index "linked_accounts", ["provider", "uid"], name: "public_linked_accounts_provider2_idx", using: :btree
+  add_index "linked_accounts", ["uid"], name: "public_linked_accounts_uid1_idx", using: :btree
+  add_index "linked_accounts", ["user_id"], name: "public_linked_accounts_user_id0_idx", using: :btree
 
   create_table "projects", force: :cascade do |t|
-    t.integer  "user_id",           limit: 4
-    t.integer  "school_id",         limit: 4
+    t.integer  "user_id"
+    t.integer  "school_id"
     t.string   "author_name",       limit: 255
-    t.text     "file_content_md",   limit: 16777215
-    t.text     "file_content_html", limit: 16777215
-    t.text     "file_content_text", limit: 16777215
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
-    t.integer  "works_count",       limit: 4,        default: 0,    null: false
-    t.boolean  "is_public",                 default: true, null: false
-    t.boolean  "is_collaborative",          default: true, null: false
+    t.text     "file_content_md"
+    t.text     "file_content_html"
+    t.text     "file_content_text"
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.integer  "works_count",                   default: 0,  null: false
+    t.integer  "is_public",         limit: 2,   default: 1,  null: false
+    t.integer  "is_collaborative",  limit: 2,   default: 1,  null: false
     t.string   "name",              limit: 255
     t.string   "slug",              limit: 255
-    t.integer  "recent_work_id",    limit: 4
-    t.boolean  "anonymouse"        
+    t.integer  "recent_work_id"
+    t.integer  "anonymouse",        limit: 2
     t.string   "school_name",       limit: 255
-    t.integer  "impressions_count", limit: 4,        default: 0,    null: false
-    t.integer  "bookmarks_count",   limit: 4,        default: 0,    null: false
+    t.integer  "impressions_count",             default: 0,  null: false
+    t.integer  "bookmarks_count",               default: 0,  null: false
     t.string   "description",       limit: 255
-    t.integer  "diffs_count",       limit: 4,        default: 0,    null: false
-    t.integer  "comments_count",    limit: 4,        default: 0,    null: false
-    t.integer  "revisions_count",   limit: 4,        default: 0,    null: false
+    t.integer  "diffs_count",                   default: 0,  null: false
+    t.integer  "comments_count",                default: 0,  null: false
+    t.integer  "revisions_count",               default: 0,  null: false
+    t.text     "tags",                          default: [],              array: true
   end
 
-  add_index "projects", ["school_id"], name: "index_projects_on_school_id", using: :btree
-  add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
+  add_index "projects", ["school_id"], name: "public_projects_school_id1_idx", using: :btree
+  add_index "projects", ["user_id"], name: "public_projects_user_id0_idx", using: :btree
 
   create_table "recommendeds", force: :cascade do |t|
     t.string   "work_id",    limit: 255, null: false
@@ -191,18 +220,18 @@ ActiveRecord::Schema.define(version: 20160428175935) do
   end
 
   create_table "revisions", force: :cascade do |t|
-    t.integer  "work_id",    limit: 4
-    t.integer  "project_id", limit: 4
-    t.text     "data",       limit: 16777215
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.integer  "work_id"
+    t.integer  "project_id"
+    t.text     "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  add_index "revisions", ["project_id"], name: "index_revisions_on_project_id", using: :btree
-  add_index "revisions", ["work_id"], name: "index_revisions_on_work_id", using: :btree
+  add_index "revisions", ["project_id"], name: "public_revisions_project_id1_idx", using: :btree
+  add_index "revisions", ["work_id"], name: "public_revisions_work_id0_idx", using: :btree
 
   create_table "schools", force: :cascade do |t|
-    t.integer  "Institution_ID",           limit: 4
+    t.integer  "Institution_ID"
     t.string   "Institution_Name",         limit: 255
     t.string   "Institution_Address",      limit: 255
     t.string   "Institution_City",         limit: 255
@@ -221,145 +250,145 @@ ActiveRecord::Schema.define(version: 20160428175935) do
     t.string   "Periods",                  limit: 255
     t.string   "Last_Action",              limit: 255
     t.string   "school_domain_slice",      limit: 255
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
-    t.integer  "works_count",              limit: 4,     default: 0, null: false
-    t.integer  "affiliations_count",       limit: 4,     default: 0, null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+    t.integer  "works_count",                          default: 0, null: false
+    t.integer  "affiliations_count",                   default: 0, null: false
     t.string   "slug",                     limit: 255
-    t.boolean  "is_academic"            
+    t.integer  "is_academic",              limit: 2
     t.string   "favicon",                  limit: 255
     t.string   "remote_favicon_url",       limit: 255
-    t.integer  "favicon_width",            limit: 4
-    t.integer  "favicon_height",           limit: 4
+    t.integer  "favicon_width"
+    t.integer  "favicon_height"
     t.string   "favicon_content_type",     limit: 255
-    t.integer  "favicon_file_size",        limit: 4
-    t.integer  "projects_count",           limit: 4,     default: 0, null: false
+    t.integer  "favicon_file_size"
+    t.integer  "projects_count",                       default: 0, null: false
     t.string   "Institution_Type",         limit: 255
     t.string   "provider",                 limit: 255
     t.string   "provider_id",              limit: 255
-    t.text     "geocode_json",             limit: 65535
-    t.float    "geocode_lat",              limit: 24
-    t.float    "geocode_lng",              limit: 24
+    t.text     "geocode_json"
+    t.float    "geocode_lat"
+    t.float    "geocode_lng"
     t.string   "logo",                     limit: 255
     t.string   "remote_logo_url",          limit: 255
-    t.integer  "logo_width",               limit: 4
-    t.integer  "logo_height",              limit: 4
+    t.integer  "logo_width"
+    t.integer  "logo_height"
     t.string   "logo_content_type",        limit: 255
-    t.integer  "logo_file_size",           limit: 4
-    t.text     "wikipedia_summary",        limit: 65535
+    t.integer  "logo_file_size"
+    t.text     "wikipedia_summary"
     t.string   "wikipedia_coords",         limit: 255
     t.string   "wikipedia_url",            limit: 255
   end
 
-  add_index "schools", ["slug"], name: "index_schools_on_slug", unique: true, using: :btree
+  add_index "schools", ["slug"], name: "public_schools_slug0_idx", unique: true, using: :btree
 
   create_table "suggesteds", force: :cascade do |t|
-    t.integer  "user_id",      limit: 4
-    t.integer  "work_id",      limit: 4,                   null: false
-    t.integer  "author_id",    limit: 4,                   null: false
+    t.integer  "user_id"
+    t.integer  "work_id",                              null: false
+    t.integer  "author_id",                            null: false
     t.string   "suggestion",   limit: 128
-    t.boolean  "approved",        default: false, null: false
-    t.boolean  "open",            default: true,  null: false
-    t.datetime "created_at",                               null: false
-    t.datetime "updated_at",                               null: false
+    t.integer  "approved",     limit: 2,   default: 0, null: false
+    t.integer  "open",         limit: 2,   default: 1, null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.string   "suggester_ip", limit: 255
   end
 
-  add_index "suggesteds", ["work_id"], name: "index_suggesteds_on_work_id", using: :btree
+  add_index "suggesteds", ["work_id"], name: "public_suggesteds_work_id0_idx", using: :btree
 
   create_table "taggings", force: :cascade do |t|
-    t.integer  "tag_id",        limit: 4
-    t.integer  "taggable_id",   limit: 4
+    t.integer  "tag_id"
+    t.integer  "taggable_id"
     t.string   "taggable_type", limit: 255
-    t.integer  "tagger_id",     limit: 4
+    t.integer  "tagger_id"
     t.string   "tagger_type",   limit: 255
     t.string   "context",       limit: 128
     t.datetime "created_at"
   end
 
-  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
-  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "public_taggings_tag_id0_idx", unique: true, using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "public_taggings_taggable_id1_idx", using: :btree
 
   create_table "tags", force: :cascade do |t|
     t.string  "name",           limit: 255
-    t.integer "taggings_count", limit: 4,   default: 0
+    t.integer "taggings_count",             default: 0
   end
 
-  add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
+  add_index "tags", ["name"], name: "public_tags_name0_idx", unique: true, using: :btree
 
   create_table "trigrams", force: :cascade do |t|
     t.string  "trigram",     limit: 3
     t.integer "score",       limit: 2
-    t.integer "owner_id",    limit: 4
+    t.integer "owner_id"
     t.string  "owner_type",  limit: 255
     t.string  "fuzzy_field", limit: 255
   end
 
-  add_index "trigrams", ["owner_id", "owner_type", "fuzzy_field", "trigram", "score"], name: "index_for_match", using: :btree
-  add_index "trigrams", ["owner_id", "owner_type"], name: "index_by_owner", using: :btree
+  add_index "trigrams", ["owner_id", "owner_type", "fuzzy_field", "trigram", "score"], name: "public_trigrams_owner_id0_idx", using: :btree
+  add_index "trigrams", ["owner_id", "owner_type"], name: "public_trigrams_owner_id1_idx", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "name",                 limit: 255
-    t.string   "email",                limit: 255,                 null: false
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
+    t.string   "email",                limit: 255,             null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.string   "password_digest",      limit: 255
-    t.boolean  "admin",                   default: false
+    t.integer  "admin",                limit: 2,   default: 0
     t.string   "activation_digest",    limit: 255
-    t.boolean  "activated",               default: false
+    t.integer  "activated",            limit: 2,   default: 0
     t.datetime "activated_at"
     t.string   "remember_digest",      limit: 255
-    t.integer  "school_id",            limit: 4
-    t.boolean  "superman",                default: false, null: false
-    t.integer  "works_count",          limit: 4,   default: 0,     null: false
-    t.integer  "bookmarks_count",      limit: 4,   default: 0,     null: false
+    t.integer  "school_id"
+    t.integer  "superman",             limit: 2,   default: 0, null: false
+    t.integer  "works_count",                      default: 0, null: false
+    t.integer  "bookmarks_count",                  default: 0, null: false
     t.string   "reset_digest",         limit: 255
     t.datetime "reset_sent_at"
-    t.string   "slug",                 limit: 255,                 null: false
-    t.integer  "sign_in_count",        limit: 4
+    t.string   "slug",                 limit: 255,             null: false
+    t.integer  "sign_in_count"
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",   limit: 255
     t.string   "last_sign_in_ip",      limit: 255
-    t.string   "uuid"
+    t.string   "uuid",                 limit: 255
     t.string   "nutshell",             limit: 255
     t.string   "avatar",               limit: 255
     t.string   "ed_level",             limit: 255
     t.string   "new_email",            limit: 255
     t.string   "email_update_digest",  limit: 255
     t.datetime "email_update_sent_at"
-    t.boolean  "new_email_confirmed",     default: false
-    t.integer  "projects_count",       limit: 4,   default: 0,     null: false
-    t.integer  "comments_count",       limit: 4,   default: 0,     null: false
-    t.boolean  "has_oauth",               default: false, null: false
-    t.boolean  "created_as_oauth",        default: false, null: false
-    t.boolean  "has_password",            default: true,  null: false
-    t.integer  "affiliations_count",   limit: 4,   default: 0,     null: false
+    t.integer  "new_email_confirmed",  limit: 2,   default: 0
+    t.integer  "projects_count",                   default: 0, null: false
+    t.integer  "comments_count",                   default: 0, null: false
+    t.integer  "has_oauth",            limit: 2,   default: 0, null: false
+    t.integer  "created_as_oauth",     limit: 2,   default: 0, null: false
+    t.integer  "has_password",         limit: 2,   default: 1, null: false
+    t.integer  "affiliations_count",               default: 0, null: false
   end
 
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["slug"], name: "index_users_on_slug", unique: true, using: :btree
+  add_index "users", ["email"], name: "public_users_email0_idx", unique: true, using: :btree
+  add_index "users", ["slug"], name: "public_users_slug1_idx", unique: true, using: :btree
 
   create_table "visits", force: :cascade do |t|
-    t.uuid     "visitor_id"
+    t.binary   "visitor_id"
     t.string   "ip",               limit: 255
-    t.text     "user_agent",       limit: 65535
-    t.text     "referrer",         limit: 65535
-    t.text     "landing_page",     limit: 65535
-    t.integer  "user_id",          limit: 4
+    t.text     "user_agent"
+    t.text     "referrer"
+    t.text     "landing_page"
+    t.integer  "user_id"
     t.string   "referring_domain", limit: 255
     t.string   "search_keyword",   limit: 255
     t.string   "browser",          limit: 255
     t.string   "os",               limit: 255
     t.string   "device_type",      limit: 255
-    t.integer  "screen_height",    limit: 4
-    t.integer  "screen_width",     limit: 4
+    t.integer  "screen_height"
+    t.integer  "screen_width"
     t.string   "country",          limit: 255
     t.string   "region",           limit: 255
     t.string   "city",             limit: 255
     t.string   "postal_code",      limit: 255
-    t.decimal  "latitude",                       precision: 10
-    t.decimal  "longitude",                      precision: 10
+    t.decimal  "latitude",                     precision: 10
+    t.decimal  "longitude",                    precision: 10
     t.string   "utm_source",       limit: 255
     t.string   "utm_medium",       limit: 255
     t.string   "utm_term",         limit: 255
@@ -368,52 +397,56 @@ ActiveRecord::Schema.define(version: 20160428175935) do
     t.datetime "started_at"
   end
 
-  add_index "visits", ["user_id"], name: "index_visits_on_user_id", using: :btree
+  add_index "visits", ["user_id"], name: "public_visits_user_id0_idx", using: :btree
 
   create_table "works", force: :cascade do |t|
     t.string   "name",                 limit: 255
     t.string   "document",             limit: 255
-    t.integer  "user_id",              limit: 4,                        null: false
-    t.datetime "created_at",                                            null: false
-    t.datetime "updated_at",                                            null: false
-    t.integer  "school_id",            limit: 4
+    t.integer  "user_id",                                       null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.integer  "school_id"
     t.string   "content_type",         limit: 255
-    t.integer  "file_size",            limit: 4
+    t.integer  "file_size"
     t.string   "file_name",            limit: 255
-    t.float    "gradient_average",     limit: 24
-    t.integer  "gradient_count",       limit: 4,        default: 0,     null: false
-    t.text     "file_content_md",      limit: 16777215
-    t.text     "file_content_html",    limit: 16777215
-    t.integer  "gradient_average_rgb", limit: 4,        default: 0,     null: false
-    t.boolean  "anonymouse",                   default: false, null: false
+    t.float    "gradient_average"
+    t.integer  "gradient_count",                   default: 0,  null: false
+    t.text     "file_content_md"
+    t.text     "file_content_html"
+    t.integer  "gradient_average_rgb",             default: 0,  null: false
+    t.integer  "anonymouse",           limit: 2,   default: 0,  null: false
     t.string   "author_name",          limit: 255
     t.string   "school_name",          limit: 255
-    t.text     "file_content_text",    limit: 16777215
-    t.string   "slug",                 limit: 255,                      null: false
+    t.text     "file_content_text"
+    t.string   "slug",                 limit: 255
     t.string   "remote_document_url",  limit: 255
     t.string   "description",          limit: 255
-    t.integer  "width",                limit: 4
-    t.integer  "height",               limit: 4
-    t.integer  "impressions_count",    limit: 4,        default: 0,     null: false
+    t.integer  "width"
+    t.integer  "height"
+    t.integer  "impressions_count",                default: 0,  null: false
     t.string   "source_from",          limit: 255
-    t.integer  "project_id",           limit: 4
-    t.boolean  "is_latest_version"    
-    t.integer  "revisions_count",      limit: 4,        default: 0,     null: false
-    t.integer  "comments_count",       limit: 4,        default: 0,     null: false
+    t.integer  "project_id"
+    t.integer  "is_latest_version",    limit: 2
+    t.string   "project_name",         limit: 255
+    t.text     "file_content_css"
+    t.string   "alternate_link",       limit: 255
+    t.integer  "revisions_count",                  default: 0,  null: false
+    t.integer  "comments_count",                   default: 0,  null: false
+    t.text     "tags",                             default: [],              array: true
   end
 
-  add_index "works", ["project_id"], name: "index_works_on_project_id", using: :btree
-  add_index "works", ["slug"], name: "index_works_on_slug", unique: true, using: :btree
-  add_index "works", ["user_id", "created_at"], name: "index_works_on_user_id_and_created_at", using: :btree
-  add_index "works", ["user_id"], name: "index_works_on_user_id", using: :btree
+  add_index "works", ["project_id"], name: "public_works_project_id3_idx", using: :btree
+  add_index "works", ["slug"], name: "public_works_slug0_idx", unique: true, using: :btree
+  add_index "works", ["user_id", "created_at"], name: "public_works_user_id1_idx", using: :btree
+  add_index "works", ["user_id"], name: "public_works_user_id2_idx", using: :btree
 
-  add_foreign_key "affiliations", "schools"
-  add_foreign_key "affiliations", "users"
-  add_foreign_key "diffs", "projects"
-  add_foreign_key "linked_accounts", "users"
-  add_foreign_key "projects", "schools"
-  add_foreign_key "projects", "users"
-  add_foreign_key "revisions", "projects"
-  add_foreign_key "revisions", "works"
-  add_foreign_key "works", "projects"
+  add_foreign_key "affiliations", "schools", name: "affiliations_school_id_fkey", on_update: :restrict, on_delete: :restrict
+  add_foreign_key "affiliations", "users", name: "affiliations_user_id_fkey", on_update: :restrict, on_delete: :restrict
+  add_foreign_key "diffs", "projects", name: "diffs_project_id_fkey", on_update: :restrict, on_delete: :restrict
+  add_foreign_key "linked_accounts", "users", name: "linked_accounts_user_id_fkey", on_update: :restrict, on_delete: :restrict
+  add_foreign_key "projects", "schools", name: "projects_school_id_fkey", on_update: :restrict, on_delete: :restrict
+  add_foreign_key "projects", "users", name: "projects_user_id_fkey", on_update: :restrict, on_delete: :restrict
+  add_foreign_key "revisions", "projects", name: "revisions_project_id_fkey", on_update: :restrict, on_delete: :restrict
+  add_foreign_key "revisions", "works", name: "revisions_work_id_fkey", on_update: :restrict, on_delete: :restrict
+  add_foreign_key "works", "projects", name: "works_project_id_fkey", on_update: :restrict, on_delete: :restrict
 end

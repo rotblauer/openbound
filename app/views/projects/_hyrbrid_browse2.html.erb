@@ -1,53 +1,34 @@
 <div id="browsebar">
 	<!-- these could be tabbed to switch between tags and schools -->
-		
-		<!-- TAG FACETING --> 
+
+		<!-- TAG FACETING -->
 		<%
-			# Groups all tag facets. 
+			# Groups all tag facets.
 			facets_html = ''
-			# Existing content facets. 
+			# Existing content facets.
 			existing_content_facets = []
-			# Existing context facets. 
-			existing_context_facets = []
-			# Existing school facets. 
+			# Existing school facets.
 			existing_school_query = []
 
 			# schools_html = ''
 			# existing_school_query = []
 
-			# Set existing facets to existing params. 
-			if params[:content].present? 
+			# Set existing facets to existing params.
+			if params[:content].present?
 				existing_content_facets = params[:content]
 			end
-			if params[:context].present? 
-				existing_context_facets = params[:context]
-			end
-			if params[:school_name].present? 
+			if params[:school_name].present?
 			  existing_school_query = params[:school_name]
 			end
 
-			# Empty strings to hold facets html. 
-			# These will hold both content and context facets. 
-			context_facet_links_off = ''
+			# Empty strings to hold facets html.
+			# These will hold both content and context facets.
 			content_facet_links_off = ''
 			school_links_off = ''
 			facet_links_on = ''
 			school_links_on = ''
 
 			remove_html_span = '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>'.html_safe
-			# Facet on context.
-			@search.facet(:context_list).rows.each_with_index do |facet, index|
-				break if index == 5;
-
-				if (params[:context].kind_of?(Array) and params[:context].include? facet.value)
-					context_facets = existing_context_facets - [facet.value]
-					facet_links_on << "<span class='tag context facet on'> #{link_to facet.value, :search => params[:search], :context => context_facets, :content => params[:content], :school_name => params[:school_name]} </span>"
-				elsif @search.results.size > 0
-					context_facets = existing_context_facets + [facet.value]
-					context_facet_links_off << "<span class='tag context facet off'> #{link_to facet.value, :search => params[:search], :context => context_facets, :school_name => params[:school_name], :content => params[:content]}</span>"
-				end
-			end
-
 			# Facet on content.
 			@search.facet(:content_list).rows.each_with_index do |facet, index|
 				break if index == 5;
@@ -61,7 +42,7 @@
 				end
 			end
 
-			# Facet on schools. 
+			# Facet on schools.
 			@facet_schools.each do |school, index|
 			  break if index == 8;
 
@@ -75,10 +56,10 @@
 			end
 
 
-			# Shuffler link. 
+			# Shuffler link.
 			random_work_link = "<a href='#{project_path(Project.all.sample)}'><span id='shuffler' class='glyphicon glyphicon-random has-tooltip' data-toggle='tooltip' data-placement='top' title='Go to a random project' style='color: #76B3DF;'></span></a>" if Project.count > 0
 
-			# Handle when no results (thus no @search#facets returned) show existing facet params. Just pull existing cc facets from params. 
+			# Handle when no results (thus no @search#facets returned) show existing facet params. Just pull existing cc facets from params.
 			if @search.results.size == 0
 				existing_context_facets.each do |facet|
 					context_facets = existing_context_facets - [facet]
@@ -89,7 +70,7 @@
 					facet_links_on << "<span class='tag content facet on'> #{link_to facet, :search => params[:search], :content => content_facets, :context => params[:context], :school_name => params[:school_name]} </span>"
 				end
 			end
-			# Shovel all facets - content and context & on and off. 
+			# Shovel all facets - content and context & on and off.
 			if facet_links_on.size > 0
 				facets_html << "<ul class='search_facets_on'>#{facet_links_on}</ul>"
 			end
@@ -100,14 +81,14 @@
 				# context class removes bottom margin
 				# facets_html << "<ul class='search_facets_off context'>#{context_facet_links_off}</ul>"
 				facets_html << "<ul class='search_facets_off'>#{context_facet_links_off}#{content_facet_links_off}</ul>"
-			else 
+			else
 				# just added this bad boy to space out school facets on and school facets off when the school has no content or context tags
 				facets_html << "<br />"
 			end
 			if school_links_off.size > 0
 			  facets_html << "<ul class='school_links_off'>#{school_links_off}</ul>"
 			end
-		
+
 		%>
 
 		<!-- html notifier for search query -->
@@ -125,19 +106,19 @@
 			<!-- stop -->
 			<% if params[:search].present? || params[:context].present? || params[:content].present? || params[:school_name].present? %>
 				<%= link_to params[:search] => nil, params[:tag] => nil, params[:school_name] => nil do %>
-					<span class='glyphicon glyphicon-stop has-tooltip' data-toggle='tooltip' data-placement='top' title='Reset all filters' aria-hidden='true' style='color: #76B3DF;'></span> 
+					<span class='glyphicon glyphicon-stop has-tooltip' data-toggle='tooltip' data-placement='top' title='Reset all filters' aria-hidden='true' style='color: #76B3DF;'></span>
 				<% end %>
 			<% end %>
 
 			<!-- Render shuffler link if no facet links off and there is any work in the library -->
 			<% if (Project.count > 0) and (!facet_links_on.blank? or !params[:school_name].blank?) %>
 				<%= link_to project_path(Project.all.sample) do %>
-					<span class='glyphicon glyphicon-random has-tooltip' data-toggle="tooltip" data-placement="top" title="Go to a random project" aria-hidden="true" style='color: #76B3DF;'></span> 
+					<span class='glyphicon glyphicon-random has-tooltip' data-toggle="tooltip" data-placement="top" title="Go to a random project" aria-hidden="true" style='color: #76B3DF;'></span>
 				<% end %>
 			<% end %>
 
 
 		</div>
 
-	
+
 </div>

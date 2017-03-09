@@ -7,37 +7,37 @@ class School < ActiveRecord::Base
   fuzzily_searchable :Institution_Name
   # init fuzzily
   # MyStuff.bulk_update_fuzzy_name
-	
+
 	has_many :affiliations, dependent: :destroy
 	has_many :users, through: :affiliations
-	
+
 	has_many :works
 	has_many :projects
 
 	mount_uploader :favicon, FaviconUploader
 	mount_uploader :logo, LogoUploader
 
-	searchable do 
-		# Search in. 
-		text :Institution_Name, :boost => 5.0
-		text :Institution_State
-		text :Institution_Zip
-		# Order and with by. 
-		string :Institution_Name
-		string :Institution_City
-		string :Accreditation_Date_Type
-		integer :works_count
-		integer :affiliations_count
-		boolean :is_academic
-	end
+	# searchable do
+	# 	# Search in.
+	# 	text :Institution_Name, :boost => 5.0
+	# 	text :Institution_State
+	# 	text :Institution_Zip
+	# 	# Order and with by.
+	# 	string :Institution_Name
+	# 	string :Institution_City
+	# 	string :Accreditation_Date_Type
+	# 	integer :works_count
+	# 	integer :affiliations_count
+	# 	boolean :is_academic
+	# end
 
-	# Set default scopes. 
+	# Set default scopes.
 	# default_scope { order(works_count: :desc) }
 	# default_scope { order(affiliations_count: :desc) }
 	# default_scope { order(updated_at: :desc) }
 
 	############################################
-	## Can use with 
+	## Can use with
 	#```
 	#$ rails console
 	#$ schools = School.all
@@ -45,10 +45,10 @@ class School < ActiveRecord::Base
 	#$ s.update_works_count
 	#$ end
 	#```
-	###########################################	
-	###########################################		
+	###########################################
+	###########################################
 	## After touch updates for users & works counts
-	###########################################	
+	###########################################
 
 	# Update counts on self.
 	# def update_works_count
@@ -66,12 +66,23 @@ class School < ActiveRecord::Base
 	    # the first one we want to keep right?
 	    first_one = duplicates.shift # or pop for last one
 	    # if there are any more left, they are duplicates
-	    
+
 	    # so delete all of them
 			duplicates.each{|double| double.destroy} # duplicates can now be destroyed
 			# duplicates.each{|double| Rails.logger.info(double.Institution_Name)} # duplicates can now be destroyed
 	  end
 	end
+
+  def self.search(query:nil, is_academic: true, page:1, per_page:15)
+    q = self.all
+    q = q.basic_search(query) if !query.nil?
+    q = q.where(is_academic: is_academic)
+    return q.order(works_count: :desc)
+            .order(affiliations_count: :desc)
+            .order(Institution_Name: :asc)
+            .limit(per_page)
+            .offset((page-1)*per_page)
+  end
 
 	# def getCoords
 	# 	gapi_key = Rails.application.secrets.google_api_key
@@ -81,7 +92,7 @@ class School < ActiveRecord::Base
 
 	# 	formatted_address_query += self.Institution_Address + ", " if !self.Institution_Address.nil?
 	# 	formatted_address_query += self.Institution_City + ", " + self.Institution_State
-		
+
 	# 	# replace spaces as per google demo
 	# 	formatted_address_query.gsub!(' ', '+')
 	# 	query = base_url + formatted_address_query + api_key_parameter
@@ -97,43 +108,43 @@ class School < ActiveRecord::Base
 
 	# 		puts " Doing request."
 	# 		request = Net::HTTP::Get.new(uri.request_uri)
-			
+
 	# 		puts " Responsing."
 	# 		response = http.request(request)
 
-			
+
 	# 		if (response.code.to_i == 200)
 
-	# 			# Confirm affirm response code. 
+	# 			# Confirm affirm response code.
 	# 			puts "#{response.code} - #{self.Institution_Name}".white.on_green
 
 	# 			# @param {String}
 	# 			# @return {Object}
 	# 			objectifiedBod = JSON.parse response.body
-				
+
 	# 			if self.update_attributes(
 	# 				geocode_json: response.body.to_s,
 	# 				geocode_lat: objectifiedBod['results'][0]['geometry']['location']['lat'].to_f,
 	# 				geocode_lng: objectifiedBod['results'][0]['geometry']['location']['lng'].to_f)
-					
+
 	# 				puts ":) #{self.Institution_Name}.".green
 	# 				puts "  @ [#{self.geocode_lat}, #{self.geocode_lng}]".green
 	# 				# puts "  @@ #{school.geocode_json}".white.on_black
-				
-	# 			else 
+
+	# 			else
 	# 				puts ":( Couldn't save #{self.Institution_Name}".red
 	# 			end
 
-	# 		# Else request failed. 
+	# 		# Else request failed.
 	# 		else
 
 	# 			puts "Request failed.".red.on_white
 	# 			puts "RESPONSE #{response.code} - #{response.message}".red.on_white
 	# 			puts "^~> SCHOOL name: #{school.Institution_Name}".red.on_white
-			
+
 	# 		end
 	# 	rescue Exception => e
-	# 		puts e 
+	# 		puts e
 	# 	end
 	# 	self.reload
 	# 	return {

@@ -12,17 +12,17 @@
 	
 
 	<td>
-		<% context_count_hash(school, 3).each do |key, value| %>
+		<% #context_count_hash(school, 3).each do |key, value| %>
 			<span class="label label-context">
-				<%= link_to key, projects_path(:context => [key], :school_name => [school.Institution_Name]) %> (<%= value %>)
+				<%#= link_to key, projects_path(:context => [key], :school_name => [school.Institution_Name]) %> (<%#= value %>)
 			</span>
-		<% end %>
+		<% #end %>
 	
-		<% content_count_hash(school, 3).each do |key, value| %>
+		<% #content_count_hash(school, 3).each do |key, value| %>
 			<span class="label label-content">
-				<%= link_to key, projects_path(:content => [key], :school_name => [school.Institution_Name]) %> (<%= value %>)
+				<%#%>= link_to key, projects_path(:content => [key], :school_name => [school.Institution_Name]) %> (<%#= value %>)
 			</span>
-		<% end %>
+		<% #end %>
 	</td>
 
 </tr>

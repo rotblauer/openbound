@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.2.0'
 
 gem 'pg'
+gem 'postgres_ext'
 
 ## DEPLOY GEMS
 # use Puma for deploy server with EB
@@ -134,9 +135,12 @@ gem 'impressionist', '1.5.1'
 ## Gems for querying work documents
 ## Use Sunspot for searchw with richtext indexing.
 # removed because it isn't listed as necessary on https://github.com/sunspot/sunspot
+
+gem 'textacular', '~> 3.0'
+
 # gem 'sunspot'
-gem 'sunspot_rails'
-gem 'sunspot_solr'
+# gem 'sunspot_rails'
+# gem 'sunspot_solr'
 # removed because i'm not sure what they are good for
 # gem 'sunspot_cell'
 # gem 'sunspot_cell_jars'
