@@ -21,13 +21,13 @@
 			<p>Hi <%= @user.name %>,</p>
 
 			<p>
-			Welcome to Rstacks! Please follow the link below to activate your account:
+			Welcome to Openbound! Please follow the link below to activate your account:
 			</p>
 
 			<%= link_to "Activate ahoy!", edit_account_activation_url(@user.activation_token, email: @user.email) %>
 			<span class="text-muted">(and make it snappy - the link will expire in 2 hours!)</span>
 
-			<small>By following this link you agree to <%= link_to "Rstacks' Terms & Conditions", terms_and_conditions_url %>, among which you guarantee to take responsibility for the things you upload. </small>
+			<small>By following this link you agree to <%= link_to "Openbound' Terms & Conditions", terms_and_conditions_url %>, among which you guarantee to take responsibility for the things you upload. </small>
 
 			<p>Happy learning,
 			<br>

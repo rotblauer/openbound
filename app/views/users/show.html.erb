@@ -108,7 +108,7 @@
                 warning += " This will remove your last remaining connected account.\n\nYou'll need to use your email and password to log in again."
               elsif !@user.has_password
                 warning += " This is your last remaining connected account. \n\nYou'll be logged out and will receive an email at the address connected with this account with password reset instructions."
-                warning += "\n\nYour account at Rstacks will not be deleted or altered while you're away!"
+                warning += "\n\nYour account at Openbound will not be deleted or altered while you're away!"
               end
             end
           %>
@@ -134,7 +134,7 @@
       <hr>
       <!-- MEMBER SINCE -->
       <div style="margin-top: 10px;" class="">
-        <span class="text-muted" style="font-style: italic; font-size: .8em;" >Rstacks member since <%= @user.created_at.strftime("%B %Y") %></span>
+        <span class="text-muted" style="font-style: italic; font-size: .8em;" >Openbound member since <%= @user.created_at.strftime("%B %Y") %></span>
       </div>
 <!-- 
       <p class="brand-secondary">

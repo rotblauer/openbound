@@ -6,7 +6,7 @@
 <!-- MLA -->
 <!-- https://owl.english.purdue.edu/owl/resource/747/08/ -->
 <div id="mla-citation" class="wrapper wrapper-citation" >
-<pre><% if @work.anonymouse %><%=@work.author_name %>.<% else %><%=@work.user.name %>.<% end %> <% if @work.name? %>"<%= @work.name.strip %>."<% else %>"<%= @work.file_name.strip %>."<% end %> Rstacks.org, <%= @work.created_at.strftime("%e %b %Y") %>. Web. <%=Time.zone.now.strftime("%e %b %Y") %>. <%= "<" %><%= request.original_url %><%=">" %>
+<pre><% if @work.anonymouse %><%=@work.author_name %>.<% else %><%=@work.user.name %>.<% end %> <% if @work.name? %>"<%= @work.name.strip %>."<% else %>"<%= @work.file_name.strip %>."<% end %> Openbound.org, <%= @work.created_at.strftime("%e %b %Y") %>. Web. <%=Time.zone.now.strftime("%e %b %Y") %>. <%= "<" %><%= request.original_url %><%=">" %>
 </pre>
 </div>
 

@@ -290,7 +290,7 @@
                 request.onload = callbacker;
                 request.open("post", "<%= google_drive_url %>");
                 // request.open("post", "http://localhost:3000/google-drive");
-                // request.open("post", "http://staging.rstacks.org/google-drive");
+                // request.open("post", "http://staging.openbound.org/google-drive");
                 request.setRequestHeader("Content-Type", "application/json");
                 // request.send('{"my_data":"back to basics"}');
                 request.send('{ "work" : '+stringer+' }'); // note,  JSON format (not ruby => format)
@@ -305,7 +305,7 @@
                   // return false;
 
                   // window.location = 'http://localhost:3000/shelving_cart';
-                  // window.location = 'http://staging.rstacks.org/shelving_cart';
+                  // window.location = 'http://staging.openbound.org/shelving_cart';
                 }
 
               });

@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
 
   # http://stackoverflow.com/questions/10629397/how-to-disable-http-strict-transport-security
   # It should be documented that once you enable the 'force_ssl' option in Rails, the only way to disable it is to have all your visitors clear their browser cache. :(
-  # If this wasn't the case, you'd be vulnerable to SSL stripping which is what HSTS is designed to mitigate. Nothing to do with Rails. 
+  # If this wasn't the case, you'd be vulnerable to SSL stripping which is what HSTS is designed to mitigate. Nothing to do with Rails.
   # response.headers["Strict-Transport-Security"] = 'max-age=0'
   before_filter :unset_ssl
 
@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
 
   def require_login
     unless logged_in?
-      render 'index/signin' 
+      render 'index/signin'
     end
   end
 
@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
     end
 
   private
-  
+
     # http://api.rubyonrails.org/classes/ActionController/RequestForgeryProtection.html
     # def json_request?
     #   request.format.json?
@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
     def verified_request?
       super || valid_authenticity_token?(session, request.headers['X-XSRF-TOKEN'])
     end
-    
+
     # Confirms a logged-in user.
     def logged_in_user
       unless logged_in?
@@ -69,11 +69,11 @@ class ApplicationController < ActionController::Base
       should_redirect = !(domain_exceptions.include? request.host)
       # if not trying to get to staging
       # if !['staging.openbound.org'].include? request.host
-      new_url = "#{request.protocol}#{domain_to_redirect_to}#{request.fullpath}" 
-      # else 
+      new_url = "#{request.protocol}#{domain_to_redirect_to}#{request.fullpath}"
+      # else
       #   new_url = "ec2-52-27-198-224.us-west-2.compute.amazonaws.com#{request.fullpath}"
       # end
       redirect_to new_url, status: :moved_permanently if should_redirect
     end
-    
+
 end

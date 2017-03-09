@@ -31,7 +31,7 @@ production:
 
 # test:
 #   adapter: mysql2
-#   database: rstacks_test
+#   database: openbound_test
 #   pool: 5
 #   encoding: utf8
 #   username: root

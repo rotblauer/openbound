@@ -2,7 +2,7 @@
 
 <p>Hi <%= @user.name %>! </p>
 
-<p>To change the email associated with your Rstacks account, click the link below:</p>
+<p>To change the email associated with your Openbound account, click the link below:</p>
 
 <%= link_to "Update email", edit_email_update_url(@user.email_update_token,
                                                       new_email: @user.new_email) %>

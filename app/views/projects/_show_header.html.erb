@@ -185,7 +185,7 @@
                 </div>
                 <div style="display: inline-block; text-align: center;" >
                 <!-- mail a link -->
-                <%= mail_to "team@rstacks.org", subject: "[Rstacks] #{if project.name.present? then project.name else project.most_recent_work.file_name end}", body: "#{request.original_url}", class: "modest-link" do %>
+                <%= mail_to "team@openbound.org", subject: "[Openbound] #{if project.name.present? then project.name else project.most_recent_work.file_name end}", body: "#{request.original_url}", class: "modest-link" do %>
                         <button class="btn btn-primary btn-xs " style="position: relative; margin-top: -14px; height: 20px;">
                         <span>Email </span><span class="glyphicon glyphicon-envelope" ></span> </button>
                 <% end %>

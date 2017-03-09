@@ -96,7 +96,7 @@
 					</style>
 			<div style="margin-bottom: 15px;" >
 			<!-- mail a link -->
-			<%= mail_to "team@rstacks.org", subject: "[Rstacks] #{if @work.name.present? then @work.name else @work.file_name end}", 
+			<%= mail_to "team@openbound.org", subject: "[Openbound] #{if @work.name.present? then @work.name else @work.file_name end}", 
 																				 body: "#{request.original_url}", class: "modest-link" do %>
 					<button class="btn btn-primary btn-sm">
 					<span>Email </span><span class="glyphicon glyphicon-envelope" ></span> </button>

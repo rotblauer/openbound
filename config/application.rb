@@ -18,7 +18,7 @@ if defined?(Bundler)
   Bundler.require(*Rails.groups(:assets => %w(development test), :profiling => %w[development])) #staging 
 end
 
-module Rstacks
+module Openbound
   class Application < Rails::Application
 
     # config.autoload_paths += Dir["#{config.root}/lib/**/"] if Rails.env.development?

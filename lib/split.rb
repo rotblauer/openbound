@@ -92,9 +92,9 @@ module Split
 
 
 
-#     https://rstacks-library.s3.amazonaws.com/uploads/work/document/e371cb7e-cd35-44bc-a0e2-2edd7a2a0895/a473733a-b1ac-4b29-ae2d-b1e5b78a17fa/2BruceBender.pdf
+#     https://openbound-library.s3.amazonaws.com/uploads/work/document/e371cb7e-cd35-44bc-a0e2-2edd7a2a0895/a473733a-b1ac-4b29-ae2d-b1e5b78a17fa/2BruceBender.pdf
 # Docsplit.extract_images("https:#{Work.first.document.url}", :size => %w{200x 700x 1000x}, :format => :jpg, :pages => %w{1}, output: "#{Work.first.document.url.chomp(Work.first.document.model.file_name)}")
-# Docsplit.extract_images("https://rstacks-library.s3.amazonaws.com/uploads/work/document/e371cb7e-cd35-44bc-a0e2-2edd7a2a0895/a473733a-b1ac-4b29-ae2d-b1e5b78a17fa/2BruceBender.pdf", :size => %w{200x 700x 1000x}, :format => :jpg, :pages => %w{1}, output: "#{Work.first.document.url.chomp(Work.first.document.model.file_name)}")
+# Docsplit.extract_images("https://openbound-library.s3.amazonaws.com/uploads/work/document/e371cb7e-cd35-44bc-a0e2-2edd7a2a0895/a473733a-b1ac-4b29-ae2d-b1e5b78a17fa/2BruceBender.pdf", :size => %w{200x 700x 1000x}, :format => :jpg, :pages => %w{1}, output: "#{Work.first.document.url.chomp(Work.first.document.model.file_name)}")
     
     # def extract_text
     #   ::Docsplit.extract_text(self.pdf, :ocr => true, output: output_path)
@@ -118,7 +118,7 @@ module Split
       return "public/#{document.store_dir}" 
     end
     # def s3_output_path
-    #   # https://rstacks-library.s3.amazonaws.com/uploads/work/document/e371cb7e-cd35-44bc-a0e2-2edd7a2a0895/ff9f2fb6-29a7-4123-b4ef-e1f288ba6b89/2BruceBender.pdf 
+    #   # https://openbound-library.s3.amazonaws.com/uploads/work/document/e371cb7e-cd35-44bc-a0e2-2edd7a2a0895/ff9f2fb6-29a7-4123-b4ef-e1f288ba6b89/2BruceBender.pdf 
     #   return "#{document.url.chomp(document.model.file_name)}"
     # end
 

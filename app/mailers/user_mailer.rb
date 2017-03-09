@@ -8,7 +8,7 @@ class UserMailer < ApplicationMailer
   #
   def account_activation(user)
     @user = user
-    mail to: user.email, subject: "Rstacks account activation!"
+    mail to: user.email, subject: "Openbound account activation!"
   end
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -18,12 +18,12 @@ class UserMailer < ApplicationMailer
   #
   def password_reset(user)
     @user = user
-    mail to: user.email, subject: "Reset your Rstacks password!"
+    mail to: user.email, subject: "Reset your Openbound password!"
   end
 
   def email_update(user)
     @user = user
-    mail to: user.new_email, subject: "Change your Rstacks email!"
+    mail to: user.new_email, subject: "Change your Openbound email!"
   end
   
   # Add email_update_notice(user)

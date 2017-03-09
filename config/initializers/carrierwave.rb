@@ -15,7 +15,7 @@ if Rails.env.production?
       region:                'us-west-2'                  # optional, defaults to 'us-east-1'
     }
     config.storage :fog
-    config.fog_directory  = 'rstacks-library'                          # required
+    config.fog_directory  = 'openbound-library'                          # required
     config.fog_public     = true                                        # optional, defaults to true
     config.fog_attributes = { 'Cache-Control' => "max-age=#{365.day.to_i}" } # optional, defaults to {}
   end
@@ -32,7 +32,7 @@ if Rails.env.staging?
       aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY_I'],                        # required
       region:                'us-west-2'                  # optional, defaults to 'us-east-1'
     }
-    config.fog_directory  = 'rstacks-library-staging'                          # required
+    config.fog_directory  = 'openbound-library-staging'                          # required
     config.fog_public     = true                                        # optional, defaults to true
     config.fog_attributes = { 'Cache-Control' => "max-age=#{365.day.to_i}" } # optional, defaults to {}
   end
