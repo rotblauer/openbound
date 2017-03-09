@@ -13,30 +13,30 @@
     <!-- and option for uploads -->
     <div class="col-sm-3" style="margin-top: 15px;">
 
-    
+
     <!-- markdown cheatsheet will collapse open and closed when in editing mode. -->
     <div id="markdown-cheat-sheet" class="collapse collapsed" style="margin-bottom: 30px;">
-      
+
       <%= render partial: 'shared/markdown_cheat_sheet' %>
     </div>
 
-    
+
     <!-- display: none -->
     <span id="currently-viewed-id" style="display: none;"><%= @most_recent_work.id %></span>
-    
+
     <p class="brand-secondary">
         <!-- <span class="glyphicon glyphicon-arrow-up"></span> -->
         latest
     </p>
-    <% @works.all.reverse.each do |work| %>
-        
+    <% @works.all.each do |work| %>
+
         <!-- list available versions -->
         <!-- click to toggle version visibility -->
-        <div class="">
+        <div class="" style="display: block; text-overflow: hidden;">
   <!--       <div class="" style="display: inline-block; float: left; padding: 3px;">
-          
+
         </div> -->
-        <div id="<%= work.id %>" class="click-me <%= work.id == @most_recent_work.id ? 'open-version' : 'closed-version' %>" style="display: inline-block; width: 90%;">
+        <div id="<%= work.id %>" class="click-me <%= work.id == @most_recent_work.id ? 'open-version' : 'closed-version' %>" style="display: inline-block; width: 90%; word-break: break-all;">
 
 
             <!-- file icon -->
@@ -50,17 +50,13 @@
               <br>
               <small><%= work.created_at.strftime("%e %b %Y") %></small>
             </div>
-        
+
         </div>
         </div>
     <% end %>
     <p class="brand-secondary">earliest</p>
 
 
-  
-
-
-        
 
     </div> <!-- !col-sm-3 -->
 
@@ -70,8 +66,8 @@
 
       <div class="row">
       <div id="versions-different-alert" class="alert alert-info col-xs-12" style="display: none;">
-        Updates saved! <%= link_to "Refresh to see your new public version", project_path(@project) %>, or keep on keeping on. 
-        
+        Updates saved! <%= link_to "Refresh to see your new public version", project_path(@project) %>, or keep on keeping on.
+
         <style>
           /*http://stackoverflow.com/questions/18169717/align-button-vertically-in-alert-field*/
           .alert p .btn {
@@ -102,7 +98,7 @@
             <!-- you left editing without saving -->
             <div class="row">
             <div class="alert alert-warning col-xs-12 left-without-saving-alert" style="display: none;">
-              You left editing without saving. 
+              You left editing without saving.
               <p class="pull-right">
               <style>
                 /*http://stackoverflow.com/questions/18169717/align-button-vertically-in-alert-field*/
@@ -132,12 +128,12 @@
               <!-- ******************************************** -->
               <!-- BUTTTTOOOONNNNSSSS -->
               <!-- ******************************************** -->
-              
+
               <script>
                 $(function () {
-                  $('.editable').hide();  
+                  $('.editable').hide();
                 });
-                
+
               </script>
 
 
@@ -156,7 +152,7 @@
 
                   <!-- COMMENTS ON WORK -->
                   <p style="line-height: 2em; max-width: 80%;">
-                      
+
                       <% if owner?(@project) %>
                       <span class="text-muted" style="color: #76B3DF; padding: 3px;">Work comments</span>
                       <span style="color: gray;">
@@ -174,28 +170,28 @@
                   <!-- DOWNLOAD BUTTON --> <!-- pull-right -->
                   <div class="dropdown" style="display: inline; ">
                       <!-- link to download work/:id/download => 'works#download' -->
-                      
+
                         <button class="btn btn-xs btn-outline btn-success dropdown-toggle" data-toggle="dropdown">
                           <span class="fa fa-caret-down"></span>
                           Download
                         </button>
                         <ul class="dropdown-menu dropdown-menu-center">
-                          
+
                           <!-- original file -->
                           <% if work.document_url %>
                           <li>
-                            <%= link_to work.document_url, class: 'modest-link' do %> 
+                            <%= link_to work.document_url, class: 'modest-link' do %>
                               <span class="brand-primary"><%= work.file_name %></span>&nbsp;<sup style="color: green;">original</sup>
                             <% end %>
-                          </li>   
+                          </li>
                           <% end %>
 
                           <% if !work.image? %>
                           <!-- markdown -->
                           <li>
-                            <%= link_to download_work_path(:id => work.id, :download_as => 'markdown'), class: 'modest-link' do %> 
+                            <%= link_to download_work_path(:id => work.id, :download_as => 'markdown'), class: 'modest-link' do %>
                               <span class="brand-primary"><%=  download_name(work.name) %>.md</span>&nbsp;markdown
-                            <% end %>      
+                            <% end %>
                           </li>
 
                           <li>
@@ -206,43 +202,43 @@
 
                           <!-- plain -->
                           <li>
-                            <%= link_to download_work_path(:id => work.id, :download_as => 'plain'), class: 'modest-link' do %> 
+                            <%= link_to download_work_path(:id => work.id, :download_as => 'plain'), class: 'modest-link' do %>
                               <span class="brand-primary"><%=  download_name(work.name) %>.txt</span>&nbsp;plain text
-                            <% end %>      
+                            <% end %>
                           </li>
 
                           <!-- open office -->
                           <li>
-                            <%= link_to download_work_path(:id => work.id, :download_as => 'open_office'), class: 'modest-link' do %> 
+                            <%= link_to download_work_path(:id => work.id, :download_as => 'open_office'), class: 'modest-link' do %>
                               <span class="brand-primary"><%= download_name(work.name) %>.odt</span>&nbsp;Open Office text document
-                            <% end %>      
+                            <% end %>
                           </li>
 
                           <!-- docx -->
                           <li>
-                            <%= link_to download_work_path(:id => work.id, :download_as => 'microsoft_word'), class: 'modest-link' do %> 
+                            <%= link_to download_work_path(:id => work.id, :download_as => 'microsoft_word'), class: 'modest-link' do %>
                               <span class="brand-primary"><%=  download_name(work.name) %>.docx</span>&nbsp;Microsoft Word&trade;
-                            <% end %>      
+                            <% end %>
                           </li>
                           <% end %>
-                       
+
                         </ul>
                   </div>
-                  
+
                   <% if owner?(work) && work.from_google_drive? && work.alternate_link.present? %>
                     <%= link_to work.alternate_link do %>
                       <small class="text-muted has-tooltip" data-toggle="tooltip" data-placement="top" title="This link is private - just for you!" aria-hidden="true">View the original in Google Drive</small>
                     <% end %>
                   <% end %>
 
-                
+
 
                 </div>
-                
+
                 <!--  _DOCUMENT     -->
                 <%= render partial: "works/doc_local", locals: {work: work} %>
-                
-         
+
+
                 <!--  CITATION_HELPER -->
                 <hr>
                 <div id="close-to-comments" class="citation-helper" style="margin-top: 20px;">
@@ -250,18 +246,18 @@
                 </div>
 
                 <hr>
-            
+
             </div>
         <% end %>
-            
-            
+
+
                 <div class="comments-go-here" style="margin-top: 20px;">
                 <!-- comments by project or work selector -->
                 <div class="row" style="margin-bottom: 20px;">
                     <!-- toggle buttons for show and diff -->
                     <!-- http://www.bootply.com/92189 -->
                 <span class="text-muted">show comments
-                  <div class="btn-group btn-group-xs btn-toggle " style="display: inline-block;"> 
+                  <div class="btn-group btn-group-xs btn-toggle " style="display: inline-block;">
                     <button id="" class="btn btn-primary active show-comments-by-work">by version</button>
                     <button id="" class="btn btn-default show-comments-by-project">by project</button>
                   </div>
@@ -290,7 +286,7 @@
                 </div>
 
 
- 
+
     </div>
 
 </div> <!-- !ROW -->
@@ -302,7 +298,7 @@
 
 <div class="row">
   <div id="diff-different-alert" class="alert alert-warning col-xs-12" style="display: none;">
-    These diffs are outdated! <%= link_to "Refresh", project_path(@project) %> to update them. 
+    These diffs are outdated! <%= link_to "Refresh", project_path(@project) %> to update them.
     <span id="hide-diff-alert" class="pull-right">
       <span class="fa fa-close"></span>
     </span>
@@ -317,36 +313,37 @@
 
 <!-- DIFF PICKER -->
 <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-  
+
         <div class="">
 
-            
-            <% 
+
+            <%
                 unique_work1s = @diffs.uniq.pluck(:work1)
                 unique_work2s = @diffs.uniq.pluck(:work2)
             %>
-            <%= "unique_work1s: #{unique_work1s}" %>
-            <%= "unique_work2s: #{unique_work2s}" %>
+          <!-- debug -->
+            <%#= "unique_work1s: #{unique_work1s}" %>
+            <%#= "unique_work2s: #{unique_work2s}" %>
 
             <div class="col-sm-6 " style="padding: 10px;">
-            
+
             <!-- file icon -->
             <span class="fa fa-file-text-o fa-4x" style="color: #fcc; margin-right: 5px; vertical-align: middle;"></span>
-            
+
             <!-- DIFF SELECTOR1 -->
             <div style="display: inline-block; margin-bottom: 2px;" >
 
                 <select name="" id="diff-selector1" class="form-control">
                     <% unique_work1s.each do |w1| %>
 
-                    <% 
-                      # default to second-most recent work on left. 
-                      is_second_most_recent = w1 == @project.works[-2].id ? true : false 
+                    <%
+                      # default to second-most recent work on left.
+                      is_second_most_recent = w1 == @project.works[-2].id ? true : false
 
-                      # don't want to display most recent work on left. 
+                      # don't want to display most recent work on left.
                       is_most_recent = w1 == @most_recent_work.id ? true : false
                     %>
-                    
+
                       <% if !is_most_recent %>
                       <option value="<%= w1 %>" <%= is_second_most_recent ? 'selected' : '' %>><%= Work.find(w1).name %></option>
                       <% end %>
@@ -360,15 +357,15 @@
             </div>
 
             <div class="col-sm-5" style="padding: 10px;">
-            
+
             <!-- file icon -->
             <span class="fa fa-file-text-o fa-4x" style="color: #9f9; margin-right: 5px; vertical-align: middle;"></span>
-            
+
             <!-- DIFF SELECTOR2 -->
-            <div style="display: inline-block; ">
+            <div style="display: inline-block; max-width: 86%;">
                 <select name="" id="diff-selector2" class="form-control">
                     <% unique_work2s.each do |w2| %>
-                    
+
                     <% is_most_recent = w2 == @most_recent_work.id ? true : false %>
                     <option value="<%= w2 %>" <%= is_most_recent ? 'selected' : '' %>><%= Work.find(w2).name %></option>
                     <% end %>
@@ -390,7 +387,7 @@
             </div>
 
         </div>
-    
+
 </div>
 
 
@@ -399,12 +396,12 @@
 <span id="currentlyVisibleDiffId" style="display: none;" value=""><%= @diffs.first.id %></span>
 
     <% @diffs.each do |diff| %>
-    
-    
+
+
     <!-- style sets default to most recent diff vs second-most-recent -->
     <div id="diff-show-<%= diff.work1 %>-<%= diff.work2 %>" class="div-showing-diffs">
 
-        <% 
+        <%
           w1 = Work.find(diff.work1)
           w2 = Work.find(diff.work2)
         %>
@@ -418,7 +415,7 @@
               $('.diff-text-left').scrollTop($(this).scrollTop());
           });
         });
-          
+
         </script>
 
         <!-- diff -->
@@ -429,19 +426,19 @@
                     <% if !w1.image? %>
                     <div class="doc-text-container diff-text-left">
                     <div class="doc-text-content diff-text " >
-                    
+
                     <!-- <div class="diff"> --> <!-- *nb this will exist in Diff.right & .left (which are :html) -->
                         <%= if diff.left.present? then diff.left.html_safe elsif diff.left_text.present? then diff.left_text.html_safe else markdown w1.file_content_md end %>
                     <!-- </div> -->
-                    
-                    
+
+
                     </div>
                     </div>
                     <% else %>
                       <div class="text-center" style="margin-left: auto; margin-right: auto;">
                         <%= image_tag w1.document_url(:fitted), class: "shadowy-figure-image-preview image-show", style: "margin-right: auto; margin-left: auto;" %>
                       </div>
-                    <% end %>                    
+                    <% end %>
             </div>
 
             <!-- latest -->
@@ -454,11 +451,11 @@
                     <% if !w2.image? %>
                     <div class="doc-text-container diff-text-right">
                     <div class="doc-text-content diff-text ">
-                    
+
                     <!-- <div class="diff"> -->
                         <%=  if diff.right.present? then diff.right.html_safe elsif diff.right_text.present? then diff.right_text.html_safe else markdown w2.file_content_md end %>
                     <!-- </div> -->
-                    
+
                     </div>
                     </div>
                     <% else %>
@@ -470,7 +467,7 @@
         </div>
 
     </div>
-        
+
     <% end %>
 
 <% elsif owner?(@project) %><!-- else no diffs to show and we can educate the owner about how to use diffs -->
@@ -489,7 +486,7 @@
     <span class="fa fa-file-text-o fa-5x" style="color: #b00;"></span>
     <h5 style="color: #b00;">First draft</h5>
     <h5 class="text-muted">
-      Edits in which <span style="background-color: #fcc;">something was removed</span> will appear in red on the left. 
+      Edits in which <span style="background-color: #fcc;">something was removed</span> will appear in red on the left.
     </h5>
   </div>
   </div>
@@ -504,7 +501,7 @@
   </div>
   </div>
 
-  
+
 
     <!-- demo -->
     <div class="row div-diff-demo" >
@@ -516,13 +513,13 @@
       <div class="colorblind-option" >
           <div class="col-sm-6" style="padding: 10px;" >
           <div style="border: 2px dashed #fcc; padding: 10px;">
-              
+
                   <div class="doc-text-container">
                   <div class="doc-text-content">
                   <div class="diff">
                       <%= "<div class=\"diff\">\n  <ul>\n    <li class=\"del\"><del># I worked hard on this! </del></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"del\"><del>If you upload another draft you&#39;ll see the diff right here. </del></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>(And, you can upload as many drafts as you want and compare them all.)</span></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>Woohoo! </span></li>\n  </ul>\n</div>\n".html_safe %>
                   </div>
-                  
+
                   </div>
                   </div>
           </div>
@@ -532,7 +529,7 @@
           <!-- latest -->
           <div class="col-sm-6" style="padding: 10px;">
           <div style="border: 2px dashed #9f9; padding: 10px;">
-              
+
                   <div class="doc-text-container">
                   <div class="doc-text-content">
                   <div class="diff">
@@ -553,7 +550,7 @@
                           <h1 class="brand-secondary" style="line-height: 400px;">What you see is what you get!</h1>
                       </div>
 
-<% end %> 
+<% end %>
 </div> <!-- end diff display -->
 
                       <div class="row text-center" style="min-height: 400px;" id="impossible-diff">
@@ -576,9 +573,9 @@
       /*===========================================
       =            Pick viewers            =
       ===========================================*/
-      
+
       /*----------  Version switcher  ----------*/
-      
+
 
       // how to find which version is currently showing
       var currentlyViewedId = parseInt(document.getElementById('currently-viewed-id').innerHTML);
@@ -604,11 +601,11 @@
           $(this).removeClass('closed-version').addClass('open-version');
 
       });
-        
+
 
         /*----------  View mode togglers  ----------*/
 
-        // elements        
+        // elements
         var saveButton = $('.save-button');
         var editModeButton = $('.edit-mode-button');
         var docTextContentDivs = $('.public-doc-text-view');
@@ -628,10 +625,10 @@
 
         editModeButton.on('click', function() {
           editorMode = true;
-          
+
           // hide/show buttons
           editModeButton.hide();
-          
+
           saveButton.show();
           leaveSafelyBtn.show();
 
@@ -663,7 +660,7 @@
           docTextContentDivs.show();
           editorAreas.hide();
           createNewVersionBtn.show();
-        
+
         }
 
         leaveSafelyBtn.on('click', function() {
@@ -691,9 +688,11 @@
           $('.show-diff-button').removeClass("btn-primary active").addClass("btn-default");
         });
         $('.show-diff-button').on('click', function() {
+            var st = $( window ).scrollTop();
           // show and hide versions/diffs
           $('#version-display').hide();
           $('#diff-display').show();
+            $( window ).scrollTop(st);
 
           $(this).removeClass("btn-default").addClass("active btn-primary");
           $('.show-version-button').removeClass("btn-primary active").addClass("btn-default");
@@ -724,7 +723,7 @@
 
         $('#impossible-diff').hide();
         // $('#diff-display-example').hide();
-      
+
       /*=====  End of pick viewers  ======*/
 
 
@@ -757,10 +756,10 @@
           } else {
               $('#impossible-diff').hide();
           }
-      });     
+      });
       }
       showOnlySelectedDiff(); // init
-          
+
       $('#diff-selector1').change(function (){
           showOnlySelectedDiff();
       });
@@ -796,20 +795,19 @@
               $('#apa').toggleClass('label-success').toggleClass('label-default')
               $('#mla-citation').toggle();
               $('#apa-citation').toggle();
-        });      
+        });
       /*=====  End of Citation Helper  ======*/
-      
 
-      
 
-      
-      
+
+
+
+
       $('.has-tooltip').tooltip();
       /* Activating Best In Place */
       jQuery(".best_in_place").best_in_place();
-      
-      
+
+
 
     });
 </script>
-

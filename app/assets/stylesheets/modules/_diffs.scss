@@ -11,7 +11,7 @@
 // }
 
 #diff-display {
-	font-size: .8em !important; // doesn't work? 
+	font-size: .8em !important; // doesn't work?
 }
 
 .click-me {
@@ -41,7 +41,7 @@
 	margin-right: 10px;
 	// color: $app-primary;
 	// margin-bottom: 10px;
-	
+
 	// display: table;
 	// > * {
 	// 	display: table-cell;
@@ -88,7 +88,7 @@
 	.diff del strong{font-weight:normal;background:#fcc;}
 	.diff ins strong{font-weight:normal;background:#99f;}
 	.diff li.diff-comment { display: none; }
-	.diff li.diff-block-info { background: none repeat scroll 0 0 gray; }	
+	.diff li.diff-block-info { background: none repeat scroll 0 0 gray; }
 }
 
 

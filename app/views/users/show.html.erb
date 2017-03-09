@@ -1,6 +1,6 @@
 <style>
   h1 {
-    font-size: 3vw; 
+    font-size: 3vw;
     line-height: 100%;
     color: #005a9b;
   }
@@ -13,24 +13,24 @@
 <div class="container">
 <div class="row row-fat">
 
-  
+
   <!-- USER BIO AND STATS -->
   <div class="col-md-3 hidden-sm" style=" -webkit-box-shadow: 0px 2px 5px 0px #888888;
   -moz-box-shadow: 0px 2px 5px 0px #888888;
   box-shadow: 0px 2px 5px 0px #888888; padding: 10px;">
     <div class="row">
 
-      
-      <%= if @user.avatar? 
-            then image_tag @user.avatar_url(:face), class: 'img-responsive'   
-          elsif @user.has_oauth? 
-            then image_tag @user.linked_accounts.first.image_url, class: 'img-responsive' 
-          else 
+
+      <%= if @user.avatar?
+            then image_tag @user.avatar_url(:face), class: 'img-responsive'
+          elsif @user.has_oauth?
+            then image_tag @user.linked_accounts.first.image_url, class: 'img-responsive'
+          else
             require 'digest'
             hash_email = Digest::MD5.hexdigest(@user.email.downcase) if @user.email
             hash_email = Digest::MD5.hexdigest(@user.name.downcase) if !@user.email
             gravatar_url = 'http://www.gravatar.com/avatar/'
-            # order matter cuz ? and & 
+            # order matter cuz ? and &
             size_param = '?s=300'
             backup_theme= '&d=identicon' # retro
             format_param = '.png'
@@ -38,11 +38,11 @@
             image_tag request_url, class: 'img-responsive'
             # image_tag 'drawings/kid_has_tools.jpg', class: 'img-responsive'
           end %>
-      
+
 
       <!-- USER NAME -->
       <h2 class="dark-blue" style="margin-bottom: 5px;"><%= @user.name %></h2>
-    
+
       <!-- USER NUTSHELL -->
       <% if current_user == @user %>
         <%= best_in_place_if current_user == @user, @user, :nutshell, place_holder: "in a nutshell", activator: "#nutshell-activator", :as => :input, class: "best_in_place", style: 'color: darkgray;' %>
@@ -85,7 +85,7 @@
 
       </div>
 
-      
+
     </div>
 
     <% if current_user?(@user) %>
@@ -112,11 +112,11 @@
               end
             end
           %>
-          
+
           <%= link_to disconnect_linked_account_user_path(:linked_account_id => la.id), method: :delete, data: { confirm: "#{warning}"} do %>
             Disconnect
           <% end %>
-          
+
         </p>
       <% end %>
 
@@ -136,28 +136,28 @@
       <div style="margin-top: 10px;" class="">
         <span class="text-muted" style="font-style: italic; font-size: .8em;" >Openbound member since <%= @user.created_at.strftime("%B %Y") %></span>
       </div>
-<!-- 
+<!--
       <p class="brand-secondary">
         Tags
       </p> -->
 
       <!-- recommendeds would go here -->
       <%# render 'browse_tags' if @projects.any? %>
-      
+
     </div>
 
     <!-- <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
       <%# render_shareable :buttons=> ['facebook', 'twitter'] if @on_public %></div> -->
-    
+
   </div> <!-- end profile side space -->
 
   <div class="col-md-9">
-    
+
     <%= render partial: 'users/timeline', :locals => {:user => @user} %>
 
   </div>
 
-    
+
   <div class="col-md-9">
 
      <% if current_user?(@user) %>
@@ -167,41 +167,43 @@
         a.link-decoration-off:hover {
           text-decoration: none;
         }
+       span.label.label-lg { font-size: 90% !important; }
       </style>
+
 
         <div class="col-sm-10 filter-links" style="background-color:">
 
           <%= link_to user_path, class: "modest-link" do %>
             <% if @on_public %>
-              <span class="label label-primary">Public</span>
+              <span class="label label-lg label-primary">Public</span>
             <% else %>
-              <span class="label label-primary" style="background-color: white; border: 1px solid #428bca; color: #428bca;">Public</span>
+              <span class="label label-lg label-primary" style="background-color: white; border: 1px solid #428bca; color: #428bca;">Public</span>
             <% end %>
           <% end %>
-          
-       
+
+
           <%= link_to show_bookmarks_user_path, class: "modest-link" do %>
             <% if @on_bookmarks %>
-              <span class="label label-success">Bookmarks</span>
+              <span class="label label-lg label-success">Bookmarks</span>
             <% else %>
-              <span class="label label-success" style="background-color: white; border: 1px solid #5cb85c; color: #5cb85c;">Bookmarks</span>
+              <span class="label label-lg label-success" style="background-color: white; border: 1px solid #5cb85c; color: #5cb85c;">Bookmarks</span>
             <% end %>
           <% end %>
 
           <%= link_to show_anonymousers_user_path, class: "modest-link" do %>
             <% if @on_anonymousers %>
-              <span class="label label-warning">Superhero Works</span>
+              <span class="label label-lg label-warning">Superhero Works</span>
             <% else %>
-              <span class="label label-warning" style="background-color: white; border: 1px solid  #f0ad4e; color:  #f0ad4e;">Superhero Works</span>
+              <span class="label label-lg label-warning" style="background-color: white; border: 1px solid  #f0ad4e; color:  #f0ad4e;">Superhero Works</span>
             <% end %>
-          <% end %>    
+          <% end %>
 
           <% if @on_bookmarks %>
-            <span class="text-muted" style="font-size:.8em; color: gray;">This space is private. There are many like it, but this one is yours.</span>
+            <span class="text-muted" style="font-size:.9em; color: gray;">This space is <strong>private</strong>. There are many like it, but this one is yours.</span>
           <% elsif @on_anonymousers %>
-            <span class="text-muted" style="font-size:.8em; color: gray;">This space is private. There are many like it, but this one is yours.</span>
+            <span class="text-muted" style="font-size:.9em; color: gray;">This space is <strong>private</strong>. There are many like it, but this one is yours.</span>
           <% end %>
-  
+
         </div> <!-- end filter-links -->
       </div>
      <% end %>
@@ -216,7 +218,7 @@
       <!-- <div class="col-md-9"> -->
       <% if @on_anonymousers %>
       <div class="row" style="padding-left: 15px;">
-        <p class="brand-secondary">
+        <p class="alert alert-info">
           These works belong to you, but no one else knows that!
         </p>
       </div>
@@ -271,12 +273,12 @@
     <div class="col-sm-12">
                   <!-- hide our loading gif image so that we show it when making ajax call via jquery -->
             <%= image_tag "loading_spinner.gif", style: "display:none;", class: "loading-gif" %>
-            <% 
+            <%
               path = @user if @on_public
               path = show_bookmarks_user_path if @on_bookmarks
               path = show_anonymousers_user_path if @on_anonymousers
             %>
-            
+
             <%= link_to "Load More", path, class: "load-more" if @projects.any? && @total_results > @projects.count && @total_results > 20 %></div>
     </div>
 
@@ -311,7 +313,7 @@
                 // the response will be a script
                 dataType: "script",
 
-                // upon success 
+                // upon success
                 success: function () {
                     // hide the loading gif
                     $('.loading-gif').hide();
@@ -330,8 +332,8 @@
 
 
 
-  
-  
+
+
 </div> <!-- end row -->
 </div> <!-- end container -->
 

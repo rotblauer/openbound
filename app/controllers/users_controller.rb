@@ -17,46 +17,9 @@ class UsersController < ApplicationController
 
     @user_bookmarks_count = @user.bookmarks.where(bookmarked: true).count
 
-    # bookmarks = current_user.bookmarks.where(bookmarked: true)
-    # bookmarked_works = Work.joins(:bookmarks).order("bookmarks.created_at desc").merge(bookmarks)
-    # bookmarked_works = Work.joins(:bookmarks).merge(bookmarks)
-    #
     if @user_bookmarks_count > 0
-      # @search = Project.search do
-      #   if !params[:project_id].nil? # load more from n -> ...
-      #     with(:id).less_than(params[:project_id])
-      #   end
-      #   order_by(:created_at, :desc)
-      #   facet :context_list
-      #   facet :content_list
-      #   paginate(page: params[:page] || 1, :per_page => 24)
-      #   # match works against list of user's bookmarks
-      #   any_of do
-      #     current_user.bookmarks.where(bookmarked: true).each do |bookmark|
-      #       with(:id, bookmark.project_id)
-      #     end
-      #   end
-      #   any do
-      #     if params[:context].present?
-      #       any_of do # changing to all_of does "drill down" style, this more "browsy" style
-      #         params[:context].each do |tag|
-      #           with(:context_list, tag)
-      #         end
-      #       end
-      #     end
-      #     if params[:content].present?
-      #       any_of do # changing to all_of does "drill down" style, this more "browsy" style
-      #         params[:content].each do |tag|
-      #           with(:content_list, tag)
-      #         end
-      #       end
-      #     end
-      #   end
-      # end
-      # @projects = @search.results
-      # @total_results = @projects.total_entries
       @projects = Project
-                  .where(:id => current_user.bookmarks.where(bookmarked: true).map { |b| b.id })
+                  .where(:id => @user.bookmarks.map { |b| b.project_id })
                   .search(id: params[:project_id],
                                  page: params[:page] || 1,
                                  per_page: 24,
@@ -68,10 +31,7 @@ class UsersController < ApplicationController
       @projects = []
     end
 
-
-
     render template: 'users/show'
-
   end
 
   def anonymousers

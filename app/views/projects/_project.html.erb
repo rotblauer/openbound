@@ -10,7 +10,7 @@
 
 
 <!-- TODO: change .-work to .-project? -->
-<div class="<%= if @bigger_partials then 'col-xs-6 col-sm-4 col-md-4 col-lg-4 -work' else 'col-xs-6 col-sm-4 col-md-3 col-lg-2 -work' end %>" id="work-face-<%= project.id %>" data-id="<%= project.id %>" >
+<div class="<%= if @bigger_partials then 'col-xs-6 col-sm-4 col-md-4 col-lg-4 -work' else 'col-xs-6 col-sm-4 col-md-3 col-lg-3 -work' end %>" id="work-face-<%= project.id %>" data-id="<%= project.id %>" >
 
 	<!-- DECLARE LOCAL VAR `WORK` AS PROJECT'S MOST RECENT WORK -->
 	<% work = project.most_recent_work %>
@@ -116,16 +116,11 @@
 					<div class="row">
 	        <div class="metadata" style="position: relative; bottom: 0px; z-index: 10;" >
 
-	              	<% if (params[:search].present? or params[:context].present? or params[:content].present?) and project.taggings.any? %>
+	              	<% if (params[:search].present? or params[:tags].present?) and project.tags.any? %>
 	              	<div class="row tags" style="padding: 4px 4px 6px 4px; background-color: white; ">
-	        					<% project.contexts.each do |tag| %>
+	        					<% project.tags.each do |tag| %>
 	        						<span class="label label-context" style="line-height: .6em;">
-	        							<%= link_to tag.name, projects_path(:context => [tag.name]) %>
-	        						</span>
-	        					<% end %>
-	        					<% project.contents.each do |tag| %>
-	        						<span class="label label-content" style="line-height: .6em;">
-	        							<%= link_to tag.name, projects_path(:content => [tag.name]) %>
+	        							<%= link_to tag, projects_path(:tag => [tag]) %>
 	        						</span>
 	        					<% end %>
 	        				</div>

@@ -1,5 +1,5 @@
 <!-- project title - author - school - content type - version count -->
-	
+
 	<%# render @projects if !@projects.empty? %>
 
 	<div class="row" style="padding-top: 5px; padding-bottom: 5px;">
@@ -8,19 +8,19 @@
 				<%= image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
 				<br>
 			<% end %>
-			
+
 			<div>
 				<%#= render partial: 'projects/hyrbrid_browse2' %>
 			</div>
 		</div>
 
 
-		
+
 		<div class="col-md-9">
 			<!-- if querying -->
 			<% if params[:search] || params[:content] || params[:context] || params[:school_name] %>
-				
-				
+
+
 				<div id="project-uploads">
 					<%= render partial: 'projects/project2', collection: @projects, as: :project %>
 				</div>
@@ -31,9 +31,9 @@
 				<!-- make templates available for yielding -->
 				<%= render 'index/unauth_dash_main' %>
 				<%= render 'index/auth_dash_main' %>
-			
+
 			<%= yield :unauth_dash_main if !current_user %>
-			
+
 			<%# yield :auth_dash_main if current_user %>
 			<% if current_user %>
 
@@ -87,12 +87,12 @@
 					        // error: function (e) {
 					        // 	console.log(e);
 					        // 	// hacky solve to fix 200 (OK) response when no projects to load.
-					        // 	// idk why doesn't happen for Works. 
+					        // 	// idk why doesn't happen for Works.
 					        // 	console.log(e.error);
 					        // 	}
 					        // },
 
-					        // upon success 
+					        // upon success
 					        success: function () {
 					            // hide the loading gif
 					            $('.loading-gif').hide();
@@ -115,5 +115,5 @@
 		</div>
 
 		<!-- if not querying -->
-		
+
 	</div>

@@ -120,6 +120,8 @@
             <span class="glyphicon glyphicon-plus"></span>
             Add document to project
         </button>
+
+        <%= link_to "delete", project_path(project), method: :delete, class: "text-danger small" %>
         <% end %>
     </div>
 
