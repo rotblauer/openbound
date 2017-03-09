@@ -309,7 +309,4 @@ class DocumentUploader < CarrierWave::Uploader::Base
         end
       end
 
-
-
-
 end

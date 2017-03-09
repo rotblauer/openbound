@@ -187,7 +187,7 @@
                           </li>
                           <% end %>
 
-                          <% if !work.image? %>
+                          <% if !work.content_type.include? 'image' %>
                           <!-- markdown -->
                           <li>
                             <%= link_to download_work_path(:id => work.id, :download_as => 'markdown'), class: 'modest-link' do %>
