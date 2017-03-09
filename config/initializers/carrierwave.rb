@@ -12,7 +12,7 @@ if Rails.env.production?
       provider:              'AWS',                        # required
       aws_access_key_id:     ENV['AWS_ACCESS_KEY_ID_I'],                        # required # Isaac's
       aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY_I'],                        # required
-      region:                'us-west-2'                  # optional, defaults to 'us-east-1'
+      region:                'us-west-1'                  # optional, defaults to 'us-east-1'
     }
     config.storage :fog
     config.fog_directory  = 'openbound-library'                          # required

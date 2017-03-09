@@ -241,7 +241,8 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
       def pdf_document?(new_file) # [application/pdf]
         if new_file
-          new_file.content_type.include? 'application/pdf'
+          %w( application/pdf ).include? new_file.content_type
+          # new_file.content_type.include? 'application/pdf'
         end
       end
 
@@ -287,7 +288,10 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
       def image?(new_file) # [image/jpeg] (<-- == .jpg also) [image/png] [image/gif]
         if new_file
-          new_file.content_type.include? 'image'
+          %w( image/jpeg
+              image/png
+              image/gif ).include? new_file.content_type
+          # new_file.content_type.include? 'image'
         end
       end
 
