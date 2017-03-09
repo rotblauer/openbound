@@ -3,7 +3,7 @@ $('.policy_pony').bind('ajax:success', function() {
     // console.log('@project.id: <%= @project.id %>');
     // console.log('@project.user.name: <%= @project.user.name %>');
     // console.log('@project.author_name: <%= @project.author_name %>');
-    <% if @project.anonymouse %>
+    <% if @project.anonymouse? %>
     	// Changes icon coloring.
       $(this).addClass('anony');
       $(this).removeClass('non_anony'); 

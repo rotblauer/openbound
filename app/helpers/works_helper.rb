@@ -1,6 +1,6 @@
 require 'converter-machine.rb'
 module WorksHelper
-	
+
   include ActsAsTaggableOn::TagsHelper
   include ConverterMachine
 
@@ -10,19 +10,19 @@ module WorksHelper
 
   def working_title work
     if work.name.present?
-      work.name 
-    else 
+      work.name
+    else
       work.file_name
     end
   end
 
   def working_author work
-    if work.project.anonymouse
+    if work.project.anonymouse?
       raw '<span class="works-show-author-name">' + work.project.author_name + '</span>'.html_safe
     else
-      link_to work.user do 
+      link_to work.user do
         # raw '<span class="works-show-user-name">' + work.project.author_name + '</span>'.html_safe
-        return link_to work.project.user, work.project.author_name
+        return link_to work.project.author_name, work.project.user
       end
     end
   end
@@ -35,25 +35,25 @@ module WorksHelper
 
   ### This is the only place this exists. ???  ###
   # def pinky_for work
-  #   if work.docordocx? || work.markdown? || work.type_html? || work.latex? 
+  #   if work.docordocx? || work.markdown? || work.type_html? || work.latex?
   #     markdown(work.file_content_md) if work.file_content_md
 
-  #   elsif work.plain_text? || work.type_rtf? || work.powerpoint? || work.spreadsheet? || work.open_office? || work.i_works? 
+  #   elsif work.plain_text? || work.type_rtf? || work.powerpoint? || work.spreadsheet? || work.open_office? || work.i_works?
   #     content_tag('pre', work.file_content_text)
 
-  #   elsif work.pdf?  
-  #     image_tag work.document_url(:png_thumb), class: "shadowy-figure shadowy-figure-image thumb" 
+  #   elsif work.pdf?
+  #     image_tag work.document_url(:png_thumb), class: "shadowy-figure shadowy-figure-image thumb"
 
-  #   elsif work.image? 
-  #     image_tag work.document_url(:thumb), class: "shadowy-figure shadowy-figure-image thumb" 
+  #   elsif work.image?
+  #     image_tag work.document_url(:thumb), class: "shadowy-figure shadowy-figure-image thumb"
 
-  #   end 
+  #   end
   # end
 
 
   ##### handle this in model after_create #######
-  # Receives raw html from uploaded docx/doc or Google Drive response file contents. 
-  # Parses and removes interfering stuff, !DOCTYPE, <head>, <style>, <meta> elements as well as all class attributes. 
+  # Receives raw html from uploaded docx/doc or Google Drive response file contents.
+  # Parses and removes interfering stuff, !DOCTYPE, <head>, <style>, <meta> elements as well as all class attributes.
   # Returns raw html.
   def presentable_html(html)
     # sanitize edited, tags: %w(body p span a h1 h2 h3 h4 h5 h6 ul ol li) if work.file_content_html %> -->
@@ -81,10 +81,10 @@ module WorksHelper
   end
 
   def pretty_doc_type_img(work, height, mod)
-    
-    # cases: 
+
+    # cases:
       # imported from Google Drive
-      # uploaded 
+      # uploaded
         # pdf
         # doc/docx, ie Word
         # md
@@ -93,9 +93,9 @@ module WorksHelper
 
     if work.source_from == 'google_drive'
       image_tag('Google-Drive-Icon.png', height: "16") #{height}
-    elsif work.pdf? 
+    elsif work.pdf?
       content_tag :span, '', :class => "fa fa-file-pdf-o fa-#{mod}", :style => "height: #{height}"
-    elsif work.docordocx? 
+    elsif work.docordocx?
       content_tag :span, '', :class => "fa fa-file-word-o fa-#{mod}", :style => "height: #{height}"
     elsif work.image?
       content_tag :span, '', :class => "fa fa-file-image-o fa-#{mod}", :style => "height: #{height}"
@@ -107,7 +107,7 @@ module WorksHelper
 
   end
 
-  # this might be useful for rendering raw html from converted DOCs. currently not in use. 
+  # this might be useful for rendering raw html from converted DOCs. currently not in use.
   def html_escape(text)
     Rack::Utils.escape_html(text)
   end
@@ -120,7 +120,7 @@ module WorksHelper
   end
 
   def first_page_url(work, version) # version -> %w ( 160x 700x 1000x )
-    
+
     work_is_called = "#{work.file_name.chomp(work.document.file.extension)[0..-2]}_1.jpg"
     return "/uploads/work/document/#{work.user.uuid.to_s}/#{work.slug}/#{version}/#{work_is_called}"
 

@@ -171,7 +171,7 @@ class Project < ActiveRecord::Base
     def set_author_name
       # Handles toggling between fake and real names (at edit)
       if self.attribute_changed?(:anonymouse)
-        if self.anonymouse
+        if self.anonymouse?
           self.author_name = Faker::Name.name
 
         else
@@ -180,7 +180,7 @@ class Project < ActiveRecord::Base
         end
       end
       # Handles
-      if !self.anonymouse
+      if !self.anonymouse?
         self.author_name = self.user.name
       end
     end

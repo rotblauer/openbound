@@ -217,12 +217,12 @@ class ProjectsController < ApplicationController
 
   def change_policy
     #@work = Work.friendly.find(params[:id])
-    @project.anonymouse = !@project.anonymouse
+    @project.anonymouse = !@project.anonymouse?
     respond_to do |format|
       if @project.save
         format.html {
           redirect_to :back#mystacks_path(anchor: 'uploaded-works')
-          if @project.anonymouse
+          if @project.anonymouse?
             flash[:info] = "Made #{@project.name || @project.file_name} the work of superman, aka #{@project.author_name}!"
           else 
             flash[:info] = "Made #{@project.name || @project.file_name} the work of #{@project.user.name} (that's you!)"

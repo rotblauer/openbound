@@ -3,17 +3,16 @@
 <div class="jumbotron svelt">
 
     <h4 style="display: inline-block; max-width: 90%; line-height: 1.6em;" >
-        <!-- if owner, show anonymouse button, else show avatar if that exists -->
+
+      <!-- if owner, show anonymouse button, else show avatar if that exists -->
         <% if owner? project %>
-            <%= link_to project_change_policy_path(project), class: "modest-link policy_pony #{"anony" if project.anonymouse} #{"non_anony" if !project.anonymouse}", method: :patch, remote: true do %>
+            <%= link_to project_change_policy_path(project), class: "modest-link policy_pony #{"anony" if project.anonymouse?} #{"non_anony" if !project.anonymouse?}", method: :patch, remote: true do %>
               <span id="policy-option" class="glyphicon glyphicon-user has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Superhero On/Off" aria-hidden="true"></span>
             <% end %>
-        <% elsif !project.anonymouse %>
+        <% elsif !project.anonymouse? %>
             <%= image_tag project.user.avatar_url(:hand), style: "max-height: 20px; max-width: 20px; text-align: center;"  %>
-        <% elsif false %>
-            <%= image_tag "copy\ rstacks\ logo.png", style: "max-height: 20px; max-width: 20px; text-align: center;" if project.user.avatar.present? %>
-
         <% end %>
+
         <span style="color: lightgray;" id="author-name-<%= project.recent_work_id %>" class="<%=  'anony' if project.anonymouse %>"><%= working_author project.most_recent_work %></span>
         <span class="brand-secondary"> \ </span>
         <span class="text-muted">
@@ -25,6 +24,7 @@
                 <%= project.name %>
             </span>
         <% end %>
+
         </span>
     </h4>
 
