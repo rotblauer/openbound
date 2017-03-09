@@ -145,7 +145,10 @@ class Project < ActiveRecord::Base
     q = q.basic_search(query) if !query.nil?
     q = q.where.contains(:tags => tags) if tags.any?
     q = q.where(:school_name => schools) if schools.any?
+
+    id = id.to_i if !id.nil?
     q = q.where("id < ?", id) if id.is_a? Numeric
+
     q = q.where(school_id: school_id) if !school_id.nil?
 
     return q.order(created_at: :desc)

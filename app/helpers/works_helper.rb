@@ -21,7 +21,8 @@ module WorksHelper
       raw '<span class="works-show-author-name">' + work.project.author_name + '</span>'.html_safe
     else
       link_to work.user do 
-        raw '<span class="works-show-user-name">' + work.project.author_name + '</span>'.html_safe
+        # raw '<span class="works-show-user-name">' + work.project.author_name + '</span>'.html_safe
+        return link_to work.project.user, work.project.author_name
       end
     end
   end

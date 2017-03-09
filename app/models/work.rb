@@ -225,7 +225,9 @@ class Work < ActiveRecord::Base
     q = q.basic_search(query) if !query.nil?
     q = q.where.contains(:tags => tags) if tags.any?
     q = q.where(:school_name => schools) if schools.any?
-    q = q.where("id > ?", id) if id.is_a? Numeric
+
+    id = id.to_i if !id.nil?
+    q = q.where("id < ?", id) if id.is_a? Numeric
 
     return q.order(created_at: :desc)
             .limit(per_page)
