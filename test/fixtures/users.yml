@@ -1,4 +1,4 @@
-Isaac:
+Admin:
   name: Isaac  
   email: isaac@bowdoin.edu
   password_digest: <%= User.digest('fluffy') %>
@@ -11,96 +11,96 @@ Isaac:
   slug: isaac
   uuid: <%= SecureRandom.uuid %>
 
-James:
-  name: James  
-  email: james@columbia.edu
-  password_digest: <%= User.digest('fluffy') %>
-  admin: false
-  activated: true
-  activated_at: <%= 3.weeks.ago %>
-  remember_digest: nil
-  school: Columbia
-  superman: false
-  slug: james  
-  uuid: <%= SecureRandom.uuid %>
+# James:
+#   name: James  
+#   email: james@columbia.edu
+#   password_digest: <%= User.digest('fluffy') %>
+#   admin: false
+#   activated: true
+#   activated_at: <%= 3.weeks.ago %>
+#   remember_digest: nil
+#   school: Columbia
+#   superman: false
+#   slug: james  
+#   uuid: <%= SecureRandom.uuid %>
 
-Alladin: 
-  name: Alladin
-  email: علاء الدين@@bowdoin.edu
-  password_digest: <%= User.digest(' الرمال الساخنة') %>
-  admin: false
-  activated: true
-  activated_at: <%= 3.weeks.ago %>
-  remember_digest: nil
-  school: Bowdoin
-  superman: false
-  slug: alladin
-  uuid: <%= SecureRandom.uuid %>
+# Alladin: 
+#   name: Alladin
+#   email: علاء الدين@@bowdoin.edu
+#   password_digest: <%= User.digest(' الرمال الساخنة') %>
+#   admin: false
+#   activated: true
+#   activated_at: <%= 3.weeks.ago %>
+#   remember_digest: nil
+#   school: Bowdoin
+#   superman: false
+#   slug: alladin
+#   uuid: <%= SecureRandom.uuid %>
 
-Fengshui: 
-  name: Fengshui
-  email: 海瑞溫斯頓@bowdoin.edu
-  password_digest: <%= User.digest('永遠的鑽石') %>
-  admin: false
-  activated: true
-  activated_at: <%= 3.weeks.ago %>
-  remember_digest: nil
-  school: Bowdoin
-  superman: false
-  slug: fenshui
-  uuid: <%= SecureRandom.uuid %>
+# Fengshui: 
+#   name: Fengshui
+#   email: 海瑞溫斯頓@bowdoin.edu
+#   password_digest: <%= User.digest('永遠的鑽石') %>
+#   admin: false
+#   activated: true
+#   activated_at: <%= 3.weeks.ago %>
+#   remember_digest: nil
+#   school: Bowdoin
+#   superman: false
+#   slug: fenshui
+#   uuid: <%= SecureRandom.uuid %>
 
-Zorba: 
-  name: Zorba
-  email: ΦίλιπποςΔράκος@bowdoin.edu
-  password_digest: <%= User.digest('τόσαπολλάψάρια') %>
-  admin: false
-  activated: true
-  activated_at: <%= 3.weeks.ago %>
-  remember_digest: nil
-  school: Bowdoin
-  superman: false
-  slug: zorba
-  uuid: <%= SecureRandom.uuid %>
+# Zorba: 
+#   name: Zorba
+#   email: ΦίλιπποςΔράκος@bowdoin.edu
+#   password_digest: <%= User.digest('τόσαπολλάψάρια') %>
+#   admin: false
+#   activated: true
+#   activated_at: <%= 3.weeks.ago %>
+#   remember_digest: nil
+#   school: Bowdoin
+#   superman: false
+#   slug: zorba
+#   uuid: <%= SecureRandom.uuid %>
 
-Moses: 
-  name: Moses
-  email: ישראל@bowdoin.edu
-  password_digest: <%= User.digest('הלחם הארור הזה') %>
-  admin: false
-  activated: true
-  activated_at: <%= 3.weeks.ago %>
-  remember_digest: nil
-  school: Bowdoin
-  superman: false
-  slug: moses
-  uuid: <%= SecureRandom.uuid %>
+# Moses: 
+#   name: Moses
+#   email: ישראל@bowdoin.edu
+#   password_digest: <%= User.digest('הלחם הארור הזה') %>
+#   admin: false
+#   activated: true
+#   activated_at: <%= 3.weeks.ago %>
+#   remember_digest: nil
+#   school: Bowdoin
+#   superman: false
+#   slug: moses
+#   uuid: <%= SecureRandom.uuid %>
 
-Hiro: 
-  name: Hiro  
-  email: 夜遅く@bowdoin.edu
-  password_digest: <%= User.digest('生活のためのコメディアン') %>
-  admin: false
-  activated: true
-  activated_at: <%= 3.weeks.ago %>
-  remember_digest: nil
-  school: Bowdoin
-  superman: false
-  slug: hiro
-  uuid: <%= SecureRandom.uuid %>
+# Hiro: 
+#   name: Hiro  
+#   email: 夜遅く@bowdoin.edu
+#   password_digest: <%= User.digest('生活のためのコメディアン') %>
+#   admin: false
+#   activated: true
+#   activated_at: <%= 3.weeks.ago %>
+#   remember_digest: nil
+#   school: Bowdoin
+#   superman: false
+#   slug: hiro
+#   uuid: <%= SecureRandom.uuid %>
 
-Rasputin: 
-  name: Rasputin
-  email: балет77@bowdoin.edu
-  password_digest: <%= User.digest('вертетьипрыгать') %>
-  admin: false
-  activated: true
-  activated_at: <%= 3.weeks.ago %>
-  remember_digest: nil
-  school: Bowdoin
-  superman: false
-  slug: rasputin
-  uuid: <%= SecureRandom.uuid %>
+# Rasputin: 
+#   name: Rasputin
+#   email: балет77@bowdoin.edu
+#   password_digest: <%= User.digest('вертетьипрыгать') %>
+#   admin: false
+#   activated: true
+#   activated_at: <%= 3.weeks.ago %>
+#   remember_digest: nil
+#   school: Bowdoin
+#   superman: false
+#   slug: rasputin
+#   uuid: <%= SecureRandom.uuid %>
 
 
 

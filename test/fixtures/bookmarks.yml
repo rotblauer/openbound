@@ -1,13 +1,6 @@
-true_bookmark:
+bookmark:
   user: Isaac
   work_id: alladin_work
   bookmarked: true
   created_at: <%= 2.hours.ago %>
   updated_at: <%= Time.zone.now %>
-
-false_bookmark:
-  user_id: Isaac
-  work_id: hiro_work
-  bookmarked: false
-  created_at: <%= 2.hours.ago %>
-  updated_at: <%= Time.zone.now %>  

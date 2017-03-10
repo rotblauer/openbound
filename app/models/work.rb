@@ -139,18 +139,18 @@ class Work < ActiveRecord::Base
   # ----------- Update ------------ #
 
   after_update :update_if_file_content_md_changed, :update_diffs_if_any, :save_revision
+
     def update_diffs_if_any
       unless self.project.works_count == 1
         make_diffs # if self.file_content_md_changed?
       end
     end
+
     def update_if_file_content_md_changed
-
       puts "file_content_md_changed? => #{file_content_md_changed?}"
-
       update_textuals if file_content_md_changed? # This should not error for images.
-
     end
+
     def save_revision
       return if !file_content_md_changed?
       new_revision = self.revisions.new(

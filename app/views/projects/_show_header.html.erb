@@ -99,7 +99,6 @@
 
 
     <div style="display: inline-block; margin-right: -8px; margin-top: 11px;" class="pull-right">
-        <% if owner? project %>
         <span class="brand-secondary text-small hidden-sm hidden-xs" style="margin-right: 5px;"><%= pluralize(project.works_count, "version") %>, <%= pluralize(diffs.all.count, "diff") %></span>
 
         <div class="" style="display: inline-block; position: relative; bottom: 0px; vertical-align: middle;">
@@ -113,6 +112,7 @@
 
         </div>
 
+        <% if owner? project %>
         <!-- ADD VERSION BUTTON -->
         <!-- link to add version modal -->
 
