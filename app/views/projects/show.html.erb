@@ -29,7 +29,7 @@
         <!-- <span class="glyphicon glyphicon-arrow-up"></span> -->
         latest
     </p>
-    <% @works.all.each do |work| %>
+    <% @works.order(created_at: :desc).each do |work| %>
 
         <!-- list available versions -->
         <!-- click to toggle version visibility -->
@@ -762,10 +762,14 @@
       showOnlySelectedDiff(); // init
 
       $('#diff-selector1').change(function (){
+          var st = $(window).scrollTop();
           showOnlySelectedDiff();
+          $(window).scrollTop(st);
       });
       $('#diff-selector2').change(function (){
+          var st = $(window).scrollTop();
           showOnlySelectedDiff();
+          $(window).scrollTop(st);
       });
       /*=====  End of Diff picker  ======*/
 

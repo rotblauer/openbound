@@ -269,6 +269,7 @@ class Work < ActiveRecord::Base
     else
       errors.add("There is no textual content for work id: #{self.id}")
     end
+    make_diffs
   end
   handle_asynchronously :init_textuals
 
@@ -277,6 +278,7 @@ class Work < ActiveRecord::Base
     # FIXME: this will remove all classes from Google Drive, which identify versions (I think) and styling.
     # Fuck it.
     markdown_to_html_and_text
+    make_diffs if self.file_content_md_changed?
   end
 
   # When coming from google (w2m and the HTML::Pipeline::MarkdownFilter don't leave extraneous tags coming from DocumentUploader)
@@ -321,9 +323,8 @@ class Work < ActiveRecord::Base
     unless self.update_columns(file_content_html: markdown, file_content_text: plain)
   	 errors.add("There was an error updating MARKDOWN AND TEXT for work id: #{self.id}")
     end
-    make_diffs
   end
-  handle_asynchronously :markdown_to_html_and_text
+  # handle_asynchronously :markdown_to_html_and_text
 
   ############################################
   ## re: Documents and file_types
@@ -574,6 +575,7 @@ class Work < ActiveRecord::Base
       generate_diff(neighbor, self.id)
     end
   end
+  handle_asynchronously :make_diffs
 
   # this should be Generic
   # @workA <- any work id

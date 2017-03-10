@@ -10,7 +10,7 @@
 		<% if owner?(@project) %>
 
 		<div class="row" style="margin-bottom: 5px;">
-		<div class="pull-right" style="float: top;">
+		<div class="pull-right" style="position: absolute; top: 75px; right: 5px;">
 
 		<!-- delete button -->
 		<% if @project.works_count > 1 %>
@@ -65,7 +65,7 @@
 			  <span class="fa fa-plus"></span> -->
 			  <span class="octicon octicon-git-commit"></span>
 
-			  Create a new version
+			  Create a new version from this one
 			</button>
 			<% end %>
 
