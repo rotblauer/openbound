@@ -9,20 +9,12 @@
 
 # Ignore bundler config.
 /.bundle
-# Gemfile.lock
 
 # Ignore branch dumps; they are symlinked to Dropbox.
 /.db_branch_dumps
 
 # Ignore env variable configgers.
 /config/local_env.yml
-# /config/secrets.yml
-# Ignore all rubber config.
-# Ignore deploy info.
-# /config/deploy.rb
-# Ignore carrierwave initializer with fog creds.
-# /config/initializers/carrierwave.rb
-# /config/initializers/shareable.rb
 
 /debug
 
@@ -32,9 +24,6 @@
 # Ignore the seeders.
 /db/seeds
 /db/seed_uploads
-
-# Ignore custom tasks (seeders, grabbers, deployers).
-# /lib/tasks
 
 # Ignore all logfiles and tempfiles.
 /log/*
