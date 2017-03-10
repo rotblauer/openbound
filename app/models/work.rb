@@ -247,7 +247,8 @@ class Work < ActiveRecord::Base
 
     return if image?
 
-    yomu = Yomu.new document.path
+    yomu = Yomu.new document.path if Rails.env.development?
+    yomu = Yomu.new document.url if Rails.env.production?
     text = yomu.text
     text_utf8 = text.force_encoding("UTF-8")
     self.update_attributes!(file_content_text: text_utf8)
