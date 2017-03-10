@@ -192,6 +192,7 @@ gem 'wikipedia-client'
 group :production, :staging do
   # Use for batch async upload.
   gem 'rack-cache', :require => 'rack/cache'
+  gem "daemons"
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # This is a dependency for Rubber.
   # gem 'therubyracer', platforms: :ruby

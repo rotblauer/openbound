@@ -15,7 +15,7 @@ require 'carrierwave'
 
 # http://stackoverflow.com/questions/15538050/rails-env-staging-cap-deploy-fails-on-rake-precompile-assets
 if defined?(Bundler)
-  Bundler.require(*Rails.groups(:assets => %w(development test), :profiling => %w[development])) #staging 
+  Bundler.require(*Rails.groups(:assets => %w(development test), :profiling => %w[development])) #staging
 end
 
 module Openbound
@@ -35,12 +35,12 @@ module Openbound
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # Set time zone to Harvard Time. 
+    # Set time zone to Harvard Time.
     config.time_zone = 'Eastern Time (US & Canada)'
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
-    
+
     # config.assets.paths << Rails.root.join('vendor', 'assets', 'bower_components')
     # Bower asset paths
     root.join('vendor', 'assets', 'bower_components').to_s.tap do |bower_path|
@@ -53,9 +53,9 @@ module Openbound
     # config.assets.precompile << %r(octicons/[\w-]+\.(?:eot|svg|ttf|woff2?)$)
     # Minimum Sass number precision required by bootstrap-sass
     ::Sass::Script::Value::Number.precision = [8, ::Sass::Script::Value::Number.precision].max
-    
+
     # config.autoload_paths += %W(#{config.root}/lib)
-    
+
     # config.assets.paths << Rails.root.join('public', 'uploads', 'work', 'document') if !Rails.env.production?
     # config.assets.precompile += [/.*\.jpg/,/.*\.pdf/]
     # config.assets.paths << Rails.root.join('lib', 'assets', 'docsplit')
@@ -65,7 +65,9 @@ module Openbound
     # this tells Rails "how to interpret content"
     config.encoding = "utf-8"
 
-    # LOAD ENV VARS from local_env.yml. 
+    config.active_job.queue_adapter = :delayed_job
+
+    # LOAD ENV VARS from local_env.yml.
     # http://railsapps.github.io/rails-environment-variables.html
     config.before_configuration do
       env_file = File.join(Rails.root, 'config', 'local_env.yml')
