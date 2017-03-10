@@ -57,7 +57,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
   # process :set_content_type # this method comes with the included CarrierWave::MimeTypes module
   process :save_content_type_and_size_in_model
   process :save_source_in_model
-  process :store_dimensions, :if => :image?
+  process :store_dimensions, :if => :document_image?
 
 
 
@@ -73,7 +73,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
   # DOC DOCX
   # If it's a MSWord document, save the markdowned contents of the file as a model attribute (text field).
   ## .doc(x) -[w2m]-> md -[HTML::Pipline::MarkdownFilter]-> html
-  process :set_file_contents_md_and_html, :if => :msword_document?
+  process :set_file_contents_md_and_html, :if => :document_msword_document?
   def set_file_contents_md_and_html
     # creates markdown-formatted string from the msword doc text and data
     # NOTE: pandoc can also do this, though there are very slight differences,
@@ -87,7 +87,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
   end
 
   # TXT
-  process :read_file_contents_to_text_attribute, :if => :plain_text_document?
+  process :read_file_contents_to_text_attribute, :if => :document_plain_text_document?
   def read_file_contents_to_text_attribute
     text = File.read(file.path)
 
@@ -97,11 +97,11 @@ class DocumentUploader < CarrierWave::Uploader::Base
   end
 
   # RTF
-  process :read_file_contents_with_yomu, :if => :rtf_document?
-  process :read_file_contents_with_yomu, :if => :pdf_document?
-  process :read_file_contents_with_yomu, :if => :spreadsheet_or_powerpoint?
-  process :read_file_contents_with_yomu, :if => :open_office?
-  process :read_file_contents_with_yomu, :if => :i_works?
+  process :read_file_contents_with_yomu, :if => :document_rtf_document?
+  process :read_file_contents_with_yomu, :if => :document_pdf_document?
+  process :read_file_contents_with_yomu, :if => :document_spreadsheet_or_powerpoint?
+  process :read_file_contents_with_yomu, :if => :document_open_office?
+  process :read_file_contents_with_yomu, :if => :document_i_works?
   def read_file_contents_with_yomu
     yomu = Yomu.new file.path
     text = yomu.text
@@ -111,7 +111,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
   end
 
   # MD
-  process :store_markdown_text, :if => :markdown_document?
+  process :store_markdown_text, :if => :document_markdown_document?
   def store_markdown_text
     md_content = File.read(file.path)
     md_content_utf8 = md_content.force_encoding("UTF-8")
@@ -119,7 +119,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
   end
 
   # HTML
-  process :read_file_contents_to_html_attribute, :if => :html_document?
+  process :read_file_contents_to_html_attribute, :if => :document_html_document?
 
   ## .html -[ReverseMarkdown.convert]-> md
   def read_file_contents_to_html_attribute
@@ -129,7 +129,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
   end
 
   # TEX
-  process :convert_latex_to_markdown, :if => :latex_document?
+  process :convert_latex_to_markdown, :if => :document_latex_document?
   def convert_latex_to_markdown
     # https://github.com/alphabetum/pandoc-ruby
     # Pandoc can also be set to take a file path as the first argument. For security reasons, this is disabled by default, but it can be enabled and used as follows
@@ -143,17 +143,17 @@ class DocumentUploader < CarrierWave::Uploader::Base
   # JPEG JPG GIF PNG
   # Creates a thumb , preview, and fitted (works/show) versions of any image, also keeping the original.
   ## Fitted for works/show.
-  version :fitted, :if => :image? do
+  version :fitted, :if => :document_image? do
     # process :resize_to_limit => [600, 600]
     process :resize_to_limit => [600, 600]
   end
   ## Preview for _modal.
-  version :preview, from_version: :fitted, :if => :image? do
+  version :preview, from_version: :fitted, :if => :document_image? do
     # process :resize_to_limit => [360, 360]
     process :resize_to_limit => [360, 360]
   end
   ## Thumb for _work.
-  version :thumb, from_version: :preview, :if => :image? do
+  version :thumb, from_version: :preview, :if => :document_image? do
     # process :resize_to_limit => [160, 200]
     process :resize_to_limit => [160, 200]
   end
@@ -175,7 +175,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
   end
 
   # PNG_thumb
-  version :png_thumb, :if => :pdf_document? do
+  version :png_thumb, :if => :document_pdf_document? do
     process :cover
     process :convert => :png
     process :resize_to_limit => [200, 300]
@@ -185,7 +185,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
     end
   end
   # PNG_preview
-  version :png_preview, :if => :pdf_document? do
+  version :png_preview, :if => :document_pdf_document? do
     process :cover
     process :convert => :png
     process :resize_to_limit => [600, 1000]
@@ -224,8 +224,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
   protected
 
-
-      def open_office?(new_file) # [odt, odp, ods]
+      def document_open_office?(new_file) # [odt, odp, ods]
         if new_file
           %w( application/vnd.oasis.opendocument.text
               application/vnd.oasis.opendocument.presentation
@@ -233,45 +232,45 @@ class DocumentUploader < CarrierWave::Uploader::Base
         end
       end
 
-      def markdown_document?(new_file) # [text/markdown || text/x-markdown]
+      def document_markdown_document?(new_file) # [text/markdown || text/x-markdown]
         if new_file
           new_file.content_type.include? 'markdown'
         end
       end
 
-      def pdf_document?(new_file) # [application/pdf]
+      def document_pdf_document?(new_file) # [application/pdf]
         if new_file
           %w( application/pdf ).include? new_file.content_type
           # new_file.content_type.include? 'application/pdf'
         end
       end
 
-      def plain_text_document?(new_file) # [text/plain]
+      def document_plain_text_document?(new_file) # [text/plain]
         if new_file
           new_file.content_type == 'text/plain'
         end
       end
 
-      def rtf_document?(new_file) # [text/rtf]
+      def document_rtf_document?(new_file) # [text/rtf]
         if new_file
           new_file.content_type == 'text/rtf'
         end
       end
 
-      def html_document?(new_file) # [text/html]
+      def document_html_document?(new_file) # [text/html]
         if new_file
           new_file.content_type == 'text/html'
         end
       end
 
-      def msword_document?(new_file)
+      def document_msword_document?(new_file)
         if new_file
           (new_file.content_type == 'application/msword') || (new_file.content_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         end
       end
 
       # .xls, .xlsx, .ppt, .pptx
-      def spreadsheet_or_powerpoint?(new_file)
+      def document_spreadsheet_or_powerpoint?(new_file)
         if new_file
           %w( application/mspowerpoint
               application/powerpoint
@@ -286,7 +285,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
         end
       end
 
-      def image?(new_file) # [image/jpeg] (<-- == .jpg also) [image/png] [image/gif]
+      def document_image?(new_file) # [image/jpeg] (<-- == .jpg also) [image/png] [image/gif]
         if new_file
           %w( image/jpeg
               image/png
@@ -295,14 +294,14 @@ class DocumentUploader < CarrierWave::Uploader::Base
         end
       end
 
-      def latex_document?(new_file)
+      def document_latex_document?(new_file)
         if new_file
           %w( application/x-latex
               application/octet-stream ).include? new_file.content_type
         end
       end
 
-      def i_works?(new_file)
+      def document_i_works?(new_file)
         if new_file
           %w( application/x-iwork-keynote-sffkey
               application/x-iwork-pages-sffpages

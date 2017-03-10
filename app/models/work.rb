@@ -315,8 +315,6 @@ class Work < ActiveRecord::Base
   ## re: Documents and file_types
   ############################################
 
-
-
   # Document upload helper thing
   def document_attachment
     "#{Rails.root}/uploads/#{document.url}"
@@ -325,6 +323,71 @@ class Work < ActiveRecord::Base
   def document_basename
     return self.file_name.chomp('.pdf') # FIXME: this does not look good.
   end
+
+  def open_office? # [odt, odp, ods]
+       %w( application/vnd.oasis.opendocument.text
+           application/vnd.oasis.opendocument.presentation
+           application/vnd.oasis.opendocument.spreadsheet ).include? content_type
+   end
+
+   def markdown_document? # [text/markdown || text/x-markdown]
+        content_type.include? 'markdown'
+   end
+
+   def pdf_document? # [application/pdf]
+       %w( application/pdf ).include? content_type
+   end
+
+   def plain_text_document? # [text/plain]
+       content_type == 'text/plain'
+   end
+
+   def rtf_document? # [text/rtf]
+       content_type == 'text/rtf'
+   end
+
+   def html_document? # [text/html]
+       content_type == 'text/html'
+   end
+
+   def msword_document?
+       (content_type == 'application/msword') || (content_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+   end
+
+   # .xls, .xlsx, .ppt, .pptx
+   def spreadsheet_or_powerpoint?
+       %w( application/mspowerpoint
+           application/powerpoint
+           application/vnd.ms-powerpoint
+           application/x-mspowerpoint
+           application/vnd.openxmlformats-officedocument.presentationml.presentation
+           application/excel
+           application/vnd.ms-excel
+           application/x-excel
+           application/x-msexcel
+           application/vnd.openxmlformats-officedocument.spreadsheetml.sheet ).include? content_type
+   end
+
+   def image? # [image/jpeg] (<-- == .jpg also) [image/png] [image/gif]
+       %w( image/jpeg
+           image/png
+           image/gif ).include? content_type
+   end
+
+   def latex_document?
+       %w( application/x-latex
+           application/octet-stream ).include? content_type
+   end
+
+   def i_works?
+       %w( application/x-iwork-keynote-sffkey
+           application/x-iwork-pages-sffpages
+           application/x-iwork-numbers-sffnumbers
+           application/vnd.apple.numbers
+           application/vnd.apple.pages
+           application/vnd.apple.keynote ).include? content_type
+   end
+
 
   ############################################
   ## COUNT UPDATERS
