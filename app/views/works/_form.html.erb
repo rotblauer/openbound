@@ -8,29 +8,7 @@
       <%= f.label :description %>
       <%= f.text_field :description, class: 'form-control' %>
     <br>
-      <% @work.tag_types.each do |tag| %>
-        <div class="form-group">
-          <% labeler = 'Departments' if tag.to_s == 'contexts' 
-             labeler = 'Subjects' if tag.to_s == 'contents' %>
-          <strong><%= labeler %></strong><br />
-          <% tag_sym = "#{tag.to_s.singularize}_list".to_sym %>
-          <% tag_list = "#{tag.to_s.singularize}_list" %>
-          <% contextual = false 
-             contentual = false 
-             contextual = true if tag.to_s == 'contexts'
-             contentual = true if tag.to_s == 'contents' 
-             holden = 'what would Dewey do?' if contextual 
-             holden = "what's it about?" if contentual %>
-          <%= f.text_field tag_sym, value: @work.send(tag_list).to_s, :placeholder => "#{holden}", class: 'form-control' %>
-          <% if tag.to_s == "contexts" %>
-            <p class="signin-advice">geography, art, english, chemistry, homework, essay ... </p>
-          <% elsif tag.to_s == "contents" %>
-            <p class="signin-advice">catcher in the rye, hats, red poet society ...</p>
-          <% end %>
-        </div>
-      <% end %>
 
-    
 
       <%= f.label :anonymouse do %>
         <%= f.check_box :anonymouse, :default => current_user.superman %>
@@ -38,23 +16,23 @@
       <% end %>
       <p class="signin-advice">If superhero is enabled, your identity will not be attached to this work, and it will not show up on your profile.</p>
     </p>
-  
-    <br> 
+
+    <br>
   	<p><%= f.submit "Save", class: "btn btn-success", style: "border-radius: 0px;" %></p>
     <br>
-   
-
-  
 
 
-  
+
+
+
+
         <style>
           .boxer {
 
           }
  /*         .filler {
-            position: absolute; 
-            top: 0px; 
+            position: absolute;
+            top: 0px;
             bottom: 0px;
             width: 100%;
           }
@@ -78,17 +56,17 @@
           }*/
         </style>
         <div class="boxer">
-        
+
           <div id="dropzone" >
-            Drop files here 
+            Drop files here
           </div>
           <br>
           <%= f.file_field :document %>
-          
-          
+
+
             <div class="progress-wrapper">
-              <p>Bitrate: 
-                <span class="bitrate"></span> 
+              <p>Bitrate:
+                <span class="bitrate"></span>
                 <span class="process hidden" style="margin-left: 40px;">Extracting, converting, stacking... </span>
               </p>
               <div class="progress">
@@ -97,7 +75,7 @@
                 </div>
               </div>
             </div>
-          
+
 
         </div>
 
@@ -112,9 +90,9 @@
 <script>
   $(document).ready(function() {
 
-    // Activating Bootstrap Tooltip 
+    // Activating Bootstrap Tooltip
     $('.has-tooltip').tooltip();
-    // Activating Best In Place 
+    // Activating Best In Place
     jQuery(".best_in_place").best_in_place();
     // 'use strict';
     var multiple_works_form = $('#new_work');
@@ -174,7 +152,7 @@
         }
         if (uploadErrors.length > 0) {
             alert(uploadErrors.join('\n\n'));
-        } 
+        }
         else {
           data.submit();
         }
@@ -184,16 +162,16 @@
     // Progress bar.
     var wrapper = multiple_works_form.find('.progress-wrapper');
     var progress_bar = wrapper.find('.progress-bar');
-     
+
     multiple_works_form.on('fileuploadstart', function() {
       wrapper.show();
     });
-     
+
     multiple_works_form.on('fileuploaddone', function() {
       wrapper.hide();
       progress_bar.width(0); // Revert progress bar's width back to 0 for future uploads
     });
-     
+
     multiple_works_form.on('fileuploadprogressall', function (e, data) {
       var progress = parseInt(data.loaded / data.total * 100, 10);
       progress_bar.css('width', progress + '%').text(progress + '%');
@@ -201,13 +179,13 @@
 
     // Bitrate.
     var bitrate = wrapper.find('.bitrate');
-    // Process. 
+    // Process.
     var process = wrapper.find('.process');
     // var spinner = wrapper.find('.spinner');
-     
+
     multiple_works_form.on('fileuploadprogressall', function (e, data) {
       bitrate.text((data.bitrate / 1024).toFixed(2) + 'Kb/s');
-     
+
       var progress = parseInt(data.loaded / data.total * 100, 10);
       progress_bar.css('width', progress + '%').text(progress + '%');
 
