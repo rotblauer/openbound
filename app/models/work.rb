@@ -146,20 +146,21 @@ class Work < ActiveRecord::Base
     end
     def update_if_file_content_md_changed
 
-      puts "self.file_content_md_changed? => #{self.file_content_md_changed?}"
+      puts "file_content_md_changed? => #{file_content_md_changed?}"
 
-      update_textuals if self.file_content_md_changed? # This should not error for images.
+      update_textuals if file_content_md_changed? # This should not error for images.
 
     end
     def save_revision
+      return if !file_content_md_changed?
       new_revision = self.revisions.new(
           project_id: self.project.id,
           data: self.attributes.to_json
         )
       if new_revision.save
-        puts "************ AWESOME. Revision saved. ****************"
+        puts "Revision saved."
       else
-        puts "************ BOOOOOO. Revision not saved :-( ****************"
+        puts "Revision failed to save."
       end
     end
 
@@ -243,6 +244,15 @@ class Work < ActiveRecord::Base
   # May convert md -> html & plain.
   # May convert plain -> html & markdown.
   def init_textuals
+
+    return if image?
+
+    yomu = Yomu.new document.path
+    text = yomu.text
+    text_utf8 = text.force_encoding("UTF-8")
+    self.update_attributes!(file_content_text: text_utf8)
+    yomu = nil
+
     # Prioritize markdown.
     if self.file_content_md
       markdown_to_html_and_text
@@ -259,6 +269,7 @@ class Work < ActiveRecord::Base
       errors.add("There is no textual content for work id: #{self.id}")
     end
   end
+  handle_asynchronously :init_textuals
 
   # Will _always_ be coming from changed markdown.
   def update_textuals
@@ -309,7 +320,9 @@ class Work < ActiveRecord::Base
     unless self.update_columns(file_content_html: markdown, file_content_text: plain)
   	 errors.add("There was an error updating MARKDOWN AND TEXT for work id: #{self.id}")
     end
+    make_diffs
   end
+  handle_asynchronously :markdown_to_html_and_text
 
   ############################################
   ## re: Documents and file_types
@@ -322,6 +335,10 @@ class Work < ActiveRecord::Base
 
   def document_basename
     return self.file_name.chomp('.pdf') # FIXME: this does not look good.
+  end
+
+  def has_text_content?
+    file_content_html.present? or file_content_text.present? or file_content_md.present?
   end
 
   def open_office? # [odt, odp, ods]

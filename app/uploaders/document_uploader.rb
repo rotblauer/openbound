@@ -85,6 +85,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
     md_utf8 = md.force_encoding("UTF-8")
     model.file_content_md = md_utf8
   end
+  handle_asynchronously :set_file_contents_md_and_html
 
   # TXT
   process :read_file_contents_to_text_attribute, :if => :document_plain_text_document?
@@ -95,20 +96,22 @@ class DocumentUploader < CarrierWave::Uploader::Base
     text_utf8 = text.force_encoding("UTF-8")
     model.file_content_text = text_utf8
   end
+  handle_asynchronously :read_file_contents_to_text_attribute
 
   # RTF
-  process :read_file_contents_with_yomu, :if => :document_rtf_document?
-  process :read_file_contents_with_yomu, :if => :document_pdf_document?
-  process :read_file_contents_with_yomu, :if => :document_spreadsheet_or_powerpoint?
-  process :read_file_contents_with_yomu, :if => :document_open_office?
-  process :read_file_contents_with_yomu, :if => :document_i_works?
-  def read_file_contents_with_yomu
-    yomu = Yomu.new file.path
-    text = yomu.text
-    text_utf8 = text.force_encoding("UTF-8")
-    model.file_content_text = text_utf8
-    yomu = nil
-  end
+  # process :read_file_contents_with_yomu, :if => :document_rtf_document?
+  # process :read_file_contents_with_yomu, :if => :document_pdf_document?
+  # process :read_file_contents_with_yomu, :if => :document_spreadsheet_or_powerpoint?
+  # process :read_file_contents_with_yomu, :if => :document_open_office?
+  # process :read_file_contents_with_yomu, :if => :document_i_works?
+  # def read_file_contents_with_yomu
+  #   yomu = Yomu.new file.path
+  #   text = yomu.text
+  #   text_utf8 = text.force_encoding("UTF-8")
+  #   model.file_content_text = text_utf8
+  #   yomu = nil
+  # end
+  # handle_asynchronously :read_file_contents_with_yomu
 
   # MD
   process :store_markdown_text, :if => :document_markdown_document?
@@ -139,6 +142,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
     md_content_utf8 = md_content.force_encoding("UTF-8")
     model.file_content_md = md_content_utf8
   end
+  handle_asynchronously :convert_latex_to_markdown
 
   # JPEG JPG GIF PNG
   # Creates a thumb , preview, and fitted (works/show) versions of any image, also keeping the original.
@@ -173,6 +177,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
     end
   end
+  handle_asynchronously :cover
 
   # PNG_thumb
   version :png_thumb, :if => :document_pdf_document? do
@@ -184,6 +189,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
       super.chomp(File.extname(super)) + '.png'
     end
   end
+
   # PNG_preview
   version :png_preview, :if => :document_pdf_document? do
     process :cover

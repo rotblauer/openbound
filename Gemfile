@@ -41,11 +41,11 @@ gem 'descriptive_statistics', :require => 'descriptive_statistics/safe' #'~> 2.4
 
 
 ############################################
-## Mailers
+## Mailers and Delayers
 ############################################
 
 gem 'gibbon'
-
+gem 'delayed_job_active_record'
 
 ############################################
 ## JavaScript & CSS language libraries
