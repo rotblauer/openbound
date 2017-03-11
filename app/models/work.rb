@@ -82,10 +82,11 @@ class Work < ActiveRecord::Base
 
   # Yes, order matter. At least for set_name.
   after_create :set_name,
-               :init_textuals,
                :init_or_update_project,
+               :init_textuals,
                :set_as_most_recent_work,
-               :unset_previous_latest_version
+               :unset_previous_latest_version,
+               :save_revision
 
     def set_name
       self.update_column(:name, self.file_name) if !self.name.present?
@@ -116,7 +117,7 @@ class Work < ActiveRecord::Base
     end
 
     def update_if_file_content_md_changed
-      puts "file_content_md_changed? => #{file_content_md_changed?}"
+      # puts "file_content_md_changed? => #{file_content_md_changed?}"
       update_textuals if file_content_md_changed? # This should not error for images.
     end
 
@@ -127,7 +128,7 @@ class Work < ActiveRecord::Base
           data: self.attributes.to_json
         )
       if new_revision.save
-        puts "Revision saved."
+        # puts "Revision saved."
       else
         puts "Revision failed to save."
       end
@@ -216,12 +217,17 @@ class Work < ActiveRecord::Base
 
     return if image?
 
-    yomu = Yomu.new document.path if Rails.env.development?
-    yomu = Yomu.new document.url if Rails.env.production?
-    text = yomu.text
-    text_utf8 = text.force_encoding("UTF-8")
-    self.update_attributes!(file_content_text: text_utf8)
-    yomu = nil
+    if document.url or document.path
+
+      yomu = Yomu.new (Rails.env.production? ? document.url : document.path)
+
+      if !yomu.nil?
+        text = yomu.text
+        text_utf8 = text.force_encoding("UTF-8")
+        self.update_columns!(file_content_text: text_utf8)
+        yomu = nil
+      end
+    end
 
     # Prioritize markdown.
     if self.file_content_md
@@ -244,10 +250,21 @@ class Work < ActiveRecord::Base
 
   # Will _always_ be coming from changed markdown.
   def update_textuals
+
     # FIXME: this will remove all classes from Google Drive, which identify versions (I think) and styling.
     # Fuck it.
+
     markdown_to_html_and_text
-    make_diffs if self.file_content_md_changed?
+
+    make_diffs if file_content_md_changed?
+
+    if project.most_recent_work.id == id and file_content_md_changed?
+      project.update_columns(
+        file_content_md: file_content_md,
+        file_content_text: file_content_text,
+        file_content_html: file_content_html
+      )
+    end
   end
 
   # When coming from google (w2m and the HTML::Pipeline::MarkdownFilter don't leave extraneous tags coming from DocumentUploader)

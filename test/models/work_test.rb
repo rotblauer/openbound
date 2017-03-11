@@ -41,4 +41,39 @@ class WorkTest < ActiveSupport::TestCase
     assert @work.project_id.present?
   end
 
+  test "work gets a revision when file content md changes" do
+    # Should get revision#1 on after create.
+    assert @work.save
+    @work.reload
+    assert_equal(1, @work.revisions.count)
+    json_data = JSON.parse @work.revisions.first.data
+    assert_equal(@work.file_content_md, json_data["file_content_md"]) # Revision matches.
+    assert_equal(@work.file_content_md, @work.project.file_content_md) # Project matches.
+
+    # And revision#2 after an edit.
+    @work.file_content_md = "Different"
+    @work.save
+    @work.reload
+    assert_equal(2, @work.revisions.count)
+    json_data = JSON.parse @work.revisions.second.data
+    assert_equal(@work.file_content_md, json_data["file_content_md"]) # Revision matches.
+    assert_equal(@work.file_content_md, @work.project.file_content_md) # Project matches.
+  end
+
+  test "work gets all content types" do
+    assert @work.save
+    @work.reload
+
+    # Content types are filled by Work#init_textuals
+    assert_not_nil(@work.file_content_md)
+    assert_not_nil(@work.file_content_text)
+    assert_not_nil(@work.file_content_html)
+
+    # Project init.
+    assert @work.file_content_text.include? @work.file_content_md # Hello\n
+    assert @work.file_content_html.include? @work.file_content_md # <p>Hello</p>\n
+  end
+
+
+
 end
