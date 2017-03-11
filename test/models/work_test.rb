@@ -9,6 +9,14 @@ class WorkTest < ActiveSupport::TestCase
     )
   end
 
+  def on_create_callback_skips
+    # Callback skippers called from controller.
+    Work.skip_callback(:update, :after, :update_diffs_if_any)
+    Work.skip_callback(:update, :after, :save_revision)
+    Work.skip_callback(:update, :after, :update_if_file_content_md_changed)
+    Work.skip_callback(:update, :after, :update_if_file_content_text_changed)
+  end
+
   test "fixture should be valid" do
     assert works(:Work_1).valid?
   end
@@ -17,33 +25,20 @@ class WorkTest < ActiveSupport::TestCase
     assert @work.valid?
   end
 
-  # test "should have a project" do
-  #   assert @work.project_id.present?
-  # end
+  test "should have to have file content" do
+    @work.file_content_md = nil
+    assert_not @work.valid?
+  end
 
-  # test "fixtures should be valid (while muting validate_presence_of :document callback)" do
-  # 	work = works(:alladin_work)
-  # 	assert work.valid?
-  #   work = works(:moses_work)
-  #   assert work.valid?
-  #   work = works(:hiro_work)
-  #   assert work.valid?
-  #   work = works(:fengshui_work)
-  #   assert work.valid?
-  #   work = works(:zorba_work)
-  #   assert work.valid?
-  #   work = works(:rasputin_work)
-  #   assert work.valid?
-  # end
+  test "should belong to a user" do
+    assert @work.user_id == users(:User_2).id
+  end
 
-  # test "maximum upload limit per user is 100mb" do
-  #   # bring ya right up to the edge
-  #   20.times do |n|
-  #     Work.create!(works(:Work1).attributes)
-  #   end
-  #   # pushes ya off
-  #   camel_straw = Work.new(works(:Work1).attributes)
-  #   assert_not camel_straw.save
-  # end
+  test "work belongs to a project on save" do
+    # on_create_callback_skips
+    assert @work.save
+    @work.reload
+    assert @work.project_id.present?
+  end
 
 end

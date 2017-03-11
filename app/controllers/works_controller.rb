@@ -9,8 +9,8 @@ class WorksController < ApplicationController
   before_action :correct_user, only: [:edit, :update, :destroy, :change_policy, :recommend]
 
   # http://apidock.com/rails/ActiveSupport/Callbacks/ClassMethods/skip_callback
-  before_action :set_update_callback_skip_for_create, only: [:create, :google_import]
-  before_action :set_update_callback_skip, only: [:create, :google_import, :begin_new_version]
+  # before_action :set_update_callback_skip_for_create, only: [:create, :google_import]
+  # before_action :set_update_callback_skip, only: [:create, :google_import, :begin_new_version]
   before_action :set_create_callback_skip, only: [:begin_new_version]
   respond_to :json, :html, :js
   skip_before_filter :verify_authenticity_token, only: [:google_import, :update]
@@ -38,48 +38,6 @@ class WorksController < ApplicationController
                          id: params[:id],
                          page: params[:page] || 1,
                          per_page: params[:per_page] || 24)
-
-    # @search = Work.search do
-    #   fulltext params[:search]
-    #   order_by(:created_at, :desc)
-    #   facet :context_list
-    #   facet :content_list
-    #   facet :school_name
-    #   with(:is_latest_version, true)
-    #   with(:id).less_than(params[:id]) if params[:id] # load more from n -> ...
-
-    #   if params[:search] || params[:tag]
-    #     paginate(:page => params[:page] || 1, :per_page => 24)
-    #   else
-    #     paginate(:page => params[:page] || 1, :per_page => 24)
-    #   end
-
-    #   any do
-    #     if params[:context].present?
-    #       any_of do
-    #         params[:context].each do |tag|
-    #           with(:context_list, tag)
-    #         end
-    #       end
-    #     end
-    #     if params[:content].present?
-    #       any_of do
-    #         params[:content].each do |tag|
-    #           with(:content_list, tag)
-    #         end
-    #       end
-    #     end
-    #     if params[:school_name].present?
-    #      any_of do
-    #         params[:school_name].each do |school|
-    #           with(:school_name, school) # if params[:school_name].present?
-    #         end
-    #       end
-    #     end
-    #   end
-    # end
-    # @works = @search.results
-
 
 
     # Personalize info for current user.

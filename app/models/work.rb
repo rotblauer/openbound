@@ -81,22 +81,26 @@ class Work < ActiveRecord::Base
   before_create :set_school_name, :set_anonymity_before_create #, :get_slug_preview#, :set_slug_before_create #, :set_impressions_count
 
   # Yes, order matter. At least for set_name.
-  after_create :set_name, :init_textuals, :init_or_update_project, :set_as_most_recent_work, :unset_previous_latest_version
+  after_create :set_name,
+               :init_textuals,
+               :init_or_update_project,
+               :set_as_most_recent_work,
+               :unset_previous_latest_version
 
     def set_name
-      self.update_attribute(:name, self.file_name) if !self.name.present?
+      self.update_column(:name, self.file_name) if !self.name.present?
     end
     def set_as_most_recent_work
       proj = self.project
-      proj.update_attributes(recent_work_id: self.id)
+      proj.update_attributes(recent_work_id: id)
     end
     def unset_previous_latest_version # and setting latest version to current happens in :project_update
-      proj = self.project
+      proj = project
       # WIP: this could be more efficient
       proj.works.reverse[1..-1].each do |work| # just to be safe ** note `reverse`
         work.update_attributes(is_latest_version: false)
       end
-      self.update_attribute(:is_latest_version, true)
+      self.update_column(:is_latest_version, true)
     end
 
   before_save :update_upload_attributes, :set_author_name
@@ -106,7 +110,7 @@ class Work < ActiveRecord::Base
   after_update :update_if_file_content_md_changed, :update_diffs_if_any, :save_revision
 
     def update_diffs_if_any
-      unless self.project.works_count == 1
+      unless project.works_count == 1
         make_diffs # if self.file_content_md_changed?
       end
     end
@@ -372,34 +376,6 @@ class Work < ActiveRecord::Base
            application/vnd.apple.keynote ).include? content_type
    end
 
-
-  ############################################
-  ## COUNT UPDATERS
-  ############################################
-
-  # Count on relations.
-  # def update_user_works_count
-  #   self.user.update_works_count
-  # end
-  # def update_school_works_count
-  #   self.school.update_works_count
-  # end
-  # def update_project_works_count
-  #   self.project.update_works_count if !self.project.frozen?
-  # end
-
-  # Update counts on self.
-  # def update_gradient_count
-  #   self.update_attribute(:gradient_count, self.gradients.count)
-  # end
-  # def update_gradient_averages
-  #   self.update_attribute(:gradient_average, self.gradients.average(:grad))
-  #   self.update_attribute(:gradient_average_rgb, self.gradient_average.round)
-  # end
-  # def update_bookmarked_count
-  #   self.update_attribute(:bookmarked_count, self.bookmarks.where(bookmarked: true).count)
-  # end
-
   # returns ratio of relative popularness, like .76 popular
   # then will multiply this by 255 for rgb color in gradient-impressions part (the square)
   def popularity_contest
@@ -473,7 +449,7 @@ class Work < ActiveRecord::Base
   end
 
   def init_or_update_project # after_create
-    if self.is_original?
+    if is_original?
       init_project
       # set_as_latest_version
     else
@@ -488,43 +464,42 @@ class Work < ActiveRecord::Base
 
   ## if creating original (un-projected/versioned) work
   def init_project
-    da_user = self.user
+    da_user = user
     new_project = da_user.projects.build(
       # user_id: self.id, # handled through build method
-      school_id: self.school_id, # merged from user.school.Institution_ID
-      name: self.name, # take on name of work
+      school_id: school_id, # merged from user.school.Institution_ID
+      name: name, # take on name of work
 
-      file_content_md: self.file_content_md, # these are of most recent, will be replaced as versions are added
-      file_content_html: self.file_content_html,
-      file_content_text: self.file_content_text,
+      file_content_md: file_content_md, # these are of most recent, will be replaced as versions are added
+      file_content_html: file_content_html,
+      file_content_text: file_content_text,
 
       works_count: 1, # is first work
-      recent_work_id: self.id, # as original work
+      recent_work_id: id, # as original work
 
-      anonymouse: self.anonymouse?, # and work gets this from user
-      author_name: self.author_name, # ditto
-      school_name: self.school_name,
+      anonymouse: anonymouse?, # and work gets this from user
+      author_name: author_name, # ditto
+      school_name: school_name,
       )
 
     if new_project.save
-      self.update_attributes(project_id: new_project.id, is_latest_version: true, project_name: self.name)
+      self.update_columns(project_id: new_project.id, is_latest_version: true, project_name: name)
     else
       errors[:base] << ("There was an error versioning this work.")
     end
   end
 
   def update_project
-    project = self.project
     project.update_attributes(
-      recent_work_id: self.id,
+      recent_work_id: id,
 
-      file_content_md: self.file_content_md, # these are of most recent, will be replaced as versions are added
-      file_content_html: self.file_content_html,
-      file_content_text: self.file_content_text,
+      file_content_md: file_content_md, # these are of most recent, will be replaced as versions are added
+      file_content_html: file_content_html,
+      file_content_text: file_content_text,
 
       updated_at: Time.now
       )
-    self.update_attributes(is_latest_version: true)
+    self.update_columns(is_latest_version: true)
   end
 
   # if the work is added to an existing project, diff the work with all of its neighbors
