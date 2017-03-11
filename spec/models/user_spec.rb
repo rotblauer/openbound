@@ -2,22 +2,22 @@ require 'rails_helper'
 
 RSpec.describe User, :type => :model do
 
-  # Setup. 
+  # Setup.
   it "has a valid factory" do # <-- both syntaxes explictly set to work in spec_helper.rb
   	expect(FactoryGirl.create(:new_user)).to be_valid
   end
 
   # Validate basic attributes.
-  it "is invalid with a name that is too long" do 
+  it "is invalid with a name that is too long" do
   	expect(FactoryGirl.build(:new_user, name: "a" * 51)).not_to be_valid
   end
   it "is invalid without an email" do
   	expect(FactoryGirl.build(:new_user, email: nil)).not_to be_valid
   end
-  it "is invalid with non-.edu email address" do 
+  it "is invalid with non-.edu email address" do
   	expect(FactoryGirl.build(:new_user, email: 'isaac@bowdoin.com')).not_to be_valid
   end
-  it "is invalid with an invalid email address" do 
+  it "is invalid with an invalid email address" do
   	expect(FactoryGirl.build(:new_user, email: 'isaac@@bowdoin.edu')).not_to be_valid
   	expect(FactoryGirl.build(:new_user, email: 'isaac@bowdoin,edu')).not_to be_valid
   	expect(FactoryGirl.build(:new_user, email: 'isaac@@bow_doin.edu')).not_to be_valid
@@ -30,22 +30,22 @@ RSpec.describe User, :type => :model do
   	expect(FactoryGirl.build(:new_user, password: "a"*5 )).not_to be_valid
   end
 
-  ## New user scenarios. 
+  ## New user scenarios.
   # school_id
-  it "creates school_id for user on #create with bowdoin.edu" do 
+  it "creates school_id for user on #create with bowdoin.edu" do
   	user = FactoryGirl.create(:new_user)
   	expect(user.school_id).to be_truthy
   end
-  it "creates school_id for user on #create with nowhere.edu" do 
+  it "creates school_id for user on #create with nowhere.edu" do
   	user = FactoryGirl.create(:new_user, email: "isaac@nowhere.edu")
   	expect(user.school_id).to be_truthy # <-- sets school_id => 666666
   end
   # activation_digest
-  it "creates activation_digest on #create" do 
+  it "creates activation_digest on #create" do
   	user = FactoryGirl.create(:new_user)
   	expect(user.activation_digest).to be_truthy
   end
-  it "creates a new user with default attr superman => false" do 
+  it "creates a new user with default attr superman => false" do
   	user = FactoryGirl.create(:new_user)
   	expect(user.superman).to eq(false)
   end
@@ -57,9 +57,9 @@ RSpec.describe User, :type => :model do
 
   it "should generate a password reset digest and send email containing it"
   it "should confirm reset digest and allow user to set new email"
-  
-  # Edit user scenarios. 
-  it "generates new slug when name changes" do 
+
+  # Edit user scenarios.
+  it "generates new slug when name changes" do
   	user = FactoryGirl.create(:isaac)
   	first_name = "#{user.name}"
   	first_slug = "#{user.slug}"
@@ -69,11 +69,11 @@ RSpec.describe User, :type => :model do
   	expect(first_name).not_to eq(second_name)
   	expect(first_slug).not_to eq(second_slug)
   end
-  it "makes sure slugs are unique" do 
+  it "makes sure slugs are unique" do
   	cat = FactoryGirl.create(:new_user, email: "isaac@bowdoin.edu")
   	expect(FactoryGirl.build(:new_user, email: "isaac@bowdoin.edu")).not_to be_valid
   end
-  
+
   it "should increment sign in count"
 
   it "should increment works_count when user creates a work"

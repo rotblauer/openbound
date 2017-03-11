@@ -1,16 +1,16 @@
-# Errata and known issues. 
+# Errata and known issues.
 
-# ? has_many :works, dependent: :destroy? 
+# ? has_many :works, dependent: :destroy?
 # ? how to handle the case when a user changes emails w/r/t email and activations
 
 class User < ActiveRecord::Base
   extend FriendlyId
   include ActionView::Helpers::NumberHelper
-  
+
   friendly_id :slug_candidates, use: :slugged
 
   devise :trackable
-  
+
   has_many :affiliations
   has_many :schools, through: :affiliations
 
@@ -26,14 +26,14 @@ class User < ActiveRecord::Base
 
   mount_uploader :avatar, AvatarUploader
 
-  attr_accessor :remember_token, 
+  attr_accessor :remember_token,
                 :activation_token,
-                :reset_token, 
+                :reset_token,
                 :email_update_token
 
 
   with_options if: :passwordy? do |pass|
-    pass.has_secure_password # BCrypt? 
+    pass.has_secure_password # BCrypt?
     pass.validates :password, presence: true, length: { minimum: 6 }, on: :create
     VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
     pass.validates :email, length: { maximum: 255 }, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
@@ -44,27 +44,27 @@ class User < ActiveRecord::Base
 
   # FIXME: this is not quite good....
   def passwordy?
-    puts "*****************----------------> Handling user as PASSWORDY."
-    !self.has_oauth? 
+    # puts "*****************----------------> Handling user as PASSWORDY."
+    !self.has_oauth?
   end
   def oauthy?
-    puts "*****************----------------> Handling user as OAUTHY."
-    self.has_oauth? 
+    # puts "*****************----------------> Handling user as OAUTHY."
+    self.has_oauth?
   end
 
-  # activation digest, default profile url, and school_id are automatically assigned before create at Sign Up (users@new). 
+  # activation digest, default profile url, and school_id are automatically assigned before create at Sign Up (users@new).
   before_create :create_activation_digest, :create_uuid
   after_create :init_affiliation
 
   # email is downcased for uniqueness checking
   before_save   :downcase_email
 
-  # Updates associated school users_count. 
+  # Updates associated school users_count.
   # after_commit :update_school_users_count, on: [:create, :destroy]
-  
-	validates :name, presence: true, 
+
+	validates :name, presence: true,
                    length: { maximum: 50 }
-  validates_exclusion_of :name, in: %w( admin administrator superuser hotshit ), message: 'You wish!'      
+  validates_exclusion_of :name, in: %w( admin administrator superuser hotshit ), message: 'You wish!'
 
   validates :new_email, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
@@ -76,8 +76,8 @@ class User < ActiveRecord::Base
   ##
   ###
   # validate :email_seems_academic, on: :create # <-- (only on create; "once a student, always a student")
-    VALID_EMAIL_REGEX_EDU = /\A[\w+\-.]+@[a-z\d\-.]+\.["edu"]+\z/i # <-- constant regex checks for ...@...".edu"  
-    VALID_EMAIL_REGEX_AC_UK = /\A[\w+\-.]+@[a-z\d\-.]+\.["ac.uk"]+\z/i # <-- constant regex checks for ...@...".ac.uk" [guaranteed British ACademic institutions]  
+    VALID_EMAIL_REGEX_EDU = /\A[\w+\-.]+@[a-z\d\-.]+\.["edu"]+\z/i # <-- constant regex checks for ...@...".edu"
+    VALID_EMAIL_REGEX_AC_UK = /\A[\w+\-.]+@[a-z\d\-.]+\.["ac.uk"]+\z/i # <-- constant regex checks for ...@...".ac.uk" [guaranteed British ACademic institutions]
     def email_seems_academic
       unless (Swot::is_academic? self.email) || (self.email =~ VALID_EMAIL_REGEX_EDU || VALID_EMAIL_REGEX_AC_UK)   # https://github.com/leereilly/swot
         errors.add(:email, " must be academic.")
@@ -93,17 +93,17 @@ class User < ActiveRecord::Base
 
 
 
-  # If one affiliation, pick it. 
+  # If one affiliation, pick it.
   # Else, pick most recent college.
   def school_primary
-    # Should be unused but prevent bugs. 
+    # Should be unused but prevent bugs.
     if affiliations.any?
 
-      # Return school where affiliation.is_primary. 
-      # If there are none of these, we'll make a best guess once and assign the 
-      # is_primary attribute so we only have to guess once. Shaving milliseconds, you know. 
-      # There should be only one of these but best to be safe. 
-      return affiliations.where(is_primary: true).first.school if affiliations.where(is_primary: true).any?  
+      # Return school where affiliation.is_primary.
+      # If there are none of these, we'll make a best guess once and assign the
+      # is_primary attribute so we only have to guess once. Shaving milliseconds, you know.
+      # There should be only one of these but best to be safe.
+      return affiliations.where(is_primary: true).first.school if affiliations.where(is_primary: true).any?
 
       # This gives preference to schools that have (so far) been assigned by facebook.
       collegiate_affiliations = affiliations.where(institution_type: 'College')
@@ -111,25 +111,25 @@ class User < ActiveRecord::Base
       if collegiate_affiliations.any?
         if collegiate_affiliations.count == 1
 
-          # Here's our best guesser coming to make a mark. 
+          # Here's our best guesser coming to make a mark.
           best_guess = collegiate_affiliations.first
         else
 
           # Find the most recent college.
           best_guess = collegiate_affiliations.order('year asc').last # will pick chronologically last or latest in FB education history array
         end
-      else 
+      else
 
-        # Else no 'College' affiliations. Take the last and hope they're in chronological order. 
+        # Else no 'College' affiliations. Take the last and hope they're in chronological order.
         best_guess = affiliations.last
       end
 
-      # Assign best guess *affiliation* as primary. 
+      # Assign best guess *affiliation* as primary.
       best_guess.assign_as_primary
       return best_guess.school
 
-    else 
-      # Yuck. 
+    else
+      # Yuck.
       return School.friendly.find('spy-university')
     end
   end
@@ -141,10 +141,10 @@ class User < ActiveRecord::Base
     affiliation.update_attributes(is_primary: true)
   end
 
-  # Oauth. 
+  # Oauth.
   def self.create_with_omniauth(auth)
 
-    # Handle varying providers json auth responses. 
+    # Handle varying providers json auth responses.
     case auth["provider"]
     when 'facebook'
       oauth_params = {
@@ -156,14 +156,14 @@ class User < ActiveRecord::Base
         has_password: false
       }
     end
-    
+
     # Create user instance.
     user = create!(oauth_params)
 
-    # Create LinkedAccount instance. 
+    # Create LinkedAccount instance.
     user.add_linked_account(auth)
 
-    # Activate and return user. 
+    # Activate and return user.
     user.activate
     user
   end
@@ -231,11 +231,11 @@ class User < ActiveRecord::Base
     old_email = self.email
     update_attribute(:email, new_email)
     update_attribute(:new_email, old_email)
-    update_attribute(:new_email_confirmed, true) # Will be true if >= 1 completed and 0 pending email updates. In this case ":new_email" will really mean "alternate_email" aka "old_email". 
+    update_attribute(:new_email_confirmed, true) # Will be true if >= 1 completed and 0 pending email updates. In this case ":new_email" will really mean "alternate_email" aka "old_email".
   end
 
   def has_a_new_school_email
-    # Checking if user has changed their email, and that it has changed to an academic one. 
+    # Checking if user has changed their email, and that it has changed to an academic one.
     if self.new_email_confirmed? && # has changed their email
       ((Swot::is_academic? self.email) || (self.email =~ VALID_EMAIL_REGEX_EDU || VALID_EMAIL_REGEX_AC_UK)) # their new email seems academic
       return true
@@ -288,12 +288,12 @@ class User < ActiveRecord::Base
   private
 
     def slug_candidates
-      if self.email? # <-- this will be true if the user exists. 
+      if self.email? # <-- this will be true if the user exists.
       [
-        :name, 
+        :name,
         self.email.split("@").first,
         self.email.gsub(".edu",""),
-        #if self.school.present? then [self.email.split("@").first, self.school.Institution_Name] end, 
+        #if self.school.present? then [self.email.split("@").first, self.school.Institution_Name] end,
         #[self.email.split("@").first],
         [:name, :uuid]
         # [:name, :email_school_name],
@@ -302,25 +302,25 @@ class User < ActiveRecord::Base
       end
     end
 
-    # Regenerates slug when user edits their name. 
+    # Regenerates slug when user edits their name.
     def should_generate_new_friendly_id?
       name_changed? || super
     end
 
     # Creates a default school_id by matching user's emain domain (everything after the @)
-    # against our own custom-made school_domain_slice in the Schools table OR against Swot's black-boxy intuition 
-        # Currently we have 3721/5391 of our schools as [is_academic: true] as cross referenced against Swot. Meaning that according to Swot we have 1670 schools that are not academic.  
+    # against our own custom-made school_domain_slice in the Schools table OR against Swot's black-boxy intuition
+        # Currently we have 3721/5391 of our schools as [is_academic: true] as cross referenced against Swot. Meaning that according to Swot we have 1670 schools that are not academic.
     def init_affiliation
       if !facebook.nil?
-        Affiliation.handle(self, facebook)  
+        Affiliation.handle(self, facebook)
       else
         Affiliation.handle(self, nil)
-      end  
+      end
     end
 
     # Converts email to all lower-case.
     def downcase_email
-      self.email = email.downcase if self.email? 
+      self.email = email.downcase if self.email?
     end
 
     # Creates and assigns the activation token and digest.

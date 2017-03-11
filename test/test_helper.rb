@@ -27,7 +27,7 @@ class ActiveSupport::TestCase
     end
   end
 
-  # Makes things work for testing work uploads. 
+  # Makes things work for testing work uploads.
   CarrierWave.root = Rails.root.join('test/fixtures/files')
   def after_teardown
     super
@@ -44,7 +44,7 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 end
 
-# For Work upload testing. 
+# For Work upload testing.
 class CarrierWave::Mount::Mounter
   def store!
     # Not storing uploads in the tests

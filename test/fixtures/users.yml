@@ -1,106 +1,72 @@
 Admin:
-  name: Isaac  
-  email: isaac@bowdoin.edu
-  password_digest: <%= User.digest('fluffy') %>
-  admin: true
-  activated: true
-  activated_at: <%= 3.weeks.ago %>
-  remember_digest: nil
-  school: Bowdoin
-  superman: false
-  slug: isaac
-  uuid: <%= SecureRandom.uuid %>
+    name: "Isaac"
+    email: "isaac.ardis@gmail.com"
+    password_digest: "$2a$10$2yGIThqyqvOT82DieATane8A2WCe91M3QXckwH4n2R4dwZqXhS.QK"
+    admin: 1
+    activation_digest: "$2a$10$igF/Y8Z.eh7zQ1RQFkth5eeoxwcpA/9EXNj2WC94KftnOXsXj30AO"
+    activated: 1
+    activated_at: "2015-07-08 12:14:45"
+    remember_digest: nil
+    # school_id: 548
+    # school: Bowdoin # Use label fixture relation.
+    superman: 0
+    # works_count: 37
+    # bookmarks_count: 6
+    reset_digest: nil
+    # reset_sent_at: nil
+    slug: "isaac"
+    sign_in_count: 68
+    current_sign_in_at: "2017-03-10 15:37:55"
+    last_sign_in_at: "2017-03-09 12:51:33"
+    current_sign_in_ip: "::1"
+    last_sign_in_ip: "::1"
+    uuid: "e371cb7e-cd35-44bc-a0e2-2edd7a2a0895"
+    nutshell: "my mustache is bigger than that"
+    avatar: "Screen_Shot_2015-05-09_at_12.52.16_PM.png"
+    ed_level: nil
+    new_email: "isaac@bowdoin.edu"
+    email_update_digest: "$2a$10$BcjNjxfQ0dr5Pg.GZY0JZeZwJn7RGA7MRzlQva4nch/038y7TYcFK"
+    email_update_sent_at: "2015-07-08 12:15:26"
+    new_email_confirmed: 1
+    # projects_count: 34
+    # comments_count: 3
+    # has_oauth: 0
+    # created_as_oauth: 0
+    # has_password: 1
+    # affiliations_count: 1
 
-# James:
-#   name: James  
-#   email: james@columbia.edu
-#   password_digest: <%= User.digest('fluffy') %>
-#   admin: false
-#   activated: true
-#   activated_at: <%= 3.weeks.ago %>
-#   remember_digest: nil
-#   school: Columbia
-#   superman: false
-#   slug: james  
-#   uuid: <%= SecureRandom.uuid %>
-
-# Alladin: 
-#   name: Alladin
-#   email: علاء الدين@@bowdoin.edu
-#   password_digest: <%= User.digest(' الرمال الساخنة') %>
-#   admin: false
-#   activated: true
-#   activated_at: <%= 3.weeks.ago %>
-#   remember_digest: nil
-#   school: Bowdoin
-#   superman: false
-#   slug: alladin
-#   uuid: <%= SecureRandom.uuid %>
-
-# Fengshui: 
-#   name: Fengshui
-#   email: 海瑞溫斯頓@bowdoin.edu
-#   password_digest: <%= User.digest('永遠的鑽石') %>
-#   admin: false
-#   activated: true
-#   activated_at: <%= 3.weeks.ago %>
-#   remember_digest: nil
-#   school: Bowdoin
-#   superman: false
-#   slug: fenshui
-#   uuid: <%= SecureRandom.uuid %>
-
-# Zorba: 
-#   name: Zorba
-#   email: ΦίλιπποςΔράκος@bowdoin.edu
-#   password_digest: <%= User.digest('τόσαπολλάψάρια') %>
-#   admin: false
-#   activated: true
-#   activated_at: <%= 3.weeks.ago %>
-#   remember_digest: nil
-#   school: Bowdoin
-#   superman: false
-#   slug: zorba
-#   uuid: <%= SecureRandom.uuid %>
-
-# Moses: 
-#   name: Moses
-#   email: ישראל@bowdoin.edu
-#   password_digest: <%= User.digest('הלחם הארור הזה') %>
-#   admin: false
-#   activated: true
-#   activated_at: <%= 3.weeks.ago %>
-#   remember_digest: nil
-#   school: Bowdoin
-#   superman: false
-#   slug: moses
-#   uuid: <%= SecureRandom.uuid %>
-
-# Hiro: 
-#   name: Hiro  
-#   email: 夜遅く@bowdoin.edu
-#   password_digest: <%= User.digest('生活のためのコメディアン') %>
-#   admin: false
-#   activated: true
-#   activated_at: <%= 3.weeks.ago %>
-#   remember_digest: nil
-#   school: Bowdoin
-#   superman: false
-#   slug: hiro
-#   uuid: <%= SecureRandom.uuid %>
-
-# Rasputin: 
-#   name: Rasputin
-#   email: балет77@bowdoin.edu
-#   password_digest: <%= User.digest('вертетьипрыгать') %>
-#   admin: false
-#   activated: true
-#   activated_at: <%= 3.weeks.ago %>
-#   remember_digest: nil
-#   school: Bowdoin
-#   superman: false
-#   slug: rasputin
-#   uuid: <%= SecureRandom.uuid %>
-
-
-
+Gen:
+    name: "jeff"
+    email: "jeff@yahoo.com"
+    password_digest: "$2a$10$hiaVqPOjYYy9g.IkW8s4aON6kkkNfQkKF2BhHdKvcMdTVNUGz5lQu"
+    admin: 0
+    activation_digest: "$2a$10$npkkJX8csZduxaIwxi9NdOD7vFYHGRnrb..PEv.uUf3WNeulcOkpO"
+    activated: 1
+    activated_at: "2017-03-09 12:52:30"
+    remember_digest: nil
+    # school_id: nil
+    superman: 0
+    # works_count: 9
+    # bookmarks_count: 0
+    reset_digest: nil
+    # reset_sent_at: nil
+    slug: "jeff"
+    sign_in_count: nil
+    # current_sign_in_at: nil
+    # last_sign_in_at: nil
+    current_sign_in_ip: nil
+    last_sign_in_ip: nil
+    uuid: "1721c13d-ccca-40a9-a623-8724bdad58dc"
+    nutshell: "yahoo wahoo"
+    avatar: nil
+    ed_level: nil
+    # new_email: nil
+    # email_update_digest: nil
+    # email_update_sent_at: nil
+    # new_email_confirmed: 0
+    # projects_count: 6
+    # comments_count: 0
+    # has_oauth: 0
+    # created_as_oauth: 0
+    # has_password: 1
+    # affiliations_count: 1
