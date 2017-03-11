@@ -43,41 +43,6 @@ class Work < ActiveRecord::Base
   # Humps ahead.
   mount_uploader :document, DocumentUploader
 
-  # Solr search method attributes
-  # note the difference between `text` and `string` -- `text` is searchable normally (query), the other can run facets
-  # searchable do
-  #   integer :id
-  #   text :name, boost: 3.0
-  #   text :description, boost: 3.0
-  #   text :document
-  #   text :file_name, stored: true
-
-  #   # string :content_list, multiple: true
-  #   # text :content_list, boost: 1.5 # <-- repeated as text to allow for querying
-  #   # string :context_list, multiple: true
-  #   # text :context_list, boost: 1.5 # <-- repeated as text to allow for querying
-
-  #   ### Using exclusively plain text for search indexing. Avoids query results for 'span', 'head', 'meta', 'style'
-  #     # text :file_content_md, boost: 2.0
-  #     # text :file_content_html, boost: 2.0
-  #   text :file_content_text, boost: 2.0
-
-  #   text :author_name
-  #   time :updated_at
-  #   time :created_at
-  #   # integer :school_id
-  #   string :school_name # <-- un-removed because dirties "search works" (ie query="Minnesota" would return works from UofM, not works pertaining to Minnesota)
-  #   #text :school_name
-  #   string :school_id
-  #   string :user_id
-  #   boolean :anonymouse
-
-  #   boolean :is_latest_version
-  #   integer :project_id
-  #   text :project_name, boost: 3.0
-  # end
-
-
   ############################################
   ## Validations
   ############################################
