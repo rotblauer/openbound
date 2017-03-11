@@ -7,6 +7,11 @@ class WorkTest < ActiveSupport::TestCase
       file_content_md: "Hello",
       school_id: users(:User_2).school_primary.id
     )
+
+    @work2 = users(:User_2).works.build(
+      file_content_md: "Hello again",
+      school_id: users(:User_2).school_primary.id
+    )
   end
 
   def on_create_callback_skips
@@ -60,6 +65,7 @@ class WorkTest < ActiveSupport::TestCase
     assert_equal(@work.file_content_md, @work.project.file_content_md) # Project matches.
   end
 
+
   test "work gets all content types" do
     assert @work.save
     @work.reload
@@ -74,6 +80,48 @@ class WorkTest < ActiveSupport::TestCase
     assert @work.file_content_html.include? @work.file_content_md # <p>Hello</p>\n
   end
 
+  test "should create a diff when uploading two works to same project" do
+    assert @work.save
+    @work.reload
 
+    @work2.project_id = @work.project_id
+    assert @work2.save
+    @work2.reload
+
+    assert_equal @work.project_id, @work2.project_id
+    @work2.project.reload
+
+    project = @work2.project
+
+    assert_equal @work.project.id, project.id
+
+    assert_equal @work2.project.file_content_md, @work2.file_content_md
+    assert_equal 1, project.diffs.count
+
+    diff = project.diffs.first
+
+    assert_equal @work.id, diff.work1
+    assert_equal @work2.id, diff.work2
+    assert_equal project.id, diff.project_id
+  end
+
+  test "diff should update when md changes on same work" do
+    assert @work.save
+    @work.reload
+
+    @work2.project_id = @work.project_id
+    assert @work2.save
+    @work2.reload
+
+    project = @work2.project
+    diff = project.diffs.first
+
+    @work2.file_content_md = @work2.file_content_md + " blah"
+    @work2.save
+
+    diff.reload
+    assert diff.right_text.include? "blah"
+    assert_not diff.left_text.include? "blah"
+  end
 
 end

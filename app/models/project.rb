@@ -88,7 +88,7 @@ class Project < ActiveRecord::Base
   before_destroy :delete_tags, prepend: true
   before_destroy :destroy_all_works
     def destroy_all_works
-      self.works.all.each do |w|
+      works.all.each do |w|
         w.destroy
       end
     end
@@ -104,7 +104,7 @@ class Project < ActiveRecord::Base
 
   # # returns Work
   def most_recent_work
-    Work.find(self.recent_work_id)
+    Work.find(recent_work_id)
   end
 
   # def update_works_count
@@ -119,9 +119,8 @@ class Project < ActiveRecord::Base
   # ----------- init Project tags ------------ #
 
   def sync_tags_to_children_works
-    works = self.works.all
+    works = works.all
     works.each do |work|
-      self.tags.concat(work.tags)
       self.tags.concat(work.tags)
     end
     self.save
@@ -129,11 +128,11 @@ class Project < ActiveRecord::Base
 
   # ----------- init impressions inheritance ------------ #
   def collect_impressions_init
-    children_view_total = self.works.sum(:impressions_count)
-    self.update_attributes(impressions_count: children_view_total)
+    children_view_total = works.sum(:impressions_count)
+    self.update_columns(impressions_count: children_view_total)
   end
 
-  def self.search(query:nil,
+  def search(query:nil,
                   tags:[],
                   schools:[],
                   id:nil,
@@ -141,7 +140,7 @@ class Project < ActiveRecord::Base
                   per_page:24,
                   school_id:nil)
 
-    q = self.all
+    q = all
     q = q.basic_search(query) if !query.nil?
     q = q.where.contains(:tags => tags) if tags.any?
     q = q.where(:school_name => schools) if schools.any?
@@ -160,8 +159,8 @@ class Project < ActiveRecord::Base
   private
   	# Prioritizes candidates for slugging; references name_or_file_name method below.
   	def slug_candidates
-  		if self.name? # this could change if name changes
-  			self.name
+  		if name? # this could change if name changes
+  			name
   		else
   	  	SecureRandom.uuid
   	  end
@@ -170,8 +169,8 @@ class Project < ActiveRecord::Base
     # Sets author_name, which reflects either true creator's name or penname, depending on user's privacy choices.
     def set_author_name
       # Handles toggling between fake and real names (at edit)
-      if self.attribute_changed?(:anonymouse)
-        if self.anonymouse?
+      if attribute_changed?(:anonymouse)
+        if anonymouse?
           self.author_name = Faker::Name.name
 
         else
@@ -180,21 +179,21 @@ class Project < ActiveRecord::Base
         end
       end
       # Handles
-      if !self.anonymouse?
+      if !anonymouse?
         self.author_name = self.user.name
       end
     end
 
     def set_works_project_name
-      if self.attribute_changed?(:name)
-        self.works.all.each do |work|
-          work.update_attributes(project_name: self.name)
+      if attribute_changed?(:name)
+        works.all.each do |work|
+          work.update_attributes(project_name: name)
         end
       end
     end
 
     def delete_tags
-      self.tags = []
+      tags = []
     end
 
 end

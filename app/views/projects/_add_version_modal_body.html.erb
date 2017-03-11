@@ -1,19 +1,19 @@
 <!-- <h3 class="brand-primary">+ add version</h3> -->
 
 <div class="row">
-	
+
 
 	<!-- GOOGLE -->
 	<div class="col-sm-12">
-			
+
 			<!-- #pick is linked to new FilePicker prototype -->
 			<div class="fat fat-head text-center" style="margin-top: 20px;">
 				<span>
-					<button type="button" id="pick-<%= project.id %>" style="border: none; background-color: white; display: block; text-align: center; margin-left: auto; margin-right: auto;"> 
+					<button type="button" id="pick-<%= project.id %>" style="border: none; background-color: white; display: block; text-align: center; margin-left: auto; margin-right: auto;">
 						<%= image_tag('Google-Drive-Icon.png', height: '50') %>
-					</button>	
+					</button>
 
-					<h3 class='brand-primary' style="display: inline;">Import from Google Drive</h3>	
+					<h3 class='brand-primary' style="display: inline;">Import from Google Drive</h3>
 				</span>
 		<!-- 		<h4 class="brand-secondary" style="display: block;">Hold <b>shift</b> or <b>command</b> to<br> select multiple works at once!</h4>  -->
 			</div>
@@ -39,7 +39,7 @@
 
 	</div> <!-- !col-sm-12 -->
 
-	
+
 
 
 	<!-- LOCAL -->
@@ -64,8 +64,8 @@
 				Drop files here to upload
 			</div>
 			<div id="progress-wrapper-<%= project.id %>" class="progress-wrapper">
-			  <p>Bitrate: 
-				  <span class="bitrate"></span> 
+			  <p>Bitrate:
+				  <span class="bitrate"></span>
 				  <span class="process hidden" style="margin-left: 40px;">Extracting, converting, stacking... </span>
 			  </p>
 			  <div class="progress">
@@ -77,7 +77,7 @@
 		</div>
 
 
-		
+
 	</div> <!-- !col-sm-12 -->
 
 
@@ -91,18 +91,18 @@
 <script>
 	  $(document).ready(function() {
 
-	  	
+
 		  // hide add_version_modal if using google picker, then will show again
 		  var googlePicker = $('#pick-<%= project.id %>');
 		  googlePicker.on('click', function (){
 		  	var addVersionModal = $('#add-version-modal-<%= project.id %>'); // there should only be one
-				addVersionModal.modal('hide');	
+				addVersionModal.modal('hide');
 		  });
-			
 
-	    // Activating Bootstrap Tooltip 
+
+	    // Activating Bootstrap Tooltip
 	    $('.has-tooltip').tooltip();
-	    // Activating Best In Place 
+	    // Activating Best In Place
 	    jQuery(".best_in_place").best_in_place();
 	    // 'use strict';
 	    var multiple_works_form = $('#new_work-<%= project.id %>');
@@ -162,27 +162,27 @@
 	        }
 	        if (uploadErrors.length > 0) {
 	            alert(uploadErrors.join('\n\n'));
-	        } 
+	        }
 	        else {
 	          data.submit();
 	        }
 	      }
 	    });
 
-	    // Progress stuff. 
+	    // Progress stuff.
 	    // Progress bar.
 	    var wrapper = $('#progress-wrapper-<%= project.id %>');
 	    var progress_bar = wrapper.find('.progress-bar');
-	     
+
 	    multiple_works_form.on('fileuploadstart', function() {
 	      wrapper.show();
 	    });
-	     
+
 	    multiple_works_form.on('fileuploaddone', function() {
 	      wrapper.hide();
 	      progress_bar.width(0); // Revert progress bar's width back to 0 for future uploads
 	    });
-	     
+
 	    multiple_works_form.on('fileuploadprogressall', function (e, data) {
 	      var progress = parseInt(data.loaded / data.total * 100, 10);
 	      progress_bar.css('width', progress + '%').text(progress + '%');
@@ -190,13 +190,13 @@
 
 	    // Bitrate.
 	    var bitrate = wrapper.find('.bitrate');
-	    // Process. 
+	    // Process.
 	    var process = wrapper.find('.process');
 	    // var spinner = wrapper.find('.spinner');
-	     
+
 	    multiple_works_form.on('fileuploadprogressall', function (e, data) {
 	      bitrate.text((data.bitrate / 1024).toFixed(2) + 'Kb/s');
-	     
+
 	      var progress = parseInt(data.loaded / data.total * 100, 10);
 	      progress_bar.css('width', progress + '%').text(progress + '%');
 
@@ -236,7 +236,7 @@
 	    }, 100);
 
 	  });
-	
+
 </script>
 <script>
 	var array_post_json = [];
@@ -245,7 +245,7 @@
 
 		var array_show_file_names = [];
 		var array_user_id = [];
-		var user_id = <%= if logged_in? then current_user.id else 0 end %>; // 
+		var user_id = <%= if logged_in? then current_user.id else 0 end %>; //
 		var array_html_response = [];
 		var array_file_name = [];
 		var array_content_type = [];
@@ -253,30 +253,30 @@
 
 		// show modal again onSelect
 		var addVersionModal = $('#add-version-modal-<%= project.id %>');
-		// 
+		//
 		// var array_post_json = [];
-		
+
 		var picker = new FilePicker({
 			apiKey: '<%= ENV["GOOGLE_DRIVE_API_KEY"]%>',
 			clientId: '<%= if Rails.env.development? then ENV["GOOGLE_DRIVE_CLIENT_ID_DEV"] else ENV["GOOGLE_DRIVE_CLIENT_ID_ELSE"] end %>',
 			buttonEl: document.getElementById('pick-<%= project.id %>'),
-			
-			// called from _fileGetCallback in filepicker_dan.js. 
+
+			// called from _fileGetCallback in filepicker_dan.js.
 			// called when file details have been retrieved from Google Drive
 			onSelect: function(file) {
 				//\\
-				console.log(file); // <-- log the file! look at it. 
+				console.log(file); // <-- log the file! look at it.
 
 				// show add_version modal again
 				addVersionModal.modal('show');
 
 				// hide upload locally option
-				$('.upload-locally').hide(); 
+				$('.upload-locally').hide();
 
 				// Figure out what kind of file we're working with. (image, document)
 				var isImage;
 				var isDocument;
-				isImage = file.mimeType.indexOf('image') !== -1 ? true : false ; // bool 
+				isImage = file.mimeType.indexOf('image') !== -1 ? true : false ; // bool
 				isDocument = file.mimeType.indexOf('document') !== -1 ? true : false; // bool
 				isPowerpoint = file.mimeType.indexOf('powerpoint') !== -1 ? true : false; // bool
 					//\\
@@ -285,7 +285,7 @@
 
 
 				// Case document setup
-				var xhrGetURL; 
+				var xhrGetURL;
 
 				if (isDocument || isPowerpoint) {
 				var content_type = "text/html"; // great for DOCUMENTs
@@ -319,7 +319,7 @@
 				      // console.log('xhr.responseText => ' + xhr.responseText);
 
 				      callback(xhr.responseText); // send "file contents" (whatever that means) to the callback
-				      
+
 				    };
 				    xhr.onerror = function() {
 				      callback(null);
@@ -327,7 +327,7 @@
 				    };
 				    xhr.send();
 
-					// Case no export links. 				  
+					// Case no export links.
 				  } else {
 				    callback(null); // <-- send null to callback
 				    console.log('xhrGetURL was false!?');
@@ -338,13 +338,13 @@
 				}
 
 				// DO function
-				downloadFile(file, 
-					function callback(responseText){ 
+				downloadFile(file,
+					function callback(responseText){
 						//\\
 						// console.log('responseText =>' + responseText);
 
 
-						// document.getElementById('response-text-preview').innerHTML = responseText; // if requesting text/html, this will be (you guessed it) 
+						// document.getElementById('response-text-preview').innerHTML = responseText; // if requesting text/html, this will be (you guessed it)
 						$('#response-text-preview-<%= project.id %>').text(responseText);
 						// document.getElementById('document').value = file.alternateLink;
 
@@ -367,7 +367,7 @@
 
 						array_show_file_names.push(file.title + '<br>');
 
-						var html_string_file_names = ''; 
+						var html_string_file_names = '';
 						leng = array_show_file_names.length;
 
 						// file.thumbnailLink
@@ -375,7 +375,7 @@
 						// surrounding html strings for showing file.names in the DOM
 						var html_ahead = '<p class="google-uploads-file-preview"><%= image_tag("google-document-icon.png") %>';//'<img src="images/google-document-icon.png" />';
 						var html_behind = '</p>';
-						
+
 						for (i=0; i<leng; i++) {
 							var x = array_show_file_names[i];
 							html_string_file_names += html_ahead + x + html_behind; // x is file.title for i
@@ -409,8 +409,8 @@
 						console.log('JSONfileObj stringed => ' + JSON.stringify(JSONfileObj));
 						console.log('array_post_json => ' + array_post_json);
 
-						// 
-						
+						//
+
 						// ARRAYS
 						// ===
 						// document.getElementById('show-file-name').innerHTML = array_show_file_names;
@@ -423,7 +423,7 @@
 
 						// DISPLAY BUTTON
 						document.getElementById('the-submit-button-<%= project.id %>').style.display = 'block';
-						
+
 						// PREVIEWS
 						// document.getElementById('id-preview').innerHTML = file.id;
 						// document.getElementById('title-preview').innerHTML = file.title;
@@ -440,9 +440,9 @@
 			// var stringed = JSON.stringify(array_post_json);
 
 			// hide button
-			this.style.display = 'none'; 
+			this.style.display = 'none';
 			// show loading spinner
-			document.getElementById('the-loading-spinner-<%= project.id %>').style.display = 'block'; 
+			document.getElementById('the-loading-spinner-<%= project.id %>').style.display = 'block';
 
 
 			// SET UP POSTABLE DATA FROM GOOGLE-DERIVED OBJECTS
@@ -459,7 +459,7 @@
 					// console.log('post_string ' + post_string);
 
 			var stringer = JSON.stringify(array_post_json);
-			
+
 
 			// SET UP POST REQUEST @ /google-drive
 			var request = new XMLHttpRequest();
@@ -470,31 +470,21 @@
 			request.setRequestHeader("Content-Type", "application/json");
 			// request.send('{"my_data":"back to basics"}');
 			request.send('{ "work" : '+stringer+' }'); // note,  JSON format (not ruby => format)
-			
+
 
 			function callbacker (data) {
 				console.log('callbacker data => ' + data);
-				// hacky redirect to shelving cart without handle validations errors. 
-				window.location = "<%= work_imported_url %>"; 
+				// hacky redirect to shelving cart without handle validations errors.
+				window.location = "<%= work_imported_url %>";
 				// window.location = 'http://localhost:3000/shelving_cart';
 				// window.location = 'http://staging.openbound.org/shelving_cart';
 			}
 
 		});
-	} 
+	}
 
 
 </script>
 
 <script src="https://www.google.com/jsapi?key=<%= ENV['GOOGLE_DRIVE_API_KEY'] %>"></script>
 <script src="https://apis.google.com/js/client.js?onload=initPicker"></script>
-
-
-
-
-
-
-
-
-
-
