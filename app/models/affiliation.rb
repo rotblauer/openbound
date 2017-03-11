@@ -254,7 +254,7 @@ class Affiliation < ActiveRecord::Base
 	      if Swot::is_academic? user_email
 	        # matching swot's school name against our database
 	        swot_school_name = Swot::school_name user_email
-	        swot_school_name_match = School.where("Institution_Name LIKE :name", :name => "#{swot_school_name}").first
+	        swot_school_name_match = School.where("\"Institution_Name\" LIKE :name", :name => "#{swot_school_name}").first
 	        # if we get a match, we assume that our school_domain_slice is incorrect or incomplete and trust swot's suggestion, but use our own associated school's data
 	        # nb: THIS IS WHERE A FACT TABLE WOULD BE USEFUL. --> we could add another school_domain_slice for the same school
 	        if swot_school_name_match.present?

@@ -14,7 +14,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "fixture should be valid" do
-    @user = users(:Admin)
+    @user = users(:User_2)
     assert @user.valid?
   end
 

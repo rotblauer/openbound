@@ -3,24 +3,23 @@ require 'test_helper'
 class WorkTest < ActiveSupport::TestCase
 
   def setup
-
-    @work = users(:Admin).works.build(
+    @work = users(:User_2).works.build(
       file_content_md: "Hello",
-      school_id: users(:Admin).school_primary.id
+      school_id: users(:User_2).school_primary.id
     )
   end
 
   test "fixture should be valid" do
-    assert works(:Work1).valid?
+    assert works(:Work_1).valid?
   end
 
   test "setup should be valid" do
     assert @work.valid?
   end
 
-  test "should have a project" do
-    assert @work.project_id.present?
-  end
+  # test "should have a project" do
+  #   assert @work.project_id.present?
+  # end
 
   # test "fixtures should be valid (while muting validate_presence_of :document callback)" do
   # 	work = works(:alladin_work)
