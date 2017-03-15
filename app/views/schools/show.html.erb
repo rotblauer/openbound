@@ -201,7 +201,7 @@
 				</div>
 				</div>
 
-					<% if @projects.count > 0 %>
+					<% if @projects.count(:all) > 0 %>
 
 
 						<div id="project-uploads">
@@ -267,7 +267,7 @@
 						});
 						</script>
 
-					<% elsif (@projects.count == 0) && params[:search].present? %>
+					<% elsif (@projects.count(:all) == 0) && params[:search].present? %>
 
 						<div class="row">
 							<h2 class="text-center" style="color: gray;">no matching projects found - bummer!</h2>
