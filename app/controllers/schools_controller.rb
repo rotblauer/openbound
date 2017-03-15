@@ -89,7 +89,7 @@ class SchoolsController < ApplicationController
                                page: params[:page] || 1,
                                per_page: 12,
                                school_id: @school.id)
-    @total_results = @projects.count
+    # @total_results = @projects.count
 
 		if !@school.wikipedia_coords.nil?
 			@school_coords_lat = JSON.parse(@school.wikipedia_coords)[0]
