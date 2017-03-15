@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310100126) do
+ActiveRecord::Schema.define(version: 20170315170346) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -226,6 +226,7 @@ ActiveRecord::Schema.define(version: 20170310100126) do
   end
 
   add_index "projects", ["school_id"], name: "public_projects_school_id1_idx", using: :btree
+  add_index "projects", ["tags"], name: "index_projects_on_tags", using: :gin
   add_index "projects", ["user_id"], name: "public_projects_user_id0_idx", using: :btree
 
   create_table "recommendeds", force: :cascade do |t|
@@ -453,6 +454,7 @@ ActiveRecord::Schema.define(version: 20170310100126) do
 
   add_index "works", ["project_id"], name: "public_works_project_id3_idx", using: :btree
   add_index "works", ["slug"], name: "public_works_slug0_idx", unique: true, using: :btree
+  add_index "works", ["tags"], name: "index_works_on_tags", using: :gin
   add_index "works", ["user_id", "created_at"], name: "public_works_user_id1_idx", using: :btree
   add_index "works", ["user_id"], name: "public_works_user_id2_idx", using: :btree
 

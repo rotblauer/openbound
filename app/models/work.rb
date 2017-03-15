@@ -35,6 +35,7 @@ class Work < ActiveRecord::Base
   ############################################
 
   is_impressionable counter_cache: true, unique: :session_hash # column: impressions_count (int)
+  acts_as_taggable_array_on :tags
 
   # FriendlyID for pretty URLs
   extend FriendlyId
@@ -197,6 +198,7 @@ class Work < ActiveRecord::Base
     q = self.all
     q = q.basic_search(query) if !query.nil?
     q = q.where.contains(:tags => tags) if tags.any?
+    q = q.with_any_tags(tags) if tags.any? #q.with_all_tags is also supported by the actastaggablearrayon gem
     q = q.where(:school_name => schools) if schools.any?
 
     id = id.to_i if !id.nil?

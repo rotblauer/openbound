@@ -137,6 +137,7 @@ gem 'impressionist', '1.5.1'
 # removed because it isn't listed as necessary on https://github.com/sunspot/sunspot
 
 gem 'textacular', '~> 3.0'
+gem 'acts-as-taggable-array-on'
 
 # gem 'sunspot'
 # gem 'sunspot_rails'
