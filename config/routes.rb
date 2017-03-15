@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
   # You can have the root of your site routed with "root"
-  # root 'works#index' 
+  # root 'works#index'
   # root 'index#start'
   root 'projects#index'
   # get 'start' => 'index#start'
@@ -25,14 +25,14 @@ Rails.application.routes.draw do
   post 'signin' => 'sessions#create'
   delete 'logout'  => 'sessions#destroy'
 
-  # Oauthable. 
+  # Oauthable.
   get "/auth/:provider/callback" => "sessions#create"
   delete "/signout" => "sessions#destroy", :as => :signout
 
 
-  # The following are user-related paths. 
+  # The following are user-related paths.
   resources :users, path: 'members', only: [:new, :create, :show, :edit, :update, :destroy] do
-    member do 
+    member do
       get 'bookmarks' => 'users#bookmarks', as: 'show_bookmarks'
       get 'anonymousers' => 'users#anonymousers', as: 'show_anonymousers'
       delete "linked_accounts/:linked_account_id" => "linked_accounts#destroy", :as => :disconnect_linked_account
@@ -75,43 +75,43 @@ Rails.application.routes.draw do
   # get 'projects/:id/add-version' => 'projects#add_version', as: 'add_version' # stand alone page to add version to project (link from projects#show and _work)
   resources :projects, only: [:index, :show, :update, :destroy]#, only: [:index, :show, :create, :edit, :update, :destroy]
 
-  resources :projects do 
-    resources :works 
-  end 
+  resources :projects do
+    resources :works
+  end
 
   # get 'works/:id/begin_new_version' => 'works#begin_new_version'
   resources :works do
     resources :comments, only: [:index, :new, :create, :edit, :destroy]
     resources :gradients, only: [:create, :update]
     resources :suggesteds, only: [:new, :create]
-    member do 
+    member do
       get "save_as_new_version"
       get "begin_new_version"
       get "download"
     end
   end
   post 'google-drive/' => 'works#google_import'
-  patch 'bookmarks/:project_id' => 'bookmarks#bookmarker', as: 'bookmark'  # Toggles current_user's bookmark for work. 
+  patch 'bookmarks/:project_id' => 'bookmarks#bookmarker', as: 'bookmark'  # Toggles current_user's bookmark for work.
   patch 'works/:id/change-policy' => 'works#change_policy', as: 'change_policy'  # Toggles current_user's (the work's owner) policy on superheroism
-  
+
   patch 'works/:id/recommend' => 'works#recommend', as: 'recommendation' # Toggles recommendation /user/work
-  # For confirm/deny of _suggesteds. 
+  # For confirm/deny of _suggesteds.
   post 'works/suggestions/:id/confirm-context' => 'suggesteds#confirm_context'
   post 'works/suggestions/:id/confirm-content' => 'suggesteds#confirm_content'
   post 'works/suggestions/:id/deny' => 'suggesteds#deny'
 
   # For initial editing opp after uploading.
   get 'shelving_cart' => 'projects#shelving_cart_edit', as: 'snooty_librarian'
-  # post 'shelving_cart/:work_id' => 'works#shelving_cart_update', as: 'dewey_doing' 
+  # post 'shelving_cart/:work_id' => 'works#shelving_cart_update', as: 'dewey_doing'
 
   resources :schools, only: [:show, :index]
   # get 'schools' => 'schools#index', as: 'schools'
   # get 'schools/:id' => 'schools#show', as: 'school'
 
-  # Link to learn more - marketing and shit. 
+  # Link to learn more - marketing and shit.
   get 'learn' => 'index#learn'
- 
-  # Footer. 
+
+  # Footer.
   get 'privacy' => 'index#privacy'
   get 'terms-and-conditions' => 'index#terms_and_conditions', as: 'terms_and_conditions'
   get 'team' => 'index#team'
@@ -123,13 +123,13 @@ Rails.application.routes.draw do
   get 'new_google_upload_dan' => 'works#new_google_upload_dan'
 
     ##########################################
-    ## For importing schools table 
+    ## For importing schools table
     ##########################################
 
     # for importing schools table:
-    # get 'start' => 'index#start' 
+    # get 'start' => 'index#start'
 
-    # resources :schools do 
+    # resources :schools do
     #   collection { post :import }
     # end
 

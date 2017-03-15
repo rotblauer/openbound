@@ -63,9 +63,10 @@ class ApplicationController < ActionController::Base
       end
     end
 
+
     def redirect_to_org
       domain_to_redirect_to = 'openbound.org'
-      domain_exceptions = ['openbound.org', 'www.openbound.org', 'staging.openbound.org'] #ec2-52-38-222-148.us-west-2.compute.amazonaws.com
+      domain_exceptions = ['openbound.org', 'www.openbound.org', 'staging.openbound.org']
       should_redirect = !(domain_exceptions.include? request.host)
       # if not trying to get to staging
       # if !['staging.openbound.org'].include? request.host
@@ -73,7 +74,7 @@ class ApplicationController < ActionController::Base
       # else
       #   new_url = "ec2-52-27-198-224.us-west-2.compute.amazonaws.com#{request.fullpath}"
       # end
-      redirect_to new_url, status: :moved_permanently if should_redirect
+      redirect_to new_url, status: :moved_permanently if should_redirect and Rails.env.production?
     end
 
 end

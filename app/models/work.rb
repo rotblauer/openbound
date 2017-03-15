@@ -224,7 +224,7 @@ class Work < ActiveRecord::Base
       if !yomu.nil?
         text = yomu.text
         text_utf8 = text.force_encoding("UTF-8")
-        self.update_columns!(file_content_text: text_utf8)
+        self.update_columns(file_content_text: text_utf8)
         yomu = nil
       end
     end
@@ -586,8 +586,12 @@ class Work < ActiveRecord::Base
     diff_left_val.force_encoding("UTF-8").scrub! if !diff_left_val.nil?
     diff_right_val.force_encoding("UTF-8").scrub! if !diff_right_val.nil?
 
-    diff_left_text_val.force_encoding("UTF-8").scrub! if !diff_left_val.nil?
-    diff_right_text_val.force_encoding("UTF-8").scrub! if !diff_right_val.nil?
+    # diff_left_text_val.force_encoding("UTF-8").scrub! if !diff_left_val.nil?
+    # diff_right_text_val.force_encoding("UTF-8").scrub! if !diff_right_val.nil?
+    # diff_left_val.force_encoding("UTF-8").scrub! if !diff_left_val.nil?
+    # diff_right_val.force_encoding("UTF-8").scrub! if !diff_right_val.nil?
+    diff_left_text_val.force_encoding("UTF-8").scrub! if !diff_left_text_val.nil?
+    diff_right_text_val.force_encoding("UTF-8").scrub! if !diff_right_text_val.nil?
 
     # ----------- update or create diff ------------ #
 

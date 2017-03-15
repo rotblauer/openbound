@@ -7,7 +7,7 @@ class Revision < ActiveRecord::Base
 
   before_save :limit_revision_history
 
-  # A work is only allowed to have 20 revisions, say. 
+  # A work is only allowed to have 20 revisions, say.
   def limit_revision_history
   	work = self.work
   	revisions = work.revisions.all

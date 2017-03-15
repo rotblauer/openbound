@@ -31,10 +31,12 @@ if Rails.env.development?
 	end
 end
 
-# Turns :file storage on and processing off for testes.
-if Rails.env.test?
-	CarrierWave.configure do |config|
-		config.storage = :file
-		config.enable_processing = false
-	end
-end
+# # Turns :file storage on and processing off for testes.
+# if Rails.env.test?
+# 	CarrierWave.configure do |config|
+#     config.root = Rails.root.join('test', 'fixtures', 'files')
+# 		config.storage = :file
+# 		config.enable_processing = false
+#     config.cache_dir = Rails.root.join('test','carrierwave','cache')
+# 	end
+# end

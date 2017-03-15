@@ -132,7 +132,7 @@ class Project < ActiveRecord::Base
     self.update_columns(impressions_count: children_view_total)
   end
 
-  def search(query:nil,
+  def self.search(query:nil,
                   tags:[],
                   schools:[],
                   id:nil,

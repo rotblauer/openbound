@@ -11,23 +11,23 @@
 				<%= f.hidden_field :user_id, value: "#{current_user.id if logged_in?}" %>
 			  <%= f.file_field :document, multiple: true, name: 'work[document]' %>
 			  <br>
-			  
+
 			</div>
 		</div>
 </div><!-- /row -->
 
 <div class="row right-margin-zero">
 	<div class="col-sm-12">
-			
+
 				<div id="dropzoneFooter" class="dropzone">
 					Drop files here to upload
 				</div>
 				<br>
 
-			<div class="col-sm-12">	
+			<div class="col-sm-12">
 				<div class="progress-wrapper">
-				  <p>Bitrate: 
-					  <span class="bitrate"></span> 
+				  <p>Bitrate:
+					  <span class="bitrate"></span>
 					  <span class="process hidden" style="margin-left: 40px;">Extracting, converting, stacking... </span>
 				  </p>
 				  <div class="progress">
@@ -41,12 +41,12 @@
 	</div>
 </div><!-- /row -->
 
-<% end %> 
+<% end %>
 
 </div>
 
 
-<% else %> 
+<% else %>
 <!-- ON START PAGE -->
 
 <div class="panel foundational">
@@ -59,23 +59,23 @@
         <%= f.hidden_field :user_id, value: "#{current_user.id if logged_in?}" %>
         <%= f.file_field :document, multiple: true, name: 'work[document]' %>
         <br>
-        
+
       </div>
     </div>
 </div><!-- /row -->
 
 <div class="row right-margin-zero">
   <div class="col-sm-12">
-      
+
         <div id="dropzoneFooter" class="dropzone">
           Drop files here to upload
         </div>
         <br>
 
-      <div class="col-sm-12"> 
+      <div class="col-sm-12">
         <div class="progress-wrapper">
-          <p>Bitrate: 
-            <span class="bitrate"></span> 
+          <p>Bitrate:
+            <span class="bitrate"></span>
             <span class="process hidden" style="margin-left: 40px;">Extracting, converting, stacking... </span>
           </p>
           <div class="progress">
@@ -89,7 +89,7 @@
   </div>
 </div><!-- /row -->
 
-<% end %> 
+<% end %>
 
 </div>
 
@@ -99,9 +99,9 @@
 <script>
   $(document).ready(function() {
 
-    // Activating Bootstrap Tooltip 
+    // Activating Bootstrap Tooltip
     $('.has-tooltip').tooltip();
-    // Activating Best In Place 
+    // Activating Best In Place
     jQuery(".best_in_place").best_in_place();
     // 'use strict';
     var multiple_works_form = $('#new_work');
@@ -161,27 +161,27 @@
         }
         if (uploadErrors.length > 0) {
             alert(uploadErrors.join('\n\n'));
-        } 
+        }
         else {
           data.submit();
         }
       }
     });
 
-    // Progress stuff. 
+    // Progress stuff.
     // Progress bar.
     var wrapper = multiple_works_form.find('.progress-wrapper');
     var progress_bar = wrapper.find('.progress-bar');
-     
+
     multiple_works_form.on('fileuploadstart', function() {
       wrapper.show();
     });
-     
+
     multiple_works_form.on('fileuploaddone', function() {
       wrapper.hide();
       progress_bar.width(0); // Revert progress bar's width back to 0 for future uploads
     });
-     
+
     multiple_works_form.on('fileuploadprogressall', function (e, data) {
       var progress = parseInt(data.loaded / data.total * 100, 10);
       progress_bar.css('width', progress + '%').text(progress + '%');
@@ -189,13 +189,13 @@
 
     // Bitrate.
     var bitrate = wrapper.find('.bitrate');
-    // Process. 
+    // Process.
     var process = wrapper.find('.process');
     // var spinner = wrapper.find('.spinner');
-     
+
     multiple_works_form.on('fileuploadprogressall', function (e, data) {
       bitrate.text((data.bitrate / 1024).toFixed(2) + 'Kb/s');
-     
+
       var progress = parseInt(data.loaded / data.total * 100, 10);
       progress_bar.css('width', progress + '%').text(progress + '%');
 

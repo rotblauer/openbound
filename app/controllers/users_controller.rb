@@ -181,7 +181,8 @@ class UsersController < ApplicationController
         }
       else
         format.html {
-          render 'edit' }
+          render 'edit'
+        }
         format.json {
           render json: @user
         }

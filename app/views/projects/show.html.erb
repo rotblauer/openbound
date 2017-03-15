@@ -169,6 +169,7 @@
                   </p>
 
                   <!-- DOWNLOAD BUTTON --> <!-- pull-right -->
+                  <% if current_user %>
                   <div class="dropdown" style="display: inline; ">
                       <!-- link to download work/:id/download => 'works#download' -->
 
@@ -225,6 +226,7 @@
 
                         </ul>
                   </div>
+                  <% end %>
 
                   <% if owner?(work) && work.from_google_drive? && work.alternate_link.present? %>
                     <%= link_to work.alternate_link do %>

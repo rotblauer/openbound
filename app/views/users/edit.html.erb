@@ -10,17 +10,17 @@
 
     <%= form_for(@user) do |f| %>
       <%= render 'shared/error_messages' %>
-  
+
       <%= image_tag @user.avatar_url(:hand), style: "max-height: 50; max-width: 75; float: left; margin-right: 30px; background-color: white;"%>
       <%= f.file_field :avatar, class: '', accept: 'image/png,image/gif,image/jpeg', style: "display: inline; margin-left: 0px; margin-top: 10px;" %>
-  
+
       <br>
 
       <%= f.label :name %>
       <%= f.text_field :name, class: 'form-control' %>
       <p class="signin-advice">Changing your name will also change your URL. <br>If you share a name with someone else, your URL will be appended with a UUID.</p>
 
-      <p class="signin-advice">Registered at 
+      <p class="signin-advice">Registered at
 
       <span><%= link_to @user.school_primary.Institution_Name, @user.school_primary %>&nbsp;<%= favicon_for(@user.school_primary, 20, 20, "") if @user.school_primary != School.friendly.find('spy-university') %></span>
         <% if @user.school_primary == School.friendly.find('spy-university') %>
@@ -29,7 +29,7 @@
             <span class="glyphicon glyphicon-arrow-down"></span>
           </p>
         <% end %>
-      
+
       </p>
 
       <p class="signin-advice">Your email is <span style="color: black;"><%= @user.email %></span> <small><%= link_to "change", new_email_update_path, style: "color: blue;", class: "text-muted" %></small> <br><mark>Your email is never visible anywhere on Openbound.</mark></p>
@@ -42,14 +42,14 @@
 
         <%= f.label :password_confirmation, "Confirmation" %>
         <%= f.password_field :password_confirmation, class: 'form-control' %>
-      </div> 
+      </div>
       <br>
       <%= f.label :superman do %>
         <%= f.check_box :superman, default: false %>
         <span>Enable superhero mode?</span>
       <% end %>
       <p class="signin-advice">This makes work you upload to be anonymous by default. Work that is anonymous won't show up on your profile.</p>
-      
+
       <br>
       <%= f.submit "Save changes", class: "btn btn-primary" %>
     <% end %>

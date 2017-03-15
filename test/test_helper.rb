@@ -2,6 +2,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require "minitest/reporters"
+require 'fileutils'
 Minitest::Reporters.use!
 include ActionDispatch::TestProcess
 
@@ -32,11 +33,14 @@ class ActiveSupport::TestCase
     end
   end
 
-  # # Makes things work for testing work uploads.
-  CarrierWave.root = Rails.root.join('test/fixtures/files')
-  def after_teardown
-    super
-    CarrierWave.clean_cached_files!(0)
+ def after_teardown
+    # super
+   carrierwave_root = Rails.root.join('test','support','carrierwave')
+    # CarrierWave.clean_cached_files!(0) #puts "Removing carrierwave test directories:"
+    Dir.glob(carrierwave_root.join('*')).each do |dir|
+      #puts "   #{dir}"
+      FileUtils.remove_entry(dir)
+    end
   end
 
   private
@@ -49,9 +53,26 @@ class ActiveSupport::TestCase
   # Add more helper methods to be used by all tests here...
 end
 
+# Carrierwave setup and teardown
+carrierwave_template = Rails.root.join('test','fixtures','files')
+carrierwave_root = Rails.root.join('test','support','carrierwave')
+
+# # Makes things work for testing work uploads.
+CarrierWave.configure do |config|
+  config.root = Rails.root.join('test', 'fixtures', 'files')
+	config.storage = :file
+	config.enable_processing = false
+  config.cache_dir = Rails.root.join('test','support','carrierwave','carrierwave_cache')
+end
+# And copy carrierwave template in
+#puts "Copying\n  #{carrierwave_template.join('uploads').to_s} to\n  #{carrierwave_root.to_s}"
+FileUtils.cp_r carrierwave_template.join('uploads'), carrierwave_root
+
+
 # # For Work upload testing.
 # class CarrierWave::Mount::Mounter
 #   def store!
-# #     # Not storing uploads in the tests
+#     # Not storing uploads in the tests
+#     return
 #   end
 # end

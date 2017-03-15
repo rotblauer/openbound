@@ -3,10 +3,10 @@ require 'test_helper'
 class EmailUpdatesTest < ActionDispatch::IntegrationTest
   def setup
     ActionMailer::Base.deliveries.clear
-    @user = users(:Isaac)
+    @user = users(:User_2)
   end
 
-  test "email updates" do 
+  test "email updates" do
     log_in_as(@user)
   	get new_email_update_path
   	assert_template 'email_updates/new'

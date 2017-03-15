@@ -3,9 +3,9 @@ require 'test_helper'
 class UsersLoginTest < ActionDispatch::IntegrationTest
 
   def setup
-    @user = users(:Isaac)
+    @user = users(:User_2)
   end
-  
+
   test "login with invalid information" do
     get signin_path
     assert_template 'sessions/_new'
@@ -15,7 +15,7 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     get root_path
     assert flash.empty?
   end
-  
+
   test "login with valid information followed by logout" do
     get signin_path
     post signin_path, session: { email: @user.email, password: 'fluffy' }
@@ -46,5 +46,5 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     log_in_as(@user, remember_me: '0')
     assert_nil cookies['remember_token']
   end
-  
+
 end
