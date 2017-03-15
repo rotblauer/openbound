@@ -164,7 +164,27 @@ class WorkTest < ActiveSupport::TestCase
     assert diff.right.include? "Sophomore"
 
     assert_equal 2, @new_work.project.works.count
-    # assert_equal 2, @new_work.project.works_count
   end
+
+  test "should be able to upload a pdf and extract the text contents" do
+    @new_work.document = fixture_file_upload("files/438_28June2016.pdf")
+
+    assert @new_work.save
+    @new_work.reload
+
+    # Ensure same project as fixture
+    assert_equal @new_work.project.id, works(:Work_1).project.id
+
+    # Ensure got parsed file_contents
+    assert @new_work.file_content_md.present?
+    assert @new_work.file_content_html.present?
+    assert @new_work.file_content_text.present?
+
+    assert @new_work.file_content_md.include? "Minnesota"
+  end
+
+
+
+
 
 end

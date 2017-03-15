@@ -1,0 +1,116 @@
+School_578:
+  Institution_ID: 138956
+  Institution_Name: Bryn Mawr College
+  Institution_Address: 101 N Merion Avenue
+  Institution_City: Bryn Mawr
+  Institution_State: PA
+  Institution_Zip: '"19010"'
+  Institution_Phone: 610-526-5000
+  Institution_OPEID: '"00323700"'
+  Institution_IPEDS_UnitID: '211273'
+  Institution_Web_Address: www.brynmawr.edu
+  Accreditation_Type: Institutional
+  Agency_Name: Middle States Commission on Higher Education
+  Accreditation_Status: Accredited
+  Accreditation_Date_Type: Estimated
+  Periods: 07/01/1921 - Current
+  school_domain_slice: brynmawr.edu
+  created_at: 2015-06-29 02:16:21.000000000 Z
+  updated_at: 2016-04-28 19:08:23.000000000 Z
+  works_count: 1
+  affiliations_count: 1
+  slug: bryn-mawr-college
+  is_academic: 1
+  favicon: favicon.ico
+  favicon_width: 14
+  favicon_height: 16
+  favicon_content_type: image/vnd.microsoft.icon
+  favicon_file_size: 1217
+  projects_count: 1
+  geocode_json: |
+    {
+       "results" : [
+          {
+             "address_components" : [
+                {
+                   "long_name" : "101",
+                   "short_name" : "101",
+                   "types" : [ "street_number" ]
+                },
+                {
+                   "long_name" : "North Merion Avenue",
+                   "short_name" : "N Merion Ave",
+                   "types" : [ "route" ]
+                },
+                {
+                   "long_name" : "Bryn Mawr",
+                   "short_name" : "Bryn Mawr",
+                   "types" : [ "locality", "political" ]
+                },
+                {
+                   "long_name" : "Lower Merion Township",
+                   "short_name" : "Lower Merion Township",
+                   "types" : [ "administrative_area_level_3", "political" ]
+                },
+                {
+                   "long_name" : "Montgomery County",
+                   "short_name" : "Montgomery County",
+                   "types" : [ "administrative_area_level_2", "political" ]
+                },
+                {
+                   "long_name" : "Pennsylvania",
+                   "short_name" : "PA",
+                   "types" : [ "administrative_area_level_1", "political" ]
+                },
+                {
+                   "long_name" : "United States",
+                   "short_name" : "US",
+                   "types" : [ "country", "political" ]
+                },
+                {
+                   "long_name" : "19010",
+                   "short_name" : "19010",
+                   "types" : [ "postal_code" ]
+                },
+                {
+                   "long_name" : "2859",
+                   "short_name" : "2859",
+                   "types" : [ "postal_code_suffix" ]
+                }
+             ],
+             "formatted_address" : "101 N Merion Ave, Bryn Mawr, PA 19010, USA",
+             "geometry" : {
+                "location" : {
+                   "lat" : 40.0263,
+                   "lng" : -75.312867
+                },
+                "location_type" : "ROOFTOP",
+                "viewport" : {
+                   "northeast" : {
+                      "lat" : 40.0276489802915,
+                      "lng" : -75.31151801970849
+                   },
+                   "southwest" : {
+                      "lat" : 40.0249510197085,
+                      "lng" : -75.31421598029151
+                   }
+                }
+             },
+             "place_id" : "ChIJYee2Moy_xokRykT-TzJONr8",
+             "types" : [ "street_address" ]
+          }
+       ],
+       "status" : "OK"
+    }
+  geocode_lat: 40.0263
+  geocode_lng: -75.3129
+  logo: 150px-Bryn_Mawr_seal.png
+  logo_width: 150
+  logo_height: 150
+  logo_content_type: image/png
+  logo_file_size: 40525
+  wikipedia_summary: |-
+    Bryn Mawr College (/ˌbrɪnˈmɑːr/ brin-MAR; Welsh: [ˌbrɨ̞nˈmaur]) is a women's liberal arts college in Bryn Mawr, a community in Lower Merion Township, in the U.S. state of Pennsylvania, four miles (6.4 km) west of Philadelphia. The phrase bryn mawr means "big hill" in Welsh.
+    Bryn Mawr is one of the Seven Sister colleges, and is part of the Tri-College Consortium along with two other colleges founded by Quakers—Swarthmore College and Haverford College. The school has an enrollment of about 1300 undergraduate students and 450 graduate students.
+  wikipedia_coords: '[40.02638889,-75.31361111,"","earth"]'
+  wikipedia_url: https://en.wikipedia.org/wiki/Bryn_Mawr_College
