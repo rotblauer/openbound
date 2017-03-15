@@ -95,8 +95,6 @@ GEM
     capistrano-rvm (0.1.2)
       capistrano (~> 3.0)
       sshkit (~> 1.2)
-    capistrano-scm-gitcopy (0.1.5)
-      capistrano (~> 3.0)
     capistrano3-puma (1.2.1)
       capistrano (~> 3.0)
       puma (>= 2.6)
@@ -493,7 +491,6 @@ DEPENDENCIES
   capistrano-bundler
   capistrano-rails
   capistrano-rvm
-  capistrano-scm-gitcopy
   capistrano3-puma
   capybara
   carrierwave
