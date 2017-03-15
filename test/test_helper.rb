@@ -59,7 +59,8 @@ carrierwave_root = Rails.root.join('test','support','carrierwave')
 
 # # Makes things work for testing work uploads.
 CarrierWave.configure do |config|
-  config.root = Rails.root.join('test', 'fixtures', 'files')
+  # config.root = Rails.root.join('test', 'fixtures', 'files')
+  config.root = carrierwave_root
 	config.storage = :file
 	config.enable_processing = false
   config.cache_dir = Rails.root.join('test','support','carrierwave','carrierwave_cache')

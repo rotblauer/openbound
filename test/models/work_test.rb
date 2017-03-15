@@ -27,6 +27,13 @@ class WorkTest < ActiveSupport::TestCase
     Work.skip_callback(:update, :after, :update_if_file_content_text_changed)
   end
 
+  # def test_triangle_number_of_diffs_per_projects_works(project)
+  #   # http://math.stackexchange.com/questions/593318/factorial-but-with-addition
+  #   project_works_count = project.works.where.not(file_content_text: nil).count
+  #   triangle_number_works_count = ( project_works_count*project_works_count + project_works_count ) / 2
+  #   assert_equal triangle_number_works_count, project.diffs.count
+  # end
+
   test "fixture should be valid" do
     assert works(:Work_1).valid?
   end
@@ -128,7 +135,7 @@ class WorkTest < ActiveSupport::TestCase
     assert_not diff.left_text.include? "blah"
   end
 
-  test "should be able to upload a new work from file" do
+  test "should be able to upload a new work from docx file" do
     assert @new_work.save
     @new_work.reload
 
@@ -145,14 +152,11 @@ class WorkTest < ActiveSupport::TestCase
     assert @new_work.file_content_md.include? "Sophomore"
     assert_not @new_work.file_content_md.include? "Freshman"
 
-    # Diffs
-    assert_equal 1, @new_work.project.diffs.count
+    diff = Diff.where(work1: works(:Work_1).id, work2: @new_work.id)
+    assert diff.present?
+    assert_equal 1, diff.count
 
-    diff = @new_work.project.diffs.first
-    puts "\n\ndiff => #{diff.inspect}\n\n"
-
-    assert_equal diff.work1, works(:Work_1).id
-    assert_equal diff.work2, @new_work.id
+    diff = diff.first
 
     assert_not diff.left === diff.right
 
@@ -163,28 +167,91 @@ class WorkTest < ActiveSupport::TestCase
     assert_not diff.left.include? "Sophomore"
     assert diff.right.include? "Sophomore"
 
-    assert_equal 2, @new_work.project.works.count
+    # assert_equal 2, @new_work.project.works.count
   end
 
   test "should be able to upload a pdf and extract the text contents" do
-    @new_work.document = fixture_file_upload("files/438_28June2016.pdf")
+    # @new_work.document = fixture_file_upload("files/438_28June2016.pdf")
+    new_doc = Work.new(@new_work.attributes.merge(document: fixture_file_upload("files/438_28June2016.pdf")))
 
-    assert @new_work.save
-    @new_work.reload
+
+    assert new_doc.save
+    new_doc.reload
 
     # Ensure same project as fixture
-    assert_equal @new_work.project.id, works(:Work_1).project.id
+    assert_equal new_doc.project.id, works(:Work_1).project.id
 
     # Ensure got parsed file_contents
-    assert @new_work.file_content_md.present?
-    assert @new_work.file_content_html.present?
-    assert @new_work.file_content_text.present?
+    assert new_doc.file_content_md.present?
+    assert new_doc.file_content_html.present?
+    assert new_doc.file_content_text.present?
 
-    assert @new_work.file_content_md.include? "Minnesota"
+    assert new_doc.file_content_md.include? "Minnesota"
+    # test_triangle_number_of_diffs_per_projects_works(@new_work.project)
   end
 
+  test "should be able to upload a txt and extract the text contents" do
+    # @new_work.document = fixture_file_upload("files/idleness.txt")
+    new_doc = Work.new(@new_work.attributes.merge(document: fixture_file_upload("files/idleness.txt")))
 
+    assert new_doc.save
+    new_doc.reload
 
+    # Ensure same project as fixture
+    assert_equal new_doc.project.id, works(:Work_1).project.id
 
+    # Ensure got parsed file_contents
+    assert new_doc.file_content_md.present?
+    assert new_doc.file_content_html.present?
+    assert new_doc.file_content_text.present?
 
+    assert new_doc.file_content_md.include? "Bertrand Russell"
+
+    new_doc.file_content_md = "Changed."
+    assert new_doc.save
+    new_doc.reload
+
+    assert new_doc.file_content_md.include? "Changed."
+    assert new_doc.file_content_text.include? "Changed."
+    assert new_doc.file_content_html.include? "Changed."
+
+    assert_not new_doc.file_content_md.include? "Bertrand Russell"
+
+    assert_equal 2, new_doc.revisions.count
+
+    # test_triangle_number_of_diffs_per_projects_works(new_doc.project)
+  end
+
+  test "should be able to upload an image" do
+    # @new_work.document = fixture_file_upload("files/cindy.jpg")
+    new_doc = Work.new(@new_work.attributes.merge(document: fixture_file_upload("files/cindy.jpg")))
+
+    assert new_doc.save
+    new_doc.reload
+
+    # Ensure same project as fixture
+    assert_equal  new_doc.project.id, works(:Work_1).project.id
+  end
+
+  test "should save revision on description changed" do
+    assert_difference ('works(:Work_1).revisions.count') do
+      works(:Work_1).description = "changed"
+      assert works(:Work_1).save
+    end
+    assert_no_difference ('works(:Work_1).revisions.count') do
+      works(:Work_1).description = works(:Work_1).description
+      assert works(:Work_1).save
+    end
+  end
+
+  test "should save revision on name changed" do
+    assert_difference ('works(:Work_1).revisions.count') do
+      works(:Work_1).name = "changed"
+      assert works(:Work_1).save
+    end
+    assert_no_difference ('works(:Work_1).revisions.count') do
+      works(:Work_1).name = works(:Work_1).name
+      assert works(:Work_1).save
+    end
+ end
 end

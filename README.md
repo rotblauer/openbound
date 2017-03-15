@@ -1,25 +1,24 @@
-# OpenBound
-Free your work. Learn more. 
+Homework should be free.
+
+### Develop
+```shell
+$ bundle install
+$ rvm use 2.2.5
+# Live reload server.
+$ grunt watch # new terminal
+# delayed_job start background processing
+$ rake jobs:work # new terminal
+$ rails s # new terminal
+```
+- Is Postgres on? Does PG have necessary roles and db's as spec'd in `database.yml`?
 
 
-### The big idea
-If Khan Academy, Open MIT, and Blackboard (etc!) are turning the classroom inside out, we want to turn it upside down. We think the work of the classroom should be free.
-
-
-### The stack
-Ruby on Rails. Javascript. MySQL. Deploy and storage on Amazon EC2 and S3. Deploys with Rubber. 
+### Test
+`bundle exec rake test`
 
 
 ### Contributing
-Got an idea? Make a pull request. An improvement? Pull request. Random idea. Pull request. We deploy at least weekly. 
+:clap: 
 
-Catch a bug? Make an issue. Want to send a random message with too many emojis to fit in a pull request? Make an issue. 
-
-
-### The wiki
-- references for how-to type instructions for basic commands for MySQL, Rails, and Git. 
-- instructions for how to install a development version, how to deploy, how to use git as a member of a team, and, erm, tests. 
-
-The Wiki is a a standalone git repository. Contributions very welcome. 
 
 

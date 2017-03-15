@@ -86,7 +86,7 @@ class Work < ActiveRecord::Base
                :init_textuals,
                :set_as_most_recent_work,
                :unset_previous_latest_version,
-               :save_revision
+               :create_revision
 
     def set_name
       self.update_column(:name, self.file_name) if !self.name.present?
@@ -117,22 +117,24 @@ class Work < ActiveRecord::Base
     end
 
     def update_if_file_content_md_changed
-      # puts "file_content_md_changed? => #{file_content_md_changed?}"
-      update_textuals if file_content_md_changed? # This should not error for images.
+      update_textuals if file_content_md_changed?
     end
 
     def save_revision
-      return if !file_content_md_changed?
+      return if !(file_content_md_changed? or name_changed? or description_changed?)
+      create_revision
+    end
+
+    def create_revision
       new_revision = self.revisions.new(
-          project_id: self.project.id,
-          data: self.attributes.to_json
-        )
+        project_id: self.project.id,
+        data: self.attributes.to_json
+      )
       if new_revision.save
-        # puts "Revision saved."
       else
         puts "Revision failed to save."
       end
-    end
+   end
 
 
   # ----------- Destroy ------------ #
@@ -540,7 +542,7 @@ class Work < ActiveRecord::Base
   # (wA and wB will be sorted lowest, highest :: earlier, latest)
   def generate_diff wA, wB
 
-    puts "---------------------------------> generating diff for #{wA} and #{wB}"
+    # puts "---------------------------------> generating diff for #{wA} and #{wB}"
     # sort by magnitude of id
     # returns w1 has earlier id than w2
     wA < wB ? w1id = wA : w1id = wB
