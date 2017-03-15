@@ -211,7 +211,8 @@
 						<div class="row load-more-container text-center">
 						        <!-- hide our loading gif image so that we show it when making ajax call via jquery -->
 							<%= image_tag "loading_spinner.gif", style: "display:none;", class: "loading-gif" %>
-							<%= link_to "Load More", @school, class: "load-more" if @total_results > @projects.count %>
+							<%= link_to "Load More", @school, class: "load-more"  %>
+              <!-- if @total_results > @projects.count -->
 						</div>
 
 						<script>
