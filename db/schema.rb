@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315172715) do
+ActiveRecord::Schema.define(version: 20170316081030) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -222,7 +222,7 @@ ActiveRecord::Schema.define(version: 20170315172715) do
     t.integer  "diffs_count",                   default: 0,  null: false
     t.integer  "comments_count",                default: 0,  null: false
     t.integer  "revisions_count",               default: 0,  null: false
-    t.text     "tags",                          default: [],              array: true
+    t.string   "tags",                          default: [],              array: true
   end
 
   add_index "projects", ["school_id"], name: "public_projects_school_id1_idx", using: :btree
@@ -449,7 +449,7 @@ ActiveRecord::Schema.define(version: 20170315172715) do
     t.string   "alternate_link",       limit: 255
     t.integer  "revisions_count",                  default: 0,  null: false
     t.integer  "comments_count",                   default: 0,  null: false
-    t.text     "tags",                             default: [],              array: true
+    t.string   "tags",                             default: [],              array: true
   end
 
   add_index "works", ["project_id"], name: "public_works_project_id3_idx", using: :btree
