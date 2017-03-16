@@ -73,7 +73,7 @@ Rails.application.routes.draw do
   get 'works/redirect-to-imported' => 'works#go_to_user_most_recent_work', as: 'work_imported'
   # get 'projects/testpartial' => 'projects#testpartial'
   # get 'projects/:id/add-version' => 'projects#add_version', as: 'add_version' # stand alone page to add version to project (link from projects#show and _work)
-  resources :projects, only: [:index, :show, :update, :destroy]#, only: [:index, :show, :create, :edit, :update, :destroy]
+  resources :projects, only: [:index, :show, :update, :destroy]
 
   resources :projects do
     resources :works

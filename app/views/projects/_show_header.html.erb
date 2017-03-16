@@ -133,12 +133,23 @@
             <span class="brand-secondary">Tags </span>
                 <% if owner? project %>
 
-                    <span class="text-muted">
+                  <!-- <span class="text-muted"> -->
                         <!-- BIP -->
-                        <%= best_in_place project, :tags, place_holder: '              ', activator: "#tags-activator-#{project.id}", :as => :input, class: 'bip-form', inner_class: 'bip-inner' %>
-                    </span>
-                        <span id="tags-activator-<%= project.id %>" class="glyphicon glyphicon-pencil glyphicon-edit-work" aria-hidden="true" style="color: lightgray;" title="Edit tags."></span>
+                        <%# = best_in_place project, :tags, place_holder: '              ', activator: "#tags-activator-#{project.id}", :as => :input, class: 'bip-form', inner_class: 'bip-inner' %>
+                  <!-- </span> -->
 
+                  <!-- <span id="tags-activator-<%= project.id %>" class="glyphicon glyphicon-pencil glyphicon-edit-work" aria-hidden="true" style="color: lightgray;" title="Edit tags."></span> -->
+
+                    <% project.tags.each do |tag| %>
+                        <span class="label label-context">
+                          <%= link_to project_path(project, project: {tags: project.tags - [tag]}), method: :put, remote: true do %>
+                              <span class="project-tag">
+                                <%= tag %>
+                              </span>
+                              <span class="glyphicon glyphicon-remove"></span>
+                           <% end %>
+                        </span>
+                    <% end %>
 
                 <% else %>
 

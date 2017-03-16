@@ -235,7 +235,7 @@ class ProjectsController < ApplicationController
     end
 
     def project_params
-      params.require(:project).permit(:name, :description, :context_list, :content_list, :author_name)
+      params.require(:project).permit(:name, :description, { :tags => [] }, :author_name)
     end
 
     def correct_user

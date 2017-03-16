@@ -13,6 +13,8 @@
  *= require_self
  *= require octicons/octicons/sprockets-octicons
  *= require simplemde/dist/simplemde.min
+ *= require jquery-ui/themes/cupertino/jquery-ui.min
+ *= require jquery.tagit
  *= require main
  */
 

@@ -18,8 +18,10 @@
 // require angular/angular.min
 //= require best_in_place
 //= require jquery.ellipsis.js
+//= require jquery-ui/jquery-ui.min
 //= require ahoy
 //= require simplemde/dist/simplemde.min
+//= require tag-it.min.js
 //= require_tree .
 
 //= require highcharts/highcharts
