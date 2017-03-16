@@ -3,7 +3,7 @@
 # Change these
 server '138.197.122.6', port: 1026, roles: [:web, :app, :db], primary: true
 
-set :repo_url,        'https://github.com/rotblauer/openbound.git' # 'http://goggable.areteh.co:3000/OpenBound/OpenBound.git'
+set :repo_url,        'https://github.com/rotblauer/openbound.git' # 'http://goggable.areteh.co:3000/OpenBound/OpenBound.git' a
 set :application,     'openbound'
 set :user,            'deploy'
 set :puma_threads,    [4, 16]
