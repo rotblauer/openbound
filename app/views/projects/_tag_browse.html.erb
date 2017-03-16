@@ -34,7 +34,7 @@
 
      # Facet on schools.
      @facet_schools.each do |school, index|
-       break if index == 15;
+       break if index == 15	;
 
        if (params[:school_name].kind_of?(Array) and params[:school_name].include? school.Institution_Name)
 
