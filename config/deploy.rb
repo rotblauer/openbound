@@ -118,7 +118,7 @@ namespace :deploy do
         run_locally do
           begin
             execute "mkdir #{local_dir}"
-            execute "rsync -av -e \"ssh -p 1206\" #{remote_dir}.sprockets-manifest-* #{local_dir}"
+            execute "rsync -av -e \"ssh -p 1026\" '#{remote_dir}.sprockets-manifest-*' #{local_dir}"
           rescue
             # no manifest yet
           end
