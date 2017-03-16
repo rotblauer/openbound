@@ -91,7 +91,8 @@ namespace :deploy do
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
       invoke 'puma:restart'
-      invoke 'delayed_job:restart'
+      # the delayed_job should still be running, right? why restart?
+      # invoke 'delayed_job:restart'
     end
   end
 
