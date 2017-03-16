@@ -3,17 +3,6 @@
 	<%# render @projects if !@projects.empty? %>
 
 	<div class="row" style="padding-top: 5px; padding-bottom: 5px;">
-		<div class="col-md-3">
-			<% if current_user %>
-				<%= image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
-				<br>
-			<% end %>
-
-			<div>
-				<%= render partial: 'projects/tag_browse', locals: { projects: @projects } %>
-			</div>
-		</div>
-
 
 
 		<div class="col-md-9">
@@ -32,10 +21,10 @@
 				<%= render 'index/unauth_dash_main' %>
 				<%= render 'index/auth_dash_main' %>
 
-			<%= yield :unauth_dash_main if !current_user %>
+			<%#= yield :unauth_dash_main if !current_user %>
 
 			<%# yield :auth_dash_main if current_user %>
-			<% if current_user %>
+			<% if true # current_user %>
 
 				<!-- projects index while dashboard+followable not yet implemented -->
 				<div id="project-uploads">
@@ -114,6 +103,15 @@
 		<% end %>
 		</div>
 
-		<!-- if not querying -->
+    <!-- SIDEBAR -->
+    <div class="col-md-3">
+			<div>
+				<%= render partial: 'projects/tag_browse', locals: { projects: @projects } %>
+			</div>
+
+      <%= image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
+      <br>
+		</div>
+
 
 	</div>
