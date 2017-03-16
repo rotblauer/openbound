@@ -192,34 +192,34 @@
                           <!-- markdown -->
                           <li>
                             <%= link_to download_work_path(:id => work.id, :download_as => 'markdown'), class: 'modest-link' do %>
-                              <span class="brand-primary"><%=  download_name(work.name) %>.md</span>&nbsp;markdown
+                              <span class="brand-primary"><%=  download_name(work.name || work.file_name) %>.md</span>&nbsp;markdown
                             <% end %>
                           </li>
 
                           <li>
                             <%= link_to download_work_path(:id => work.id, :download_as => 'pdf'), class: 'modest-link' do %>
-                              <span class="brand-primary"><%=  download_name(work.name) %>.pdf</span>&nbsp;pdf
+                              <span class="brand-primary"><%=  download_name(work.name || work.file_name) %>.pdf</span>&nbsp;pdf
                             <% end %>
                           </li>
 
                           <!-- plain -->
                           <li>
                             <%= link_to download_work_path(:id => work.id, :download_as => 'plain'), class: 'modest-link' do %>
-                              <span class="brand-primary"><%=  download_name(work.name) %>.txt</span>&nbsp;plain text
+                              <span class="brand-primary"><%=  download_name(work.name || work.file_name) %>.txt</span>&nbsp;plain text
                             <% end %>
                           </li>
 
                           <!-- open office -->
                           <li>
                             <%= link_to download_work_path(:id => work.id, :download_as => 'open_office'), class: 'modest-link' do %>
-                              <span class="brand-primary"><%= download_name(work.name) %>.odt</span>&nbsp;Open Office text document
+                              <span class="brand-primary"><%= download_name(work.name || work.file_name) %>.odt</span>&nbsp;Open Office text document
                             <% end %>
                           </li>
 
                           <!-- docx -->
                           <li>
                             <%= link_to download_work_path(:id => work.id, :download_as => 'microsoft_word'), class: 'modest-link' do %>
-                              <span class="brand-primary"><%=  download_name(work.name) %>.docx</span>&nbsp;Microsoft Word&trade;
+                              <span class="brand-primary"><%=  download_name(work.name || work.file_name) %>.docx</span>&nbsp;Microsoft Word&trade;
                             <% end %>
                           </li>
                           <% end %>

@@ -1,46 +1,43 @@
 <div class="container">
-	
+
 	<% if !params[:searchschools].present? %>
-	<%= render 'schools/analytics' %>		
+	<%= render 'schools/analytics' %>
 	<br>
 	<br>
 	<% end %>
 	<div class="row">
 		<div class="col-sm-12">
-			
+
 			<p class="brand-secondary">
-				Schools ordered by most contributions, then most affiliations. 
+				Schools ordered by most contributions, then most affiliations.
 			</p>
 
 			<div class="table-responsive">
 				<table class="table table-hover "> <!-- table-condensed -->
-					
+
 					<thead>
 						<tr class='brand-secondary'>
 							<th></th>
 							<th>Name</th>
-							
-							
+
+
 							<th><span class="fa fa-book"></span></th>
 							<th><span class="fa fa-users"></span></th>
 
 
 							<th>
 								<span class="label label-context">
-									Top departments
-								</span>
-								<span class="label label-content">
-									Top subjects
+									Top tags
 								</span>
 							</th>
 
 						</tr>
 					</thead>
-				
+
 					<tbody>
 						<%= render partial: 'schools/school_row', collection: @schools, as: :school %>
 					</tbody>
-				
+
 				</table>
 			</div>
 

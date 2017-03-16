@@ -113,12 +113,12 @@
 	              	<% end %>
 
 	          <%= render partial: 'works/metadata', locals: { work: work, project: project } %>
+          <div class="row metadata-tags" style="margin-top: 8px;" >
+	          <%= render partial: 'works/metadata_tags', locals: { project: project } %>
+	        </div>
 	        </div> <!-- end metadata -->
 	        </div>
 
-          <div class="row metadata-tags" style="background-color: white; z-index: 1100;" >
-	          <%= render partial: 'works/metadata_tags', locals: { project: project } %>
-	        </div>
 
 
 

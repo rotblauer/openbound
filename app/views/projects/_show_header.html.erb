@@ -14,7 +14,7 @@
         <% end %>
 
         <span style="color: lightgray;" id="author-name-<%= project.recent_work_id %>" class="<%=  'anony' if project.anonymouse %>"><%= working_author project.most_recent_work %></span>
-        <span class="brand-secondary"> \ </span>
+        <span class="brand-secondary"> / </span>
         <span class="text-muted">
         <% if owner? project %>
         <%= best_in_place project, :name, place_holder: "a#{project.name}", activator: "#activator-project-name-#{project.id}", :as => :input, class: "best_in_place" %>
@@ -87,9 +87,16 @@
 
     </div>
 
-
+    <div>
+      <span>
+          <%= favicon_for(project.school, 20, 20, "margin-right: 5x; margin-bottom: 2px; vertical-align: middle;") %>
+          <%= link_to project.school_name, project.school %>
+      </span>
+    </div>
 
 </div>
+
+
 </div>
 
 
@@ -240,10 +247,6 @@
          <!--    <small class="text-muted" style="margin-right: 10px;">
 
             </small> -->
-            <small>
-                <%= favicon_for(project.school, 12, 12, "margin-right: 5x; margin-bottom: 2px; vertical-align: middle;") %>
-                <%= link_to project.school_name, project.school %>
-            </small>
         </div>
     </div>
 

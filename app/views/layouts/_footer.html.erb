@@ -3,11 +3,11 @@
 	<div style="margin-right: 20px;">
 	<h1 style="position: relative; top: -20px; left: 0px;">
 	<% pitch1 = "This library is built on your work."
-	   pitch2 = "Grow the library." 
+	   pitch2 = "Grow the library."
 	   pitch3 = "Share your education."
 	   say = [pitch1, pitch2, pitch3].sample %>
 	<span style="background-color: gold; color: white;"><%= say %></span></h1>
-	
+
 	<div class="col-md-6">
 		<%= render 'works/new_google_upload_dan'  %>
 	</div>
@@ -26,37 +26,37 @@
 <% end %>
 
 <footer class="footer with-bottom-dotted-line" style="background-color: white;">
-  
+
 
 	<div class="container">
 
 		<div id="info-links" class="row" >
-				
-				<div class="col-sm-3 text-center footer-link"> 
+
+				<div class="col-sm-3 text-center footer-link">
 			    <div class='goldy' style="">
-			    	<%= link_to "Privacy", privacy_path , style: "color: white;" %> 
+			    	<%= link_to "Privacy", privacy_path , style: "color: white;" %>
 			    </div>
-				</div>  
-				
+				</div>
+
 				<div class="col-sm-3 text-center footer-link">
 					<div style="background-color: crimson;">
 						<%= link_to "Terms and Conditions", terms_and_conditions_path, style: "color: white;"  %>
 					</div>
 				</div>
-				
-				<div class="col-sm-3 text-center footer-link">	
-					
+
+				<div class="col-sm-3 text-center footer-link">
+
 						<div style="background-color: #005a9b;">
-							<%= link_to "Our Team", team_path, style: "color: white;"  %> 
+							<%= link_to "Our Team", team_path, style: "color: white;"  %>
 						</div>
 						<div style="background-color: #76B3DF;">
 							<a href='http://blog.openbound.org' style="color: white">Bruce's Blog</a>
 						</div>
-					
+
 				</div>
-				
+
 				<div class="col-sm-3 text-center footer-link">
-					
+
 					<div style="background-color: green;">
 						<%= link_to "Contact Us", contact_us_path, style: "color: white;"  %>
 					</div>
@@ -64,14 +64,14 @@
 					<div style="" class="greenish">
 						<a href="https://docs.google.com/forms/d/18cZDfo8laucOreX1DStK_SRP-gZQJDm7j4J7GEB8Uls/viewform" style="color: white;">Google Docs Feedback Form</a>
 					</div>
-					
+
 				</div>
 
 		</div>
 
-		<div class="text-center">
-		  <a href="<%= learn_path %>"class="text-muted " style="margin-top: 3px;">Openbound.org is the students' library, because education content matters.</a>
-		</div>
+		<!-- <div class="text-center"> -->
+		<!-- <a href="<%#%>= learn_path %>"class="text-muted " style="margin-top: 3px;">Openbound.org is the students' library, because education content matters.</a> -->
+		<!-- </div> -->
 
 	</div>
 </footer>

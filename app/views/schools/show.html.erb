@@ -15,7 +15,7 @@
 	<h1 >
 		<%= link_to schools_path, class:'modest-link' do %>
 		<span class="brand-secondary">
-			schools \
+			schools /
 		</span>
 		<% end %>
 		<sup>
@@ -159,9 +159,7 @@
 			<div class="row row-fat">
 
 				<div class="col-sm-12" style="padding: 30px;">
-					<p class="brand-secondary">Top tags by
-						<span class="label label-context" style="font-size: 80%;">Department</span>
-						<span class="label label-content" style="font-size: 80%;">Topic</span>
+					<p class="brand-secondary">Top tags
 					</p>
 
 					<style>
@@ -174,17 +172,11 @@
 						}
 					</style>
 
-					<%#%> context_count_hash(@school, 10).each do |key, value| %>
+					<% tag_count_hash(@school, 10).each do |tag| %>
 						<span class="label label-context">
-							<%#%>= link_to key, projects_path(:context => [key], :school_name => [@school.Institution_Name]) %> (<%#= value %>)
+							<%= link_to tag[0], projects_path(:tag => [tag[0]], :school_name => [@school.Institution_Name]) %> (<%= tag[1] %>)
 						</span>
-					<% #end %>
-
-					<%#%> content_count_hash(@school, 10).each do |key, value| %>
-						<span class="label label-content">
-							<%#%>= link_to key, projects_path(:content => [key], :school_name => [@school.Institution_Name]) %> (<%#= value %>)
-						</span>
-					<%# end %>
+					<% end %>
 
 				<br>
 				<hr class="brand-secondary">

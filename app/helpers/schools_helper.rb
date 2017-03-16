@@ -28,19 +28,24 @@ module SchoolsHelper
 	#
 	def tag_count_hash(school, number)
 		school_tags_with_count = Hash.new
-		school.projects.tag_counts_on(:tags).each do |tag|
-	 		school_tags_with_count["#{tag.name}"] = tag.joins("INNER JOIN projects ON taggings.taggable_id = projects.id").where("projects.school_id = #{school.id}").count
-		end
-		return school_tags_with_count.sort_by {|k,v| v}.reverse.first(number)
+		# school.projects.tag_counts_on(:tags).each do |tag|
+	 	# 	school_tags_with_count["#{tag.name}"] = tag.joins("INNER JOIN projects ON taggings.taggable_id = projects.id").where("projects.school_id = #{school.id}").count
+		# end
+		# return school_tags_with_count.sort_by {|k,v| v}.reverse.first(number)
+    if school.projects.any?
+      return Project.tags_cloud { where school_id: [school.id] }.sort_by!{ |o| -o[1] }.first(number)
+    else
+      return []
+    end
 	end
 
-	def content_count_hash(school, number)
-		school_tags_with_count = Hash.new
-		school.projects.tag_counts_on(:contents).each do |tag|
-	 		school_tags_with_count["#{tag.name}"] = tag.taggings.joins("INNER JOIN projects ON taggings.taggable_id = projects.id").where("projects.school_id = #{school.id}").count
-		end
-		return school_tags_with_count.sort_by {|k,v| v}.reverse.first(number)
-	end
+	# def content_count_hash(school, number)
+	# 	school_tags_with_count = Hash.new
+	# 	school.projects.tag_counts_on(:contents).each do |tag|
+	#  		school_tags_with_count["#{tag.name}"] = tag.taggings.joins("INNER JOIN projects ON taggings.taggable_id = projects.id").where("projects.school_id = #{school.id}").count
+	# 	end
+	# 	return school_tags_with_count.sort_by {|k,v| v}.reverse.first(number)
+	# end
 
 
 	# Top tags charts for schools, by tag and by content.

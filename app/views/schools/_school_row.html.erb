@@ -9,20 +9,14 @@
 
 	<td><%= school.works_count %></td>
 	<td><%= school.affiliations_count %></td>
-	
+
 
 	<td>
-		<% #context_count_hash(school, 3).each do |key, value| %>
+		<% tag_count_hash(school, 3).each do |tag| %>
 			<span class="label label-context">
-				<%#= link_to key, projects_path(:context => [key], :school_name => [school.Institution_Name]) %> (<%#= value %>)
+				<%= link_to tag[0], projects_path(:tag => [tag[0]], :school_name => [school.Institution_Name]) %> (<%= tag[1] %>)
 			</span>
-		<% #end %>
-	
-		<% #content_count_hash(school, 3).each do |key, value| %>
-			<span class="label label-content">
-				<%#%>= link_to key, projects_path(:content => [key], :school_name => [school.Institution_Name]) %> (<%#= value %>)
-			</span>
-		<% #end %>
+		<% end %>
 	</td>
 
 </tr>
