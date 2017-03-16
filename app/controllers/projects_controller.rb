@@ -49,7 +49,7 @@ class ProjectsController < ApplicationController
       # ** NOTE: Schools are filtered and order by **works_count**, NOT projects_count
       # TODO: add projects_count attr to School and make it count here
 
-    desired_number_of_school_facets = 10
+    desired_number_of_school_facets = 15
     if @projects.any?
       # Schools associated with resulting works (first page),
       # could be [Bowdoin College, Bowdoin College, Bowdoin College, Colby College].
@@ -148,6 +148,7 @@ class ProjectsController < ApplicationController
     @most_recent_work = @project.most_recent_work
     @diffs = @project.diffs.all
 
+    @tag_suggestions = Project.all_tags[0...40]
   end
 
   # add a work which will be assigned to existing project
@@ -204,7 +205,8 @@ class ProjectsController < ApplicationController
         format.html { redirect_to @project
                       flash[:info] = 'Project successfully updated!'  }
         format.json {
-          render json: @project }
+          render json: @project
+        }
       else
         format.html { render action: "edit" }
         format.json {

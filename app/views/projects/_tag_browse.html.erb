@@ -12,8 +12,14 @@
 
 		remove_html_span = '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>'.html_safe
 
-    Project.tags_cloud { where id: projects.map { |p| p.id }}.sort_by!{|o| -o[1]}.each_with_index do |_tag, index|
-        break if index == 10
+    if params[:tag].present?
+       tags = Project.tags_cloud { where id: projects.map { |p| p.id }}.sort_by!{|o| -o[1]}
+    else
+       tags = Project.tags_cloud.sort_by!{ |o| -o[1] }
+    end
+
+    tags.each_with_index do |_tag, index|
+        break if index == 30
         _tag = _tag[0]
 
         if (params[:tag].kind_of?(Array) and params[:tag].include? _tag)
@@ -28,7 +34,7 @@
 
      # Facet on schools.
      @facet_schools.each do |school, index|
-       break if index == 8;
+       break if index == 15;
 
        if (params[:school_name].kind_of?(Array) and params[:school_name].include? school.Institution_Name)
 

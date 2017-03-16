@@ -140,16 +140,41 @@
 
                   <!-- <span id="tags-activator-<%= project.id %>" class="glyphicon glyphicon-pencil glyphicon-edit-work" aria-hidden="true" style="color: lightgray;" title="Edit tags."></span> -->
 
+                  <div id="available-tags-list" style="display: none;"><%= @tag_suggestions.join(',') %></div>
+                  <ul id="myTags">
                     <% project.tags.each do |tag| %>
-                        <span class="label label-context">
-                          <%= link_to project_path(project, project: {tags: project.tags - [tag]}), method: :put, remote: true do %>
-                              <span class="project-tag">
-                                <%= tag %>
-                              </span>
-                              <span class="glyphicon glyphicon-remove"></span>
-                           <% end %>
-                        </span>
+                      <li><%= tag %></li>
                     <% end %>
+                  </ul>
+                  <script>
+                   function updateProjectTags(event, ui) {
+                       if (ui.duringInitialization) { return; }
+                       var tags = $("#myTags").tagit("assignedTags");
+                       console.log('tags', tags);
+                       return $.ajax({
+                               url: window.location,
+                               type: 'PATCH',
+                               data: $.param( {project: {tags: tags}} ),
+                               dataType: "json",
+                               success: function (response) {
+                                   /* alert(response.status);*/
+                               },
+                               error: function (err) {
+                                   /* alert("error");*/
+                                   console.log(err);
+                               }
+                           });
+                   }
+                     $(document).ready(function() {
+                         $("#myTags").tagit({
+                             availableTags: $('#available-tags-list').text().split(','),
+                             allowSpaces: true,
+                             placeholderText: 'add a tag',
+                             afterTagAdded: updateProjectTags,
+                             afterTagRemoved: updateProjectTags
+                         });
+                     });
+                  </script>
 
                 <% else %>
 

@@ -38,6 +38,21 @@
 	padding: 10px 10px 10px 30px;
 }
 
+.ui-widget-content {
+    border: none !important;
+    background: none !important;
+}
+ul.tagit input[type="text"] {
+    border-bottom: 2px solid $columbia-blue !important;
+    width: 70px !important;
+}
+ul.tagit li.tagit-choice-editable {
+    color: white;
+	  background-color: darken($columbia-blue, 9%) !important;
+	  font-weight: 300;
+	  border-radius: 0px;
+}
+
 /*=====  End of Projects/Show  ======*/
 
 
