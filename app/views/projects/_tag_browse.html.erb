@@ -1,0 +1,48 @@
+<div id="browsebar">
+  <%
+    tags_html = ''
+    existing_tag_facets = params[:tag] || []
+    existing_school_facets = params[:school_name] || []
+
+    school_links_on = ''
+    school_links_off = ''
+    tag_links_on = ''
+    tag_links_off = ''
+
+		remove_html_span = '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>'.html_safe
+
+        Project.tags_cloud { where id: projects.map { |p| p.id }}.sort_by!{|o| -o[1]}.each_with_index do |_tag, index|
+        break if index == 10
+            _tag = _tag[0]
+
+            if (params[:tag].kind_of?(Array) and params[:tag].include? _tag)
+              tag_facets = existing_tag_facets - [_tag]
+              tag_links_on << "<span class='tag context facet on'> #{link_to _tag, :search => params[:search], :tag => tag_facets, :school_name => params[:school_name]} </span>"
+
+            elsif projects.size > 0
+                tag_facets = existing_tag_facets + [_tag]
+                tag_links_off << "<span class='tag context facet off'> #{link_to _tag, :search => params[:search], :tag => tag_facets, :school_name => params[:school_name]}</span>"
+
+            end
+        end
+
+        if projects.size == 0
+            existing_tag_facets.each do |_tag|
+              tag_facets = existing_tag_facets - [_tag]
+					    tag_links_on << "<span class='tag context facet on'> #{link_to _tag, :search => params[:search], :tag => tag_facets, :school_name => params[:school_name]}</span>"
+            end
+        end
+        if tag_links_on.size > 0
+          tags_html << "<ul class='search_facets_on'>#{tag_links_on}</ul>"
+        end
+        if tag_links_off.present?
+            tags_html << "<ul class='search_facets_off'>#{tag_links_off}</ul>"
+        else
+            tags_html << "<br />"
+        end
+
+  %>
+
+  <%= raw tags_html %>
+
+</div>

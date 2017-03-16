@@ -35,9 +35,12 @@
 
 				if (params[:content].kind_of?(Array) and params[:content].include? facet.value)
 					content_facets = existing_content_facets - [facet.value]
-					facet_links_on << "<span class='tag content facet on'> #{link_to facet.value, :search => params[:search], :content => content_facets, :context => params[:context], :school_name => params[:school_name]} </span>"
+
+          facet_links_on << "<span class='tag content facet on'> #{link_to facet.value, :search => params[:search], :content => content_facets, :context => params[:context], :school_name => params[:school_name]} </span>"
 				elsif @search.results.size > 0
-					content_facets = existing_content_facets + [facet.value]
+
+	        content_facets = existing_content_facets + [facet.value]
+
 					content_facet_links_off << "<span class='tag content facet off'> #{link_to facet.value, :search => params[:search], :content => content_facets, :school_name => params[:school_name], :context => params[:context]}</span>"
 				end
 			end
@@ -47,12 +50,18 @@
 			  break if index == 8;
 
 			  if (params[:school_name].kind_of?(Array) and params[:school_name].include? school.Institution_Name)
-			    school_query = existing_school_query - [school.Institution_Name]
-			    school_links_on << "<span class='facet school on'>#{favicon_for(school, 12, 12, 'display: inline-block; vertical-align: middle; margin-bottom: 2px;')}#{link_to school.Institution_Name, :search => params[:search], :content => params[:content], :context => params[:context], :school_name => school_query}</span><a class='link-to-school' style='' href='#{school_path(school)}'><sup class='has-tooltip' data-toggle='tooltip' data-placement='top' title='Go to #{school.Institution_Name}' aria-hidden='true'><span class='glyphicon glyphicon-share-alt'></span></sup></a>"
-			  elsif @search.results.size > 0
-			    school_query = existing_school_query + [school.Institution_Name]
-			    school_links_off << "<span class='facet school off'>#{favicon_for(school, 12, 12, 'display: inline-block; vertical-align: middle; margin-bottom: 2px;')}#{link_to school.Institution_Name, :search => params[:search], :content => params[:content], :context => params[:context], :school_name => school_query}</span>"
-			  end
+
+          school_query = existing_school_query - [school.Institution_Name]
+
+          school_links_on << "<span class='facet school on'>#{favicon_for(school, 12, 12, 'display: inline-block; vertical-align: middle; margin-bottom: 2px;')}#{link_to school.Institution_Name, :search => params[:search], :content => params[:content], :context => params[:context], :school_name => school_query}</span><a class='link-to-school' style='' href='#{school_path(school)}'><sup class='has-tooltip' data-toggle='tooltip' data-placement='top' title='Go to #{school.Institution_Name}' aria-hidden='true'><span class='glyphicon glyphicon-share-alt'></span></sup></a>"
+
+			elsif @search.results.size > 0
+
+	        school_query = existing_school_query + [school.Institution_Name]
+
+          school_links_off << "<span class='facet school off'>#{favicon_for(school, 12, 12, 'display: inline-block; vertical-align: middle; margin-bottom: 2px;')}#{link_to school.Institution_Name, :search => params[:search], :content => params[:content], :context => params[:context], :school_name => school_query}</span>"
+
+			end
 			end
 
 
