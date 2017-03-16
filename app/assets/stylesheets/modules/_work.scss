@@ -6,7 +6,7 @@ $works-form-background-color: white;//$columbia-light-blue;
 ///////////////////////////////////
 
 
-// ------ METADATA ------ // 
+// ------ METADATA ------ //
 // _work name link (bip optional)
 a.-work-name {
 	color: black;
@@ -15,49 +15,49 @@ a.-work-name {
 span.policy-option {
 	&.anony {
 		background-color: darkgray;
-		color: white;	
+		color: white;
 	}
-	
+
 }
 
 // ------ OVERALL FORMAT ------ //
 
 
 // /*==========  Mobile First Method  ==========*/
-// 
-// /* Custom, iPhone Retina */ 
+//
+// /* Custom, iPhone Retina */
 // @media only screen and (min-width : 320px) {
-//     
+//
 // }
-// 
-// /* Extra Small Devices, Phones */ 
+//
+// /* Extra Small Devices, Phones */
 // @media only screen and (min-width : 480px) {
-// 
+//
 // }
-// 
+//
 // /* Small Devices, Tablets */
 // @media only screen and (min-width : 768px) {
-// 
+//
 // }
-// 
+//
 // /* Medium Devices, Desktops */
 // @media only screen and (min-width : 992px) {
-// 
+//
 // }
-// 
+//
 // /* Large Devices, Wide Screens */
 // @media only screen and (min-width : 1200px) {
-// 
+//
 // }
 // */
 
 // _work
 .-work {
-	
+
 	height: 33.33333333333333333%;
 
 	// // custom
-	// @media only screen and (min-width: 320px ) { height: 480px; } 
+	// @media only screen and (min-width: 320px ) { height: 480px; }
 	// // xs
 	// @media only screen and (min-width: 480px ) { height: 511px; }
 	// // small
@@ -79,13 +79,13 @@ span.policy-option {
 	}
 
 	.metadata-tags {
-		height: 15px; 
+		height: 15px;
 		margin-bottom: 8px;
-		padding-left: 15px;
+		padding-left: 0px;
 	}
 
 	.first-page-row {
-		// margin-left: 10px; 
+		// margin-left: 10px;
 		// margin-right: 10px;
 	}
 	.preview-container {
@@ -98,6 +98,8 @@ span.policy-option {
 		padding-bottom: 125%;
 		position: relative;
 		margin-left: 0px;
+
+    cursor: pointer;
 
 	}
 	.stacked {
@@ -121,7 +123,7 @@ span.policy-option {
 	// 	margin-top: -5px;
 	// 	@include shadow_box;
 	// }
-	// #first-page-row 
+	// #first-page-row
 	.shadowy-figure {
 		@include shadow_box;
 		// z-index: 1;
@@ -130,14 +132,14 @@ span.policy-option {
 	    left: 0;
 	    right: 0;
 	    bottom: 0;
-		
+
 		&.shadowy-figure-text {
-			@media only screen and (min-width: 320px ) { padding: 30px; } 
+			@media only screen and (min-width: 320px ) { padding: 30px; }
 			@media only screen and (min-width: 768px ) { padding: 15px; }
 			overflow: hidden;
 			background-color: white;
 		}
-		
+
 	}
 }
 
@@ -160,34 +162,34 @@ img.shadowy-figure-image {
 	}
 }
 .text-content {
-	// @media only screen and (min-width: 320px ) { font-size: .7em; line-height: 1.5em; } 
-	@media only screen and (min-width: 320px ) { font-size: .3em; line-height: 1.5em; } 
+	// @media only screen and (min-width: 320px ) { font-size: .7em; line-height: 1.5em; }
+	@media only screen and (min-width: 320px ) { font-size: .3em; line-height: 1.5em; }
 	@media only screen and (min-width: 768px ) { font-size: .3em; line-height: .3em; }
-	
+
 	// restrict max width. L and R margins will be like google documents
 	> * {
 			// max-width: 120px;
-			@media only screen and (min-width: 320px ) { max-width: 200px; } 
-			@media only screen and (min-width: 320px ) { max-width: 120px; } 
+			@media only screen and (min-width: 320px ) { max-width: 200px; }
+			@media only screen and (min-width: 320px ) { max-width: 120px; }
 	}
 	.holster {
 
 		margin-left: auto;
 		margin-right: auto;
 	}
-	
+
 
 	overflow: hidden;
 	h1, h2, h3, h4, h5, h6 {
 		font-size: inherit;
-		@media only screen and (min-width: 320px ) { line-height: inherit; } 
+		@media only screen and (min-width: 320px ) { line-height: inherit; }
 		@media only screen and (min-width: 768px ) { line-height: 1.5em; }
 		margin: inherit;
 	}
 	p, span, ol, ul, li, blockquote, pre {
 		// font-size: 1/5vw; // <-- viewport-size typography/ see https://css-tricks.com/viewport-sized-typography/
 		font-size: inherit;
-		@media only screen and (min-width: 320px ) {  line-height: inherit; } 
+		@media only screen and (min-width: 320px ) {  line-height: inherit; }
 		@media only screen and (min-width: 768px ) {  line-height: 1.5em; }
 	}
 
@@ -225,15 +227,15 @@ img.shadowy-figure-image {
 }
 
 
-///  I WOULD LOVE IT IF SOMETHING LIKE THIS WORKED!... 
+///  I WOULD LOVE IT IF SOMETHING LIKE THIS WORKED!...
 // .text-content > * {
 // 	    zoom: 0.2;
 // 	    -moz-transform: scale(0.2);
-	
+
 // }
 
 img.shadowy-figure-image-preview {
-	
+
 	@include shadow_box;
 
 	&.image-show {
@@ -260,7 +262,7 @@ img.shadowy-figure-image-preview {
 
 // _modal
 .modal-dialog.modal-a4 {
-	@media only screen and (min-width: 320px ) {  width: auto; } 
+	@media only screen and (min-width: 320px ) {  width: auto; }
 	@media only screen and (min-width: 768px ) {  width: 700px; }
 
 }
@@ -282,7 +284,7 @@ a span#policy-option {
 ///////////////////////////////////
 // WORKS-FORM FORMATTING //
 ///////////////////////////////////
-// Works _form. 
+// Works _form.
 #works-form {
 	background-color: $works-form-background-color;
 	padding: $works-form-padding;
@@ -309,14 +311,14 @@ a span#policy-option {
   line-height: 100px;
   border: 3px dashed $columbia-blue;//darken(palegreen, 10%);
 }
- 
+
 .dropzone.in {
   // width: 600px;
   // height: 200px;
   // line-height: 200px;
   // font-size: larger;
 }
- 
+
 .dropzone.hover {
   background: $columbia-medium-blue;
   border: 3px solid $columbia-blue;
@@ -327,7 +329,3 @@ a span#policy-option {
 	margin-right: 30px;
 
 }
-
-
-
-

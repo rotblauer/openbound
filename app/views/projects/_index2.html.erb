@@ -4,11 +4,18 @@
 
 	<div class="row" style="padding-top: 5px; padding-bottom: 5px;">
 
+    <!-- SIDEBAR -->
+    <div class="col-md-3 hidden-md hidden-lg">
+			<div>
+				<%= render partial: 'projects/tag_browse', locals: { projects: @projects } %>
+			</div>
+      <br>
+		</div>
 
 		<div class="col-md-9">
-			<!-- if querying -->
-			<% if params[:search] || params[:content] || params[:context] || params[:school_name] %>
 
+			<!-- if querying -->
+			<% if false # params[:search] || params[:tag] || params[:school_name] %>
 
 				<div id="project-uploads">
 					<%= render partial: 'projects/project2', collection: @projects, as: :project %>
@@ -28,7 +35,8 @@
 
 				<!-- projects index while dashboard+followable not yet implemented -->
 				<div id="project-uploads">
-					<%= render partial: 'projects/project2', collection: @projects, as: :project %>
+					<%= render partial: 'projects/project', collection: @projects, as: :project %>
+					<%#= render partial: 'projects/project2', collection: @projects, as: :project %>
 				</div>
 
 				<!-- load more -->
@@ -104,11 +112,10 @@
 		</div>
 
     <!-- SIDEBAR -->
-    <div class="col-md-3">
+    <div class="col-md-3 hidden-xs hidden-sm">
 			<div>
 				<%= render partial: 'projects/tag_browse', locals: { projects: @projects } %>
 			</div>
-
       <%= image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
       <br>
 		</div>

@@ -1,2 +1,3 @@
 // append the users partial to our div with class of container
-$('#project-uploads').append('<%= escape_javascript(render partial: "projects/project2", collection: @projects, as: :project) %>')
+// $('#project-uploads').append('<%= escape_javascript(render partial: "projects/project2", collection: @projects, as: :project) %>')
+$('#project-uploads').append('<%= escape_javascript(render partial: "projects/project", collection: @projects, as: :project) %>')

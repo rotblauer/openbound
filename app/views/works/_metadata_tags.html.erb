@@ -1,17 +1,9 @@
-<% has_open_suggestions = (work.suggesteds.where(open: true).count > 0) %>
 
-<div class="tags ellipsis">
+<div class="tags">
 
-  <% if owner?(work) && has_open_suggestions %>
-    <span class="label suggestion">
-    <span class="badge" style="font-size: 1em;"><%= work.suggesteds.where(open: true).count %></span> <%= if work.suggesteds.where(open: true).count > 1 then "tag suggestions" else "tag suggestion" end %></span>
-  
-  <% else %>
     <!-- context labels -->
     <% project.tags.each do |tag| %>
-      <span class="label label-context"><%= link_to tag, projects_path(:tag => [tag]) %></span>
+      <span class="label label-context" ><%= link_to tag, projects_path(:tag => [tag]) %></span>
     <% end %>
-
-  <% end %>
 
 </div>

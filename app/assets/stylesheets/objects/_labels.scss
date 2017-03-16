@@ -1,24 +1,26 @@
 span.label.label-context {
 	background-color: darken($columbia-blue, 9%);
-	margin-right: 2px;
+	margin-right: 1px;
 	color: white;
-	font-weight: 300;	
+	font-weight: 300;
 	border-radius: 0px;
 	a {
 		color: white;
-		font-weight: 300;	
+		font-weight: 300;
 	}
+  font-size: 95%;
+  line-height: 190%;
 }
 
 span.label.label-content {
 	background-color: lighten($columbia-blue, 9%);
 	margin-right: 2px;
 	color: white;
-	font-weight: 300;	
+	font-weight: 300;
 	border-radius: 0px;
 	a {
 		color: white;
-		font-weight: 300;	
+		font-weight: 300;
 	}
 }
 
