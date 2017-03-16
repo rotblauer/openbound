@@ -66,7 +66,7 @@ end
 set :keep_assets, 2
 
 # Clear existing task so we can replace it rather than "add" to it.
-Rake::Task["deploy:compile_assets"].clear
+# Rake::Task["deploy:compile_assets"].clear
 
 namespace :deploy do
   desc "Make sure local git is in sync with remote."
