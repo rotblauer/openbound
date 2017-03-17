@@ -107,10 +107,12 @@ class Work < ActiveRecord::Base
     end
     def set_content_type
       return if content_type and content_type != ""
-      data = File.read document.file.path if Rails.env.development?
-      data = File.read document.url if Rails.env.production?
-      mimetype = Yomu.read :mimetype, data
-      self.update_column(:content_type, mimetype.content_type)
+      # data = File.read document.file.path if Rails.env.development?
+      # data = File.read document.url if Rails.env.production?
+      # mimetype = Yomu.read :mimetype, data
+      yomu = Yomu.new (Rails.env.production? ? document.url : document.path)
+      self.update_column(:content_type, yomu.metadata['Content-Type'])
+      yomu = nil
     end
 
   before_save :update_upload_attributes, :set_author_name
