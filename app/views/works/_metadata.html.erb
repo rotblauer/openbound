@@ -3,22 +3,13 @@
 
 <span style="color: lightgray; float: right; margin-left: 5px;" >
 <%= pretty_content_type(work) %>
-
-<% #if work.project.works_count > 1 %>
-  <% #work.project.works_count  %>
-  <!-- <span class="glyphicon glyphicon-file"></span> -->
-<% #end %>
-
 </span>
 
-
-
-
-<div class="ellipsis"> 
+<div class="ellipsis">
   <div class="title-etc">
 
     <!-- b_i_p & title -->
-    
+
       <span class="scale-font-to-screen-size" style="">
         <% if work.user == current_user %>
           <!-- bip activator -->
@@ -37,7 +28,7 @@
             <%= link_to work.name, project_path(work.project), class: "-work-name"  %>
           <% end %>
         <% end %>
-      </span> 
+      </span>
 
   </div>
 </div> <!-- end ellipsis -->
@@ -46,20 +37,20 @@
   <!-- author & school -->
   <!-- MAKE ANONYMOUSE, OR NOT -->
   <% if owner?(work) and !@on_start_page %>
-  
-    
+
+
       <!-- <span class="policy-option glyphicon glyphicon-user <%# if work.project.anonymouse then "anony" else "non_anony" end %>"></span> -->
- 
-  
+
+
   <% end %>
 
-  
 
-    
+
+
     <%= link_to project.school do %>
       <%= favicon_for(project.school, 12, 11, 'display: inline-block; vertical-align: baseline; margin-bottom: -1px;') %>
-    <% end %>  
-    
+    <% end %>
+
     <!-- author/user name -->
     <span style="font-size: 1em; color: gray;" id="author-name-<%= work.id %>" class="<%= 'anony' if work.anonymouse %>">
       <%= working_author(work) %>
@@ -85,9 +76,9 @@
       <!-- BOOKMARK IT, OR UN- -->
       <%= link_to bookmark_path(work.project), method: :patch, remote: true, class: "modest-link bookmark_pony #{"bookmarked_true" if current_user.bookmarks.find_by(project_id: work.project.id, bookmarked: true)} #{"bookmarked_ribbon_default" if !current_user.bookmarks.find_by(project_id: work.project.id, bookmarked: true)}" do %>
         <span class="glyphicon glyphicon-bookmark has-tooltip" style="font-size: 1em;" data-toggle="tooltip" data-placement="left" title="Bookmark" aria-hidden="true"></span>
-      <% end %>    
+      <% end %>
     </div>
-    
+
   <% end %>
 
 

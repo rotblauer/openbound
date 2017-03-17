@@ -144,7 +144,7 @@ class ProjectsController < ApplicationController
     impressionist(@project)
 
     # show all works under this project (all versions)
-    @works = @project.works.all
+    @works = @project.works.includes(:user).all
     @most_recent_work = @project.most_recent_work
     @diffs = @project.diffs.all
 

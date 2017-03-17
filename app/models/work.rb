@@ -6,6 +6,7 @@ require 'redcarpet/render_strip'
 require 'pandoc-ruby'
 require 'converter-machine.rb'
 require 'filetypeable.rb'
+require 'yomu'
 class Work < ActiveRecord::Base
   include Rails.application.routes.url_helpers # <-- this might be for using Work.document_url for retrieving given work's associated document
   include ConverterMachine
@@ -103,6 +104,13 @@ class Work < ActiveRecord::Base
         work.update_attributes(is_latest_version: false)
       end
       self.update_column(:is_latest_version, true)
+    end
+    def set_content_type
+      return if content_type and content_type != ""
+      data = File.read document.file.path if Rails.env.development?
+      data = File.read document.file.url if Rails.env.production?
+      mimetype = Yomu.read :mimetype, data
+      self.update_column(:content_type, mimetype.content_type)
     end
 
   before_save :update_upload_attributes, :set_author_name
@@ -218,7 +226,7 @@ class Work < ActiveRecord::Base
   # May convert md -> html & plain.
   # May convert plain -> html & markdown.
   def init_textuals
-
+    set_content_type
     return if image?
 
     if document.url or document.path

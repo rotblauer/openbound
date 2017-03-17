@@ -74,7 +74,8 @@ module WorksHelper
         return work.content_type.split('/').last # ie 'text/html'
       # or it will be a normal local upload, in which case we'll handle with splitting original file name
       else
-        return work.file_name.split('.').last # ie essay.docx
+        return work.file_name.split('.').last if work.file_name.include? '.' # ie essay.docx
+        work.content_type.split('/').last
       end
     end
   end

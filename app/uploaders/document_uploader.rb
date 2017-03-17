@@ -206,6 +206,18 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
     def save_content_type_and_size_in_model
       model.content_type = file.content_type if file.content_type
+
+      # if file.content_type and file.content_type != 'application/octet-stream'
+      #   puts "Processing file WITH content_type => #{file.content_type}"
+      #   model.content_type = file.content_type
+      # else
+      #   puts "Processing file WITHOUT content_type => #{file.content_type}"
+      #   data = File.read file.file
+      #   mimetype = Yomu.read :mimetype, data
+      #   model.content_type = mimetype.content_type
+      #   self.file.instance_variable_set(:@content_type, mimetype.content_type)
+      #   puts "Processed file with Yomu content_type => #{mimetype.content_type}"
+      # end
       model.file_size = file.size
     end
 
@@ -288,7 +300,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
       def document_latex_document?(new_file)
         if new_file
           %w( application/x-latex
-              application/octet-stream ).include? new_file.content_type
+            ).include? new_file.content_type
         end
       end
 
