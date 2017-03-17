@@ -1,7 +1,14 @@
-<h5 id="cite">Cite it: &nbsp;
-	<span id="mla" class="label label-success cite-buttons">MLA</span>
-	<span id="apa" class="label label-default cite-buttons">APA</span>
-</h5>
+<!-- <h5 id="cite">Cite it: &nbsp; -->
+<!-- <span id="mla" class="label label-success cite-buttons">MLA</span> -->
+<!-- <span id="apa" class="label label-default cite-buttons">APA</span> -->
+<!-- </h5> -->
+
+<div class="btn-group btn-group-xs btn-toggle " style="display: inline-block;">
+  <button id="mla" class="btn btn-success active cite-buttons">MLA</button>
+  <button id="apa" class="btn btn-default cite-buttons">APA</button>
+</div>
+
+
 
 <!-- MLA -->
 <!-- https://owl.english.purdue.edu/owl/resource/747/08/ -->
@@ -18,14 +25,11 @@
 
 <script>
 	$(document).ready(function() {
-		$('.cite-buttons').css('cursor', 'pointer');
-		$('.cite-buttons').css('cursor', 'pointer');
 	  $('.cite-buttons').click(function () {
 			$('#mla').toggleClass('label-success').toggleClass('label-default')
 			$('#apa').toggleClass('label-success').toggleClass('label-default')
 			$('#mla-citation').toggle();
 			$('#apa-citation').toggle();
 	  });
-	  
-	})
+	});
 </script>

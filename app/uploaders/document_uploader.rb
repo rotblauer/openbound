@@ -98,21 +98,6 @@ class DocumentUploader < CarrierWave::Uploader::Base
   end
   handle_asynchronously :read_file_contents_to_text_attribute
 
-  # RTF
-  # process :read_file_contents_with_yomu, :if => :document_rtf_document?
-  # process :read_file_contents_with_yomu, :if => :document_pdf_document?
-  # process :read_file_contents_with_yomu, :if => :document_spreadsheet_or_powerpoint?
-  # process :read_file_contents_with_yomu, :if => :document_open_office?
-  # process :read_file_contents_with_yomu, :if => :document_i_works?
-  # def read_file_contents_with_yomu
-  #   yomu = Yomu.new file.path
-  #   text = yomu.text
-  #   text_utf8 = text.force_encoding("UTF-8")
-  #   model.file_content_text = text_utf8
-  #   yomu = nil
-  # end
-  # handle_asynchronously :read_file_contents_with_yomu
-
   # MD
   process :store_markdown_text, :if => :document_markdown_document?
   def store_markdown_text
