@@ -36,7 +36,7 @@ namespace :delayed_job do
       within release_path do
         with rails_env: fetch(:rails_env) do
           execute 'kill $(pgrep -f delayed_job)'
-          execute :bundle, :exec, :'bin/delayed_job', args, :restart
+          execute :bundle, :exec, :'bin/delayed_job', args, :start # :restart
         end
       end
     end
