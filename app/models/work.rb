@@ -111,7 +111,8 @@ class Work < ActiveRecord::Base
       # data = File.read document.url if Rails.env.production?
       # mimetype = Yomu.read :mimetype, data
       yomu = Yomu.new (Rails.env.production? ? document.url : document.path)
-      self.update_column(:content_type, yomu.metadata['Content-Type'])
+      ct = yomu.metadata['Content-Type'].present? ? yomu.metadata['Content-Type'] : yomu.mimetype.content_type
+      self.update_column(:content_type, ct)
       yomu = nil
     end
 
