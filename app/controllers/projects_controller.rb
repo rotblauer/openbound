@@ -35,7 +35,7 @@ class ProjectsController < ApplicationController
                          schools: schools,
                          id: params[:id],
                          page: params[:page] || 1,
-                         per_page: params[:per_page] || 24)
+                         per_page: params[:per_page] || 32)
 
         # Personalized.
     if current_user

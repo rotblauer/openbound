@@ -152,6 +152,8 @@ class WorkTest < ActiveSupport::TestCase
     assert @new_work.file_content_md.include? "Sophomore"
     assert_not @new_work.file_content_md.include? "Freshman"
 
+    assert_not @new_work.content_type.blank?
+
     diff = Diff.where(work1: works(:Work_1).id, work2: @new_work.id)
     assert diff.present?
     assert_equal 1, diff.count
@@ -187,6 +189,8 @@ class WorkTest < ActiveSupport::TestCase
     assert new_doc.file_content_text.present?
 
     assert new_doc.file_content_md.include? "Minnesota"
+
+    assert_not new_doc.content_type.blank?
     # test_triangle_number_of_diffs_per_projects_works(@new_work.project)
   end
 
@@ -206,6 +210,7 @@ class WorkTest < ActiveSupport::TestCase
     assert new_doc.file_content_text.present?
 
     assert new_doc.file_content_md.include? "Bertrand Russell"
+    assert_not new_doc.content_type.blank?
 
     new_doc.file_content_md = "Changed."
     assert new_doc.save
@@ -231,6 +236,7 @@ class WorkTest < ActiveSupport::TestCase
 
     # Ensure same project as fixture
     assert_equal  new_doc.project.id, works(:Work_1).project.id
+    assert_not new_doc.content_type.blank?
   end
 
   test "should save revision on description changed" do

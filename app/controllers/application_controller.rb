@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
 
     def track_action
       # https://github.com/ankane/ahoy/issues/98
-      ahoy.track "Processed #{controller_name}##{action_name}", request.filtered_parameters.except("work").except("project").except("diff").except("user")
+      ahoy.track "Processed #{controller_name}##{action_name}", request.filtered_parameters.except("work").except("project").except("diff").except("user") unless controller_name == "work" and action_name == "get"
       # puts "request.filtered_parameters => #{request.filtered_parameters}"
     end
 

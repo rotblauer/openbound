@@ -105,16 +105,6 @@
 					<div class="row">
 	        <div class="metadata" style="position: relative; bottom: 0px; z-index: 10;" >
 
-	              	<% if (params[:search].present? or params[:tags].present?) and project.tags.any? %>
-	              	<div class="row tags" style="padding: 4px 4px 6px 4px; background-color: white; ">
-	        					<% project.tags.each do |tag| %>
-	        						<span class="label label-context" style="line-height: .6em;">
-	        							<%= link_to tag, projects_path(:tag => [tag]) %>
-	        						</span>
-	        					<% end %>
-	        				</div>
-	              	<% end %>
-
 	          <%= render partial: 'works/metadata', locals: { work: work, project: project } %>
           <div class="row metadata-tags" style="margin-top: 8px;" >
 	          <%= render partial: 'works/metadata_tags', locals: { project: project } %>
