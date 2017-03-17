@@ -1,10 +1,10 @@
 <!-- number of visits per day -->
 <style>
 	.anal-row { height: 400px; }
-	.row-fat { 
-		/*margin-top: 50px; 
+	.row-fat {
+		/*margin-top: 50px;
 		margin-bottom: 50px;*/
-		padding-top: 20px; 
+		padding-top: 20px;
 		padding-bottom: 20px;
 
 	}
@@ -13,7 +13,7 @@
 	}
 </style>
 
-<% 
+<%
 	usum=0
 	uusum=0
 	wsum=0
@@ -56,7 +56,7 @@
 			All time, grouped by week.
 		</p>
 			<%# line_chart Work.group_by_day(:created_at).count %>
-			
+
 			<%= line_chart [
 				# last 30
 				{name: "Works", data: Work.group_by_week(:created_at).order("week asc").count.map { |x,y| { x => (wsum += y)} }.reduce({}, :merge) },
@@ -75,7 +75,7 @@
 
 <!-- WORKS STATS -->
 <div class="row row-fat">
-	
+
 	<div class="col-sm-3" style="height: 100%;">
 		<h3 class="brand-secondary">
 			<span class="fa fa-file"></span> /
@@ -85,7 +85,7 @@
 			Average works per project.
 		</p>
 		<h1 class="brand-primary text-center" style="">
-			<%= Project.average(:works_count) %>
+			<%= Project.average(:works_count).round(1) %>
 		</h1>
 
 		<h3 class="brand-secondary">
@@ -96,39 +96,39 @@
 			Average revisions per work.
 		</p>
 		<h1 class="brand-primary text-center" style="">
-			<%= Work.average(:revisions_count) %>
+			<%= Work.average(:revisions_count).round(1) %>
 		</h1>
 
 	</div>
-	
+
 	<div class="col-sm-3">
 		<h3 class="brand-secondary">
 			<span class="fa fa-file"></span> /
-			<span class="fa fa-user"></span> 
+			<span class="fa fa-user"></span>
 		</h3>
 		<p class="brand-secondary">
 			Average works per member.
 		</p>
 		<h1 class="brand-primary">
-			<%= User.average(:works_count) %>
+			<%= User.average(:works_count).round(1) %>
 		</h1>
 
 		<h3 class="brand-secondary">
 			<span class="fa fa-bookmark"></span> /
-			<span class="fa fa-user"></span> 
+			<span class="fa fa-user"></span>
 		</h3>
 		<p class="brand-secondary">
 			Average bookmarks per member.
 		</p>
 		<h1 class="brand-primary">
-			<%= User.average(:bookmarks_count) %>
+			<%= User.average(:bookmarks_count).round(1) %>
 		</h1>
 
 	</div>
 
 	<div class="col-sm-6">
 		<h3 class="brand-secondary">
-			<%= image_tag('Google-Drive-Icon.png', height: 30, style: "text-align: bottom;") %> / 
+			<%= image_tag('Google-Drive-Icon.png', height: 30, style: "text-align: bottom;") %> /
 			<span class="fa fa-cloud-upload"></span>
 		</h3>
 		<p class="brand-secondary">
@@ -136,7 +136,7 @@
 		</p>
 		<%= pie_chart Work.group(:source_from).count %>
 	</div>
-	
+
 </div>
 
 <!-- WORK TOP -->
@@ -150,7 +150,7 @@
 			<th>
 				<span style="color: green;">
 					<span class="fa fa-eye"></span>
-				</span> 
+				</span>
 			</th>
 			<th>
 				Project
@@ -178,7 +178,7 @@
 			<th>
 				<span style="color: green;">
 					<span class="fa fa-bookmark"></span>
-				</span> 
+				</span>
 			</th>
 			<th>
 				Project
@@ -195,8 +195,8 @@
 			</tr>
 		<% end %>
 		</table>
-		
-	</div>	
+
+	</div>
 
 </div>
 
@@ -211,14 +211,14 @@
 
 	<div class="col-sm-6">
 		<h3 class="brand-secondary">
-			<span class="fa fa-eye"></span> / 
+			<span class="fa fa-eye"></span> /
 			<span class="fa fa-user"></span>
 			<span class="fa fa-user brand-primary"></span>
 		</h3>
 		<p class="brand-secondary">
 			Visits by members vs unregistereds.
 		</p>
-		<% 
+		<%
 			memcount = Visit.where.not(user_id: nil).count
 			unregcount = Visit.where(user_id: nil).count
 		%>
@@ -229,7 +229,7 @@
 
 	<div class="col-sm-6">
 		<h3 class="brand-secondary">
-			<span class="fa fa-eye"></span> / 
+			<span class="fa fa-eye"></span> /
 			<span class="fa fa-user brand-primary"></span>
 		</h3>
 		<p class="brand-secondary">
@@ -246,13 +246,13 @@
 	<div class="col-sm-6">
 		<h3 class="brand-secondary">
 			<span class="fa fa-arrow-up"></span>
-			Top 10 members by sign ins. 
+			Top 10 members by sign ins.
 		</h3>
 		<table class="table">
 			<th>
 				<span style="color: green;">
 					<span class="fa fa-sign-in"></span>
-				</span> 
+				</span>
 			</th>
 			<th>
 				Member
@@ -266,17 +266,17 @@
 		<% end %>
 		</table>
 	</div>
-	
+
 	<div class="col-sm-6">
 		<h3 class="brand-secondary">
 			<span class="fa fa-arrow-up"></span>
-			Top 10 members by works count. 
+			Top 10 members by works count.
 		</h3>
 		<table class="table">
 			<th>
 				<span style="color: green;">
 					<span class="fa fa-file"></span>
-				</span> 
+				</span>
 			</th>
 			<th>
 				Member
@@ -294,7 +294,7 @@
 </div>
 
 <div class="row row-fat">
-	
+
 	<div class="col-xs-12 anal-row">
 		<h3 class="brand-secondary">Visits per US region.</h3>
 		<%= geo_chart Visit.top(:region), library: {region: 'US', resolution: 'provinces'}  %>
@@ -315,7 +315,7 @@
 	</h3>
 	<div class="scroll-holder" style="max-height: 400px; overflow: scroll;">
 	<table class="table" >
-		
+
 			<th>
 				Time
 			</th>
@@ -342,13 +342,13 @@
 			# group by visitor id so we can see returning users even if they aren't logged in
 			fake_names = {}
 			# might assign more names than we need but that's ok
-			Visit.order('started_at desc').group(:visitor_id).first(100).each do |visit|
+			Visit.order('started_at desc').group(:id).group(:visitor_id).first(100).each do |visit|
 				fake_names[visit.visitor_id.to_s] = Faker::Name.first_name
 			end
 
 
 		%>
-		
+
 		<% Visit.order('started_at desc').first(100).each do |visit| %>
 		<tr>
 			<td>
@@ -433,7 +433,7 @@
 			By member affiliation.
 		</h3>
 		<%# pie_chart({"Affiliated with a school" => User.where.not(school_id: spyuid).count, "Not affiliated with a school" => User.where(school_id: spyuid).count}) %>
-		<%= pie_chart Affiliation.joins(:school).group(:Institution_Name).count %>
+		<%= pie_chart Affiliation.joins(:school).group('"Institution_Name"').count %>
 	</div>
 </div>
 
@@ -446,7 +446,7 @@
 	<br>
 		<% School.where.not(affiliations_count: 0).each do |s| %>
 			<span class="has-tooltip" data-toggle="tooltip" data-placement="top" title='<%= "#{s.Institution_Name}, #{pluralize(s.works_count, 'work')} " %>' aria-hidden="true">
-			<%= favicon_for(s, 28, 28, "") %> 
+			<%= favicon_for(s, 28, 28, "") %>
 			</span>
 		<% end %>
 	</div>
@@ -505,4 +505,3 @@
 	</div>
 
 </div>
-

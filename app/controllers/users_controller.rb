@@ -12,7 +12,6 @@ class UsersController < ApplicationController
     @on_bookmarks = true
     @on_public = false
     @on_anonymousers = false
-    # @user = User.friendly.find(params[:id])
     @recommendations = @user.recommendeds.first(10)
 
     @user_bookmarks_count = @user.bookmarks.where(bookmarked: true).count
@@ -39,36 +38,6 @@ class UsersController < ApplicationController
     @on_public = false
     @on_bookmarks = false
     @recommendations = @user.recommendeds.first(10)
-    # @user = User.friendly.find(params[:id])
-
-    # @search = Project.search do
-    #   with(:id).less_than(params[:project_id]) if params[:project_id] # load more from n -> ...
-    #   with(:user_id, User.friendly.find(params[:id]).id)
-    #   with(:anonymouse, true)
-    #   order_by(:created_at, :desc)
-    #   facet :context_list
-    #   facet :content_list
-    #   paginate(page: params[:page] || 1, :per_page => 24)
-
-    #   any do
-    #     if params[:context].present?
-    #       any_of do # changing to all_of does "drill down" style, this more "browsy" style
-    #         params[:context].each do |tag|
-    #           with(:context_list, tag)
-    #         end
-    #       end
-    #     end
-    #     if params[:content].present?
-    #       any_of do # changing to all_of does "drill down" style, this more "browsy" style
-    #         params[:content].each do |tag|
-    #           with(:content_list, tag)
-    #         end
-    #       end
-    #     end
-    #   end
-    # end
-    # @projects = @search.results
-    # @total_results = @projects.total_entries
     @projects = Project
                 .where(anonymouse: true)
                 .where(user_id: User.friendly.find(params[:id]).id)
@@ -91,35 +60,6 @@ class UsersController < ApplicationController
 
     impressionist(@user) # would show how many views the User has
     @recommendations = @user.recommendeds.first(10)
-
-    # @search = Project.search do
-    #   with(:id).less_than(params[:project_id]) if params[:project_id] # load more from n -> ...
-    #   with(:user_id, User.friendly.find(params[:id]).id)
-    #   with(:anonymouse, false) # works that belong to the User and are not anonymouse
-    #   order_by(:created_at, :desc)
-    #   facet :context_list
-    #   facet :content_list
-    #   paginate(page: params[:page] || 1, :per_page => 20)
-
-    #   any do
-    #     if params[:context].present?
-    #       any_of do # changing to all_of does "drill down" style, this more "browsy" style
-    #         params[:context].each do |tag|
-    #           with(:context_list, tag)
-    #         end
-    #       end
-    #     end
-    #     if params[:content].present?
-    #       any_of do # changing to all_of does "drill down" style, this more "browsy" style
-    #         params[:content].each do |tag|
-    #           with(:content_list, tag)
-    #         end
-    #       end
-    #     end
-    #   end
-    # end
-    # @projects = @search.results
-    # @total_results = @projects.total_entries
 
     @projects = Project
                 .where(user_id: User.friendly.find(params[:id]).id)
@@ -159,13 +99,8 @@ class UsersController < ApplicationController
     @projects.each do |w|
       c = Bookmark.where(project_id: w.id).count
       @d =+ c
-      # e = Gradient.where(project_id: w.id).count
-      # @f =+ e
     end
     @projects_of_his_bookmarked = @d # <-- count bookmarks on his projects
-    # @gradients_received = @f # <-- count gradients on his projects
-
-
 
   end
 

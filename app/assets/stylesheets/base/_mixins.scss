@@ -23,7 +23,7 @@
 @mixin tag_spacing {
 	// padding: 4px 3px 4px 3px;
 	padding-top: 3px;
-	padding-right: 4px; 
+	padding-right: 4px;
 	padding-bottom: 3px;
 	padding-left: 4px;
 	// margin: 0px 5px 0px 0px;
@@ -35,12 +35,12 @@
 
 // accepts args: font, background
 @mixin tag_coloring($font-color, $bg-color) {
-	color: $font-color; 
+	color: $font-color;
 	background-color: $bg-color;
 }
 
 @mixin tag_on_underline_through($color) {
-	border-bottom: 1px solid $color; 
+	border-bottom: 1px solid $color;
 	&:hover { border: none !important; text-decoration: line-through; }
 	&:focus { border: none !important; text-decoration: line-through; }
 }

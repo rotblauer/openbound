@@ -87,6 +87,8 @@
 
   <%= render partial: 'shared/custom_flasher', :flash => flash %>
 
+  <%= query_diet_widget if Rails.env.development? %>
+
   <!-- NAVBAR -->
 	<%= render 'layouts/nav' unless @disable_nav %>
 

@@ -1,7 +1,7 @@
 // Facets
 
 
-// span > a 
+// span > a
 .facet {
 	// font-size: ;
 	// line-height: ;
@@ -29,14 +29,17 @@ $base-color-alt: white;
 		&.facet { @extend .facet !optional; }
 
 		&.on {
-			@include tag_spacing; 
+			@include tag_spacing;
 			@include tag_coloring($context-color, $base-color-alt);
 			@include tag_on_underline_through($context_color); }
+      a:hover {
+          text-decoration: none !important;
+      }
 		&.off a {
-			@include tag_spacing; 
+			@include tag_spacing;
 			@include tag_coloring($base-color-alt, $context-color) }
 	}
-	
+
 	// ---- Content ---- //
 	&.content {
 		$content-color: $base-color-light;//lighten($base-color, 5%);
@@ -44,12 +47,12 @@ $base-color-alt: white;
 		&.facet { @extend .facet !optional; }
 
 		&.on {
-			@include tag_spacing; 
+			@include tag_spacing;
 			@include tag_coloring($content-color, $base-color-alt);
 			@include tag_on_underline_through($content_color); }
 		&.off a {
-			@include tag_spacing; 
-			@include tag_coloring($base-color-alt, $content-color); 
+			@include tag_spacing;
+			@include tag_coloring($base-color-alt, $content-color);
 			//@include tag_coloring($base-color, $base-color-alt);
 			// border: 1px solid $base-color;
 		}
@@ -61,7 +64,7 @@ $base-color-alt: white;
 }
 .subject-tag-demo {
 	color: $base-color-alt;
-	background-color: $base-color-light;	
+	background-color: $base-color-light;
 }
 
 // ---- Schools ---- //
@@ -75,17 +78,15 @@ $base-color-alt: white;
 	&.facet { @extend .facet !optional; }
 
 	&.on a {
-		@include tag_spacing; 
+		@include tag_spacing;
 		margin-right: 0px;
 		@include tag_on_underline_through($base-color);
 	}
 	&.off a {
-		@include tag_spacing; 
+		@include tag_spacing;
 	}
 }
 a.link-to-school {
 		text-decoration: none !important;
 		margin-right: 8px;
 }
-
-

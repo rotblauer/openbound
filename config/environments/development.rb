@@ -60,4 +60,30 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  config.after_initialize do
+    Bullet.enable = true
+    # Bullet.alert = false
+    Bullet.bullet_logger = true
+    Bullet.console = true
+    # Bullet.growl = false
+    # Bullet.xmpp = { :account  => 'bullets_account@jabber.org',
+    #                 :password => 'bullets_password_for_jabber',
+    #                 :receiver => 'your_account@jabber.org',
+    #                 :show_online_status => true }
+    Bullet.rails_logger = true
+    # Bullet.honeybadger = false
+    # Bullet.bugsnag = false
+    # Bullet.airbrake = false
+    # Bullet.rollbar = false
+    Bullet.add_footer = true
+    # Bullet.stacktrace_includes = [ 'your_gem', 'your_middleware' ]
+    # Bullet.stacktrace_excludes = [ 'their_gem', 'their_middleware' ]
+    # Bullet.slack = { webhook_url: 'http://some.slack.url', channel: '#default', username: 'notifier' }
+
+    # Bullet.add_whitelist :type => :n_plus_one_query, :class_name => "Post", :association => :comments
+    # Bullet.add_whitelist :type => :unused_eager_loading, :class_name => "Post", :association => :comments
+    # Bullet.add_whitelist :type => :counter_cache, :class_name => "Country", :association => :cities
+  end
+
 end

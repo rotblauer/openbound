@@ -218,6 +218,9 @@ group :development do
 
   gem 'web-console', '~> 2.0'
   # gem 'db_fixtures_dump'
+
+  gem 'bullet'
+  gem 'query_diet'
 end
 
 
