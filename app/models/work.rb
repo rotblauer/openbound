@@ -108,7 +108,7 @@ class Work < ActiveRecord::Base
     def set_content_type
       return if content_type and content_type != ""
       data = File.read document.file.path if Rails.env.development?
-      data = File.read document.file.url if Rails.env.production?
+      data = File.read document.url if Rails.env.production?
       mimetype = Yomu.read :mimetype, data
       self.update_column(:content_type, mimetype.content_type)
     end
