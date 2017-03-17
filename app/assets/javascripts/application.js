@@ -22,6 +22,7 @@
 //= require ahoy
 //= require simplemde/dist/simplemde.min
 //= require tag-it.min.js
+//= require markdown.min
 //= require_tree .
 
 //= require highcharts/highcharts

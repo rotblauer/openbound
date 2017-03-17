@@ -88,6 +88,7 @@ Rails.application.routes.draw do
       get "save_as_new_version"
       get "begin_new_version"
       get "download"
+      get "get"
     end
   end
   post 'google-drive/' => 'works#google_import'

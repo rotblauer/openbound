@@ -5,7 +5,7 @@ class WorksController < ApplicationController
   include Filetypeable
 
 	before_action :logged_in_user, only: [:new, :create, :destroy]
-  before_action :set_work, only: [:show, :edit, :destroy, :change_policy, :recommend]
+  before_action :set_work, only: [:show, :get, :edit, :destroy, :change_policy, :recommend]
   before_action :correct_user, only: [:edit, :update, :destroy, :change_policy, :recommend]
 
   # http://apidock.com/rails/ActiveSupport/Callbacks/ClassMethods/skip_callback
@@ -119,6 +119,14 @@ class WorksController < ApplicationController
       # else
       #   @bookmark = current_user.bookmarks.build
       # end
+    end
+  end
+
+  def get
+    respond_to do |format|
+      format.json {
+        render json: @work
+      }
     end
   end
 

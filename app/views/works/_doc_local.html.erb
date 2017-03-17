@@ -83,14 +83,6 @@
 
 				<div id="public-doc-text-view-<%= work.id %>" class="doc-text-content public-doc-text-view">
 
-
-					<style>
-
-							<%# work.file_content_css.gsub('<style type="text/css">', "").gsub("</style>", "") if work.file_content_css.html_safe %>
-
-					</style>
-
-
 					<!-- <div class="capture-style" style=""> -->
 						<%= markdown(work.file_content_md) %>
 					<!-- </div> -->
@@ -113,6 +105,30 @@
 
 				  $(function () {
 
+              function ajaxFileText() {
+                      if (!gotText) {
+                          $markdownViewText.html("<h1>Loading...</h1>");
+                  $.get("/works/<%= work.slug %>/get", function (res) {
+                      if (res.file_content_html !== null) {
+                          gotText =true;
+                      $markdownViewText.html(markdown.toHTML(res.file_content_md));
+                          }
+                  })
+                   .fail(function (err) {
+                       alert(err);
+                   });
+                          }
+              }
+
+              var gotText = true;
+              var $markdownViewText = $("#public-doc-text-view-<%= work.id %>");
+              console.log("mdviewtext", $markdownViewText.text().trim());
+              if ($markdownViewText.text().trim() === "") {
+                  gotText = false;
+                  setInterval(
+                    ajaxFileText
+                    , 2000);
+                  }
 				  	// $('.editable').hide();
 				  	// $('.editor-area').hide(); // <-- doesn't do anything different than above
 
