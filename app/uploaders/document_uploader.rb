@@ -240,14 +240,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
       def document_pdf_document?(new_file) # [application/pdf]
         if new_file
-          r = %w( application/pdf ).include? new_file.content_type
-          puts "
-PROCESSING A PDF....
-                #{r}
-                #{new_file.content_type}
-"
-          return r
-          # new_file.content_type.include? 'application/pdf'
+          %w( application/pdf ).include? new_file.content_type
         end
       end
 

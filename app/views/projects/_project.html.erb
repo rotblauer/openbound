@@ -57,7 +57,7 @@
 		          <span class="text-content markdown thumb" >
 		            <div class="holster" > <!-- holster does equalized unabashed side margins like google docs -->
 		            <%# presentable_html(work.file_content_html) if work.file_content_html %>
-		            <%= if work.file_content_md.present? then markdown(work.file_content_md.truncate(3000)) elsif work.file_content_text.present? then work.file_content_text.truncate(3000) else image_tag "loading_spinner.gif", class: "loading-gif" end %>
+		            <%= if work.file_content_md.present? then markdown(work.file_content_md.truncate(3000), false) elsif work.file_content_text.present? then work.file_content_text.truncate(3000) else image_tag "loading_spinner.gif", class: "loading-gif" end %>
 
 					<%=  %>
 		            </div>

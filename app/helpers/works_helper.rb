@@ -112,9 +112,13 @@ module WorksHelper
     Rack::Utils.escape_html(text)
   end
 
-  def markdown(string)
+  def markdown(string, images=true)
     renderable = string
-    markdown = ConverterMachine::Standard.markdowner
+    if !images
+      markdown = ConverterMachine::Standard.markdowner_no_images
+    else
+      markdown = ConverterMachine::Standard.markdowner
+    end
     return markdown.render(renderable).html_safe if renderable.present?
     return " " if renderable.nil?
   end

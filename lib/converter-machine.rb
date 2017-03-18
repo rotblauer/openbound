@@ -51,6 +51,13 @@ module ConverterMachine
 		def Standard.markdowner
 			Redcarpet::Markdown.new(Standard.renderer, EXTENTIONS)
 		end
+		def Standard.renderer_no_images
+			Redcarpet::Render::HTML.new(OPTIONS.merge(no_images: true)) #options
+		end
+		def Standard.markdowner_no_images
+			Redcarpet::Markdown.new(Standard.renderer_no_images, EXTENTIONS)
+		end
+
 		def Standard.stripper
 			Redcarpet::Markdown.new(Redcarpet::Render::StripDown, :space_after_headers => true)
 		end
