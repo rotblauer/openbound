@@ -221,6 +221,7 @@ group :development do
 
   gem 'bullet'
   gem 'query_diet'
+  gem 'rack-mini-profiler'
 end
 
 

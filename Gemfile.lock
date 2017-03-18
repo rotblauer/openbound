@@ -345,6 +345,8 @@ GEM
       rack
     rack-cache (1.7.0)
       rack (>= 0.4)
+    rack-mini-profiler (0.10.2)
+      rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.0)
@@ -548,6 +550,7 @@ DEPENDENCIES
   puma
   query_diet
   rack-cache
+  rack-mini-profiler
   rails (= 4.2.0)
   redcarpet
   remotipart (~> 1.2)

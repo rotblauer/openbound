@@ -53,6 +53,18 @@ class DocumentUploader < CarrierWave::Uploader::Base
       pages numbers key
       )
 
+  # Provide a default URL as a default if there hasn't been a file uploaded:
+  def default_url
+    # For Rails 3.1+ asset pipeline compatibility:
+    # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
+    # "/images/fallback/" + [version_name, "default.png"].compact.join('_')
+    "/images/fallback/document/square-circle.png"
+    # puts "I am looking here for avatar fallback images #{place}"
+    # return place
+  end
+
+
+
   # Saves content type and file size as model attributes.
   # process :set_content_type # this method comes with the included CarrierWave::MimeTypes module
   process :save_content_type_and_size_in_model
@@ -162,7 +174,6 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
     end
   end
-  handle_asynchronously :cover
 
   # PNG_thumb
   version :png_thumb, :if => :document_pdf_document? do
@@ -196,8 +207,6 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
     def store_dimensions
       if file && model
-        # model.width, model.height = ::RMagick::Image.open(file.file)[:dimensions]
-        # model.width, model.height = ::MiniMagick::Image.open(file.file)[:dimensions]
         img = ::Magick::Image::read(file.file).first
               model.width = img.columns
               model.height = img.rows
@@ -206,18 +215,6 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
     def save_content_type_and_size_in_model
       model.content_type = file.content_type if file.content_type
-
-      # if file.content_type and file.content_type != 'application/octet-stream'
-      #   puts "Processing file WITH content_type => #{file.content_type}"
-      #   model.content_type = file.content_type
-      # else
-      #   puts "Processing file WITHOUT content_type => #{file.content_type}"
-      #   data = File.read file.file
-      #   mimetype = Yomu.read :mimetype, data
-      #   model.content_type = mimetype.content_type
-      #   self.file.instance_variable_set(:@content_type, mimetype.content_type)
-      #   puts "Processed file with Yomu content_type => #{mimetype.content_type}"
-      # end
       model.file_size = file.size
     end
 
@@ -243,7 +240,13 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
       def document_pdf_document?(new_file) # [application/pdf]
         if new_file
-          %w( application/pdf ).include? new_file.content_type
+          r = %w( application/pdf ).include? new_file.content_type
+          puts "
+PROCESSING A PDF....
+                #{r}
+                #{new_file.content_type}
+"
+          return r
           # new_file.content_type.include? 'application/pdf'
         end
       end
