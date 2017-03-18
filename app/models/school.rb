@@ -17,20 +17,6 @@ class School < ActiveRecord::Base
 	mount_uploader :favicon, FaviconUploader
 	mount_uploader :logo, LogoUploader
 
-	# searchable do
-	# 	# Search in.
-	# 	text :Institution_Name, :boost => 5.0
-	# 	text :Institution_State
-	# 	text :Institution_Zip
-	# 	# Order and with by.
-	# 	string :Institution_Name
-	# 	string :Institution_City
-	# 	string :Accreditation_Date_Type
-	# 	integer :works_count
-	# 	integer :affiliations_count
-	# 	boolean :is_academic
-	# end
-
 	# Set default scopes.
 	# default_scope { order(works_count: :desc) }
 	# default_scope { order(affiliations_count: :desc) }
@@ -73,15 +59,19 @@ class School < ActiveRecord::Base
 	  end
 	end
 
-  def self.search(query:nil, is_academic: true, page:1, per_page:15)
+  def self.search(query:nil,
+                  is_academic: true
+                  # page:1,
+                  # per_page:15
+                 )
     q = self.all
     q = q.basic_search(query) if !query.nil?
     q = q.where(is_academic: is_academic)
     return q.order(works_count: :desc)
             .order(affiliations_count: :desc)
             .order(Institution_Name: :asc)
-            .limit(per_page)
-            .offset((page-1)*per_page)
+            # .limit(per_page)
+            # .offset((page-1)*per_page)
   end
 
 	# def getCoords

@@ -30,12 +30,15 @@ class ProjectsController < ApplicationController
     q = params[:search]
     q = nil if params[:search].blank?
 
-    @projects = Project.search(query: q,
+    @projects = Project
+                .search(query: q,
                          tags: tags,
                          schools: schools,
-                         id: params[:id],
+                         id: params[:id])
+                .paginate(
                          page: params[:page] || 1,
-                         per_page: params[:per_page] || 32)
+                         per_page: params[:per_page] || 32
+                )
 
         # Personalized.
     if current_user

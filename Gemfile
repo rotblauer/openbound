@@ -123,7 +123,6 @@ gem 'kaminari'
 # for decoding html entities in markdown and html
 gem 'htmlentities'
 
-
 ## Gems for work metadata
 # Use tagging
 # gem 'acts-as-taggable-on'
@@ -133,19 +132,9 @@ gem 'impressionist', '1.5.1'
 # gem 'acts_as_tree'
 
 ## Gems for querying work documents
-## Use Sunspot for searchw with richtext indexing.
-# removed because it isn't listed as necessary on https://github.com/sunspot/sunspot
-
 gem 'textacular', '~> 3.0'
 gem 'acts-as-taggable-array-on'
 
-# gem 'sunspot'
-# gem 'sunspot_rails'
-# gem 'sunspot_solr'
-# removed because i'm not sure what they are good for
-# gem 'sunspot_cell'
-# gem 'sunspot_cell_jars'
-# leaving progress bar in for now because i bet it is pretty miniscule and not the source of the problem
 gem 'progress_bar'
 
 # Use Devise for User Authentication -- at least for users :trackable
@@ -183,28 +172,14 @@ gem 'wikipedia-client'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
 
-# Use Unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
-
 # Staging should be identical to production.
-group :production, :staging do
+group :production do
   # Use for batch async upload.
   gem 'rack-cache', :require => 'rack/cache'
   gem "daemons"
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # This is a dependency for Rubber.
   # gem 'therubyracer', platforms: :ruby
-end
-
-group :development, :staging do
-  # Used that one time for transferring db data (particularly entirely only Schools) from sqlite3 db to mysql2 db;
-  # it dumps all info from the db as it is into your seeds.rb file.
-  gem 'seed_dump'
- # gem 'sunspot_solr'
-  gem 'table_print'
 end
 
 group :development do
@@ -218,6 +193,9 @@ group :development do
 
   gem 'web-console', '~> 2.0'
   # gem 'db_fixtures_dump'
+
+  gem 'seed_dump'
+  gem 'table_print'
 
   gem 'bullet'
   gem 'query_diet'

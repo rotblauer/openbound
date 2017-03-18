@@ -218,7 +218,7 @@
       <!-- <div class="col-md-9"> -->
       <% if @on_anonymousers %>
       <div class="row" style="padding-left: 15px;">
-        <p class="alert alert-info">
+        <p class="alert alert-warning">
           These works belong to you, but no one else knows that!
         </p>
       </div>
@@ -279,7 +279,7 @@
               path = show_anonymousers_user_path if @on_anonymousers
             %>
 
-            <%= link_to "Load More", path, class: "load-more" if @projects.any? && @total_results > @projects.count && @total_results > 20 %></div>
+            <%= link_to "Load More", path, class: "load-more" if @projects.any? && @projects.count > 24 %></div>
     </div>
 
     <script>

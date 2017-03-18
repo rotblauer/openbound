@@ -32,12 +32,16 @@ class WorksController < ApplicationController
       end
     end
 
-    @works = Work.search(query: params[:search] || nil,
+    @works = Work
+             .search(query: params[:search] || nil,
                          tags: tags,
                          schools: schools,
-                         id: params[:id],
+                         id: params[:id]
+             )
+             .paginate(
                          page: params[:page] || 1,
-                         per_page: params[:per_page] || 24)
+                         per_page: params[:per_page] || 24
+             )
 
 
     # Personalize info for current user.

@@ -13,6 +13,7 @@ class Project < ActiveRecord::Base
   # dependent: destroy for works and/or diffs causes `can't modify frozen hash` error,
   # so it's handled manually in before_destroy :destroy_all_works
   has_many :works#, dependent: :destroy
+  has_many :latest_works, -> { where(is_latest_version: 1) }, class_name: "Work"
   has_many :revisions
   has_many :diffs#, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
@@ -137,13 +138,12 @@ class Project < ActiveRecord::Base
                   tags:[],
                   schools:[],
                   id:nil,
-                  page:1,
-                  per_page:24,
+                  # page:1,
+                  # per_page:24,
                   school_id:nil)
 
     q = all
     q = q.basic_search(query) if !query.nil?
-    # q = q.where.contains(:tags => tags) if tags.any?
     q = q.with_any_tags(tags) if tags.any? #q.with_all_tags is also supported by the actastaggablearrayon gem
     q = q.where(:school_name => schools) if schools.any?
 
@@ -154,8 +154,8 @@ class Project < ActiveRecord::Base
     q = q.where(school_id: school_id.to_i) if !school_id.nil?
 
     return q.order(created_at: :desc)
-            .limit(per_page)
-            .offset(( page-1 )*per_page)
+            # .limit(per_page)
+            # .offset(( page-1 )*per_page)
   end
 
 

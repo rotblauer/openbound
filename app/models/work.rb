@@ -201,12 +201,13 @@ class Work < ActiveRecord::Base
   # after_commit :update_school_works_count, on: [:create, :destroy]
   # after_commit :update_project_works_count, on: [:create, :destroy]
 
-  def self.search(query:nil, tags:[], schools:[], id:nil, page:1, per_page:24)
-    # puts "query: #{query}"
-    # puts "tags: #{tags}"
-    # puts "school: #{school_name}"
-    # puts "id: #{id}"
-    # puts "per_page: #{per_page}"
+    def self.search(query:nil,
+                    tags:[],
+                    schools:[],
+                    id:nil
+                    # page:1,
+                    # per_page:24
+                   )
     q = self.all
     q = q.basic_search(query) if !query.nil?
     q = q.where.contains(:tags => tags) if tags.any?
@@ -217,8 +218,8 @@ class Work < ActiveRecord::Base
     q = q.where("id < ?", id) if id.is_a? Numeric
 
     return q.order(created_at: :desc)
-            .limit(per_page)
-            .offset(( page-1 )*per_page)
+            # .limit(per_page)
+            # .offset(( page-1 )*per_page)
             # .order_by(:created_at, :desc)
   end
 

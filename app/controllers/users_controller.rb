@@ -20,10 +20,11 @@ class UsersController < ApplicationController
       @projects = Project
                   .where(:id => @user.bookmarks.map { |b| b.project_id })
                   .search(id: params[:project_id],
-                                 page: params[:page] || 1,
-                                 per_page: 24,
-                                 tags: params[:tag] || []
-                                )
+                          tags: params[:tag] || [])
+                  .paginate(
+                            page: params[:page] || 1,
+                            per_page: 24
+                           )
       @total_results = @projects.count
 
     else
@@ -42,9 +43,10 @@ class UsersController < ApplicationController
                 .where(anonymouse: true)
                 .where(user_id: User.friendly.find(params[:id]).id)
                 .search(id: params[:project_id],
+                        tags: params[:tag] || []
+                       ).paginate(
                                page: params[:page] || 1,
-                               per_page: 24,
-                               tags: params[:tag] || []
+                               per_page: 24
                               )
     @total_results = @projects.count
 
@@ -65,9 +67,10 @@ class UsersController < ApplicationController
                 .where(user_id: User.friendly.find(params[:id]).id)
                 .where(anonymouse: false)
                 .search(id: params[:project_id],
+                        tags: params[:tag] || [])
+                .paginate(
                                page: params[:page] || 1,
-                               per_page: 24,
-                               tags: params[:tag] || []
+                               per_page: 24
                               )
     @total_results = @projects.count
   end

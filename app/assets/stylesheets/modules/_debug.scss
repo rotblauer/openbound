@@ -6,6 +6,9 @@
 	width: 100%;
 	margin-top: 45px;
 	@include box_sizing;
+  background-color: black;
+  color: lightgreen;
+  border: none !important;
 }
 
 // * {

@@ -28,8 +28,11 @@ class SchoolsController < ApplicationController
     # 	paginate(:page => params[:page] || 1, :per_page => 15)
     # end
     # @schools = @searchschools.results
-    @schools = School.search(query: params[:searchschools],
-                             page: params[:page] || 1)
+    @schools = School.search(query: params[:searchschools].present? ? params[:searchschools] : nil )
+               .paginate(
+                             page: params[:page] || 1,
+                             per_page: params[:searchschools].present? ? 25 : 15 # show more results if searching
+                )
     @results_count = @schools.count
 
     # Override template for prototyping the new schools table.
@@ -86,9 +89,12 @@ class SchoolsController < ApplicationController
     pid = params[:project_id] || nil # for pagination
     @projects = Project.search(id: pid,
                                query: params[:search],
+                               school_id: @school.id
+                              )
+                .paginate(
                                page: params[:page] || 1,
-                               per_page: 12,
-                               school_id: @school.id)
+                               per_page: 12
+                )
     # @total_results = @projects.count
 
 		if !@school.wikipedia_coords.nil?
