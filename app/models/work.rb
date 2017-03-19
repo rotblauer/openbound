@@ -365,20 +365,23 @@ class Work < ActiveRecord::Base
     # first page
     page_index_path = pdf_path + "[0]"
     preview_path = File.join(tmp_dir, "preview.png")
-    pdf_page = Magick::Image.read( page_index_path ).first # first item in Magick::ImageList
-    pdf_page.write(preview_path) # implicit conversion based on file extension
+    # danger
+    suppress(Exception) do
+      pdf_page = Magick::Image.read( page_index_path ).first # first item in Magick::ImageList
+      pdf_page.write(preview_path) # implicit conversion based on file extension
 
-    preview = Magick::Image.read(preview_path).first
-    preview_smaller = preview.resize_to_fit(300,300)
-    preview_smaller.write(preview_path) # overwrite existing large image
+      preview = Magick::Image.read(preview_path).first
+      preview_smaller = preview.resize_to_fit(300,300)
+      preview_smaller.write(preview_path) # overwrite existing large image
 
-    # save preview image to model
-    File.open(preview_path) do |f|
-      self.preview = f
-    end
+      # save preview image to model
+      File.open(preview_path) do |f|
+        self.preview = f
+      end
 
-    if self.save
-      FileUtils.rm_rf(tmp_dir)
+      if self.save
+        FileUtils.rm_rf(tmp_dir)
+      end
     end
   end
 
