@@ -7,6 +7,7 @@ require 'pandoc-ruby'
 require 'converter-machine.rb'
 require 'filetypeable.rb'
 require 'yomu'
+require 'rmagick'
 class Work < ActiveRecord::Base
   include Rails.application.routes.url_helpers # <-- this might be for using Work.document_url for retrieving given work's associated document
   include ConverterMachine
@@ -328,6 +329,42 @@ class Work < ActiveRecord::Base
     end
   end
   # handle_asynchronously :markdown_to_html_and_text
+
+
+
+  def previewify
+
+    return if file_content_md.nil?
+
+    tmp_dir = File.join(Rails.root, "tmp", "previews")
+    pdf_path = File.join(tmp_dir, "testout.pdf")
+
+    # create pdf file
+    # pandoc markdown -> beamer pdf
+    PandocRuby.convert(file_content_md, :s, {:f => :markdown, :o => pdf_path})
+
+    # get cover from pdf
+    # first page
+    page_index_path = pdf_path + "[0]"
+    preview_path = File.join(tmp_dir, "#{slug}.png")
+    pdf_page = Magick::Image.read( page_index_path ).first # first item in Magick::ImageList
+    pdf_page.write(preview_path) # implicit conversion based on file extension
+
+    preview = Magick::Image.read(preview_path).first
+    preview_smaller = preview.resize_to_fit(300,300)
+    preview_smaller.write(preview_path) # overwrite existing large image
+
+    # remove pdf file
+    File.delete(pdf_path)
+
+    # save preview image to model
+    # TODO...
+
+  end
+
+
+
+
 
   ############################################
   ## re: Documents and file_types
