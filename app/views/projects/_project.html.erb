@@ -48,18 +48,27 @@
 	      		<div id="stacked-id-<%=project.id%>" class="stacked"></div>
 	      	<% end %>
 
+	        <% if work.pdf? && work.file_type_supported? %>
+
+	          <div  class="" style="width: 100%; height: 100%;">
+	            <%= image_tag work.document_url(:png_thumb), class: "shadowy-figure shadowy-figure-image thumb", style: "margin-top: 0px;z-index: -1; max-width: 100%; height: auto;" if Rails.env.production? %>
+	            <%= image_tag work.document_url(:png_thumb), class: "shadowy-figure shadowy-figure-image thumb", style: "margin-top: 0px;z-index: -1; max-width: 100%; height: auto;" if Rails.env.development? %>
+	          </div>
+
+
+          <% elsif work.has_preview? %>
+	          <div  class="" style="width: 100%; height: 100%; background-color: white;">
+              <%= image_tag work.preview_url, class: 'shadowy-figure shadowy-figure-text thumb', style: "margin-top: 0px; z-index: -1; max-width: 100%; padding:0px; height: auto;" %>
+            </div>
 
 	        <!-- see _doc for similar shit w/r/t html vs. md -->
-	        <% if (work.docordocx? || work.markdown? || work.type_html? || work.latex? || work.plain_text? || work.type_rtf?) && work.file_type_supported? %>
-
+	        <% elsif (work.docordocx? || work.markdown? || work.type_html? || work.latex? || work.plain_text? || work.type_rtf?) && work.file_type_supported? %>
 		        <div class="shadowy-figure shadowy-figure-text stacked ellipsis multiline">
 		          <!-- SMALL TEXT CONTENT PREVIEW  -->
 		          <span class="text-content markdown thumb" >
 		            <div class="holster" > <!-- holster does equalized unabashed side margins like google docs -->
-		            <%# presentable_html(work.file_content_html) if work.file_content_html %>
 		            <%= if work.file_content_md.present? then markdown(work.file_content_md.truncate(3000), false) elsif work.file_content_text.present? then work.file_content_text.truncate(3000) else image_tag "loading_spinner.gif", class: "loading-gif" end %>
 
-					<%=  %>
 		            </div>
 		          </span>
 		        </div>
@@ -69,13 +78,6 @@
 	          <div class="shadowy-figure shadowy-figure-text ellipsis multiline">
 	            <!-- SMALL TEXT CONTENT PREVIEW  -->
 	            <span class="text-content text-file"><%= content_tag('pre', work.file_content_text) %></span>
-	          </div>
-
-	        <% elsif work.pdf? && work.file_type_supported? %>
-
-	          <div  class="" style="width: 100%; height: 100%;">
-	            <%= image_tag work.document_url(:png_thumb), class: "shadowy-figure shadowy-figure-image thumb", style: "z-index: -1; max-height: 100%; height: auto;" if Rails.env.production? %>
-	            <%= image_tag work.document_url(:png_thumb), class: "shadowy-figure shadowy-figure-image thumb", style: "z-index: -1; max-height: 100%; height: auto;" if Rails.env.development? %>
 	          </div>
 
 	        <% elsif work.image? && work.file_type_supported? %>

@@ -36,6 +36,7 @@
 /public/uploads
 /public/school
 /public/system
+/public/previews
 # Ignore all precompiled assets.
 /public/assets
 

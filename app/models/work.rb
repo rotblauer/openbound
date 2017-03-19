@@ -264,6 +264,7 @@ class Work < ActiveRecord::Base
     else
       errors.add("There is no textual content for work id: #{self.id}")
     end
+    create_preview_png
     make_diffs
   end
   handle_asynchronously :init_textuals
@@ -285,6 +286,7 @@ class Work < ActiveRecord::Base
         file_content_html: file_content_html
       )
     end
+    create_preview_png
   end
 
   # When coming from google (w2m and the HTML::Pipeline::MarkdownFilter don't leave extraneous tags coming from DocumentUploader)
@@ -333,10 +335,9 @@ class Work < ActiveRecord::Base
   # handle_asynchronously :markdown_to_html_and_text
 
 
+  def create_preview_png
 
-  def previewify
-
-    return if file_content_md.nil?
+    return if file_content_md.nil? or file_content_md.blank?
 
     tmp_dir = File.join(Rails.root, "tmp", "previews", "#{slug}")
     FileUtils.mkdir_p(tmp_dir)
@@ -344,7 +345,21 @@ class Work < ActiveRecord::Base
 
     # create pdf file
     # pandoc markdown -> beamer pdf
-    PandocRuby.convert(file_content_md, :s, {:f => :markdown, :o => pdf_path})
+    # encode aggressively conservatively
+    # See String#encode documentation
+    encoding_options = {
+      :invalid           => :replace,  # Replace invalid byte sequences
+      :undef             => :replace,  # Replace anything not defined in ASCII
+      :replace           => ''        # Use a blank for those replacements
+      # :universal_newline => true       # Always break lines with \n
+    }
+    utf8 = file_content_md.encode(Encoding.find('UTF-8'), encoding_options)
+    return if utf8.blank?
+
+    suppress(Exception) do
+      PandocRuby.convert(utf8, :s, {:f => :markdown, :o => pdf_path})
+    end
+    return if !File.exist? pdf_path
 
     # get cover from pdf
     # first page
@@ -366,8 +381,11 @@ class Work < ActiveRecord::Base
       FileUtils.rm_rf(tmp_dir)
     end
   end
+  handle_asynchronously :create_preview_png
 
-
+  def has_preview?
+    !preview.file.nil?
+  end
 
 
 
