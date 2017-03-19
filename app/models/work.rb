@@ -264,7 +264,7 @@ class Work < ActiveRecord::Base
     else
       errors.add("There is no textual content for work id: #{self.id}")
     end
-    create_preview_png
+    self.delay.create_preview_png
     make_diffs
   end
   handle_asynchronously :init_textuals
@@ -286,7 +286,7 @@ class Work < ActiveRecord::Base
         file_content_html: file_content_html
       )
     end
-    create_preview_png
+    self.delay.create_preview_png
   end
 
   # When coming from google (w2m and the HTML::Pipeline::MarkdownFilter don't leave extraneous tags coming from DocumentUploader)
@@ -381,7 +381,6 @@ class Work < ActiveRecord::Base
       FileUtils.rm_rf(tmp_dir)
     end
   end
-  handle_asynchronously :create_preview_png
 
   def has_preview?
     !preview.file.nil?
