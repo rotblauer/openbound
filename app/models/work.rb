@@ -8,6 +8,7 @@ require 'converter-machine.rb'
 require 'filetypeable.rb'
 require 'yomu'
 require 'rmagick'
+require 'fileutils'
 class Work < ActiveRecord::Base
   include Rails.application.routes.url_helpers # <-- this might be for using Work.document_url for retrieving given work's associated document
   include ConverterMachine
@@ -45,6 +46,7 @@ class Work < ActiveRecord::Base
 
   # Humps ahead.
   mount_uploader :document, DocumentUploader
+  mount_uploader :preview, PreviewUploader
 
   ############################################
   ## Validations
@@ -336,8 +338,9 @@ class Work < ActiveRecord::Base
 
     return if file_content_md.nil?
 
-    tmp_dir = File.join(Rails.root, "tmp", "previews")
-    pdf_path = File.join(tmp_dir, "testout.pdf")
+    tmp_dir = File.join(Rails.root, "tmp", "previews", "#{slug}")
+    FileUtils.mkdir_p(tmp_dir)
+    pdf_path = File.join(tmp_dir, "intermediary.pdf")
 
     # create pdf file
     # pandoc markdown -> beamer pdf
@@ -346,7 +349,7 @@ class Work < ActiveRecord::Base
     # get cover from pdf
     # first page
     page_index_path = pdf_path + "[0]"
-    preview_path = File.join(tmp_dir, "#{slug}.png")
+    preview_path = File.join(tmp_dir, "preview.png")
     pdf_page = Magick::Image.read( page_index_path ).first # first item in Magick::ImageList
     pdf_page.write(preview_path) # implicit conversion based on file extension
 
@@ -354,12 +357,14 @@ class Work < ActiveRecord::Base
     preview_smaller = preview.resize_to_fit(300,300)
     preview_smaller.write(preview_path) # overwrite existing large image
 
-    # remove pdf file
-    File.delete(pdf_path)
-
     # save preview image to model
-    # TODO...
+    File.open(preview_path) do |f|
+      self.preview = f
+    end
 
+    if self.save
+      FileUtils.rm_rf(tmp_dir)
+    end
   end
 
 

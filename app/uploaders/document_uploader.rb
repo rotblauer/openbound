@@ -72,7 +72,6 @@ class DocumentUploader < CarrierWave::Uploader::Base
   process :store_dimensions, :if => :document_image?
 
 
-
   ############################################
   ##   These methods are designed to extract as simply as possible the file contents into their
   ##   nearest possible attribute type, ie Markdown, HTML, or plain text.

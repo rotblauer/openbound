@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170316081030) do
+ActiveRecord::Schema.define(version: 20170319083926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -450,6 +450,7 @@ ActiveRecord::Schema.define(version: 20170316081030) do
     t.integer  "revisions_count",                  default: 0,  null: false
     t.integer  "comments_count",                   default: 0,  null: false
     t.string   "tags",                             default: [],              array: true
+    t.string   "preview"
   end
 
   add_index "works", ["project_id"], name: "public_works_project_id3_idx", using: :btree
