@@ -51,7 +51,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
   version :hand, from_version: :face do
     # process :resize_to_fill => [100, 100]
     process :resize_to_fit => [100, 100]
-  end  
+  end
 
   version :thumb, from_version: :hand do
     # process :resize_to_fill => [22, 22]

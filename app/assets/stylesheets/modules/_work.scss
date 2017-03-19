@@ -95,7 +95,7 @@ span.policy-option {
 	.preview-container .outer {
 
 		width: 100%;
-		padding-bottom: 100%;
+		padding-bottom: 110%;
 		position: relative;
 		margin-left: 0px;
 
@@ -142,6 +142,11 @@ span.policy-option {
 
 	}
 }
+
+.shadowed-figure {
+ 		@include shadow_box;
+}
+
 
 img.shadowy-figure-image {
 	margin-left: auto;

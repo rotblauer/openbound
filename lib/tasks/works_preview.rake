@@ -19,4 +19,14 @@ namespace :works do
       end
     end
   end
+
+  task :recreate_preview_versions => :environment do
+    Work.where.not(file_content_md: nil).each do |work|
+      if work.has_preview?
+        puts "recreating version for work #{work.id}"
+        work.preview.recreate_versions!
+        work.save
+      end
+    end
+  end
 end

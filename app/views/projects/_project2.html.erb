@@ -1,25 +1,27 @@
-<!--                         _           _   ___  
-                       (_)         | | |__ \ 
+<!--                         _           _   ___
+                       (_)         | | |__ \
         _ __  _ __ ___  _  ___  ___| |_   ) |
-       | '_ \| '__/ _ \| |/ _ \/ __| __| / / 
-       | |_) | | | (_) | |  __/ (__| |_ / /_ 
+       | '_ \| '__/ _ \| |/ _ \/ __| __| / /
+       | |_) | | | (_) | |  __/ (__| |_ / /_
        | .__/|_|  \___/| |\___|\___|\__|____|
- ______| |            _/ |                   
+ ______| |            _/ |
 |______|_|           |__/                     -->
 
-<% 
+<%
 	work = project.most_recent_work
 %>
 <div data-id="<%= project.id %>" class="row -project" style="padding: 10px;" >
-	
+
 	<!-- <p>
 		<b>id:</b><br>
 		<span><% project.updated_at %></span>
 	</p> -->
 
+  <%= image_tag work.preview_url(:thumb), class:"shadowed-figure", style: "display: inline; margin-right: 15px; vertical-align: top;" if work.has_preview? %>
+  <%= image_tag work.document_url(:thumb), class:"shadowed-figure", style: "display: inline; margin-right: 15px; vertical-align: top;" if work.image? %>
 
-	<h5 class="pull-right">
-		
+	<h5 style="text-align: right;" class="pull-right">
+
 		<!-- tallies	 -->
 		<span style="margin-right: 5px;">
 			<span class="small" style="color: green;">
@@ -35,18 +37,30 @@
 			<%= pluralize(project.works_count, 'document') %>
 		</small>
 
-		
+
 		<span class="text-muted hidden-xs">
-			<!-- TODO: this should show an icon of the file type for each different kind of 
+			<!-- TODO: this should show an icon of the file type for each different kind of
 			file in the project -->
 			<% unique_works_by_type(project).each do |work| %>
 				<%= pretty_doc_type_img(work, '14px;', "") %>
 			<% end %>
 		</span>
 
+    <br/>
+
+    <span class="text-muted pull-right" style="font-weight: 200; font-size: 100%; margin-top: 10px;">
+      updated <%= time_ago_in_words(project.updated_at) %> ago
+    </span>
+
+
 	</h5>
 
-	<h4 class="ellipsis" style="max-width: 95%; ">
+
+
+  <!-- div to separeate text from img -->
+  <div style="display: inline-block; min-width: 60%;">
+
+	<h4 class="ellipsis" style="max-width: 95%; display: inline-block; ">
 
 		<!-- AUTHOR NAME -->
     <!-- author/user name -->
@@ -54,7 +68,7 @@
       <%= working_author(work) %>
     </span>
 
-		<span class="brand-secondary">\ </span>
+    <span class="brand-secondary"> / </span>
 
 
 		<!-- PROJECT NAME -->
@@ -67,7 +81,7 @@
 		    <% # best_in_place work.project, :name, activator: "#activator-#{work.id}", :as => :input, place_holder: "#{work.project.name}" %>
 		    <%= project.name %>
 		  <% end %>
-		  
+
 		  <span class="brand-secondary" style="font-size: .8em;">
 		    <span  data-toggle="modal" data-target="#add-version-modal-<%= project.id %>">
 		      <span class="glyphicon glyphicon-plus has-tooltip" data-toggle="tooltip" data-placement="top" title="Add version(s)" aria-hidden="true"></span>
@@ -98,22 +112,23 @@
 						<% end %>
 					</div>
 	      	<% end %>
-		
+
 	<!-- INSTITUTION NAME -->
 
       <%= link_to project.school do %>
         <%= favicon_for(project.school, 15, 14, 'display: inline-block; vertical-align: middle; margin-bottom: 1px; margin-right: 3px;') %>
-      <% end %>  
-    
+      <% end %>
+
 		<span class="text-muted">
 			<%= link_to project.school.Institution_Name, project.school %>
 		</span>
 
-		<span class="pull-right text-muted" >
-			updated <%= time_ago_in_words(project.updated_at) %> ago
-		</span>
+    <br/>
+
+    <!-- end div for text to separate for mimg -->
+  </div>
 
 </div>
 <hr>
 
-<%= render partial: 'projects/add_version_modal', locals: {project: project} if owner? project %> 
+<%= render partial: 'projects/add_version_modal', locals: {project: project} if owner? project %>

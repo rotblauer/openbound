@@ -15,7 +15,7 @@
 		</div>
 
 	<!-- TEXT -->
-	<% elsif work.spreadsheet? || work.powerpoint? || work.open_office? || work.i_works? %>
+	<% elsif ( work.spreadsheet? || work.powerpoint? || work.open_office? || work.i_works? ) and work.content_type != 'application/vnd.oasis.opendocument.text' %>
 		<div class="doc-text-container">
 			<div class="doc-text-content">
 				<style>
@@ -35,7 +35,7 @@
 
 	<!-- MARKDOWN -->
 	<!-- show mardown is preference over html because of renderer options -->
-	<% elsif work.docordocx? || work.markdown? || work.type_html? || work.latex? || work.plain_text? || work.type_rtf? || work.content_type.blank? %>
+	<% elsif work.docordocx? || work.markdown? || work.type_html? || work.latex? || work.plain_text? || work.type_rtf? || work.content_type.blank? || work.content_type == 'application/vnd.oasis.opendocument.text' %>
 		<div class="doc-text-container" > <!-- style="overflow: scroll;" -->
 
 		<% if owner?(@project) %>

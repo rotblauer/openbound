@@ -71,11 +71,15 @@ module WorksHelper
       # this will now almost surely get bypassed in favor of picture above
       if !work.document.file  # there is not associated file, thus no file_name to split
                               # most likely (for now) a google drive doc
-        return work.content_type.split('/').last # ie 'text/html'
+        a = work.content_type.split('/').last # ie 'text/html'
+        return a.split('.').last if a.include? '.'
+        a
       # or it will be a normal local upload, in which case we'll handle with splitting original file name
       else
         return work.file_name.split('.').last if work.file_name.include? '.' and work.file_name.split('.').size > 1 # ie essay.docx
-        work.content_type.split('/').last
+        a = work.content_type.split('/').last
+        return a.split('.').last if a.include? '.'
+        a
       end
     end
   end

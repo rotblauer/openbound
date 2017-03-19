@@ -95,7 +95,8 @@ gem "fog-aws" #, "~> 1.3.1"
 
 # You have to have both mini and r.
 # gem 'mini_magick'
-gem 'rmagick', '2.13.2', :require => false # :require => 'RMagick' #, require: false # redundant to mini_magick (creates circular reference)
+gem 'rmagick', '2.13.2', require: false # :require => 'RMagick' #, require: false # redundant to mini_magick (creates circular reference)
+# gem 'mini_magick'
 # Enables asynch batch uploading via AJAX (note: depends on jquery-rails gem)
 gem 'remotipart', '~> 1.2'
 # Enables file_size validation

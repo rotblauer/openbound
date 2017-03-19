@@ -7,7 +7,7 @@ require 'pandoc-ruby'
 require 'converter-machine.rb'
 require 'filetypeable.rb'
 require 'yomu'
-require 'RMagick'
+# require 'RMagick'
 require 'fileutils'
 class Work < ActiveRecord::Base
   include Rails.application.routes.url_helpers # <-- this might be for using Work.document_url for retrieving given work's associated document
@@ -350,8 +350,8 @@ class Work < ActiveRecord::Base
     encoding_options = {
       :invalid           => :replace,  # Replace invalid byte sequences
       :undef             => :replace,  # Replace anything not defined in ASCII
-      :replace           => ''        # Use a blank for those replacements
-      # :universal_newline => true       # Always break lines with \n
+      :replace           => '',        # Use a blank for those replacements
+      :universal_newline => true       # Always break lines with \n
     }
     utf8 = file_content_md.encode(Encoding.find('UTF-8'), encoding_options)
     return if utf8.blank?
@@ -366,7 +366,7 @@ class Work < ActiveRecord::Base
     page_index_path = pdf_path + "[0]"
     preview_path = File.join(tmp_dir, "preview.png")
     # danger
-    suppress(Exception) do
+    # suppress(Exception) do
       pdf_page = Magick::Image.read( page_index_path ).first # first item in Magick::ImageList
       pdf_page.write(preview_path) # implicit conversion based on file extension
 
@@ -382,7 +382,7 @@ class Work < ActiveRecord::Base
       if self.save
         FileUtils.rm_rf(tmp_dir)
       end
-    end
+    # end
   end
 
   def has_preview?
