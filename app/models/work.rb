@@ -7,7 +7,7 @@ require 'pandoc-ruby'
 require 'converter-machine.rb'
 require 'filetypeable.rb'
 require 'yomu'
-require 'rmagick'
+require 'RMagick'
 require 'fileutils'
 class Work < ActiveRecord::Base
   include Rails.application.routes.url_helpers # <-- this might be for using Work.document_url for retrieving given work's associated document
