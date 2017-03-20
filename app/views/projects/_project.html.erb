@@ -58,7 +58,7 @@
 
           <% elsif work.has_preview? %>
 	          <div  class="" style="width: 100%; height: 100%; background-color: white;">
-              <%= image_tag work.preview_url(:small), class: 'shadowy-figure shadowy-figure-text thumb', style: "margin-top: 0px; z-index: -1; width: 100%; padding: 5px 0px; height: auto;" %>
+              <%= image_tag work.preview_url, class: 'shadowy-figure shadowy-figure-text thumb', style: "margin-top: 0px; z-index: -1; width: 100%; padding: 5px 0px; height: auto;" %>
             </div>
 
 	        <!-- see _doc for similar shit w/r/t html vs. md -->
