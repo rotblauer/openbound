@@ -5,7 +5,7 @@
     <h4 style="display: inline-block; max-width: 90%; line-height: 1.6em;" >
 
       <!-- if owner, show anonymouse button, else show avatar if that exists -->
-        <% if owner? project %>
+        <% if project_owner? project %>
             <%= link_to project_change_policy_path(project), class: "modest-link policy_pony #{"anony" if project.anonymouse?} #{"non_anony" if !project.anonymouse?}", method: :patch, remote: true do %>
               <span id="policy-option" class="glyphicon glyphicon-user has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Superhero On/Off" aria-hidden="true"></span>
             <% end %>
@@ -16,7 +16,7 @@
         <span style="color: lightgray;" id="author-name-<%= project.recent_work_id %>" class="<%=  'anony' if project.anonymouse %>"><%= working_author project %></span>
         <span class="brand-secondary"> / </span>
         <span class="text-muted">
-        <% if owner? project %>
+        <% if project_owner? project %>
         <%= best_in_place project, :name, place_holder: "a#{project.name}", activator: "#activator-project-name-#{project.id}", :as => :input, class: "best_in_place" %>
           <span id="activator-project-name-<%= project.id %>" class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: lightgray;"></span>
         <% else %>
@@ -121,7 +121,7 @@
 
         </div>
 
-        <% if owner? project %>
+        <% if project_owner? project %>
         <!-- ADD VERSION BUTTON -->
         <!-- link to add version modal -->
 
@@ -138,7 +138,7 @@
         <!-- BIP TAGS for the owner, just tag lists for non-owners -->
 
         <div class="tag-lists">
-                <% if owner? project %>
+                <% if project_owner? project %>
             <span class="brand-secondary">Tags </span>
 
                   <!-- <span class="text-muted"> -->
@@ -206,7 +206,7 @@
 
     <p style="display: inline-block; line-height: 2em; max-width: 50%;">
 
-        <% if owner?(project) %>
+        <% if project_owner?(project) %>
           <% if project.description.blank? %>
           <span class="text-muted" style="color: #76B3DF; padding: 3px;">Project description</span>
           <% end %>

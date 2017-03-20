@@ -133,6 +133,6 @@
 
 	<!-- MODAL -->
 	<%#= render partial: 'projects/modal', locals: { project: project, work: work } if !@on_start_page %>
-	<%= render partial: 'projects/add_version_modal', locals: {project: project} if owner? project %>
+	<%= render partial: 'projects/add_version_modal', locals: {project: project} if project_owner? project %>
 
 </div>

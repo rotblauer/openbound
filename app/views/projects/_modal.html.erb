@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-a4" >
     <div class="modal-content" style="border-radius: 0px;">
 
-      <% 
+      <%
 
       %>
 
@@ -16,17 +16,17 @@
         });
         </script>
       </div> <!-- end header -->
-      
+
       <div class="modal-body " style="min-height: 500px; padding: 60px;">
-          
+
           <% if work.docordocx? || work.markdown? || work.type_html? || work.latex? %>
 
             <!-- same old shit as _doc and _work w/r/t markdown vs. html content -->
             <span id="modal-text-content">
               <%= presentable_html(work.file_content_html) if work.file_content_html %>
             </span>
-            
-  
+
+
 
           <% elsif work.plain_text? || work.type_rtf? || work.spreadsheet? || work.powerpoint? || work.open_office? || work.i_works? %>
 
@@ -39,30 +39,30 @@
             <% end %>
 
           <% elsif work.image? %>
-           
+
             <%= link_to work do %>
              <%= image_tag work.document_url, style: "margin-top: 10px; max-width: 600px;", class: "shadowy-figure-image-preview" %>
             <% end %>
-           
+
           <% end %>
 
       </div> <!-- end body -->
 
-      <div class="modal-footer">  
-      
+      <div class="modal-footer">
+
       <div class="pull-left">
-      
-        <% if owner?(work) %>
-          <div class="owner-options text-center" style="margin-top: 5px;">  
-            
-              <!-- DELETE --> 
+
+        <% if work_owner?(work) %>
+          <div class="owner-options text-center" style="margin-top: 5px;">
+
+              <!-- DELETE -->
               <%= link_to work, method: :delete, remote: true, data: { confirm: 'Are you really really sure you want to remove this literature from the reach of millions of hungry, striving minds?' }, class: "delete_pony" do %>
                 <span id="edit-or-delete-option" class="glyphicon glyphicon-trash has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Delete" aria-hidden="true" style="color: gray; font-size: 2em;"></span>
-              <% end %> 
+              <% end %>
           </div>
         <% end %>
-          
-      </div> 
+
+      </div>
 
         <style>
           a#modal-download-link:hover { text-decoration: none;}
@@ -81,4 +81,3 @@
     </div> <!-- /content -->
   </div>
 </div> <!-- /.modal.fade -->
-

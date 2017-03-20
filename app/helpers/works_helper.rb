@@ -3,8 +3,8 @@ module WorksHelper
 
   include ConverterMachine
 
-  def owner? work
-    work.user == current_user
+  def work_owner? work
+    logged_in? and work.user_id == current_user.id
   end
 
   def working_title work
@@ -14,17 +14,6 @@ module WorksHelper
       work.file_name
     end
   end
-
-  # def working_author work
-  #   if work.project.anonymouse?
-  #     raw '<span class="works-show-author-name">' + work.project.author_name + '</span>'.html_safe
-  #   else
-  #     link_to work.user do
-  #       # raw '<span class="works-show-user-name">' + work.project.author_name + '</span>'.html_safe
-  #       return link_to work.project.author_name, work.project.user
-  #     end
-  #   end
-  # end
 
   def working_author project
       if project.anonymouse?
