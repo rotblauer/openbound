@@ -58,7 +58,7 @@
             <span class="hidden-sm hidden-xs pull-right text-right" style="font-weight:lighter; color: gold;">
               <%= link_to projects_path, class:'modest-link' do %>
                 <%= pluralize Project.all.count, 'project' %> <br>
-                <%= pluralize Work.all.count, 'drafts' %> <br>
+                <%#= pluralize Work.all.count, 'drafts' %>
               <% end %>
               <%= link_to schools_path, class:'modest-link' do %>
                 <%= pluralize School.where(is_academic: true).count, 'school' %>
@@ -66,7 +66,7 @@
 
             </span>
 
-            Homework should be free. <br/>
+            Schoolwork should be free. <br/>
             <!-- A digital library of student work, public and free. -->
             <!-- <br> -->
             <!-- Because your work matters. -->

@@ -1,7 +1,7 @@
 
 	<% if not params[:controller] == 'schools' %>
 
-		<%= form_tag(projects_path, :method => 'get', id: "search_form", class: "navbar-form", role: 'search') do %>
+		<%= form_tag(projects_path, :method => 'get', id: "scarch_form", class: "navbar-form", role: 'search') do %>
 				<div class="input-group-btn" style="float: right;">
 
 					<!-- clear search x if searching -->
@@ -21,7 +21,7 @@
 					<div class="input-wrapper">
 
 						<!-- text input bar -->
-						<%= text_field_tag :search, params[:search], placeholder: "Try Holden Caulfield or Mitochondria", class: "form-control #{ if @on_start_page then 'heavier' else '' end}", style: "border-radius: 0px;" %> <!-- .heavier for darker blue -->
+						<%= text_field_tag :search, params[:search], placeholder: "Try Plato or Mitochondria", class: "form-control #{ if @on_start_page then 'heavier' else '' end}", style: "border-radius: 0px;" %> <!-- .heavier for darker blue -->
 
 						<!-- sub links for start page (go to browse or random) -->
 						<% if @on_start_page %>
