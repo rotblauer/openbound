@@ -83,8 +83,8 @@
               // var array_post_json = [];
 
               var picker = new FilePicker({
-                apiKey: '<%= Rails.application.secrets.google_api_key %>',
-                clientId: '<%= if Rails.env.development? then ENV["GOOGLE_DRIVE_CLIENT_ID_DEV"] else Rails.application.secrets.google_drive_client_id end %>',
+                apiKey: 'AIzaSyBlYvhSp9QS4baq70Z8EIadNMcaFVqI-rs',
+                clientId: '<%= if Rails.env.development? then ENV["GOOGLE_DRIVE_CLIENT_ID_DEV"] else '245235351711-v7sq186qvkrd3sr3d7jlh4b4o453v5r3.apps.googleusercontent.com' end %>',
                 buttonEl: document.getElementById('pickFromModal'),
 
                 // called from _fileGetCallback in filepicker_dan.js.
@@ -374,7 +374,7 @@
 
           </script>
 
-          <script src="https://www.google.com/jsapi?key=<%= ENV['OB_GOOGLE_API_KEY'] %>"></script>
+          <script src="https://www.google.com/jsapi?key=AIzaSyBlYvhSp9QS4baq70Z8EIadNMcaFVqI-rs"></script>
           <script src="https://apis.google.com/js/client.js?onload=initPicker"></script>
 
 
