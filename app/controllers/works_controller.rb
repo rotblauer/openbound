@@ -125,7 +125,7 @@ class WorksController < ApplicationController
   #     #   @bookmark = current_user.bookmarks.build
   #     # end
   #   end
-  # end
+  end
 
   def get
     respond_to do |format|
