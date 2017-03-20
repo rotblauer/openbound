@@ -89,10 +89,10 @@
 		  </span>
 		<% else %>
 		  <!-- gradient takes place of bip activator if !owner-->
-		  <% if work.project.name.present? %>
-		    <%= link_to work.project.name, project_path(work.project), class: "" %>
+		  <% if project.name.present? %>
+		    <%= link_to project.name, project_path(project), class: "" %>
 		  <% else %>
-		    <%= link_to work.name, project_path(work.project), class: ""  %>
+		    <%= link_to work.name, project_path(project), class: ""  %>
 		  <% end %>
 		<% end %>
 
