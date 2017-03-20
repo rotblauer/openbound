@@ -46,10 +46,11 @@ class ProjectsController < ApplicationController
     # .includes(:user)
     # .includes(:school)
         # Personalized.
-    if current_user
-      user_school = current_user.school_primary
-      @bookmarks = current_user.bookmarks(:project_id)
-    end
+
+    # if current_user
+    #   user_school = current_user.school_primary
+    #   @bookmarks = current_user.bookmarks(:project_id)
+    # end
 
     ## Calculating schools list for browsing by schools.
     #
@@ -58,46 +59,50 @@ class ProjectsController < ApplicationController
       # TODO: add projects_count attr to School and make it count here
 
     desired_number_of_school_facets = 15
-    if @projects.any?
-      # Schools associated with resulting works (first page),
-      # could be [Bowdoin College, Bowdoin College, Bowdoin College, Colby College].
-      project_schools = []
-      # Array for unique resulting schools.
-      resulting_schools = []
-      # For each project, push associated school name (string) to array.
-      @projects.each do |project|
-        project_schools.push(project.school_name)
-      end
-      # Filter for only unique school names.
-      resulting_schools = project_schools.uniq
-      # If there are not enough schools, append the list with well endowed schools.
-      if resulting_schools.count < desired_number_of_school_facets
-        # How many schools to append.
-        diff = desired_number_of_school_facets - resulting_schools.count
-        # Find schools which are not already included in the results, which have projects_count > 0.
-        non_resulting_schools_all = School.where.not(Institution_Name: resulting_schools).where('works_count > ?', 0).order('works_count desc').order('affiliations_count desc').all
-        # Take first(diff) if there are more than diff returned.
-        if non_resulting_schools_all.count > diff
-          non_resulting_schools = non_resulting_schools_all.first(diff)
-        else
-          non_resulting_schools = non_resulting_schools_all
-        end
-        # Add their names to the array if there are any.
-        if !non_resulting_schools.empty?
-          non_resulting_schools.each do |school|
-            resulting_schools.push(school.Institution_Name)
-          end
-        end
-        # Use names to query ActiveRecord objects.
-        @facet_schools = School.where(Institution_Name: resulting_schools).order('works_count desc').order('affiliations_count desc')
-      # Else there are enough unique schools associated with the results.
-      else
-        @facet_schools = School.where(Institution_Name: resulting_schools).where('works_count > ?', 0).order('works_count desc').order('affiliations_count desc')
-      end
-    # If there is not a search, return most endowed schools.
-    else
-      @facet_schools = School.order('works_count desc').order('affiliations_count desc').order('updated_at desc').first(desired_number_of_school_facets)
-    end
+    @facet_schools = School.order('works_count desc').order('affiliations_count desc').order('updated_at desc').first(desired_number_of_school_facets)
+
+
+    # if @projects.any?
+    #   # Schools associated with resulting works (first page),
+    #   # could be [Bowdoin College, Bowdoin College, Bowdoin College, Colby College].
+    #   # project_schools = []
+    #   project_schools = @projects.map { |p| p.school_name }
+    #   # Array for unique resulting schools.
+    #   resulting_schools = []
+    #   # For each project, push associated school name (string) to array.
+    #   # @projects.each do |project|
+    #   #   project_schools.push(project.school_name)
+    #   # end
+    #   # Filter for only unique school names.
+    #   resulting_schools = project_schools.uniq
+    #   # If there are not enough schools, append the list with well endowed schools.
+    #   if resulting_schools.count < desired_number_of_school_facets
+    #     # How many schools to append.
+    #     diff = desired_number_of_school_facets - resulting_schools.count
+    #     # Find schools which are not already included in the results, which have projects_count > 0.
+    #     non_resulting_schools_all = School.where.not(Institution_Name: resulting_schools).where('works_count > ?', 0).order('works_count desc').order('affiliations_count desc').all
+    #     # Take first(diff) if there are more than diff returned.
+    #     if non_resulting_schools_all.count > diff
+    #       non_resulting_schools = non_resulting_schools_all.first(diff)
+    #     else
+    #       non_resulting_schools = non_resulting_schools_all
+    #     end
+    #     # Add their names to the array if there are any.
+    #     if !non_resulting_schools.empty?
+    #       non_resulting_schools.each do |school|
+    #         resulting_schools.push(school.Institution_Name)
+    #       end
+    #     end
+    #     # Use names to query ActiveRecord objects.
+    #     @facet_schools = School.where(Institution_Name: resulting_schools).order('works_count desc').order('affiliations_count desc')
+    #   # Else there are enough unique schools associated with the results.
+    #   else
+    #     @facet_schools = School.where(Institution_Name: resulting_schools).where('works_count > ?', 0).order('works_count desc').order('affiliations_count desc')
+    #   end
+    # # If there is not a search, return most endowed schools.
+    # else
+    #   @facet_schools = School.order('works_count desc').order('affiliations_count desc').order('updated_at desc').first(desired_number_of_school_facets)
+    # end
 
   end # end #index
 

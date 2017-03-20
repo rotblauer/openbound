@@ -15,15 +15,26 @@ module WorksHelper
     end
   end
 
-  def working_author work
-    if work.project.anonymouse?
-      raw '<span class="works-show-author-name">' + work.project.author_name + '</span>'.html_safe
-    else
-      link_to work.user do
-        # raw '<span class="works-show-user-name">' + work.project.author_name + '</span>'.html_safe
-        return link_to work.project.author_name, work.project.user
+  # def working_author work
+  #   if work.project.anonymouse?
+  #     raw '<span class="works-show-author-name">' + work.project.author_name + '</span>'.html_safe
+  #   else
+  #     link_to work.user do
+  #       # raw '<span class="works-show-user-name">' + work.project.author_name + '</span>'.html_safe
+  #       return link_to work.project.author_name, work.project.user
+  #     end
+  #   end
+  # end
+
+  def working_author project
+      if project.anonymouse?
+        raw '<span class="works-show-author-name">' + project.author_name + '</span>'.html_safe
+      else
+        link_to project.user do
+          # raw '<span class="works-show-user-name">' + work.project.author_name + '</span>'.html_safe
+          return link_to project.author_name, project.user
+        end
       end
-    end
   end
 
   def diff_compare_name(id1, id2)

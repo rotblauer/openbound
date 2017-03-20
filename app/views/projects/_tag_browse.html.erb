@@ -26,7 +26,7 @@
           tag_facets = existing_tag_facets - [_tag]
           tag_links_on << "<span class='tag context facet on' >#{link_to _tag, :search => params[:search], :tag => tag_facets, :school_name => params[:school_name]} <span class='text text-danger glyphicon glyphicon-remove'></span></span>"
 
-        elsif projects.size > 0
+        elsif projects.any?
             tag_facets = existing_tag_facets + [_tag]
             tag_links_off << "<span class='tag context facet off'> #{link_to _tag, :search => params[:search], :tag => tag_facets, :school_name => params[:school_name]}</span>"
         end
@@ -42,7 +42,7 @@
 
          school_links_on << "<span class='facet school on'>#{favicon_for(school, 12, 12, 'display: inline-block; vertical-align: middle; margin-bottom: 2px;')}#{link_to school.Institution_Name, :search => params[:search], :tag => params[:tag], :school_name => school_query}</span><a class='link-to-school' style='' href='#{school_path(school)}'><sup class='has-tooltip' data-toggle='tooltip' data-placement='top' title='Go to #{school.Institution_Name}' aria-hidden='true'><span class='glyphicon glyphicon-share-alt'></span></sup></a>"
 
-     elsif projects.size > 0
+     elsif projects.any?
 
          school_query = existing_school_facets + [school.Institution_Name]
 
@@ -52,16 +52,16 @@
      end
 
 
-    if projects.size == 0
+    if !projects.any?
         existing_tag_facets.each do |_tag|
           tag_facets = existing_tag_facets - [_tag]
           tag_links_on << "<span class='tag context facet on'> #{link_to _tag, :search => params[:search], :tag => tag_facets, :school_name => params[:school_name]}</span>"
         end
     end
-    if tag_links_on.size > 0
+    if tag_links_on.present?
       facets_html << "<ul class='search_facets_on'>#{tag_links_on}</ul>"
     end
-	  if school_links_on.size > 0
+	  if school_links_on.present?
 		  facets_html << "<ul class='school_links_on'>#{school_links_on}</ul>"
 		end
 
@@ -72,7 +72,7 @@
     else
         facets_html << "<br />"
     end
-    if school_links_off.size > 0
+    if school_links_off.present?
       facets_html << "<ul class='school_links_off'>#{school_links_off}</ul>"
     end
 

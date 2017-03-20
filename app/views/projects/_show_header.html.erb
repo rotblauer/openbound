@@ -13,7 +13,7 @@
             <%= image_tag project.user.avatar_url(:hand), style: "max-height: 20px; max-width: 20px; text-align: center;"  %>
         <% end %>
 
-        <span style="color: lightgray;" id="author-name-<%= project.recent_work_id %>" class="<%=  'anony' if project.anonymouse %>"><%= working_author project.most_recent_work %></span>
+        <span style="color: lightgray;" id="author-name-<%= project.recent_work_id %>" class="<%=  'anony' if project.anonymouse %>"><%= working_author project %></span>
         <span class="brand-secondary"> / </span>
         <span class="text-muted">
         <% if owner? project %>
