@@ -2,11 +2,11 @@
 
 <!-- END MODAL PREVIEW -->
 <!-- OPTIONS FOR OWNER -->
-  <% if work.user == current_user %>
+  <% if project_owner? project %>
   <div class="pull-left">
 
       <!-- DELETE -->
-      <%= link_to work.project, method: :delete, remote: true, data: { confirm: "Removing this project will also remove #{work.project.works_count} versions. \n\nAre you really really sure you want to remove this literature from the reach of millions of hungry, striving minds? " }, class: "delete_pony" do %>
+      <%= link_to project, method: :delete, remote: true, data: { confirm: "Removing this project will also remove #{project.works_count} versions. \n\nAre you really really sure you want to remove this literature from the reach of millions of hungry, striving minds? " }, class: "delete_pony" do %>
         <small id="edit-or-delete-option" class="glyphicon glyphicon-trash has-tooltip" data-toggle="tooltip" data-placement="right" title="Delete" aria-hidden="true" style="color: lightgray;"></small>
       <% end %>
 
