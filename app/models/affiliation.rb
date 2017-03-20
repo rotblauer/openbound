@@ -29,6 +29,8 @@ class Affiliation < ActiveRecord::Base
 
   after_create :assign_primary
 
+  default_scope { includes(:user) }
+
   def assign_primary
   	# TODO: how?
   end

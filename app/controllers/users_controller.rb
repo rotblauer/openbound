@@ -18,6 +18,7 @@ class UsersController < ApplicationController
 
     if @user_bookmarks_count > 0
       @projects = Project
+                  .includes([:user, :school, :latest_work])
                   .where(:id => @user.bookmarks.map { |b| b.project_id })
                   .search(id: params[:project_id],
                           tags: params[:tag] || [])
@@ -25,7 +26,7 @@ class UsersController < ApplicationController
                             page: params[:page] || 1,
                             per_page: 24
                            )
-      @total_results = @projects.count
+      @total_results = @projects.length
 
     else
       @projects = []
@@ -40,6 +41,7 @@ class UsersController < ApplicationController
     @on_bookmarks = false
     @recommendations = @user.recommendeds.first(10)
     @projects = Project
+                .includes([:school, :latest_work])
                 .where(anonymouse: true)
                 .where(user_id: User.friendly.find(params[:id]).id)
                 .search(id: params[:project_id],
@@ -48,7 +50,7 @@ class UsersController < ApplicationController
                                page: params[:page] || 1,
                                per_page: 24
                               )
-    @total_results = @projects.count
+    @total_results = @projects.length
 
 
     render template: 'users/show'
@@ -64,6 +66,7 @@ class UsersController < ApplicationController
     @recommendations = @user.recommendeds.first(10)
 
     @projects = Project
+                .includes([:school, :latest_work])
                 .where(user_id: User.friendly.find(params[:id]).id)
                 .where(anonymouse: false)
                 .search(id: params[:project_id],
@@ -72,7 +75,7 @@ class UsersController < ApplicationController
                                page: params[:page] || 1,
                                per_page: 24
                               )
-    @total_results = @projects.count
+    @total_results = @projects.length
   end
 
   def new

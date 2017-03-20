@@ -77,8 +77,9 @@ class SchoolsController < ApplicationController
 		@school = School.friendly.find(params[:id])
 		@users = @school.users.order("works_count desc") #.first(28)
     @projects = Project
-                .search(id: pid,
-                               query: params[:search],
+                .includes([:school, :user])
+                .search(id: params[:project_id],
+                               query: params[:search].present? ? params[:search] : nil,
                                school_id: @school.id
                               )
                 .paginate(

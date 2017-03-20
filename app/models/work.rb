@@ -32,7 +32,7 @@ class Work < ActiveRecord::Base
   has_many :recommendeds, dependent: :destroy # --> projects
   has_many :revisions, dependent: :destroy
 
-  default_scope { includes([ :user ]) }
+  default_scope { includes( :user ) }
 
 
   ############################################
