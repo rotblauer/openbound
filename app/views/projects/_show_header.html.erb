@@ -138,8 +138,8 @@
         <!-- BIP TAGS for the owner, just tag lists for non-owners -->
 
         <div class="tag-lists">
-            <span class="brand-secondary">Tags </span>
                 <% if owner? project %>
+            <span class="brand-secondary">Tags </span>
 
                   <!-- <span class="text-muted"> -->
                         <!-- BIP -->
@@ -185,10 +185,10 @@
                   </script>
 
                 <% else %>
-
+                  <br/>
                     <% project.tags.each do |tag| %>
                         <span class="label label-context">
-                            <%= tag %>
+                            <%= link_to tag %>
                         </span>
                     <% end %>
 

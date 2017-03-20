@@ -32,6 +32,8 @@ class Work < ActiveRecord::Base
   has_many :recommendeds, dependent: :destroy # --> projects
   has_many :revisions, dependent: :destroy
 
+  default_scope { includes([ :user, :project ]) }
+
 
   ############################################
   ## Gem integrations

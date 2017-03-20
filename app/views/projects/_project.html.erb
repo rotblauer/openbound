@@ -3,7 +3,7 @@
 <div class="<%= if @bigger_partials then 'col-xs-6 col-sm-4 col-md-4 col-lg-4 -work' else 'col-xs-6 col-sm-4 col-md-3 col-lg-3 -work' end %>" id="work-face-<%= project.id %>" data-id="<%= project.id %>" >
 
 	<!-- DECLARE LOCAL VAR `WORK` AS PROJECT'S MOST RECENT WORK -->
-	<% work = project.most_recent_work %>
+	<% work = project.latest_work.first %>
 
 
 	<!-- COPY & PASTE FROM _WORK -->
@@ -134,7 +134,5 @@
 	<!-- MODAL -->
 	<%#= render partial: 'projects/modal', locals: { project: project, work: work } if !@on_start_page %>
 	<%= render partial: 'projects/add_version_modal', locals: {project: project} if owner? project %>
-
-
 
 </div>

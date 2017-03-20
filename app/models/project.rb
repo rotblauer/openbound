@@ -13,7 +13,7 @@ class Project < ActiveRecord::Base
   # dependent: destroy for works and/or diffs causes `can't modify frozen hash` error,
   # so it's handled manually in before_destroy :destroy_all_works
   has_many :works#, dependent: :destroy
-  has_many :latest_works, -> { where(is_latest_version: 1) }, class_name: "Work"
+  has_many :latest_work, -> { where(is_latest_version: 1) }, class_name: "Work"
   has_many :revisions
   has_many :diffs#, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
@@ -153,7 +153,8 @@ class Project < ActiveRecord::Base
     # school_id = school_id.to_i if !school_id.nil?
     q = q.where(school_id: school_id.to_i) if !school_id.nil?
 
-    return q.order(created_at: :desc)
+    return q
+            .order(created_at: :desc)
             # .limit(per_page)
             # .offset(( page-1 )*per_page)
   end
@@ -162,11 +163,7 @@ class Project < ActiveRecord::Base
   private
   	# Prioritizes candidates for slugging; references name_or_file_name method below.
   	def slug_candidates
-  		if name? # this could change if name changes
-  			name
-  		else
-  	  	SecureRandom.uuid
-  	  end
+  		SecureRandom.uuid
   	end
 
     # Sets author_name, which reflects either true creator's name or penname, depending on user's privacy choices.

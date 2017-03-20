@@ -31,6 +31,8 @@ class ProjectsController < ApplicationController
     q = nil if params[:search].blank?
 
     @projects = Project
+      .includes([:user, :school, :latest_work])
+      .select(Project.attribute_names - ['file_content_md', 'file_content_html', 'file_content_text'])
                 .search(query: q,
                          tags: tags,
                          schools: schools,
@@ -40,6 +42,9 @@ class ProjectsController < ApplicationController
                          per_page: params[:per_page] || 32
                 )
 
+    # .includes(:works).where(:works => {is_latest_version: true})
+    # .includes(:user)
+    # .includes(:school)
         # Personalized.
     if current_user
       user_school = current_user.school_primary

@@ -76,18 +76,8 @@ class SchoolsController < ApplicationController
 
 		@school = School.friendly.find(params[:id])
 		@users = @school.users.order("works_count desc") #.first(28)
-		# @search = Project.search do
-		# 	with(:id).less_than(params[:project_id]) if params[:project_id] # load more from n -> ...
-		# 	fulltext params[:search]
-		# 	order_by(:created_at, :desc)
-		# 	paginate(:page => params[:page] || 1, :per_page => 12)
-		# 	with(:school_id, School.friendly.find(params[:id]).id)
-		# end
-
-		# @projects = @search.results
-		# @total_results = @projects.total_entries
-    pid = params[:project_id] || nil # for pagination
-    @projects = Project.search(id: pid,
+    @projects = Project
+                .search(id: pid,
                                query: params[:search],
                                school_id: @school.id
                               )
@@ -105,8 +95,8 @@ class SchoolsController < ApplicationController
 			@school_coords_lng = @school.geocode_lng
 		else
 			# TODO: FIXME
-			@school_coords_lat = 0
-			@school_coords_lng = 0
+			@school_coords_lat = 0.1
+			@school_coords_lng = 0.1
 		end
 
 

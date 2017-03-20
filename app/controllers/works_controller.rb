@@ -5,7 +5,7 @@ class WorksController < ApplicationController
   include Filetypeable
 
 	before_action :logged_in_user, only: [:new, :create, :destroy]
-  before_action :set_work, only: [:show, :get, :edit, :destroy, :change_policy, :recommend]
+  before_action :set_work, only: [:get, :edit, :destroy, :change_policy, :recommend]
   before_action :correct_user, only: [:edit, :update, :destroy, :change_policy, :recommend]
 
   # http://apidock.com/rails/ActiveSupport/Callbacks/ClassMethods/skip_callback
@@ -105,26 +105,27 @@ class WorksController < ApplicationController
  end
 
   def show
+    @work = Work.includes([:user, :comments, :project, :school]).friendly.find(params[:id])
     impressionist(@work)
     @comments = @work.comments.all
     @comment = @work.comments.find_by(params[:comment_id])
-    @suggested_tags = @work.suggesteds.where(open: true)
+    # @suggested_tags = @work.suggesteds.where(open: true)
 
-    if current_user
-      # for Gradients
-      if current_user.gradients.find_by(work_id: @work.id) # if user's grad exists
-        @gradient = current_user.gradients.find_by(work_id: @work.id)
-      else
-        @gradient = current_user.gradients.build
-      end
-      # for Bookmarks
-      # if current_user.bookmarks.find_by(work_id: @work.id) # if user's bookmark exists
-      #   @bookmark = current_user.bookmarks.find_by(work_id: @work.id)
-      # else
-      #   @bookmark = current_user.bookmarks.build
-      # end
-    end
-  end
+  # if current_user
+  #     # for Gradients
+  #     if current_user.gradients.find_by(work_id: @work.id) # if user's grad exists
+  #       @gradient = current_user.gradients.find_by(work_id: @work.id)
+  #     else
+  #       @gradient = current_user.gradients.build
+  #     end
+  #     # for Bookmarks
+  #     # if current_user.bookmarks.find_by(work_id: @work.id) # if user's bookmark exists
+  #     #   @bookmark = current_user.bookmarks.find_by(work_id: @work.id)
+  #     # else
+  #     #   @bookmark = current_user.bookmarks.build
+  #     # end
+  #   end
+  # end
 
   def get
     respond_to do |format|
