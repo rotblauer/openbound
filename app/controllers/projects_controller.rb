@@ -42,19 +42,6 @@ class ProjectsController < ApplicationController
                          per_page: params[:per_page] || 32
                 )
 
-    # .includes(:works).where(:works => {is_latest_version: true})
-    # .includes(:user)
-    # .includes(:school)
-        # Personalized.
-
-    # if current_user
-    #   user_school = current_user.school_primary
-    #   @bookmarks = current_user.bookmarks(:project_id)
-    # end
-
-    ## Calculating schools list for browsing by schools.
-    #
-
       # ** NOTE: Schools are filtered and order by **works_count**, NOT projects_count
       # TODO: add projects_count attr to School and make it count here
 
