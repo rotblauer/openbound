@@ -83,8 +83,8 @@
               // var array_post_json = [];
 
               var picker = new FilePicker({
-                apiKey: '<%= ENV["GOOGLE_DRIVE_API_KEY"]%>',
-                clientId: '<%= if Rails.env.development? then ENV["GOOGLE_DRIVE_CLIENT_ID_DEV"] else ENV["GOOGLE_DRIVE_CLIENT_ID_ELSE"] end %>',
+                apiKey: '<%= Rails.application.secrets.google_api_key %>',
+                clientId: '<%= if Rails.env.development? then ENV["GOOGLE_DRIVE_CLIENT_ID_DEV"] else Rails.application.secrets.google_drive_client_id end %>',
                 buttonEl: document.getElementById('pickFromModal'),
 
                 // called from _fileGetCallback in filepicker_dan.js.
