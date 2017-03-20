@@ -140,9 +140,10 @@
                       if (!gotText) {
                           $markdownViewText.html("<h1>Loading...</h1>");
                   $.get("/works/<%= work.slug %>/get", function (res) {
-                      if (res.file_content_html !== null) {
-                          gotText =true;
+                      if (res.file_content_md !== null && res.file_content_md.trim() !== "") {
+                          gotText = true;
                       $markdownViewText.html(markdown.toHTML(res.file_content_md));
+                          $("textarea#mde-<%= work.id %>").html(res.file_content_md);
                           }
                   })
                    .fail(function (err) {

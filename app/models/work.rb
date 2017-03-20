@@ -239,7 +239,7 @@ class Work < ActiveRecord::Base
     set_content_type
     return if image?
 
-    if document.url or document.path
+    if !document.file.nil? and !source_from == 'google_drive'
 
       yomu = Yomu.new (Rails.env.production? ? document.url : document.path)
 
@@ -266,8 +266,8 @@ class Work < ActiveRecord::Base
     else
       errors.add("There is no textual content for work id: #{self.id}")
     end
-    self.delay.create_preview_png
     make_diffs
+    self.delay.create_preview_png
   end
   handle_asynchronously :init_textuals
 
@@ -339,8 +339,10 @@ class Work < ActiveRecord::Base
 
   def create_preview_png
 
-    return if file_content_md.nil? or file_content_md.blank?
+    # return if file_content_md.nil? or file_content_md.blank?
+    return if file_content_html.nil? or file_content_html.blank?
 
+    begin
     tmp_dir = File.join(Rails.root, "tmp", "previews", "#{slug}")
     FileUtils.mkdir_p(tmp_dir)
     pdf_path = File.join(tmp_dir, "intermediary.pdf")
@@ -355,11 +357,12 @@ class Work < ActiveRecord::Base
       :replace           => '',        # Use a blank for those replacements
       :universal_newline => true       # Always break lines with \n
     }
-    utf8 = file_content_md.encode(Encoding.find('UTF-8'), encoding_options)
+    utf8 = file_content_html.encode(Encoding.find('UTF-8'), encoding_options)
     return if utf8.blank?
 
     suppress(Exception) do
-      PandocRuby.convert(utf8, :s, {:f => :markdown, :o => pdf_path})
+      # PandocRuby.convert(utf8, :s, {:f => :markdown, :o => pdf_path})
+      PandocRuby.convert(utf8, :s, {:f => :html, :o => pdf_path})
     end
     return if !File.exist? pdf_path
 
@@ -384,6 +387,9 @@ class Work < ActiveRecord::Base
       if self.save
         FileUtils.rm_rf(tmp_dir)
       end
+    rescue
+      puts "There was a damn error in making the preview."
+    end
     # end
   end
 
