@@ -51,7 +51,8 @@ li#signinbutton:hover > li#signinbutton:focus a {
 
 // Fixing searchbar CSS
 .navbar-form .input-group > .form-control {
-    width: 300px;
+    /* width: 300px !important; */
+    width: auto;
 }
 .input-group-btn {
   font-size: inherit;
