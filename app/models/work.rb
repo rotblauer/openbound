@@ -239,7 +239,7 @@ class Work < ActiveRecord::Base
     set_content_type
     return if image?
 
-    if !document.file.nil? and !source_from == 'google_drive'
+    if source_from != 'google_drive'
 
       yomu = Yomu.new (Rails.env.production? ? document.url : document.path)
 
@@ -334,44 +334,42 @@ class Work < ActiveRecord::Base
   	 errors.add("There was an error updating MARKDOWN AND TEXT for work id: #{self.id}")
     end
   end
-  # handle_asynchronously :markdown_to_html_and_text
 
 
   def create_preview_png
 
-    # return if file_content_md.nil? or file_content_md.blank?
-    return if file_content_html.nil? or file_content_html.blank?
-
-    begin
-    tmp_dir = File.join(Rails.root, "tmp", "previews", "#{slug}")
-    FileUtils.mkdir_p(tmp_dir)
-    pdf_path = File.join(tmp_dir, "intermediary.pdf")
-
-    # create pdf file
-    # pandoc markdown -> beamer pdf
-    # encode aggressively conservatively
-    # See String#encode documentation
     encoding_options = {
       :invalid           => :replace,  # Replace invalid byte sequences
       :undef             => :replace,  # Replace anything not defined in ASCII
       :replace           => '',        # Use a blank for those replacements
-      :universal_newline => true       # Always break lines with \n
+      :universal_newline => false       # Always break lines with \n
     }
-    utf8 = file_content_html.encode(Encoding.find('UTF-8'), encoding_options)
-    return if utf8.blank?
 
-    suppress(Exception) do
-      # PandocRuby.convert(utf8, :s, {:f => :markdown, :o => pdf_path})
-      PandocRuby.convert(utf8, :s, {:f => :html, :o => pdf_path})
-    end
-    return if !File.exist? pdf_path
+    tmp_dir = File.join(Rails.root, "tmp", "previews", "#{slug}")
+    FileUtils.mkdir_p(tmp_dir)
+    pdf_path = File.join(tmp_dir, "intermediary.pdf")
 
-    # get cover from pdf
-    # first page
-    page_index_path = pdf_path + "[0]"
-    preview_path = File.join(tmp_dir, "preview.png")
-    # danger
-    # suppress(Exception) do
+    begin
+
+      if file_content_html.present? and !file_content_html.blank?
+        utf8 = file_content_html.encode(Encoding.find('UTF-8'), encoding_options)
+        PandocRuby.convert(utf8, :s, {:f => :html, :o => pdf_path})
+      elsif file_content_md.present? and !file_content_md.blank?
+        utf8 = file_content_md.encode(Encoding.find('UTF-8'), encoding_options)
+        PandocRuby.convert(utf8, :s, {:f => :markdown, :o => pdf_path})
+      elsif file_content_text.present? and !file_content_text.blank?
+        utf8 = file_content_text.encode(Encoding.find('UTF-8'), encoding_options)
+        PandocRuby.convert(utf8, :s, {:f => :native, :o => pdf_path})
+      end
+
+      # return if utf8.blank?
+      return if !File.exist? pdf_path
+
+      # get cover from pdf
+      # first page
+      page_index_path = pdf_path + "[0]"
+      preview_path = File.join(tmp_dir, "preview.png")
+
       pdf_page = Magick::Image.read( page_index_path ).first # first item in Magick::ImageList
       pdf_page.write(preview_path) # implicit conversion based on file extension
 
@@ -388,9 +386,8 @@ class Work < ActiveRecord::Base
         FileUtils.rm_rf(tmp_dir)
       end
     rescue
-      puts "There was a damn error in making the preview."
+      errors.add("There was a damn error in making the preview work: #{self.id}")
     end
-    # end
   end
 
   def has_preview?
