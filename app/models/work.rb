@@ -267,9 +267,9 @@ class Work < ActiveRecord::Base
       errors.add("There is no textual content for work id: #{self.id}")
     end
     make_diffs
-    self.delay.create_preview_png
+    self.delay(:queue => 'preview_maker', priority: 20).create_preview_png
   end
-  handle_asynchronously :init_textuals
+  handle_asynchronously :init_textuals, :queue => "textuals", :priority => 0
 
   # Will _always_ be coming from changed markdown.
   def update_textuals
@@ -288,7 +288,7 @@ class Work < ActiveRecord::Base
         file_content_html: file_content_html
       )
     end
-    self.delay.create_preview_png
+    self.delay(:queue => 'preview_maker', priority: 20).create_preview_png
   end
 
   # When coming from google (w2m and the HTML::Pipeline::MarkdownFilter don't leave extraneous tags coming from DocumentUploader)
@@ -619,7 +619,7 @@ class Work < ActiveRecord::Base
       generate_diff(neighbor, self.id)
     end
   end
-  handle_asynchronously :make_diffs
+  handle_asynchronously :make_diffs, :queue => "diffs", :priority => 10
 
   # this should be Generic
   # @workA <- any work id
