@@ -1,5 +1,7 @@
 div.banner {
-    background-color: orange;
+    /* background-color: orange; */
+    img { margin: auto; }
+    text-align: center;
     &.leaderboard {
         margin: 20px auto 20px auto;
         width: 728px;
