@@ -73,7 +73,9 @@
             <!-- <br> -->
             <!-- Learn from each other.&nbsp; -->
           <% if not logged_in? %>
-          <%= link_to "Sign in to contribute.", signin_path, class: 'dartmouth-green', style: 'color: #00693E' %>
+          <%= link_to "Sign in to contribute.", signin_path, class: 'dartmouth-green', style: 'color: #00693E;' %>
+          <% else %>
+            <span style="color: gold;">Help us build the library.</span>
           <% end %>
 
 

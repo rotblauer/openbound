@@ -4,7 +4,7 @@
 	padding: 10vw;
 	// padding-left: 10vw;
 	// padding-right: 10vw;
-	
+
 	width: 100%;
 
 	background-color: #5075A7;
@@ -58,16 +58,16 @@
 
 a.linky-link {
 	span {
-		font-size: 2.2em; 
-		color: #76B3DF; 
-		display: float; 
-		position: bottom right; 
-		margin-right: 20px; 
-		margin-top: 40px; 
+		font-size: 2.2em;
+		color: #76B3DF;
+		display: float;
+		position: bottom right;
+		margin-right: 20px;
+		margin-top: 40px;
 		margin-bottom: 0px;
 	}
-	:hover { 
-		text-decoration: underline; 
+	:hover {
+		text-decoration: underline;
 	}
 }
 
@@ -75,7 +75,7 @@ a.linky-link {
 	margin: 2vw;
 }
 .chat-bubble {
-	
+
 
 	border-radius: 40px !important;
 	margin: 0vw;
@@ -94,19 +94,19 @@ a.linky-link {
 		padding: 10px 20px 10px 20px;
 		position: relative;
 		right: 0px;
-		h4 { 
+		h4 {
 			// width: auto;
 			font-size : 2vw; color: white;
-			a { 
-				font-size : 2vw; color: white; 
+			a {
+				font-size : 2vw; color: white;
 				// text-decoration: underline;
-			} 
+			}
 		}
-		
+
 	}
 }
 
-.chat-bubble.left:after 
+.chat-bubble.left:after
 {
 content: '';
 position: absolute;
@@ -121,7 +121,7 @@ bottom: -10px;
 left: 10%;
 }
 
-.chat-bubble.right:after 
+.chat-bubble.right:after
 {
 content: '';
 position: absolute;

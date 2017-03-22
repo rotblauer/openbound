@@ -75,7 +75,7 @@ class SchoolsController < ApplicationController
 	def show
 
 		@school = School.friendly.find(params[:id])
-		@users = @school.users.order("works_count desc") #.first(28)
+		@users = @school.users.order("works_count desc").first(24)
     @projects = Project
                 .includes([:school, :user])
                 .search(id: params[:project_id],

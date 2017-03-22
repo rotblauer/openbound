@@ -20,6 +20,7 @@ $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 @import 'layout/footer'; 
 
 // Modules
+@import 'modules/banners';
 @import 'modules/browsebar';
 @import 'modules/citations';
 @import 'modules/comments';

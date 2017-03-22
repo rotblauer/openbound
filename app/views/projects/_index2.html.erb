@@ -14,6 +14,14 @@
 
 		<div class="col-md-9">
 
+      <!-- <div class="banner leaderboard"> -->
+      <!-- </div> -->
+      <%= link_to "https://www.amnesty.org/en/", target: :_blank do %>
+      <%= image_tag 'cleverads/Amnesty-Hangman.jpg', class: 'img-reponsive'%>
+        <% end %>
+      <%# image_tag 'Amnesty-Hangman.jpg', class: 'img-reponsive'%>
+
+
 			<!-- if querying -->
 			<% if false # params[:search] || params[:tag] || params[:school_name] %>
 
@@ -114,10 +122,16 @@
 
     <!-- SIDEBAR -->
     <div class="col-md-3 hidden-xs hidden-sm">
+      <!-- <div class="banner square square-sm"></div> -->
+      <%= image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
 			<div>
 				<%= render partial: 'projects/tag_browse', locals: { projects: @projects } %>
 			</div>
-      <%= image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
+
+      <%= link_to "http://www.adidas.com", target: :_blank do %>
+      <%= image_tag('cleverads/Adidas-LineRunner.jpg', class: 'img-responsive') %>
+        <% end %>
+      <%#= image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
       <br>
 		</div>
 

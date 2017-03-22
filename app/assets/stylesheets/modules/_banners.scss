@@ -1,0 +1,28 @@
+div.banner {
+    background-color: orange;
+    &.leaderboard {
+        margin: 20px auto 20px auto;
+        width: 728px;
+        height: 90px;
+        &.leaderboard-lg {
+            height: 210px;
+        }
+        &.leaderboard-xl {
+            height: 300px;
+        }
+    }
+
+    &.square {
+        height: 250px;
+        &.square-sm {
+            width: 250px;
+        }
+        &.square-md {
+            width: 300px;
+        }
+        &.square-lg {
+            width: 336px;
+            height: 280px;
+        }
+    }
+}

@@ -66,7 +66,7 @@ class UsersController < ApplicationController
     @recommendations = @user.recommendeds.first(10)
 
     @projects = Project
-                .includes([:school, :latest_work])
+                .includes([:user, :school])
                 .where(user_id: User.friendly.find(params[:id]).id)
                 .where(anonymouse: false)
                 .search(id: params[:project_id],

@@ -32,7 +32,7 @@ class Work < ActiveRecord::Base
   has_many :recommendeds, dependent: :destroy # --> projects
   has_many :revisions, dependent: :destroy
 
-  default_scope { includes( :user ) }
+  # default_scope { includes( :user ) }
 
 
   ############################################
@@ -351,12 +351,12 @@ class Work < ActiveRecord::Base
 
     begin
 
-      if file_content_html.present? and !file_content_html.blank?
-        utf8 = file_content_html.encode(Encoding.find('UTF-8'), encoding_options)
-        PandocRuby.convert(utf8, :s, {:f => :html, :o => pdf_path})
-      elsif file_content_md.present? and !file_content_md.blank?
+      if file_content_md.present? and !file_content_md.blank?
         utf8 = file_content_md.encode(Encoding.find('UTF-8'), encoding_options)
         PandocRuby.convert(utf8, :s, {:f => :markdown, :o => pdf_path})
+      elsif file_content_html.present? and !file_content_html.blank?
+        utf8 = file_content_html.encode(Encoding.find('UTF-8'), encoding_options)
+        PandocRuby.convert(utf8, :s, {:f => :html, :o => pdf_path})
       elsif file_content_text.present? and !file_content_text.blank?
         utf8 = file_content_text.encode(Encoding.find('UTF-8'), encoding_options)
         PandocRuby.convert(utf8, :s, {:f => :native, :o => pdf_path})
@@ -387,6 +387,7 @@ class Work < ActiveRecord::Base
       end
     rescue
       errors.add("There was a damn error in making the preview work: #{self.id}")
+      return
     end
   end
 

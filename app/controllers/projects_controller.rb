@@ -141,14 +141,15 @@ class ProjectsController < ApplicationController
     # (set_project is called in private)
     # @disable_footer = flase # call "custom" upload+import options inline
     # disable_base_upload_forms # application helper
-    impressionist(@project)
 
     # show all works under this project (all versions)
-    @works = @project.works.includes(:user).all
+    @works = @project.works.order(created_at: :desc).all
     @most_recent_work = @project.most_recent_work
     @diffs = @project.diffs.all
 
     @tag_suggestions = Project.all_tags[0...40]
+
+    impressionist(@project)
   end
 
   # add a work which will be assigned to existing project

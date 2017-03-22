@@ -29,7 +29,7 @@
         <!-- <span class="glyphicon glyphicon-arrow-up"></span> -->
         latest
     </p>
-    <% @works.order(created_at: :desc).each do |work| %>
+    <% @works.each do |work| %>
 
         <!-- list available versions -->
         <!-- click to toggle version visibility -->

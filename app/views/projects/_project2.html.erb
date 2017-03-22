@@ -58,9 +58,9 @@
 
 
   <!-- div to separeate text from img -->
-  <div style="display: inline-block; min-width: 60%;">
+  <div style="display: inline-block; width: auto;">
 
-	<h4 class="ellipsis" style="max-width: 95%; display: inline-block; ">
+	<h4 class="ellipsis" style="display: inline-block; ">
 
 		<!-- AUTHOR NAME -->
     <!-- author/user name -->
@@ -77,7 +77,7 @@
 		  <!-- bip activator -->
 		  <!-- <span id="activator-<%= work.id %>" class="glyphicon glyphicon-pencil glyphicon-edit-work" aria-hidden="true" style="color: lightgray;" title="Click to edit work name."></span> -->
 		  <!-- bip title -->
-		  <%= link_to work.project, class: "" do %>
+		  <%= link_to project, class: "" do %>
 		    <% # best_in_place work.project, :name, activator: "#activator-#{work.id}", :as => :input, place_holder: "#{work.project.name}" %>
 		    <%= project.name %>
 		  <% end %>

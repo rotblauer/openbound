@@ -58,8 +58,10 @@
 			this.picker = new google.picker.PickerBuilder()
 				.addView(google.picker.ViewId.DOCUMENTS) // <-- only allow DOCUMENTS, so far. - ia
 				// .enableFeature(google.picker.Feature.NAV_HIDDEN)
-				.enableFeature(google.picker.Feature.MULTISELECT_ENABLED) // <-- 
+				.enableFeature(google.picker.Feature.MULTISELECT_ENABLED) // <--
 				.setAppId(this.clientId)
+        // http://stackoverflow.com/questions/23548135/api-developer-key-error-with-google-drive-picker/23551463#23551463
+        // Don't know why commenting this makes it work in development, but it does.
 				.setDeveloperKey(this.apiKey)
 				.setOAuthToken(accessToken)
 				.addView(view)

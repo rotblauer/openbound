@@ -59,6 +59,9 @@ module Openbound
     # config.assets.paths << Rails.root.join('public', 'uploads', 'work', 'document') if !Rails.env.production?
     # config.assets.precompile += [/.*\.jpg/,/.*\.pdf/]
     # config.assets.paths << Rails.root.join('lib', 'assets', 'docsplit')
+    # Dir.glob("#{Rails.root}/app/assets/images/**/").each do |path|
+    #   config.assets.paths << path
+    # end
 
     # added per http://stackoverflow.com/questions/5286117/incompatible-character-encodings-ascii-8bit-and-utf-8
     # see also environmnet.rb

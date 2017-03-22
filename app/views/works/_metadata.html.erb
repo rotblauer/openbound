@@ -1,9 +1,6 @@
 <div class="metadata-container" style="">
 
 
-<span style="color: lightgray; float: right; margin-left: 5px;" >
-<%= pretty_content_type(work) %>
-</span>
 
 <div class="ellipsis">
   <div class="title-etc">
@@ -55,6 +52,10 @@
     <span style="font-size: 1em; color: gray;" id="author-name-<%= work.id %>" class="<%= 'anony' if work.anonymouse %>">
       <%= working_author(project) %>
     </span>
+
+<span style="color: lightgray; float: right; margin-left: 5px;" >
+<%= pretty_content_type(work) %>
+</span>
 </div>
 
 <% if false %>
