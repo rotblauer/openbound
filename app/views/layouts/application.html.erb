@@ -29,98 +29,27 @@
 </head>
 <body class="no-touch">
 
-  <!-- staging notice -->
-  <% if Rails.env.staging? %>
-    <div class="container">
-      <div class="row">
-      <div class="col-sm-12 text-muted" style="background-color: #DDD; padding-top: 10px;">
-        <p>
-          This is the staging environment, which uses entirely different data than the <a href="http://www.openbound.org">production environment</a>.</p>
-      </div>
-      </div>
-    </div>
-  <% end %>
-
-  <!-- PLEASE_SIGN_UP AND ALERTS -->
-  <div class="container" style="margin-top: 10px;">
-
-      <!-- PLUG TO SIGN UP IF ANONYMOUSE USER -->
-
-
-      <div class="col-sm-12" style="margin-bottom: 20px;">
-
-          <h3 class="dark-blue" >
-
-            <!-- <div class="pull-right" > -->
-              <%#= image_tag('B_very_beta.png', height: '85', style: 'margin-left: 10px;') %>
-            <!-- </div> -->
-
-            <span class="hidden-sm hidden-xs pull-right text-right" style="font-weight:lighter; color: gold;">
-              <%= link_to projects_path, class:'modest-link' do %>
-                <%= pluralize Project.all.count, 'project' %> <br>
-                <%#= pluralize Work.all.count, 'drafts' %>
-              <% end %>
-              <%= link_to schools_path, class:'modest-link' do %>
-                <%= pluralize School.where(is_academic: true).count, 'school' %>
-              <% end %>
-
-            </span>
-
-            Schoolwork should be free. <br>
-            <!-- A digital library of student work, public and free. -->
-            <!-- <br> -->
-            <!-- Because your work matters. -->
-            <!-- <br> -->
-            <!-- Learn from each other.&nbsp; -->
-          <% if not logged_in? %>
-          <%= link_to "Sign in to contribute.", signin_path, class: 'dartmouth-green', style: 'color: #00693E;' %>
-          <% else %>
-            <span style="color: gold;">Help us build the library.</span>
-          <% end %>
-
-
-          </h3>
-
-      </div>
-
-
-  </div>
-
-  <!-- ALERT MESSAGES -->
-
   <%= render partial: 'shared/custom_flasher', :flash => flash %>
 
   <%= query_diet_widget if Rails.env.development? %>
 
-  <!-- NAVBAR -->
 	<%= render 'layouts/nav' unless @disable_nav %>
 
-  <!-- YIELD CONTAINER(S) -->
   <% unless @container_fluid %>
-    <div class="container" id="everything">
+    <div class="container-fluid" id="everything" style="padding-top: 74px; ">
+      <%= render partial: 'shared/penthouse' if current_page?(:controller => 'projects', :action => 'index') %>
       <%= yield.force_encoding(Encoding::UTF_8) %>
     </div>
   <% else %>
-    <div class="container-fluid" id="everything-else" style="padding: 0px;">
+    <div class="container-fluid" id="everything-else" style="padding: 0px; margin-top: 74px;">
+    <%= render partial: 'shared/penthouse' if current_page?(:controller => 'projects', :action => 'index') %>
       <%= yield.force_encoding(Encoding::UTF_8) %>
     </div>
   <% end %>
 
-  <!-- FOOTER -->
 	<%= render 'layouts/footer' unless @disable_footer %>
 
-  <!-- GOOGLE ANALYTICS SCRIPT -->
   <%= render 'shared/google_analytics' if Rails.env.production? %>
-
-  <!-- staging notice -->
-  <% if Rails.env.staging? %>
-  <div class="jumbotron">
-    <div class="container">
-      <p>This is the <strong>staging environment</strong>, which uses entirely different data than the <a href="http://www.openbound.org">production environment</a>.</p>
-      <%# debug(params) %>
-    </div>
-  </div>
-  <% end %>
 
   <% if Rails.env.development? %>
   <div class="row" style="background-color: black; padding: 20px;">

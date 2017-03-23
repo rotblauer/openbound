@@ -2,17 +2,34 @@
 
 	<%# render @projects if !@projects.empty? %>
 
-	<div class="row" style="padding-top: 5px; padding-bottom: 5px;">
+	<div id="big-row"  class="row" style="padding-top: 5px; padding-bottom: 5px;">
 
     <!-- SIDEBAR -->
-    <div class="col-md-3 hidden-md hidden-lg">
-			<div>
+    <!-- <div class="col-md-3 hidden-md hidden-lg"> -->
+		<!-- <div> -->
+		<%# render partial: 'projects/tag_browse', locals: { projects: @projects } %>
+		<!-- </div> -->
+    <!-- <br> -->
+		<!-- </div> -->
+
+    <!-- SIDEBAR -->
+    <div class="col-sm-3" >
+      <div class="banner">
+      <%# image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
+      <%= link_to "http://www.adidas.com", target: :_blank do %>
+      <%= image_tag('cleverads/Adidas_LineRunner.jpg', class: 'img-responsive') %>
+      <% end %>
+      </div>
+
+        <div id="tags-holster" style="position: absolute; background-color: white;">
 				<%= render partial: 'projects/tag_browse', locals: { projects: @projects } %>
-			</div>
+        </div>
+
+      <%#= image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
       <br>
 		</div>
 
-		<div class="col-md-9">
+		<div class="col-sm-9" >
 
       <div class="banner leaderboard" style="margin-bottom: 30px;">
       <%= link_to "https://www.amnesty.org/en/", target: :_blank do %>
@@ -42,7 +59,7 @@
 			<% if true # current_user %>
 
 				<!-- projects index while dashboard+followable not yet implemented -->
-				<div id="project-uploads">
+				<div id="project-uploads" >
 					<%= render partial: 'projects/project', collection: @projects, as: :project %>
 					<%#= render partial: 'projects/project2', collection: @projects, as: :project %>
 				</div>
@@ -120,20 +137,13 @@
 		<% end %>
 		</div>
 
-    <!-- SIDEBAR -->
-    <div class="col-md-3 hidden-xs hidden-sm">
-      <!-- <div class="banner square square-sm"></div> -->
-      <%= image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
-			<div>
-				<%= render partial: 'projects/tag_browse', locals: { projects: @projects } %>
-			</div>
-
-      <%= link_to "http://www.adidas.com", target: :_blank do %>
-      <%= image_tag('cleverads/Adidas_LineRunner.jpg', class: 'img-responsive') %>
-        <% end %>
-      <%#= image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
-      <br>
-		</div>
 
 
 	</div>
+
+      <script>
+       $("#tags-holster").stick_in_parent({
+           parent: "#big-row",
+           offset_top: 74
+       });
+      </script>

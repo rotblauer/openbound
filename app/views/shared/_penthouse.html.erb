@@ -1,0 +1,36 @@
+      <div class="col-sm-12" >
+
+          <h3 class="dark-blue" style="margin-top: 5px;">
+
+            <!-- <div class="pull-right" > -->
+              <%#= image_tag('B_very_beta.png', height: '85', style: 'margin-left: 10px;') %>
+            <!-- </div> -->
+
+            <span class="hidden-sm hidden-xs pull-right text-right" style="font-weight:lighter; color: gold;">
+              <%= link_to projects_path, class:'modest-link' do %>
+                <%= pluralize Project.all.count, 'project' %> <br>
+                <%#= pluralize Work.all.count, 'drafts' %>
+              <% end %>
+              <%= link_to schools_path, class:'modest-link' do %>
+                <%= pluralize School.where(is_academic: true).count, 'school' %>
+              <% end %>
+
+            </span>
+
+            Schoolwork should be free. <br>
+            <!-- A digital library of student work, public and free. -->
+            <!-- <br> -->
+            <!-- Because your work matters. -->
+            <!-- <br> -->
+            <!-- Learn from each other.&nbsp; -->
+          <% if not logged_in? %>
+          <%= link_to "Sign in to contribute.", signin_path, class: 'dartmouth-green', style: 'color: #00693E;' %>
+          <% else %>
+            <span style="color: gold;">Help us build a library.</span>
+          <% end %>
+
+
+          </h3>
+
+      </div>
+

@@ -107,11 +107,14 @@ img.user-school-logo {
   // border-bottom: 2px dashed $columbia-medium-blue;
   // border-bottom: 2px dashed $app-medium;
 
+  border-radius: 0px;
 
-  padding-bottom: 5px;
-  padding-top: 5px;
-  margin-bottom: 5px !important;
-  // position: fixed;
+  padding-bottom: 2px;
+  padding-top: 10px;
+
+  position: fixed;
+  z-index: 9000;
+  min-width: 600px;
 }
 .navbar .navbar-redpen .navbar-brand {
   color: #000000  ;

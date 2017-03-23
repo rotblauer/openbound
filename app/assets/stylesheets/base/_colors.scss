@@ -1,17 +1,17 @@
-// __      __     _____  _____          ____  _      ______  _____ 
+// __      __     _____  _____          ____  _      ______  _____
 // \ \    / /\   |  __ \|_   _|   /\   |  _ \| |    |  ____|/ ____|
-//  \ \  / /  \  | |__) | | |    /  \  | |_) | |    | |__  | (___  
-//   \ \/ / /\ \ |  _  /  | |   / /\ \ |  _ <| |    |  __|  \___ \ 
+//  \ \  / /  \  | |__) | | |    /  \  | |_) | |    | |__  | (___
+//   \ \/ / /\ \ |  _  /  | |   / /\ \ |  _ <| |    |  __|  \___ \
 //    \  / ____ \| | \ \ _| |_ / ____ \| |_) | |____| |____ ____) |
-//     \/_/    \_\_|  \_\_____/_/    \_\____/|______|______|_____/ 
-                                                                
-                                                                
+//     \/_/    \_\_|  \_\_____/_/    \_\____/|______|______|_____/
+
+
 // Color palettes.
 
 // The blues.
 $columbia-blue: #76B3DF;
 $columbia-medium-blue: #C4D8E2;
-$columbia-light-blue: #DEE9EF;  
+$columbia-light-blue: #DEE9EF;
 $bootstrap-primary-blue: #428bca;
 
 $dillinger-select-blue: #5075A7; // good background against white fore
@@ -20,10 +20,10 @@ $dillinger-select-blue: #5075A7; // good background against white fore
 $v2-dark-blue: #005a9b;
 $v2-light-blue: #4a86e8;
 
-// The yellows. 
+// The yellows.
 $library-yellow: #f9fdef;
 
-// Bootstrap defaults. 
+// Bootstrap defaults.
 $bootstrap-primary: darken(#428bca, 6.5%); // #337ab7
 $bootstrap-success: #5cb85c;
 $bootstrap-info:    #5bc0de;
@@ -39,7 +39,7 @@ $yale-blue: #0E4C92;
 
 
 // New proposed colors.
-$julia-blue-primary: #005a9b; 
+$julia-blue-primary: #005a9b;
 $julia-blue-secondary: #006EBC; // $columbia-medium-blue; //#24B700; //#21A500; //#0084E2;
 
 
@@ -48,7 +48,7 @@ $julia-blue-secondary: #006EBC; // $columbia-medium-blue; //#24B700; //#21A500; 
 ///////////////////////////////////
 
 $app-primary: $columbia-blue;// $julia-blue-primary;// $columbia-blue; //darkblue <-- Julia
-$app-secondary: $columbia-medium-blue;//$julia-blue-secondary; 
+$app-secondary: $columbia-medium-blue;//$julia-blue-secondary;
 $app-tertiary: $columbia-light-blue;
 
 // $app-alt: ;
@@ -58,26 +58,26 @@ $app-tertiary: $columbia-light-blue;
 // $app-text: ;
 // $app-text-light: ;
 
-// Start page. 
+// Start page.
 
 
 
 // Comments.
 $comments-font-color: darkgrey;
-$comments-background-color: $columbia-light-blue; // <-- Background comments, wells. 
+$comments-background-color: $columbia-light-blue; // <-- Background comments, wells.
 $comments-signature-font-color: gray;
 $comments-signature-background-color: inherit;
 $comments-delete-link-font-color: $columbia-blue;
 $comments-delete-link-background-color: inherit;
 $comments-give-feedback-font-color: $columbia-blue;
 
-// Footer. <-- still itself a work in progress. pushing to low priority CSS refactoring. 
+// Footer. <-- still itself a work in progress. pushing to low priority CSS refactoring.
 
 // Gradients and bookmarks.
 $gb-border-color: lightgray;
 
 // Navbar.
-$logo-font-color: $columbia-blue; // <-- Logo, titles, tags_off. 
+$logo-font-color: $columbia-blue; // <-- Logo, titles, tags_off.
 $logo-background-color: white;
 $nav-border-color: $columbia-medium-blue;
 
@@ -87,22 +87,17 @@ $nav-border-color: $columbia-medium-blue;
 // Schools.
 $school-well-background-color: $columbia-light-blue;
 
-// Signin. 
+// Signin.
 $signin-advice-font-color: gray;
 // Users.
-// Works. 
+// Works.
 $works-show-user-name-font-color: $columbia-blue;
 $works-show-school-name-font-color: grey;
-// Shared. 
-$page-titles-font-color: $columbia-medium-blue; // <-- 
+// Shared.
+$page-titles-font-color: $columbia-medium-blue; // <--
 $page-titles-background-color: white;
 $mark-background-color: yellow;
 
 ///////////////////////////////////
 // DEVELOPMENT ENVIRONMENT //
 ///////////////////////////////////
-
-
-
-
-

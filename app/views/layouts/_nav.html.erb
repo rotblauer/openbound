@@ -1,7 +1,9 @@
 <!-- Navbar redpen -->
 <div class="navbar navbar-redpen clearfix" role="navigation">
-<div class="container">
+<div class="">
 
+  <div class="">
+    
 
 	<!-- Brand and toggle get grouped for better mobile display -->
 	<div class="navbar-header">
@@ -37,15 +39,15 @@
 				<!-- if not in the projects world, link back to it -->
 				<% if !(params[:controller] == 'projects') %>  <!-- , :action => 'index' -->
 
-						<li class="hightlight-active-link has-tooltip"  data-toggle="tooltip" data-placement="bottom" title="Browse projects" aria-hidden="true">
-							<%= link_to "<span class='octicon octicon-book'></span>".html_safe, projects_path %>
+						<li class="hightlight-active-link has-tooltip"  data-toggle="tooltip" data-placement="bottom" title="Browse projects" aria-hidden="true" style="background-color: #76B3DF;">
+							<%= link_to "<span class='octicon octicon-book'></span>".html_safe, projects_path, style: "color: white;" %>
 						</li>
 
 
 				<% elsif not (params[:controller] == 'schools') %>
 
-					<li class="highlight-active-link has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Browse schools" aria-hidden="true">
-						<%= link_to "<span class='fa fa-university'></span>".html_safe, schools_path %>
+					<li class="highlight-active-link has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Browse schools" aria-hidden="true" style="background-color: green;">
+						<%= link_to "<span class='fa fa-university'></span>".html_safe, schools_path, style: "color: white;" %>
 					</li>
 
 				<% end %>
@@ -64,6 +66,7 @@
   </div><!-- /.navbar-collapse -->
 
 
+  </div> 
 </div><!-- / navbar container-fluid -->
 </div><!-- / navbar redpen -->
 
