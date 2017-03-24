@@ -1,0 +1,57 @@
+
+                  <div class="dropdown" style="display: inline;">
+                      <!-- link to download work/:id/download => 'works#download' -->
+
+                        <button class="btn btn-xs btn-outline btn-success dropdown-toggle" data-toggle="dropdown">
+                          <span class="fa fa-caret-down"></span>
+                          Download as
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-center">
+
+                          <!-- original file -->
+                          <% if work.document_url %>
+                          <li>
+                            <%= link_to work.document_url, class: 'modest-link' do %>
+                              <span class="brand-primary"><%= work.file_name %></span>&nbsp;<sup style="color: green;">original</sup>
+                            <% end %>
+                          </li>
+                          <% end %>
+
+                          <% if !work.image? %>
+                          <!-- markdown -->
+                          <li>
+                            <%= link_to download_work_path(:id => work.id, :download_as => 'markdown'), class: 'modest-link' do %>
+                              <span class="brand-primary"><%=  download_name(work.name || work.file_name) %>.md</span>&nbsp;markdown
+                            <% end %>
+                          </li>
+
+                          <li>
+                            <%= link_to download_work_path(:id => work.id, :download_as => 'pdf'), class: 'modest-link' do %>
+                              <span class="brand-primary"><%=  download_name(work.name || work.file_name) %>.pdf</span>&nbsp;pdf
+                            <% end %>
+                          </li>
+
+                          <!-- plain -->
+                          <li>
+                            <%= link_to download_work_path(:id => work.id, :download_as => 'plain'), class: 'modest-link' do %>
+                              <span class="brand-primary"><%=  download_name(work.name || work.file_name) %>.txt</span>&nbsp;plain text
+                            <% end %>
+                          </li>
+
+                          <!-- open office -->
+                          <li>
+                            <%= link_to download_work_path(:id => work.id, :download_as => 'open_office'), class: 'modest-link' do %>
+                              <span class="brand-primary"><%= download_name(work.name || work.file_name) %>.odt</span>&nbsp;Open Office text document
+                            <% end %>
+                          </li>
+
+                          <!-- docx -->
+                          <li>
+                            <%= link_to download_work_path(:id => work.id, :download_as => 'microsoft_word'), class: 'modest-link' do %>
+                              <span class="brand-primary"><%=  download_name(work.name || work.file_name) %>.docx</span>&nbsp;Microsoft Word&trade;
+                            <% end %>
+                          </li>
+                          <% end %>
+
+                        </ul>
+                  </div>

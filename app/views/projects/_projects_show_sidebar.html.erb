@@ -10,22 +10,11 @@
           <span id="policy-option" class="glyphicon glyphicon-user has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Superhero On/Off" aria-hidden="true"></span>
         <% end %>
       <% elsif !project.anonymouse? %>
-        <%= image_tag project.user.avatar_url(:face), style: "max-height: 50px; max-width: 50px; text-align: center;"  %>
+        <%= image_tag project.user.avatar_url(:hand), style: "max-height: 50px; max-width: 50px; text-align: center;"  %>
       <% end %>
 
       <span style="color: lightgray;" id="author-name-<%= project.recent_work_id %>" class="<%=  'anony' if project.anonymouse %>"><%= working_author project %></span>
-      <span class="brand-secondary"><br/> / </span>
-      <span class="text-muted">
-        <% if project_owner? project %>
-          <%= best_in_place project, :name, place_holder: "a#{project.name}", activator: "#activator-project-name-#{project.id}", :as => :input, class: "best_in_place" %>
-          <span id="activator-project-name-<%= project.id %>" class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: lightgray;"></span>
-        <% else %>
-          <span class="">
-            <%= project.name %>
-          </span>
-        <% end %>
 
-      </span>
     </h4>
 
     <div class="pull-right" style="display: inline-block; vertical-align: middle; margin-top: 10px;">
@@ -87,8 +76,9 @@
 
     </div>
 
+
     <div>
-      <% if project.school_name != 'Spy University' %>
+      <% if true #project.school_name != 'Spy University' %>
         <span>
           <%= favicon_for(project.school, 20, 20, "margin-right: 5x; margin-bottom: 2px; vertical-align: middle;") %>
           <%= link_to project.school_name, project.school %>
@@ -100,7 +90,6 @@
 
 
 </div>
-
 
 
 
@@ -125,9 +114,9 @@
 <br/>
 
 <!-- BIP TAGS for the owner, just tag lists for non-owners -->
+<span class="brand-primary" >Tags </span>
 <div class="tag-lists">
   <% if project_owner? project %>
-    <span class="brand-secondary">Tags </span>
 
     <!-- <span class="text-muted"> -->
     <!-- BIP -->
@@ -196,7 +185,7 @@
 <!-- display: none -->
 <span id="currently-viewed-id" style="display: none;"><%= @most_recent_work.id %></span>
 
-<span class="brand-secondary">Versions </span>
+<span class="brand-primary">Versions </span>
 <!-- <p class="brand-secondary">latest</p> -->
 
 
@@ -243,7 +232,7 @@
 <% end %>
 <!-- <p class="brand-secondary">earliest</p> -->
 <br/>
-<span class="brand-secondary">Share </span>
+<span class="brand-primary">Share </span>
 <br/>
 
 <!-- SHARE BUTTONS -->

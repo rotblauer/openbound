@@ -38,6 +38,80 @@
 	<% elsif work.docordocx? || work.markdown? || work.type_html? || work.latex? || work.plain_text? || work.type_rtf? || work.content_type.blank? || work.content_type == 'application/vnd.oasis.opendocument.text' %>
 		<div class="doc-text-container" > <!-- style="overflow: scroll;" -->
 
+		<% if project_owner?(@project) %>
+
+		<div class="row" style="margin-bottom: 0px;  border-bottom: 2px solid #76B3DF;">
+		<div class="pull-right" style="position: absolute; top: 0px; right: 0px; background: white; padding: 5px 0px 5px 5px; border-bottom: 2px solid #76b3df;">
+
+			<!-- BEGIN NEW VERSION -->
+			<%= link_to begin_new_version_work_path(work.id) do %>
+			  <button id="" class="begin-new-version-button btn btn-success  btn-xs begin-new-version">
+			    <!-- <span class="fa fa-file-text-o"></span>
+			         <span class="fa fa-long-arrow-right"></span>
+			         <span class="fa fa-plus"></span>
+			         <span class="fa fa-file-text"></span> -->
+			    <!--  <span class="fa fa-file-text-o"></span>
+			         <span class="fa fa-plus"></span>
+			         <span class="fa fa-plus"></span> -->
+			    <span class="octicon octicon-git-commit"></span>
+
+			    Create a new version from this one
+			  </button>
+			<% end %>
+
+
+		<!-- LEAVE EDITING BUTTONS   -->
+			<!-- LEAVE DANGEROUSLY -->
+			<button id="" class="btn btn-warning btn-xs btn-outline leave-edit-mode-dangerously-button">
+			  <span class="fa fa-level-up"></span>&nbsp;
+			  Leave editing without saving
+			</button>
+
+			<!-- LEAVE SAVELY -->
+			<button id="" class="btn btn-default btn-xs btn-outline leave-edit-mode-safely-button">
+			  <span class="fa fa-level-up"></span>&nbsp;
+			  Leave editing
+			</button>
+
+			<!-- EDIT THIS VERSION -->
+			<a id="" href="#markdown-cheat-sheet" data-toggle="collapse" aria-expanded="false" aria-controls="markdown-cheat-sheet" class="btn btn-primary btn-xs edit-mode-button">
+			  <!-- <span class="fa fa-edit"></span> -->
+			  <span class="fa fa-pencil"></span>
+			  Edit this version
+			</a>
+
+			<!-- SAVE -->
+			<button id="" class="save-button btn btn-success btn-xs disabled update-version-<%= work.id %>">
+			  <span class="fa fa-save"></span>
+			  Save
+			</button>
+
+		<!-- delete button -->
+		<% if @project.works_count > 1 %>
+		  <span>
+			  <%= link_to work, method: :delete, remote: true, data: { confirm: "Really want to remove this version?"}, class: "btn btn-xs btn-danger btn-outline delete_version" do %>
+				  <small class="glyphicon glyphicon-trash"></small>
+				  Delete this version
+			  <% end %>
+		<% else%>
+			  <%= link_to @project, method: :delete, remote: true, data: { confirm: "Really want to delete this project?"}, class: "btn btn-xs btn-danger btn-outline delete_version" do %>
+				  <small class="glyphicon glyphicon-trash"></small>
+				  Delete this version
+			  <% end %>
+		  </span>
+		<% end %>
+
+		</div>
+		</div>
+
+		<% else %>
+
+
+
+		<% end %>
+
+
+
 
 				<div id="public-doc-text-view-<%= work.id %>" class="doc-text-content public-doc-text-view">
 

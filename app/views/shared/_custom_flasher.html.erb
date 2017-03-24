@@ -1,6 +1,6 @@
 
 <% flash.each do |message_type, message| %>
-<div  class="modal alert-fader pull-right alert alert-<%= message_type %> col-sm-4 col-sm-offset-4" style="height: 50px; border-radius: 0px; z-index: 1500; ">
+<div  class="modal alert-fader pull-right alert alert-<%= message_type %> col-sm-4 col-sm-offset-4" style="height: 50px; border-radius: 0px; z-index: 9000; ">
     <span><%= message.html_safe %></span>
     <span class="close">&times;</span> <!-- link to close (?) -->
   </div>

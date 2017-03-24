@@ -101,3 +101,9 @@ span.ui-icon.ui-icon-close {
     -moz-box-shadow: 6px 0px 15px -7px rgba(0,0,0,0.37);
     box-shadow: 6px 0px 15px -7px rgba(0,0,0,0.37);
 }
+.shadowed-right {
+ 	// horiz l, vert l, blur rad, spread rad
+    -webkit-box-shadow: -9px 2px 15px -7px rgba(0,0,0,0.37);
+    -moz-box-shadow: -9px 2px 15px -7px rgba(0,0,0,0.37);
+    box-shadow: -9px 2px 15px -7px rgba(0,0,0,0.37);
+}

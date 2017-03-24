@@ -1,0 +1,733 @@
+<%# render partial: 'projects/show_header', locals: {project: @project, diffs: @diffs} %>
+
+
+
+
+<div class="row brand-primary background" style="border-bottom: 2px solid white;">
+<p style="padding: 7px 0px 3px 7px;width: auto;">
+        <% if project_owner? @project %>
+          <%= best_in_place @project, :name, place_holder: "a#{@project.name}", activator: "#activator-project-name-#{@project.id}", :as => :input, class: "best_in_place" %>
+          <span id="activator-project-name-<%= @project.id %>" class="glyphicon glyphicon-pencil" aria-hidden="true" ></span>
+        <% else %>
+          <span class="">
+            <%= @project.name %>
+          </span>
+        <% end %>
+      </p>
+</div>
+
+
+<!-- SHOW AVAILABLE VERSIONS -->
+<div id='version-display' class='row' style="padding-bottom: 40px;">
+
+    <!-- show all works (versions) associated to this project -->
+    <!-- and option for uploads -->
+    <div class="col-sm-3" style=" background-color: #DEE9EF;">
+
+      <%= render partial: 'projects/projects_show_sidebar', locals: {project: @project, diffs: @diffs} %>
+
+    </div> <!-- !col-sm-3 -->
+
+
+
+    <!-- COL-SM-9 -->
+    <div class="col-sm-9" style="padding-left: 0px; padding-right: 0px;">
+    <div id="versions-different-alert" class="alert alert-info " style="display: none; position: fixed; top: 0px; right: 0px; max-width: 40%; z-index: 9999;">
+      Updates saved! <%= link_to "Refresh to see your new public version", project_path(@project) %>, or keep on keeping on.
+
+      <style>
+       /*http://stackoverflow.com/questions/18169717/align-button-vertically-in-alert-field*/
+       .alert p .btn {
+         display:inline;
+       }
+      </style>
+      <p class="text-right">
+        <a href="<%= project_path(@project) %>" class="btn btn-success btn-outline btn-sm" style="margin-right: 10px;">Refresh</a>
+        <span id="hide-version-alert">
+          <span class="fa fa-close"></span>
+        </span>
+      </p>
+      <script>
+       $('#hide-version-alert').on('click', function() {
+           $('#versions-different-alert').hide();
+       });
+      </script>
+    </div>
+
+
+
+
+
+        <% @works.each do |work| %>
+
+
+
+          <div class="work-version-display-<%= work.id %>" style="<%= unless @most_recent_work.id == work.id then 'display: none;' else 'display: visible;' end %>">
+
+            <!-- you left editing without saving -->
+            <div class="row">
+            <div class="alert alert-warning col-xs-12 left-without-saving-alert" style="display: none; position: fixed; top: 0px; right: 0px; max-width: 40%; z-index: 9999;">
+              You left editing without saving.
+              <p class="pull-right">
+              <style>
+                /*http://stackoverflow.com/questions/18169717/align-button-vertically-in-alert-field*/
+                .alert p .btn {
+                    display:inline;
+                }
+              </style>
+                <a class="save-button-backup btn btn-success btn-sm  disabled update-version-<%= work.id %>">
+                  save&nbsp;
+                  <span class="fa fa-save"></span>
+                </a>
+                <span class="close-save-reminder" style="margin-left: 10px;">
+                  <span id="" class="fa fa-close"></span>
+                </span>
+
+                <script>
+                $('.close-save-reminder').on('click', function() {
+                  $('.left-without-saving-alert').hide();
+                });
+                </script>
+              </p>
+            </div>
+            </div>
+
+
+              <!-- EDIT/+SAVE NEW VERSIONS -->
+              <!-- ******************************************** -->
+              <!-- BUTTTTOOOONNNNSSSS -->
+              <!-- ******************************************** -->
+
+            <!-- <div style="display: inline-block; margin-right: -8px; margin-top: 11px;" class="pull-right"> -->
+    <div style="display: none; margin-right: -8px; margin-top: 11px;" class="pull-right">
+        <span class="brand-secondary text-small hidden-sm hidden-xs" style="margin-right: 5px;"><%= pluralize(@project.works_count, "version") %>, <%= pluralize(@diffs.all.count, "diff") %></span>
+
+        <div class="" style="display: inline-block; position: relative; bottom: 0px; vertical-align: middle;">
+
+            <!-- toggle buttons for show and diff -->
+            <!-- http://www.bootply.com/92189 -->
+            <div class="btn-group btn-group-sm btn-toggle" style="display: inline-block;">
+                <button class="btn btn-primary show-version-button active">Documents</button>
+                <button class="btn btn-default show-diff-button">Diffs</button>
+            </div>
+
+        </div>
+
+        <% if project_owner? @project %>
+        <!-- ADD VERSION BUTTON -->
+        <!-- link to add version modal -->
+
+        <button class="btn btn-sm btn-success add-version-button" data-toggle="modal" data-target="#add-version-modal-<%= @project.id %>" >
+            <span class="glyphicon glyphicon-plus"></span>
+            Add a version to this project
+        </button>
+
+        <% end %>
+    </div>
+
+
+              <script>
+                $(function () {
+                  $('.editable').hide();
+                });
+
+              </script>
+
+
+              <!-- #DEE9EF -->
+                <div style="margin-bottom: 10px; position: absolute; top: 0px; left: 0px; background: white ; padding: 5px; border-bottom: 2px solid #76B3DF;">
+
+                              <!-- DOWNLOAD BUTTON --> <!-- pull-right -->
+                  <% if logged_in? %>
+                    <%= render partial: 'download_as_button', locals: {work: work} %>
+                  <% else %>
+                  <span class="text text-success">Please sign in for the ability to download in a variety of formats.</span>
+                  <% end %>
+
+                  <% if work_owner?(work) && work.from_google_drive? && work.alternate_link.present? %>
+                    <%= link_to work.alternate_link, style: "margin-left: 5px", class: "text-warning" do %>
+                      <small class="text-muted has-tooltip" data-toggle="tooltip" data-placement="top" title="This link is private - just for you!" aria-hidden="true">View in <%= image_tag('Google-Drive-Icon.png', height: '10') %><span class="glyphicon glyphicon-external-link"></span></small>
+                    <% end %>
+                  <% end %>
+                </div>
+
+                <!--  _DOCUMENT     -->
+                <%= render partial: "works/doc_local", locals: {work: work} %>
+
+
+                <!--  CITATION_HELPER -->
+                <hr>
+                <div id="close-to-comments" class="citation-helper" style="margin-top: 20px;">
+                    <%= render partial: 'works/citation_helper_local', locals: {work: work, project: @project} %>
+                </div>
+
+                <hr>
+
+            </div>
+        <% end %>
+
+
+                <div class="comments-go-here" style="margin-top: 20px;">
+                <!-- comments by project or work selector -->
+                <div class="row" style="margin-bottom: 20px;">
+                    <!-- toggle buttons for show and diff -->
+                    <!-- http://www.bootply.com/92189 -->
+                  <span class="text-muted">show comments <br/>
+                  <div class="btn-group btn-group-xs btn-toggle " style="display: inline-block;">
+                    <button id="" class="btn btn-primary active show-comments-by-work">for this version</button>
+                    <button id="" class="btn btn-default show-comments-by-project">for this project</button>
+                  </div>
+                </span>
+                </div>
+
+                <% @works.each do |work| %>
+                <% comms = work.comments.all %>
+                <% wcomms = work.comments %>
+                <% project_comments = @project.comments.all %>
+
+                <div class="work-version-display-<%= work.id %>" style="<%= unless @most_recent_work.id == work.id then 'display: none;' else 'display: visible;' end %>">
+                     <%= render partial: 'comments/form', locals: {work: work, comms: wcomms} %>
+                    <div class="comments-by-work">
+                        <% comms.where(work_id: work.id).reverse.each do |comm| %>
+                            <%= render partial: 'comments/comment', locals: {work: work, comment: comm} %>
+                        <% end %>
+                    </div>
+                    <div class="comments-by-project" style="display: none;">
+                        <% project_comments.reverse.each do |comm| %>
+                            <%= render partial: 'comments/comment', locals: {work: work, comment: comm} %>
+                        <% end %>
+                    </div>
+                </div>
+                <% end %>
+                </div>
+
+
+
+    </div>
+
+</div> <!-- !ROW -->
+
+
+
+<div id="diff-display" class="row" style="padding-bottom: 40px;">
+<% if @diffs.any? %>
+
+<div class="row">
+  <div id="diff-different-alert" class="alert alert-warning col-xs-12" style="display: none;">
+    These diffs are outdated! <%= link_to "Refresh", project_path(@project) %> to update them.
+    <span id="hide-diff-alert" class="pull-right">
+      <span class="fa fa-close"></span>
+    </span>
+    <script>
+    $('#hide-diff-alert').on('click', function() {
+      $('#diff-different-alert').hide();
+    });
+    </script>
+  </div>
+</div>
+
+
+<!-- DIFF PICKER -->
+<div class="row" style="margin-top: 20px; margin-bottom: 20px;">
+
+        <div class="">
+
+
+            <%
+                unique_work1s = @diffs.uniq.pluck(:work1)
+                unique_work2s = @diffs.uniq.pluck(:work2)
+            %>
+          <!-- debug -->
+            <%#= "unique_work1s: #{unique_work1s}" %>
+            <%#= "unique_work2s: #{unique_work2s}" %>
+
+            <div class="col-sm-6 " style="padding: 10px;">
+
+            <!-- file icon -->
+            <span class="fa fa-file-text-o fa-4x" style="color: #fcc; margin-right: 5px; vertical-align: middle;"></span>
+
+            <!-- DIFF SELECTOR1 -->
+            <div style="display: inline-block; margin-bottom: 2px;" >
+
+                <select name="" id="diff-selector1" class="form-control">
+                    <% unique_work1s.each do |w1| %>
+
+                    <%
+                      # default to second-most recent work on left.
+                      is_second_most_recent = w1 == @project.works[-2].id ? true : false
+
+                      # don't want to display most recent work on left.
+                      is_most_recent = w1 == @most_recent_work.id ? true : false
+                    %>
+
+                      <% if !is_most_recent %>
+                      <option value="<%= w1 %>" <%= is_second_most_recent ? 'selected' : '' %>><%= Work.find(w1).name %></option>
+                      <% end %>
+                    <% end %>
+                </select>
+
+
+
+
+            </div>
+            </div>
+
+            <div class="col-sm-5" style="padding: 10px;">
+
+            <!-- file icon -->
+            <span class="fa fa-file-text-o fa-4x" style="color: #9f9; margin-right: 5px; vertical-align: middle;"></span>
+
+            <!-- DIFF SELECTOR2 -->
+            <div style="display: inline-block; max-width: 86%;">
+                <select name="" id="diff-selector2" class="form-control">
+                    <% unique_work2s.each do |w2| %>
+
+                    <% is_most_recent = w2 == @most_recent_work.id ? true : false %>
+                    <option value="<%= w2 %>" <%= is_most_recent ? 'selected' : '' %>><%= Work.find(w2).name %></option>
+                    <% end %>
+                </select>
+
+
+
+
+            </div>
+            </div>
+
+            <div class="col-sm-1" style="padding: 10px;">
+            <!-- COLORBLIND BUTTON -->
+            <div class="" style="float: right;">
+                <button class="btn btn-default pull-right has-tooltip" data-toggle="tooltip" data-placement="top" title="Colorblind?" aria-hidden="true" id="colorblindButton" style="position: relative; top: 0px; right: 10px;">
+                <span class="glyphicon glyphicon-eye-open h" ></span>
+                </button>
+            </div>
+            </div>
+
+        </div>
+
+</div>
+
+
+
+
+<span id="currentlyVisibleDiffId" style="display: none;" value=""><%= @diffs.first.id %></span>
+
+    <% @diffs.each do |diff| %>
+
+
+    <!-- style sets default to most recent diff vs second-most-recent -->
+    <div id="diff-show-<%= diff.work1 %>-<%= diff.work2 %>" class="div-showing-diffs">
+
+        <%
+          w1 = Work.find(diff.work1)
+          w2 = Work.find(diff.work2)
+        %>
+
+        <script>
+        $(function () {
+          $('.diff-text-left').on('scroll', function () {
+              $('.diff-text-right').scrollTop($(this).scrollTop());
+          });
+          $('.diff-text-right').on('scroll', function () {
+              $('.diff-text-left').scrollTop($(this).scrollTop());
+          });
+        });
+
+        </script>
+
+        <!-- diff -->
+        <div class="colorblind-option" >
+            <div class="col-sm-6">
+                <h4 class="text-muted"><%= w1.name %></h4>
+                <p class="text-muted">(<%= w1.created_at.strftime("%l:%M%P, %d %b '%y") %>)</p>
+                    <% if !w1.image? %>
+                    <div class="doc-text-container diff-text-left">
+                    <div class="doc-text-content diff-text " >
+
+                    <!-- <div class="diff"> --> <!-- *nb this will exist in Diff.right & .left (which are :html) -->
+                        <%= if diff.left.present? then diff.left.html_safe elsif diff.left_text.present? then diff.left_text.html_safe else markdown w1.file_content_md end %>
+                    <!-- </div> -->
+
+
+                    </div>
+                    </div>
+                    <% else %>
+                      <div class="text-center" style="margin-left: auto; margin-right: auto;">
+                        <%= image_tag w1.document_url(:fitted), class: "shadowy-figure-image-preview image-show", style: "margin-right: auto; margin-left: auto;" %>
+                      </div>
+                    <% end %>
+            </div>
+
+            <!-- latest -->
+            <div class="col-sm-6">
+                <h4 class="text-muted"><%= w2.name %></h4>
+                <p class="text-muted">
+                  <%= "created #{to_pretty(w1.created_at, w2.created_at)} (#{w2.created_at.strftime('%l:%M%P, %d %b %y')})" %>
+                  <%# "#{time_ago_in_words(w2.updated_at - w1.updated_at)} different, at #{w2.updated_at.strftime('%l:%M%P, %d %b %y')}" %>
+                </p>
+                    <% if !w2.image? %>
+                    <div class="doc-text-container diff-text-right">
+                    <div class="doc-text-content diff-text ">
+
+                    <!-- <div class="diff"> -->
+                        <%=  if diff.right.present? then diff.right.html_safe elsif diff.right_text.present? then diff.right_text.html_safe else markdown w2.file_content_md end %>
+                    <!-- </div> -->
+
+                    </div>
+                    </div>
+                    <% else %>
+                      <div class="text-center" style="margin-left: auto; margin-right: auto;">
+                        <%= image_tag w2.document_url(:fitted), class: "shadowy-figure-image-preview image-show", style: "margin-right: auto; margin-left: auto;" %>
+                      </div>
+                    <% end %>
+            </div>
+        </div>
+
+    </div>
+
+    <% end %>
+
+<% elsif project_owner?(@project) %><!-- else no diffs to show and we can educate the owner about how to use diffs -->
+
+  <div class="row text-center" style="margin-bottom: 40px; margin-top: 40px;">
+  <div class="" style="max-width: 50%; margin-right: auto; margin-left: auto; margin-bottom: 60px;">
+    <h4 class="brand-primary">How do diffs work?</h4>
+    <h5 style="color: gray; line-height: 1.5em;">
+      <strong>It's easy! Diffs compare one document with another.</strong> <br>
+      <span class="brand-secondary">That could mean comparing a rough draft with a final draft, different takes on a translation, or just comparing notes.</span>
+    </h5>
+
+  </div>
+  <div class="col-sm-6">
+  <div style="max-width: 50%; margin-left: auto; margin-right: auto;" >
+    <span class="fa fa-file-text-o fa-5x" style="color: #b00;"></span>
+    <h5 style="color: #b00;">First draft</h5>
+    <h5 class="text-muted">
+      Edits in which <span style="background-color: #fcc;">something was removed</span> will appear in red on the left.
+    </h5>
+  </div>
+  </div>
+  <div class="col-sm-6">
+  <div style="max-width: 50%; margin-left: auto; margin-right: auto;" >
+    <span class="fa fa-file-text-o fa-5x" style="color: #080;"></span>
+    <h5 style="color: #080;">Second draft</h5>
+    <h5 class="text-muted">
+      And edits which <span style="background-color: #9f9;">added something</span> will appear in green on the right.
+    </h5>
+  </div>
+  </div>
+  </div>
+
+
+
+    <!-- demo -->
+    <div class="row div-diff-demo" >
+
+
+
+        <!-- diff -->
+      <!-- diff -->
+      <div class="colorblind-option" >
+          <div class="col-sm-6" style="padding: 10px;" >
+          <div style="border: 2px dashed #fcc; padding: 10px;">
+
+                  <div class="doc-text-container">
+                  <div class="doc-text-content">
+                  <div class="diff">
+                      <%= "<div class=\"diff\">\n  <ul>\n    <li class=\"del\"><del># I worked hard on this! </del></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"del\"><del>If you upload another draft you&#39;ll see the diff right here. </del></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>(And, you can upload as many drafts as you want and compare them all.)</span></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>Woohoo! </span></li>\n  </ul>\n</div>\n".html_safe %>
+                  </div>
+
+                  </div>
+                  </div>
+          </div>
+          </div>
+
+
+          <!-- latest -->
+          <div class="col-sm-6" style="padding: 10px;">
+          <div style="border: 2px dashed #9f9; padding: 10px;">
+
+                  <div class="doc-text-container">
+                  <div class="doc-text-content">
+                  <div class="diff">
+                      <%=  "<div class=\"diff\">\n  <ul>\n    <li class=\"ins\"><ins># I worked <strong>even </strong>hard<strong>er</strong> on this! </ins></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"ins\"><ins>If you upload another draft you&#39;ll see the diff<strong>erence</strong> right here. </ins></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>(And, you can upload as many drafts as you want and compare them all.)</span></li>\n    <li class=\"unchanged\"><span></span></li>\n    <li class=\"unchanged\"><span>Woohoo! </span></li>\n  </ul>\n</div>\n".html_safe %>
+                  </div>
+                  </div>
+                  </div>
+          </div>
+          </div>
+      </div>
+
+    </div>
+
+<% else  %>
+
+
+                      <div class="row text-center" style="min-height: 400px;">
+                          <h1 class="brand-secondary" style="line-height: 400px;">What you see is what you get!</h1>
+                      </div>
+
+<% end %>
+</div> <!-- end diff display -->
+
+                      <div class="row text-center" style="min-height: 400px;" id="impossible-diff">
+                          <h1 class="brand-secondary" style="line-height: 400px;">That's impossible!</h1>
+                      </div>
+
+<!-- END RENDERED HTML -->
+
+<%= render partial: 'projects/add_version_modal', locals: {project: @project} %>
+
+
+<!-- END ADD_VERSION MODAL -->
+
+<!-- JAVASCRIPTS -->
+<script>
+    $(document).ready(function() {
+
+
+      $('.editor-area').hide();
+      /*===========================================
+      =            Pick viewers            =
+      ===========================================*/
+
+      /*----------  Version switcher  ----------*/
+
+
+      // how to find which version is currently showing
+      var currentlyViewedId = parseInt(document.getElementById('currently-viewed-id').innerHTML);
+      // console.log('currentlyViewedId: ' + currentlyViewedId); // check
+
+      // hides currently shown work and shows select work by id
+      $('.click-me').on('click', function (){
+          var st = $(window).scrollTop(); // save place in scroll on window
+          // console.log('this.id: ' + this.id);
+          var currentDisplay = $('.work-version-display-'+currentlyViewedId);
+          // console.log('currentDisplay: ' + currentDisplay);
+          // hide it.
+          currentDisplay.hide();
+          // find self id work to display
+          var toDisplay = $('.work-version-display-'+this.id);
+          // show self id work.
+          toDisplay.show();
+
+          // set currentlyViewedId
+          currentlyViewedId = this.id;
+
+          // set button styles by toggling open/closed-version classes (in _diff.scss)
+          $('.open-version').removeClass('open-version').addClass('closed-version');
+          $(this).removeClass('closed-version').addClass('open-version');
+          $(window).scrollTop(st); 
+
+      });
+
+
+        /*----------  View mode togglers  ----------*/
+
+        // elements
+        var saveButton = $('.save-button');
+        var editModeButton = $('.edit-mode-button');
+        var docTextContentDivs = $('.public-doc-text-view');
+        var editorAreas = $('.editor-area');
+        var leaveDangerouslyBtn = $('.leave-edit-mode-dangerously-button');
+        var leaveSafelyBtn = $('.leave-edit-mode-safely-button');
+        var createNewVersionBtn = $('.begin-new-version');
+
+        // init
+        var editorMode = false;
+        saveButton.hide();
+        leaveDangerouslyBtn.hide();
+        leaveSafelyBtn.hide();
+
+
+        // editorArea is display: none; @init
+
+        editModeButton.on('click', function() {
+          editorMode = true;
+
+          // hide/show buttons
+          editModeButton.hide();
+
+          saveButton.show();
+          leaveSafelyBtn.show();
+
+          // hide/show editor vs public display
+          docTextContentDivs.hide();
+          editorAreas.show();
+
+          createNewVersionBtn.hide();
+
+          // $('.CodeMirror-scroll').focus();
+
+          // force call click on textarea
+          // $('').click();
+          // $('.CodeMirror.cm-s-paper.CodeMirror-wrap').click();
+          $('.editable').click();
+
+        });
+
+        function leaveEditMode() {
+          console.log('leaving edit mode');
+          editorMode = false;
+
+          editModeButton.show();
+
+          saveButton.hide();
+          leaveDangerouslyBtn.hide();
+          leaveSafelyBtn.hide();
+
+          docTextContentDivs.show();
+          editorAreas.hide();
+          createNewVersionBtn.show();
+
+        }
+
+        leaveSafelyBtn.on('click', function() {
+          leaveEditMode();
+          $('#markdown-cheat-sheet').collapse('hide');
+        });
+        leaveDangerouslyBtn.on('click', function() {
+          leaveEditMode();
+          $('.left-without-saving-alert').show();
+          $('#markdown-cheat-sheet').collapse('hide');
+
+        });
+
+        // moar init
+        $('#versions-different-alert').hide();
+
+
+        // Show by versions/diffs
+        $('.show-version-button').on('click', function() {
+          // show and hide versions/diffs
+          $('#version-display').show();
+          $('#diff-display').hide();
+
+          $(this).removeClass("btn-default").addClass("active btn-primary");
+          $('.show-diff-button').removeClass("btn-primary active").addClass("btn-default");
+        });
+        $('.show-diff-button').on('click', function() {
+            var st = $( window ).scrollTop();
+          // show and hide versions/diffs
+          $('#version-display').hide();
+          $('#diff-display').show();
+            $( window ).scrollTop(st);
+
+          $(this).removeClass("btn-default").addClass("active btn-primary");
+          $('.show-version-button').removeClass("btn-primary active").addClass("btn-default");
+        });
+
+
+        // Comments by version/project
+        $('.show-comments-by-project').on('click', function() {
+          // show and hide project/version comments
+          $('.comments-by-project').show();
+          $('.comments-by-work').hide();
+
+          $(this).removeClass("btn-default").addClass("active btn-primary");
+          $('.show-comments-by-work').removeClass("btn-primary active").addClass("btn-default");
+        });
+
+        $('.show-comments-by-work').on('click', function() {
+          // show and hide project/version comments
+          $('.comments-by-project').hide();
+          $('.comments-by-work').show();
+
+          $(this).removeClass("btn-default").addClass("active btn-primary");
+          $('.show-comments-by-project').removeClass("btn-primary active").addClass("btn-default");
+        });
+
+        $('#diff-display').hide();
+        $('.comments-by-project').hide();
+
+        $('#impossible-diff').hide();
+        // $('#diff-display-example').hide();
+
+      /*=====  End of pick viewers  ======*/
+
+
+
+      /*===================================
+      =            Diff picker            =
+      ===================================*/
+
+      // hide everything we don't need (but keep an array around)
+      var diff_array_list = $('.div-showing-diffs');
+      console.log(diff_array_list, diff_array_list.length);
+
+      // hide all but selected option (defaults to @diffs.first)
+      function showOnlySelectedDiff () {
+          diff_array_list.each( function (i) {
+          // console.log("this: " + $(this));
+          // console.log("diff-selector val: " + $('#diff-selector option:selected').val());
+          if ( $(this).attr("id") == 'diff-show-' + $('#diff-selector1').val() + '-' + $('#diff-selector2').val() ) {
+              $(this).show();
+          } else {
+              $(this).hide();
+          }
+
+          var sameDiff = $('#diff-selector1').val() == $('#diff-selector2').val() ? true : false;
+          var backwardsDiff = $('#diff-selector1').val() > $('#diff-selector2').val() ? true : false;
+
+          // if trying to diff backwards -- that's impossible!
+          if ( backwardsDiff || sameDiff ) {
+              $('#impossible-diff').show();
+          } else {
+              $('#impossible-diff').hide();
+          }
+      });
+      }
+      showOnlySelectedDiff(); // init
+
+      $('#diff-selector1').change(function (){
+          var st = $(window).scrollTop();
+          showOnlySelectedDiff();
+          $(window).scrollTop(st);
+      });
+      $('#diff-selector2').change(function (){
+          var st = $(window).scrollTop();
+          showOnlySelectedDiff();
+          $(window).scrollTop(st);
+      });
+      /*=====  End of Diff picker  ======*/
+
+
+      /*=========================================
+      =            Colorblind option            =
+      =========================================*/
+      var colorblindButton = $('#colorblindButton');
+      var colorblindDiv = $('.colorblind-option');
+      colorblindButton.on('click', function (){
+          console.log('toggling colorblind');
+          colorblindDiv.toggleClass('colorblind');
+          console.log(colorblindDiv.attr('class'));
+          colorblindButton.toggleClass('btn-primary').toggleClass('btn-default');
+          // colorblindButton.toggleClass('btn-default');
+      });
+      /*=====  End of Colorblind option  ======*/
+
+
+      /*=======================================
+      =            Citation Helper            =
+      =======================================*/
+        $('.cite-buttons').click(function () {
+                console.log('cite button firing');
+              $('#mla').toggleClass('active').toggleClass("btn-success").toggleClass("btn-default");
+              $('#apa').toggleClass('active').toggleClass("btn-success").toggleClass("btn-default");;
+              $('#mla-citation').toggle();
+              $('#apa-citation').toggle();
+        });
+      /*=====  End of Citation Helper  ======*/
+
+
+
+
+
+
+      $('.has-tooltip').tooltip();
+      /* Activating Best In Place */
+      jQuery(".best_in_place").best_in_place();
+
+
+
+    });
+</script>
