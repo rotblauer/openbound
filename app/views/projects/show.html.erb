@@ -11,6 +11,11 @@
    /* border-bottom: 2px solid #76B3DF; */
    /* border-left: 2px solid #76B3DF; */
    }
+ .sidebar-border {
+   border: 2px solid #76B3DF;
+
+
+   }
 </style>
 
 <div class="project-desktop-metadata-bar brand-primary background two">
@@ -21,17 +26,19 @@
 <div class="row">
   <div class="col-sm-3" style="padding:0px;">
       <div class="row bordered" >
-        <div class="user user-card two shadowed-right">
+        <div class="user user-card two shadowed">
           <%= image_tag @project.user.avatar_url(:hand), class: "img-responsive", style: "max-width: 50%;" %>
           <%= @project.user.name %>
           <%= pluralize @project.user.projects_count, "project" %>
         </div>
       </div>
       <div class="row ">
-        <div class="school school-card two text-center">
-          <%= image_tag @project.school.logo_url, class: "img-responsive", style: "max-width: 50%;" if @project.school.logo? %>
-          <%= @project.school.Institution_Name %>
+          <% if @project.school.Institution_Name != "Spy University"  %>
+        <div class="school school-card two text-center" style="width: 100%;">
+          <%= image_tag @project.school.logo_url, class: "img-responsive", style: "margin-left: auto; margin-right: auto; max-width: 30%;" if @project.school.logo? %>
+          <%= @project.school.Institution_Name %> <span class="text-muted"><%= @project.created_at.strftime('%Y')%></span>
         </div>
+          <% end %>
       </div>
   </div>
   <div class="col-sm-9 " style="padding: 0px;">

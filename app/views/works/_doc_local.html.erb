@@ -38,6 +38,14 @@
 	<% elsif work.docordocx? || work.markdown? || work.type_html? || work.latex? || work.plain_text? || work.type_rtf? || work.content_type.blank? || work.content_type == 'application/vnd.oasis.opendocument.text' %>
 		<div class="doc-text-container" > <!-- style="overflow: scroll;" -->
 
+      <style>
+       /* .fullscreen { z-index: 9999; } */
+       .editor-toolbar.fullscreen { top: 80px; }
+       .CodeMirror-fullscreen { top: 130px; }
+       .editor-preview-side { top: 130px; }
+      </style>
+
+				<% if !project_owner?(@project) %>
 
 				<div id="public-doc-text-view-<%= work.id %>" class="doc-text-content public-doc-text-view">
 
@@ -48,7 +56,7 @@
 				</div>
 
 
-				<% if project_owner?(@project) %>
+        <% else %>
 
 					<!-- style="display: none;" --> <!-- THIS FIXES THE FAILURE TO DISPLAY TEXT RIGHT AWAY -->
 
