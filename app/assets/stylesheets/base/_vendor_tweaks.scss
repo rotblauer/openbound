@@ -67,7 +67,7 @@ input.form-control {
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
   box-shadow: none !important;
-  border-bottom: 2px solid #76B3DF;
+  border-bottom: 2px dashed #76B3DF;
   &.heavier {
   	border-bottom: 4px solid $v2-dark-blue; //
   	padding-bottom: 10px;

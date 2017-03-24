@@ -32,7 +32,7 @@
 	padding-left: 30px;
 	background-color: #F9FBFB;
 	padding-bottom: 10px;
-}	
+}
 
 .projects-show-description {
 	padding: 10px 10px 10px 30px;
@@ -65,8 +65,8 @@ span.ui-icon.ui-icon-close {
 ================================*/
 
 .metadata-container {
-	background-color: #f7fafb; 
-	// border: 5px solid #f7fafb; 
+	background-color: #f7fafb;
+	// border: 5px solid #f7fafb;
 	height: 50px;
 	padding: 5px 5px 5px 8px;
 	// float: bottom;
@@ -78,3 +78,26 @@ span.ui-icon.ui-icon-close {
     }
 }
 /*=====  End of _project  ======*/
+
+#tags-holster.is_stuck {
+/* background-color: white; */
+/* position: fixed; */
+/* top: 74px; */
+/* width: 294px; */
+    /* border-right: 3px solid $columbia-blue; */
+
+}
+
+/* @mixin shadow_box { */
+/* 	// horiz l, vert l, blur rad, spread rad */
+/* 	-webkit-box-shadow: 0px 2px 5px 0px #888888; */
+/* 	-moz-box-shadow: 0px 2px 5px 0px #888888; */
+/* 	box-shadow: 0px 2px 5px 0px #888888; */
+/* } */
+
+.shadowed {
+ 	// horiz l, vert l, blur rad, spread rad
+    -webkit-box-shadow: 6px 0px 15px -7px rgba(0,0,0,0.37);
+    -moz-box-shadow: 6px 0px 15px -7px rgba(0,0,0,0.37);
+    box-shadow: 6px 0px 15px -7px rgba(0,0,0,0.37);
+}

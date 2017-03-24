@@ -2,7 +2,7 @@
 
 	<%# render @projects if !@projects.empty? %>
 
-	<div id="big-row"  class="row" style="padding-top: 5px; padding-bottom: 5px;">
+	<div id="big-row"  class="row" style="padding-top: 5px; padding-bottom: 5px; min-height: 100vh;">
 
     <!-- SIDEBAR -->
     <!-- <div class="col-md-3 hidden-md hidden-lg"> -->
@@ -13,8 +13,8 @@
 		<!-- </div> -->
 
     <!-- SIDEBAR -->
-    <div class="col-sm-3" >
-      <div class="banner">
+    <div class="col-sm-3" style="border-right: 3px solid #76B3DF;">
+      <div class="banner hidden-xs" >
       <%# image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
       <%= link_to "http://www.adidas.com", target: :_blank do %>
       <%= image_tag('cleverads/Adidas_LineRunner.jpg', class: 'img-responsive') %>
@@ -31,11 +31,13 @@
 
 		<div class="col-sm-9" >
 
-      <div class="banner leaderboard" style="margin-bottom: 30px;">
-      <%= link_to "https://www.amnesty.org/en/", target: :_blank do %>
-      <%= image_tag 'cleverads/Amnesty_Hangman.jpg', class: 'img-reponsive'%>
-        <% end %>
-      </div>
+      <%# render partial: 'shared/penthouse' if current_page?(:controller => 'projects', :action => 'index') %>
+
+      <!-- <div class="banner leaderboard" style="margin-bottom: 30px;"> -->
+      <%# link_to "https://www.amnesty.org/en/", target: :_blank do %>
+      <%# image_tag 'cleverads/Amnesty_Hangman.jpg', class: 'img-reponsive'%>
+        <%# end %>
+      <!-- </div> -->
       <%# image_tag 'Amnesty-Hangman.jpg', class: 'img-reponsive'%>
 
 
@@ -136,14 +138,13 @@
 
 		<% end %>
 		</div>
-
+    <script>
+     $("#tags-holster").stick_in_parent({
+         parent: "#big-row",
+         offset_top: 74
+     });
+    </script>
 
 
 	</div>
 
-      <script>
-       $("#tags-holster").stick_in_parent({
-           parent: "#big-row",
-           offset_top: 74
-       });
-      </script>

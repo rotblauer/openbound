@@ -25,23 +25,23 @@
         $('.alert-fader').hide();
       });
     });
+
   </script>
 </head>
 <body class="no-touch">
 
   <%= render partial: 'shared/custom_flasher', :flash => flash %>
 
-  <%= query_diet_widget if Rails.env.development? %>
+  <%= query_diet_widget if Rails.env.development?  %>
 
 	<%= render 'layouts/nav' unless @disable_nav %>
 
   <% unless @container_fluid %>
-    <div class="container-fluid" id="everything" style="padding-top: 74px; ">
-      <%= render partial: 'shared/penthouse' if current_page?(:controller => 'projects', :action => 'index') %>
+    <div class="container-fluid" id="everything" style="padding-top: 84px; ">
       <%= yield.force_encoding(Encoding::UTF_8) %>
     </div>
   <% else %>
-    <div class="container-fluid" id="everything-else" style="padding: 0px; margin-top: 74px;">
+    <div class="container-fluid" id="everything-else" style="padding: 0px; padding-top: 84px;">
     <%= render partial: 'shared/penthouse' if current_page?(:controller => 'projects', :action => 'index') %>
       <%= yield.force_encoding(Encoding::UTF_8) %>
     </div>

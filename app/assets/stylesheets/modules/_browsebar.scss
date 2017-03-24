@@ -35,6 +35,7 @@ ul.search_facets_on {
 	&.for_user {
 		padding-left: 5px !important;
 	}
+  padding-left: 5px;
 }
 ul.search_facets_off {
 	line-height: $search_facets_off_line_height;
@@ -44,8 +45,9 @@ ul.search_facets_off {
 ul.school_links_off {
 	margin-bottom: 0px !important;
 }
-ul.school_links_off {
-	margin-bottom: 0px !important;
+ul.school_links_on {
+	/* margin-bottom: 0px !important; */
+  padding-left: 5px;
 }
 
 // for to make tags_on highlighted yeller

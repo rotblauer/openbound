@@ -2,3 +2,14 @@ button.btn.btn-primary:disabled {
 	background-color: gray;
 	border-color: gray;
 }
+
+button {
+    border-radius: 0px !important;
+}
+.btn-xs {
+    border-radius: 0px !important;
+}
+
+div.editor-toolbar {
+    background-color: white;
+}

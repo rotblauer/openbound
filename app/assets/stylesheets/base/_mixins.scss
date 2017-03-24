@@ -6,18 +6,19 @@
 
 @mixin shadow_box {
 	// horiz l, vert l, blur rad, spread rad
-	-webkit-box-shadow: 0px 2px 5px 0px #888888;
-	-moz-box-shadow: 0px 2px 5px 0px #888888;
-	box-shadow: 0px 2px 5px 0px #888888;
+	/* /\* -webkit-box-shadow: 0px 2px 5px 0px #888888; *\/ <-- original */
+	-webkit-box-shadow: 0px 4px 4px 0px #888888;
+	-moz-box-shadow: 0px 4px 4px 0px #888888;
+	box-shadow: 0px 4px 4px 0px #888888;
 }
 @mixin shadow_box_stacked {
 	// horiz l, vert l, blur rad, spread rad
-	-webkit-box-shadow: 0px 0px 0px 3px #888888,
-											0px 2px 5px 6px lighten(#888888, 20%);
-	-moz-box-shadow: 0px 2px05px00px3#888888,
-											0px 2px 5px 6px lighten(#888888, 20%);
-	box-shadow: 0px 2px 5px 0px 0888388,
-											0px 2px 5px 6px lighten(#888888, 20%);
+	-webkit-box-shadow: 0px 4px 4px 0px #888888,
+											0px 4px 4px 6px lighten(#888888, 20%);
+	-moz-box-shadow: 0px 4px 4px 0px #888888,
+											0px 4px 4px 6px lighten(#888888, 20%);
+	box-shadow: 0px 4px 4px 0px #888388,
+											0px 4px 4px 6px lighten(#888888, 20%);
 }
 
 @mixin tag_spacing {
@@ -37,6 +38,7 @@
 @mixin tag_coloring($font-color, $bg-color) {
 	color: $font-color;
 	background-color: $bg-color;
+  border: 1px solid $font-color;
 }
 
 @mixin tag_on_underline_through($color) {

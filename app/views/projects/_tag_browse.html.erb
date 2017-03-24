@@ -1,4 +1,4 @@
-<div id="browsebar" style="">
+<div id="browsebar" >
   <%
     facets_html = ''
 
@@ -19,7 +19,7 @@
     end
 
     tags.each_with_index do |_tag, index|
-        break if index == 30
+        break if index == 12
         _tag = _tag[0]
 
         if (params[:tag].kind_of?(Array) and params[:tag].include? _tag)
@@ -34,7 +34,7 @@
 
      # Facet on schools.
      @facet_schools.each do |school, index|
-       break if index == 15	;
+       break if index == 10	;
 
        if (params[:school_name].kind_of?(Array) and params[:school_name].include? school.Institution_Name)
 
@@ -59,21 +59,21 @@
         end
     end
     if tag_links_on.present?
-      facets_html << "<ul class='search_facets_on'>#{tag_links_on}</ul>"
+      facets_html << "<ul class='search_facets_on' >#{tag_links_on}</ul><br/>"
     end
 	  if school_links_on.present?
-		  facets_html << "<ul class='school_links_on'>#{school_links_on}</ul>"
+		  facets_html << "<ul class='school_links_on'>#{school_links_on}</ul><br/>"
 		end
 
 
 
     if tag_links_off.present?
-        facets_html << "<ul class='search_facets_off'>#{tag_links_off}</ul>"
+        facets_html << "<ul class='search_facets_off'>#{tag_links_off}</ul><br/>"
     else
         facets_html << "<br />"
     end
     if school_links_off.present?
-      facets_html << "<ul class='school_links_off'>#{school_links_off}</ul>"
+      facets_html << "<ul class='school_links_off'>#{school_links_off}</ul><br/>"
     end
 
 
@@ -89,15 +89,15 @@
   <%= raw facets_html %>
 
 	<!-- buttons to stop and shuffle -->
-  <div style="display: inline-block;">
+  <div style="display: none; position: absolute; top: 10px; right: 0px;">
 
     <!-- stop -->
-    <% if params[:search].present? || params[:tag].present? || params[:school_name].present? %>
+    <% if false # params[:search].present? || params[:tag].present? || params[:school_name].present? %>
       <%= link_to params[:search] => nil, params[:tag] => nil, params[:school_name] => nil do %>
         <!-- <span class='btn btn-danger btn-sm glyphicon glyphicon-stop has-tooltip' data-toggle='tooltip' data-placement='top' title='Clear all filters' aria-hidden='true' style='color: #76B3DF;'></span> -->
         <!-- <span class="text text-danger glyphicon glyphicon-stop"></span> -->
         <!-- <span class="text text-danger">clear filters</span> -->
-        <button class="btn btn-danger btn-sm btn-outline">
+        <button class="btn btn-danger btn-xs btn-outline">
           <span class="glyphicon glyphicon-stop"></span> clear filters
         </button>
       <% end %>

@@ -54,19 +54,4 @@
 
 </div>
 
-<div class="row row-fat">
-	
-	<div class="col-sm-12">
-		<p class="brand-secondary">
-			First 100 schools with the most affiliations.
-		</p>
-		<% School.where.not(affiliations_count: 0).order('affiliations_count desc').first(100).each do |s| %>
-			<%= link_to s, class:'modest-link' do %>
-			<span class="has-tooltip" data-toggle="tooltip" data-placement="top" title='<%= "#{s.Institution_Name}, #{pluralize(s.works_count, 'work')} " %>' aria-hidden="true">
-			<%= favicon_for(s, 28, 28, "") %> 
-			</span>
-			<% end %>
-		<% end %>
-	</div>
-</div>
 

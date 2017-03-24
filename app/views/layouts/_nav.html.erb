@@ -1,7 +1,6 @@
 <!-- Navbar redpen -->
-<div class="navbar navbar-redpen clearfix" role="navigation">
-<div class="">
-
+<div class="navbar navbar-redpen clearfix" role="navigation" style="border-bottom:4px solid <%= if ['projects'].include? params[:controller] then '#76B3DF' elsif ['schools'].include? params[:controller] then 'green' elsif ['users'].include? params[:controller] then 'gold' else 'white' end%>">
+  <div class="">
   <div class="">
     
 
@@ -23,7 +22,7 @@
 	</div>
 	<!-- Collect the nav links, forms, and other content for toggling -->
 	<div class="collapse navbar-collapse" id="rooftop">
-	    <ul class="nav navbar-nav navbar-right ">
+	    <ul class="nav navbar-nav navbar-right " >
 
 				<% if current_user %>
 	    	<li class="highlight-active-link has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Add a project" aria-hidden="true">
@@ -37,20 +36,19 @@
 
 
 				<!-- if not in the projects world, link back to it -->
-				<% if !(params[:controller] == 'projects') %>  <!-- , :action => 'index' -->
+				<%# if !(params[:controller] == 'projects') %>  <!-- , :action => 'index' -->
 
 						<li class="hightlight-active-link has-tooltip"  data-toggle="tooltip" data-placement="bottom" title="Browse projects" aria-hidden="true" style="background-color: #76B3DF;">
 							<%= link_to "<span class='octicon octicon-book'></span>".html_safe, projects_path, style: "color: white;" %>
 						</li>
 
-
-				<% elsif not (params[:controller] == 'schools') %>
+				<%# else not (params[:controller] == 'schools') %>
 
 					<li class="highlight-active-link has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Browse schools" aria-hidden="true" style="background-color: green;">
 						<%= link_to "<span class='fa fa-university'></span>".html_safe, schools_path, style: "color: white;" %>
 					</li>
 
-				<% end %>
+				<%# end %>
 
 
 				<% if logged_in? %>

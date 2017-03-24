@@ -1,0 +1,269 @@
+
+<div class="row">
+  <div class="jumbotron svelt">
+
+    <h4 style="display: inline-block; max-width: 90%; font-size: 100%; line-height: 1.6em;" >
+
+      <!-- if owner, show anonymouse button, else show avatar if that exists -->
+      <% if project_owner? project %>
+        <%= link_to project_change_policy_path(project), class: "modest-link policy_pony #{"anony" if project.anonymouse?} #{"non_anony" if !project.anonymouse?}", method: :patch, remote: true do %>
+          <span id="policy-option" class="glyphicon glyphicon-user has-tooltip" data-toggle="tooltip" data-placement="bottom" title="Superhero On/Off" aria-hidden="true"></span>
+        <% end %>
+      <% elsif !project.anonymouse? %>
+        <%= image_tag project.user.avatar_url(:face), style: "max-height: 50px; max-width: 50px; text-align: center;"  %>
+      <% end %>
+
+      <span style="color: lightgray;" id="author-name-<%= project.recent_work_id %>" class="<%=  'anony' if project.anonymouse %>"><%= working_author project %></span>
+      <span class="brand-secondary"><br/> / </span>
+      <span class="text-muted">
+        <% if project_owner? project %>
+          <%= best_in_place project, :name, place_holder: "a#{project.name}", activator: "#activator-project-name-#{project.id}", :as => :input, class: "best_in_place" %>
+          <span id="activator-project-name-<%= project.id %>" class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: lightgray;"></span>
+        <% else %>
+          <span class="">
+            <%= project.name %>
+          </span>
+        <% end %>
+
+      </span>
+    </h4>
+
+    <div class="pull-right" style="display: inline-block; vertical-align: middle; margin-top: 10px;">
+
+      <div class="input-group pull-right" style="display: inline-block; margin-top: 0px;">
+
+        <!--       <button class="btn btn-success btn-sm btn-outline" style=" margin-left: 10px;">
+             <span class="octicon octicon-git-branch"></span><span class="hidden-xs"> Fork project</span>
+
+             </button> -->
+
+        <!-- <a href="#close-to-comments" class="modest-link"> -->
+        <!-- <button class="btn btn-sm btn-default btn-outline"> -->
+        <!-- <span class="fa fa-comment brand-primary"></span> -->
+        <% if false # project.comments.any? %>
+          &nbsp;<span class="text-muted"><%= project.comments.count %></span>
+        <% end %>
+
+        <!-- </button> -->
+        <!-- </a> -->
+
+        <!-- bookmarks -->
+        <% if current_user %>
+
+          <%
+          current_user_has_bookmarked = current_user.bookmarks.find_by(project_id: project.id, bookmarked: true)
+
+          %>
+
+          <%= link_to bookmark_path(project), method: :patch, remote: true, class: "bookmark_pony #{"bookmarked_true" if current_user_has_bookmarked} #{"bookmarked_ribbon_default" if !current_user_has_bookmarked}" do %>
+
+            <button class="btn btn-sm btn-default btn-outline" style="margin-left: 10px;">
+              <span class="glyphicon glyphicon-bookmark"></span>
+              <span id="project-bookmark-count" class="text-muted">
+
+                <%= "#{project.bookmarks.where(bookmarked: true).count}" %>
+
+                <span class="hidden" id="bookmark-words-<%= project.id %>" > - <%= "#{if current_user_has_bookmarked then 'Unbookmark' else 'Bookmark' end}" %></span>
+              </span>
+            </button>
+
+
+          <% end %>
+        <% else %>
+          <%= link_to signin_path, class: "bookmarked_ribbon_default" do %>
+
+            <button class="btn btn-sm btn-default btn-outline has-tooltip" data-toggle="tooltip" data-placement="top" aria-hidden="true" title="Log in to bookmark this project" style="margin-left: 10px;">
+              <span class="glyphicon glyphicon-bookmark"></span>
+              <span id="project-bookmark-count" class="text-muted">
+
+                <%= "#{project.bookmarks.where(bookmarked: true).count}" %>
+
+              </span>
+            </button>
+          <% end %>
+        <% end %>
+      </div>
+
+
+    </div>
+
+    <div>
+      <% if project.school_name != 'Spy University' %>
+        <span>
+          <%= favicon_for(project.school, 20, 20, "margin-right: 5x; margin-bottom: 2px; vertical-align: middle;") %>
+          <%= link_to project.school_name, project.school %>
+        </span>
+      <% end %>
+    </div>
+
+  </div>
+
+
+</div>
+
+
+
+
+
+<p style="line-height: 2em; margin-top: 10px;">
+
+  <% if project_owner?(project) %>
+    <% if project.description.blank? %>
+      <span class="brand-secondary" style="">Project description</span><br/> 
+    <% end %>
+    <span style="color: gray;">
+      <%= best_in_place project, :description, place_holder: "              ", activator: "#desc-activator-#{project.id}", :as => :input, class: 'bip-form', inner_class: 'bip-inner' %>
+    </span>
+    <span id="desc-activator-<%= project.id %>" class="glyphicon glyphicon-pencil glyphicon-edit-work" aria-hidden="true" style="color: lightgray;" title="Edit project description."></span>
+  <% else %>
+    <span style="color: gray;">
+      <%= project.description %>
+    </span>
+  <% end %>
+
+</p>
+<br/>
+
+<!-- BIP TAGS for the owner, just tag lists for non-owners -->
+<div class="tag-lists">
+  <% if project_owner? project %>
+    <span class="brand-secondary">Tags </span>
+
+    <!-- <span class="text-muted"> -->
+    <!-- BIP -->
+    <%# = best_in_place project, :tags, place_holder: '              ', activator: "#tags-activator-#{project.id}", :as => :input, class: 'bip-form', inner_class: 'bip-inner' %>
+    <!-- </span> -->
+
+    <!-- <span id="tags-activator-<%= project.id %>" class="glyphicon glyphicon-pencil glyphicon-edit-work" aria-hidden="true" style="color: lightgray;" title="Edit tags."></span> -->
+
+    <div id="available-tags-list" style="display: none;"><%= @tag_suggestions.join(',') %></div>
+    <ul id="myTags" style="padding-left: 0px;">
+      <% project.tags.each do |tag| %>
+        <li><%= tag %></li>
+      <% end %>
+    </ul>
+    <script>
+     function updateProjectTags(event, ui) {
+         if (ui.duringInitialization) { return; }
+         var tags = $("#myTags").tagit("assignedTags");
+         console.log('tags', tags);
+         return $.ajax({
+             url: window.location,
+             type: 'PATCH',
+             data: $.param( {project: {tags: tags}} ),
+             dataType: "json",
+             success: function (response) {
+                 /* alert(response.status);*/
+             },
+             error: function (err) {
+                 /* alert("error");*/
+                 console.log(err);
+             }
+         });
+     }
+     $(document).ready(function() {
+         $("#myTags").tagit({
+             availableTags: $('#available-tags-list').text().split(','),
+             allowSpaces: true,
+             placeholderText: 'add a tag',
+             afterTagAdded: updateProjectTags,
+             afterTagRemoved: updateProjectTags
+         });
+     });
+    </script>
+
+  <% else %>
+    <br/>
+    <% project.tags.each do |tag| %>
+      <span class="label label-context">
+        <%= link_to tag %>
+      </span>
+    <% end %>
+
+  <% end %>
+
+</div>
+
+
+
+<!-- markdown cheatsheet will collapse open and closed when in editing mode. -->
+<div id="markdown-cheat-sheet" class="collapse collapsed" style="margin-bottom: 30px;">
+
+  <%= render partial: 'shared/markdown_cheat_sheet' %>
+</div>
+
+
+<!-- display: none -->
+<span id="currently-viewed-id" style="display: none;"><%= @most_recent_work.id %></span>
+
+<span class="brand-secondary">Versions </span>
+<!-- <p class="brand-secondary">latest</p> -->
+
+
+<% if project_owner? project %>
+  <!-- ADD VERSION BUTTON -->
+  <!-- link to add version modal -->
+
+  <div class="add-new-version-holster" style="padding: 0px 0px 10px 0px;">
+    <button class="btn btn-sm btn-success add-version-button" data-toggle="modal" data-target="#add-version-modal-<%= project.id %>" >
+      <span class="glyphicon glyphicon-plus"></span>
+      Add a version to this project
+    </button>
+  </div>
+
+<% end %>
+
+
+
+<% @works.each do |work| %>
+
+  <!-- list available versions -->
+  <!-- click to toggle version visibility -->
+  <div class="" style="display: block; text-overflow: hidden;">
+    <!--       <div class="" style="display: inline-block; float: left; padding: 3px;">
+
+         </div> -->
+    <div id="<%= work.id %>" class="click-me <%= work.id == @most_recent_work.id ? 'open-version' : 'closed-version' %>" style="display: inline-block; width: 100%; word-break: break-all; ">
+
+
+      <!-- file icon -->
+      <div class="hidden-sm" style="display: inline-block; vertical-align: top; margin-top: 3px;">
+        <%= pretty_doc_type_img(work, "40", "3x") %>
+      </div>
+
+      <!-- name and created_at -->
+      <div class="" style="display: inline-block; margin-left: 5px; max-width: 70%;">
+        <strong><%= truncate(working_title(work), length: 1000) %></strong>
+        <br>
+        <small><%= work.created_at.strftime("%e %b %Y") %></small>
+      </div>
+
+    </div>
+  </div>
+<% end %>
+<!-- <p class="brand-secondary">earliest</p> -->
+<br/>
+<span class="brand-secondary">Share </span>
+<br/>
+
+<!-- SHARE BUTTONS -->
+<div class="shareable-wrapper">
+
+  <div class="shareables" style="margin-top: 0px;">
+    <div class="share-a-work" style="display: inline-block;">
+      <%= render_shareable :buttons=> ['facebook', 'twitter'] %>
+    </div>
+    <div style="display: inline-block; text-align: center;" >
+      <!-- mail a link -->
+      <%= mail_to "team@openbound.org", subject: "[Openbound] #{if project.name.present? then project.name else project.most_recent_work.file_name end}", body: "#{request.original_url}", class: "modest-link" do %>
+        <button class="btn btn-primary btn-xs " style="position: relative; margin-top: -14px; height: 20px;">
+          <span>Email </span><span class="glyphicon glyphicon-envelope" ></span> </button>
+      <% end %>
+    </div>
+  </div>
+
+</div>
+
+<br/>
+<%= link_to "delete", project_path(project), method: :delete, class: "text-danger", data: { confirm: "Really really delete this project and all it's documents?"} if project_owner? @project %>
+

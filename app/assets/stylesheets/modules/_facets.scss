@@ -10,9 +10,9 @@
 
 //$base-color: $app-primary; //$columbia-blue;
 //$base-color-light: $app-secondary;
-$base-color: darken($app-primary, 9%);
+$base-color: white; // darken($app-primary, 9%);
 $base-color-light: lighten($app-primary, 5%);
-$base-color-alt: white;
+$base-color-alt: $app-primary; // white;
 
 // ---- Tags ---- //
 .tag {
@@ -20,6 +20,8 @@ $base-color-alt: white;
 
 
 	display: inline-block;
+
+  padding-left: 5px;
 
 	// ---- Context ---- //
 	&.context {

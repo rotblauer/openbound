@@ -1,16 +1,42 @@
 <div class="container">
 
 	<% if !params[:searchschools].present? %>
-	<%= render 'schools/analytics' %>
+	<%#= render 'schools/analytics' %>
+
+<div class="row row-fat">
+	<div class="col-sm-12" >
+		<!-- <p class="brand-secondary"> -->
+		<!-- First 100 schools with the most affiliations. -->
+		<!-- </p> -->
+		<% School.where.not(affiliations_count: 0, logo: nil).order('affiliations_count desc').first(7).each do |s| %>
+      <div class="col-sm-4 text-center" style="padding: 30px;">
+        
+			<%= link_to s, class:'modest-link' do %>
+			<span class="has-tooltip" data-toggle="tooltip" data-placement="top" title='<%= "#{s.Institution_Name}, #{pluralize(s.works_count, 'work')} " %>' aria-hidden="true">
+			<%#= favicon_for(s, 28, 28, "") %> 
+        <%= image_tag s.logo_url if s.logo? %>
+			</span>
+      <br/>
+      <br/>
+      <p class="text-muted">
+        <%= s.Institution_Name %>
+      </p>
+			<% end %>
+      </div>
+		<% end %>
+	</div>
+</div>
+
 	<br>
 	<br>
 	<% end %>
 	<div class="row">
+    <h4>And 3500+ more... </h4>
 		<div class="col-sm-12">
 
-			<p class="brand-secondary">
-				Schools ordered by most contributions, then most affiliations.
-			</p>
+			<!-- <p class="brand-secondary"> -->
+			<!-- Schools ordered by most contributions, then most affiliations. -->
+			<!-- </p> -->
 
 			<div class="table-responsive">
 				<table class="table table-hover "> <!-- table-condensed -->

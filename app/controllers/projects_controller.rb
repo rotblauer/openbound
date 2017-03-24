@@ -45,7 +45,7 @@ class ProjectsController < ApplicationController
       # ** NOTE: Schools are filtered and order by **works_count**, NOT projects_count
       # TODO: add projects_count attr to School and make it count here
 
-    desired_number_of_school_facets = 15
+    desired_number_of_school_facets = 8
     @facet_schools = School.order('works_count desc').order('affiliations_count desc').order('updated_at desc').first(desired_number_of_school_facets)
 
 

@@ -1,5 +1,5 @@
 	<li class="dropdown modest-link " style="background-color: transparent;" >
-		<a href='#' id="user-option-link" style="background-color: transparent;" class="dropdown-toggle modest-link" data-toggle="dropdown" ><b class="caret"> </b>&nbsp;<%= if current_user.avatar.present? then image_tag current_user.avatar_url(:thumb) else "<span class='glyphicon glyphicon-user'></span>".html_safe end %></a>
+		<a href='#' id="user-option-link" style="background-color: transparent; color: gold;" class="dropdown-toggle modest-link" data-toggle="dropdown" ><b class="caret"> </b>&nbsp;<%= if current_user.avatar.present? then image_tag current_user.avatar_url(:thumb) else "<span class='glyphicon glyphicon-user'></span>".html_safe end %></a>
 			<ul id="#user-dropdown-menu" class="dropdown-menu dropdown-menu-right text-right" style="text-align: right;">
         <li>
         	<%= link_to current_user do %>
@@ -10,12 +10,12 @@
         	<% end %></li>
         <li>
         	<%= link_to edit_user_path(current_user) do %>
-        		<span>Settings </span><span class="glyphicon glyphicon-wrench" style="color: #76B3DF"></span>
+        		<span>Settings </span><span class="glyphicon glyphicon-wrench" style="color: gold;"></span>
         	<% end %></li>
         		<li class="divider"></li>
        	<li>
         	<%= link_to school_path(current_user.school_primary) do %>
-						<span class="ellipsis"><%= current_user.school_primary.Institution_Name %>
+						<span class="ellipsis" style="color: green;"><%= current_user.school_primary.Institution_Name %>
 						<%= favicon_for(current_user.school_primary, 12, 12, 'display: inline-block; margin-bottom: 2px;') %>
 						</span>
 					<% end %></li>
@@ -32,7 +32,7 @@
         		<% end %>     		
 				<li>
 					<%= link_to logout_path, method: :delete do %>
-						<span>Logout </span><span class="glyphicon glyphicon-log-out" style="color: #76B3DF"></span>
+						<span>Logout </span><span class="text-danger glyphicon glyphicon-log-out" ></span>
 					<% end %></li>
 			</ul>
 	</li>

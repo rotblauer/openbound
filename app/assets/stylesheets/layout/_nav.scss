@@ -101,7 +101,9 @@ img.user-school-logo {
 .navbar-redpen {
   /*background-color: #FFEB3B;*/
   background-color: #fff;
-  border-color: #fff;
+  /* border-right: 3px solid $columbia-light-blue; */
+  /* border-bottom: 3px solid $columbia-light-blue; */
+  /* border-color: #fff; */
   // border-top: 2px dashed #C4D8E2;
 
   // border-bottom: 2px dashed $columbia-medium-blue;
@@ -113,9 +115,15 @@ img.user-school-logo {
   padding-top: 10px;
 
   position: fixed;
-  z-index: 9000;
-  min-width: 600px;
+  z-index: 100;
+  min-width: 800px;
+
+
+  -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.25);
+-moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.25);
+box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.25);
 }
+
 .navbar .navbar-redpen .navbar-brand {
   color: #000000  ;
 }

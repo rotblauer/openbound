@@ -171,7 +171,7 @@
       </style>
 
 
-        <div class="col-sm-10 filter-links" style="background-color:">
+        <div class="col-sm-12 filter-links" style="background-color:">
 
           <%= link_to user_path, class: "modest-link" do %>
             <% if @on_public %>
@@ -190,7 +190,7 @@
             <% end %>
           <% end %>
 
-          <%= link_to show_anonymousers_user_path, class: "modest-link" do %>
+          <%= link_to show_anonymousers_user_path, class: "modest-link pull-right" do %>
             <% if @on_anonymousers %>
               <span class="label label-lg label-warning">Superhero Works</span>
             <% else %>
@@ -198,10 +198,8 @@
             <% end %>
           <% end %>
 
-          <% if @on_bookmarks %>
-            <span class="text-muted" style="font-size:.9em; color: gray;">This space is <strong>private</strong>. There are many like it, but this one is yours.</span>
-          <% elsif @on_anonymousers %>
-            <span class="text-muted" style="font-size:.9em; color: gray;">This space is <strong>private</strong>. There are many like it, but this one is yours.</span>
+          <% if @on_anonymousers %>
+            <span class="text-muted pull-right" style="font-size:.9em; color: gray; text-align: right;">This space is <strong>private</strong>. There are many like it, but this one is yours.</span>
           <% end %>
 
         </div> <!-- end filter-links -->
@@ -218,7 +216,7 @@
       <!-- <div class="col-md-9"> -->
       <% if @on_anonymousers %>
       <div class="row" style="padding-left: 15px;">
-        <p class="alert alert-warning">
+        <p class="alert alert-warning ">
           These works belong to you, but no one else knows that!
         </p>
       </div>

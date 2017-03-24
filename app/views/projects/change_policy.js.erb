@@ -13,7 +13,7 @@ $('.policy_pony').bind('ajax:success', function() {
       $(this).removeClass('anony');
       $(this).addClass('non_anony');
       $('#author-name-<%= @project.recent_work_id %>').removeClass('anony');
-      $('#author-name-<%= @project.recent_work_id %>').html('<%= link_to @project.user.name, @project.user.name, style: "color: #76B3DF;" %>');
+      $('#author-name-<%= @project.recent_work_id %>').html('<%= link_to @project.user.name, @project.user, style: "color: #76B3DF;" %>');
     <% end %>
 });
 

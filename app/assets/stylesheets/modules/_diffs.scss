@@ -15,10 +15,11 @@
 }
 
 .click-me {
-	border: 1px solid lightgray;
-	border-radius: 6px;
+	/* border: 1px solid lightgray; */
+    border: none !important;
+	border-radius: 0px;
 	padding: 10px;
-	margin-bottom: 10px;
+	/* margin-bottom: 10px; */
 	&.open-version {
 		color: white;
 		background-color: darken($app-primary, 10%);
@@ -37,8 +38,8 @@
 	// padding-right: 0px;
 	// padding-bottom: 5px;
 	// padding-left: 10px;
-	margin-left: 10px;
-	margin-right: 10px;
+	/* margin-left: 10px; */
+	/* margin-right: 10px; */
 	// color: $app-primary;
 	// margin-bottom: 10px;
 

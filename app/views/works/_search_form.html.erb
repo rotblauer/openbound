@@ -18,10 +18,12 @@
 
 				</div>
 
+        <span class="brand-primary">a library of free schoolwork </span>
+
 					<div class="input-wrapper">
 
 						<!-- text input bar -->
-						<%= text_field_tag :search, params[:search], placeholder: "Try Plato or Mitochondria", class: "form-control #{ if @on_start_page then 'heavier' else '' end}", style: "border-radius: 0px; " %> <!-- .heavier for darker blue -->
+						<%= text_field_tag :search, params[:search], placeholder: "Try Ben Franklin or Mitochondria", class: "form-control #{ if @on_start_page then 'heavier' else '' end}", style: "border-radius: 0px; " %> <!-- .heavier for darker blue -->
 
 						<!-- sub links for start page (go to browse or random) -->
 						<% if @on_start_page %>
@@ -53,7 +55,7 @@
 
 						<div class="input-wrapper">
 
-							<%= text_field_tag :search, params[:search], placeholder: "What are you curious about at #{@school.Institution_Name}?", class: "form-control", style: "border-radius: 0px;" %>
+							<%= text_field_tag :search, params[:search], placeholder: "@#{@school.Institution_Name}: Try Augustine or Art", class: "form-control", style: "border-radius: 0px;" %>
 
 						</div>
 
@@ -94,7 +96,7 @@
 								</div>
 
 								<div class="input-wrapper">
-										<%= text_field_tag :searchschools, params[:searchschools], placeholder: "What school are you interested in?", class: "form-control", style: "border-radius: 0px;" %>
+										<%= text_field_tag :searchschools, params[:searchschools], placeholder: "Try Harvard or Reed", class: "form-control", style: "border-radius: 0px;" %>
 								</div>
 
 								<% end %>

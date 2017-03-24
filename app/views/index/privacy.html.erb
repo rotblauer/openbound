@@ -1,6 +1,42 @@
-<div class="container">
-	<div class="row">
-		<div class="col-lg-8 col-md-12">
+
+<!-- project title - author - school - content type - version count -->
+
+	<%# render @projects if !@projects.empty? %>
+
+<div id="big-row"  class="row" style="padding-top: 5px; padding-bottom: 5px;">
+
+    <!-- SIDEBAR -->
+    <!-- <div class="col-md-3 hidden-md hidden-lg"> -->
+		<!-- <div> -->
+		<%# render partial: 'projects/tag_browse', locals: { projects: @projects } %>
+		<!-- </div> -->
+    <!-- <br> -->
+		<!-- </div> -->
+
+
+
+
+
+<!-- SIDEBAR -->
+    <div class="col-sm-3" >
+      <div class="banner">
+      <%# image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
+      <%= link_to "http://www.adidas.com", target: :_blank do %>
+      <%= image_tag('cleverads/Adidas_LineRunner.jpg', class: 'img-responsive') %>
+      <% end %>
+      </div>
+
+        <div id="tags-holster" style="position: absolute; background-color: white;">
+          <% @facet_schools=School.first(8) %>
+				<%= render partial: 'projects/tag_browse', locals: { projects: Project.first(10) } %>
+        </div>
+
+      <%#= image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
+      <br>
+		</div>
+
+		<div class="col-sm-9" >
+
 
 		<style>
 			h1 small {
@@ -24,7 +60,7 @@
 
 		<!-- HEAD SECTION -->
 		<section style="color: white; background-color: #76B3DF; padding: 30px; margin: 0px;">
-			<h1>Openbound.org <small>privacy policy.</small> </h1> 
+			<h1>Openbound.org <small>privacy policy.</small> </h1>
 		</section>
 		<br>
 
@@ -64,7 +100,7 @@ When the option of Superhero Mode is selected, the name attached to the work is 
 When “Spy University” is selected as a user’s affiliated institution, “Spy University” will be displayed alongside the other user information attached to a work. Any works submitted when “Spy University” is selected will be permanently affiliated with “Spy University.” This option may only be selected after a user has been validated as having an affiliation with a recognized learning institution. </p>
 <p>
 Please note that these options of anonymity are not meant to and do not protect users from the law. If a user’s work is involved in a legal inquiry, the necessary user and account information attached to a work will be disclosed to the appropriate legal entities to resolve the inquiry. Every user is directly accountable for all work submitted to the library as part of their account. The librarians also reserve the right to remove anonymity from any work with or without any legal circumstances. </p>
- 
+
 <br><h4><mark>
 Information We Collect </mark></h4>
 <p>
@@ -96,6 +132,16 @@ Contact Us</mark></h4>
 If you have questions, suggestions, or feedback about this privacy policy, please email us at team@openbound.org.</p>
 
 
+		
 		</div>
+    <script>
+     $("#tags-holster").stick_in_parent({
+         parent: "#big-row",
+         offset_top: 74
+     });
+    </script>
+
+
 	</div>
-</div>
+
+	</div>

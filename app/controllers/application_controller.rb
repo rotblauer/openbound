@@ -34,6 +34,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # http://stackoverflow.com/questions/1203892/how-can-i-find-out-the-current-route-in-rails
+  def current_controller?(names)
+    names.include?(current_controller)
+  end
+
   protected
 
     def track_action
