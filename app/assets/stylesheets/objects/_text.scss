@@ -36,10 +36,10 @@ h1.mega {
 
 
 .brand-primary {
-	color: $app-primary;
+	color: $app-primary !important;
 	&.background {
-		color: white;
-		background-color: $app-primary;
+		color: white !important;
+		background-color: $app-primary !important;
 	}
 }
 

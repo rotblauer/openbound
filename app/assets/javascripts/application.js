@@ -14,7 +14,9 @@
 //= require jquery_ujs
 //= require jquery.remotipart
 //= require jquery-fileupload/basic
-//= require bootstrap-sass/assets/javascripts/bootstrap-sprockets
+// require bootstrap-sass/assets/javascripts/bootstrap-sprockets
+//= require tether/dist/js/tether.min
+//= require bootstrap/dist/js/bootstrap.min
 // require angular/angular.min
 //= require best_in_place
 //= require jquery.ellipsis.js

@@ -1,3 +1,8 @@
+# source 'https://rails-assets.org' do
+#   gem 'rails-assets-tether', '>= 1.3.3'
+# end
+
+
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -64,6 +69,7 @@ gem 'best_in_place', '~> 3.0.1'
 gem 'coffee-rails', '~> 4.1.0'
 # Use Bootstrap Sass for formatting (.scss)
 # gem 'bootstrap-sass', '>=3.2.0.0'
+# gem 'bootstrap', '~> 4.0.0.alpha6'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets

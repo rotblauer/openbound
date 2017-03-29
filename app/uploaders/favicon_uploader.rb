@@ -34,12 +34,12 @@ class FaviconUploader < CarrierWave::Uploader::Base
   def default_url
     # For Rails 3.1+ asset pipeline compatibility:
     # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
-  
+
     # "/images/fallback/" + [version_name, "default.png"].compact.join('_')
     "/images/fallback/" + [version_name, "school_favicon.png"].compact.join('_')
   end
 
-  # process :get_picture 
+  # process :get_picture
 
   # Process files as they are uploaded:
   # process :scale => [200, 300]
@@ -53,11 +53,11 @@ class FaviconUploader < CarrierWave::Uploader::Base
   # Create different versions of your uploaded files:
   version :sixty_four_x do
     process :resize_to_limit => [64, 64]
-  end  
+  end
 
   version :thirty_two_x, from_version: :sixty_four_x do
     process :resize_to_limit => [20, 20]
-  end  
+  end
 
   version :twelve_x, from_version: :thirty_two_x do
     process :resize_to_limit => [12, 12]

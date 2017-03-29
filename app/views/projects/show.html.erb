@@ -8,6 +8,7 @@
    }
  .bordered {
    border-top: 2px solid #76B3DF;
+   /* border-left: 2px dashed #76B3DF; */
    /* border-bottom: 2px solid #76B3DF; */
    /* border-left: 2px solid #76B3DF; */
    }
@@ -16,34 +17,160 @@
 
 
    }
+ .navbar.navbar-menubar p,li,a {
+   color: black;
+   }
+ .navbar.navbar-menubar ul li p,a {
+   color: black;
+   }
+
+ .navbar-menubar .navbar-nav > li > a, .navbar-brand, .navbar-text {
+   padding-top:4px !important;
+   padding-bottom:0 !important;
+   height: 28px;
+ }
+ .navbar.navbar-menubar {min-height:28px !important;}
+ .navbar-menubar p.navbar-text { margin: 0px; }
 </style>
 
-<div class="project-desktop-metadata-bar brand-primary background two">
-  <%= @project.name %>
-</div>
+<!-- <div class="project-desktop-metadata-bar brand-primary background two"> -->
+<!-- <div class="text-right" style="display: inline-block;"> -->
+<!-- <span class="label label-success">Download</span> -->
+<!-- <button class="btn btn-success btn-sm">Save</button> -->
+<!-- </div> -->
+<!-- </div> -->
+
+<nav class="navbar navbar-menubar" style="background-color: white; border-radius: 0px; border: none; margin-bottom: 2px; margin-top: 2px;">
+  <div class="container-fluid">
+    <!-- <div class="navbar-header"> -->
+    <!-- <a class="navbar-brand" href="#" > -->
+    <%# @project.name %>
+    <!-- </a> -->
+    <!-- </div> -->
+    <p class="navbar-text brand-primary" style=" margin-right: 5px; padding-left: 3px; padding-right:3px; ">
+        <%= image_tag @project.user.avatar_url(:thumb), class: "img-responsive", style: "max-height: 16px; vertical-align: text-bottom; display: inline;" %>
+           <%= @project.user.name %>
+    </p>
+
+    <p class="navbar-text brand-primary" style=" padding-left: 3px; padding-right:3px; margin-right: 5px;">
+              <%# image_tag @project.school.favicon_url(:sixty_four_x), class: "img-responsive", style: "vertical-align: text-bottom; display: inline;" if @project.school.favicon? %>
+              <%= @project.school.Institution_Name %>
+              <!-- <span class="text-muted"><%# @project.created_at.strftime('%Y')%></span> -->
+    </p>
+
+    <p class="navbar-text brand-primary" style="padding-left: 3px; padding-right:3px;">
+      <%= @project.name %>
+    </p>
+
+    
+
+    <p class="navbar-text navbar-right brand-primary background" style="padding-left: 3px; padding-right: 3px;">
+       <span class="" style="margin-bottom: 3px; margin-top: 5px;">
+        Download as...
+        </span>
+
+      <button class="btn btn-xs btn-primary">
+        txt
+      </button>
+      <button class="btn btn-xs btn-success">
+        md
+      </button>
+      <button class="btn btn-xs btn-warning">
+        pdf
+      </button>
+      <button class="btn btn-xs btn-danger">
+        doc
+      </button>
+    </p>
 
 
-<div class="row">
-  <div class="col-sm-3" style="padding:0px;">
-      <div class="row bordered" >
-        <div class="user user-card two shadowed">
-          <%= image_tag @project.user.avatar_url(:hand), class: "img-responsive", style: "max-width: 50%;" %>
-          <%= @project.user.name %>
-          <%= pluralize @project.user.projects_count, "project" %>
-        </div>
-      </div>
-      <div class="row ">
-          <% if @project.school.Institution_Name != "Spy University"  %>
-        <div class="school school-card two text-center" style="width: 100%;">
-          <%= image_tag @project.school.logo_url, class: "img-responsive", style: "margin-left: auto; margin-right: auto; max-width: 30%;" if @project.school.logo? %>
-          <%= @project.school.Institution_Name %> <span class="text-muted"><%= @project.created_at.strftime('%Y')%></span>
-        </div>
-          <% end %>
-      </div>
   </div>
-  <div class="col-sm-9 " style="padding: 0px;">
-    <div class="row bordered" >
+</nav>
+
+<div class="row bordered">
+  <div class="col-sm-2" style="padding: 0px;" >
+    <p class="brand-secondary" style="margin-bottom: 3px; margin-top: 5px;">
+      Imported as: <%= pretty_content_type @project.most_recent_work %>
+    </p>
+    <p class="brand-secondary" style="margin-bottom: 3px; margin-top: 5px;">
+      Description: <%= @project.description %>
+    </p>
+
+    <div class="row" style="padding: 0px;">
+      <div class="col-xs-12 text-right" style="padding: 0px; ">
+        <div style="background-color: orange; padding: 4px;" class="">
+          <button class="btn btn-sm btn-primary">EDIT</button>
+        </div>
+      </div>
+    </div>
+
+    <style>
+     .list-group.revisions-list-group a {
+       border: none;
+       padding: 2px;
+       font-size: 90%;
+       border-radius: 0px;
+       color: gray;
+       }
+     .list-group.revisions-list-group a.active {
+       border-right: 2px solid #76b3df;
+       background-color: rgb(250,251,252);
+      }
+     .list-group.revisions-list-group a.active:hover {
+       background-color: aliceblue;
+       }
+     .list-group.revisions-list-group a.active .list-group-item-heading {
+       color: black;
+       }
+     .list-group.revisions-list-group a.active .list-group-item-text {
+       color: black;
+       }
+    </style>
+
+    <div class="panel">
+      <div class="panel-heading brand-primary background " style="margin-top: 5px; border-top: 2px solid #76b3df; border-left: 2px solid #76b3df; border-right: 2px solid #76b3df;">
+
+ revisions        
+      </div>
+    <div class="list-group revisions-list-group">
+      <a href="#" class="list-group-item active">
+        <h6 class="list-group-item-heading">continue work on bibliography and the checking the quotes</h6>
+        <p class="list-group-item-text">Lorem fugiat in et do reprehenderit veniam officia eiusmod proident veniam cillum ut ex deserunt do occaecat quis laborum elit</p>
+      </a>
+
+      <a href="#" class="list-group-item">
+        <h6 class="list-group-item-heading">Save</h6>
+        <p class="list-group-item-text">Lorem fugiat in et do reprehenderit veniam officia eiusmod proident veniam cillum ut ex deserunt do occaecat quis laborum elit</p>
+      </a>
+
+    </div>
+
+
+    </div>
+  </div>
+  <div class="col-sm-8 " style="padding: 0px;  ">
+    <div class="row" >
      <%= render partial: "works/doc_local", locals: {work: @project.most_recent_work} %>
     </div>
   </div>
+  <div id="project-show-helper-bar" class="col-sm-2" style="padding: 0px;">
+    <div id="project-show-public-interaction-buttons" class="row project show public interaction" style="padding: 0px;">
+      <!-- <div class="col-sm-12" style="padding: 0px;"> -->
+      <!-- <button class="btn btn-success"> -->
+      <!-- <span class="glyphicon glyphicon-folder-open"></span> -->
+      <!-- Fork this project -->
+      <!-- </button> -->
+      <!-- <br/> -->
+      <!-- <button class="btn btn-success"> -->
+      <!-- <span class="glyphicon glyphicon-file"></span> -->
+      <!-- Fork this document -->
+      <!-- </button> -->
+      <!-- <br/> -->
+      <!-- <small class="text-muted"> -->
+      <!-- <span class="glyphicon glyphicon-info-sign"></span><strong>Forking</strong> creates an exact copy of this document that all yours. It's like a photocopy/fax wunderkind. -->
+      <!-- </small> -->
+      <!-- </div> -->
+    </div>
+  </div>
+
 </div>

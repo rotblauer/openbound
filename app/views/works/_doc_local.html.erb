@@ -40,9 +40,13 @@
 
       <style>
        /* .fullscreen { z-index: 9999; } */
-       .editor-toolbar.fullscreen { top: 80px; }
-       .CodeMirror-fullscreen { top: 130px; }
-       .editor-preview-side { top: 130px; }
+       .editor-toolbar { position: absolute; width: 100%; border: none; border-bottom: 2px solid gray; border-radius: 0px; border: none; z-index: 5; opacity: 1; }
+       .editor-toolbar:hover{opacity: 1;}
+       .editor-toolbar.fullscreen { top: 85px; }
+       .CodeMirror {position: relative; top: 50px; border: none;}
+       .CodeMirror-fullscreen { top: 135px; }
+       .editor-preview-side { top: 135px; }
+       
       </style>
 
 				<% if !project_owner?(@project) %>
@@ -60,12 +64,21 @@
 
 					<!-- style="display: none;" --> <!-- THIS FIXES THE FAILURE TO DISPLAY TEXT RIGHT AWAY -->
 
+        <div class="pull-right" style="float: top;
+             position: absolute;
+             top: 0;
+             right: 0;
+             z-index: 999">
+          <button class="btn btn-success btn-sm">save with message</button>
+          <button class="btn btn-success btn-sm">save</button>
+        </div>
 				<div class="editor-area" >
 
 				<!-- TEXTAREA GOES HERE -->
 					<textarea id="mde-<%= work.id %>" class="editable" ><%= work.file_content_md %></textarea>
 
 				</div>
+
 
 				<script>
 
@@ -99,9 +112,25 @@
 				  	// $('.editable').hide();
 				  	// $('.editor-area').hide(); // <-- doesn't do anything different than above
 
+
+              var saveButtonMDE = {
+                  "save": {
+                      name: "save",
+                      action: save,
+                      className: "glyphicon glyphicon-save",
+                      title: "Save"
+                  }
+                  }
+              var save = function () {
+                  console.log("Saving");
+                  }
+
+
+              // {}.merge(this.toolbarBuiltInButtons, saveButtonMDE)
 						var versionEditor<%= work.id %> = new SimpleMDE({
 						  element: document.getElementById("mde-<%= work.id %>"),
-						  spellChecker: false
+						    spellChecker: false
+                /* toolbar: ["|",  saveButtonMDE]*/
 						});
 
 						/*----------  elements  ----------*/

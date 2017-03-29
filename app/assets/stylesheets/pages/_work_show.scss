@@ -3,15 +3,16 @@
 ///////////////////////////////////
 
 .doc-text-container {
-	height: 700px;
+	/* height: 700px; */
+	max-height: 700px;
 	padding: 2vw;//24px;
 	// horiz l, vert l, blur rad, spread rad
 	overflow: scroll;
 
-  padding: 10vh;
+  padding: 0; //10vh;
   /* background-color: $columbia-medium-blue; */
   /* background-color: $columbia-medium-blue; */
-  background-color: aliceblue;
+  /* background-color: aliceblue; */
 
 }
 .doc-text-content {
@@ -27,13 +28,14 @@
 		font-size: 1em;
 	}
 
-  background-color: white;
-	@include shadow_box;
+  /* background-color: white; */
+  background-color: rgb(250,251,252);
+	/* @include shadow_box; */
   padding: 70px;
 
-  /* font-family: "Courier New", Courier, monospace; //"Times New Roman", Times, serif; // "Lucida Console", Monaco, monospace; // "Courier New", Courier, monospace; */
+  font-family: "Courier New", Courier, monospace; //"Times New Roman", Times, serif; // "Lucida Console", Monaco, monospace; // "Courier New", Courier, monospace;
   line-height: 200%;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 110%;
 }
 iframe.pdf {

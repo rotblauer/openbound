@@ -1,7 +1,10 @@
-// Bootstrap 
+// Bootstrap 3
 $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 @import "bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
 @import "bootstrap-sass/assets/stylesheets/bootstrap";
+
+// BS4
+/* @import "bootstrap/scss/bootstrap"; */
 
 // Font-Awesome
 @import "font-awesome-sprockets";
