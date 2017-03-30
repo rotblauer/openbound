@@ -90,6 +90,7 @@
 						<%= pluralize @school.affiliations_count, 'affiliated member' %>
 					</span>
 
+          <% if @school.affiliations_count > 0 %>
 					<div class="portrait-gallery" style="overflow: scroll;">
 						<% @school.affiliations.each do |aff| %>
 							<%= link_to aff.user do %>
@@ -99,7 +100,7 @@
 							<% end %>
 						<% end %>
 					</div>
-
+          <% end %>
 				</div>
 			</div>
 		</div>
@@ -116,14 +117,14 @@
 						<p class="brand-secondary">About</p>
 						<p class="text-muted" style="line-height: 150%;">
 
-							<%= if @school.wikipedia_summary
-										@school.wikipedia_summary.truncate_words(50)
+							<%= if @school.wikipedia_summary.present?
+                    truncate @school.wikipedia_summary, length: 300, separator: ' ', omission: '...'
 									else
-										puts 'No summary available.'
+										'No summary available.'
 									end
 							%>
 							<div style="display: inline-block;">
-							<%= link_to 'Continue reading on Wikipedia <span class="fa fa-external-link"></span>'.html_safe, @school.wikipedia_url, target:'_blank' if @school.wikipedia_url %>
+							<%= link_to 'Continue reading on Wikipedia <span class="fa fa-external-link"></span>'.html_safe, @school.wikipedia_url, target:'_blank' if @school.wikipedia_url.present? %>
 							</div>
 						</p>
 					</div>
@@ -148,7 +149,7 @@
 
 					<!-- test logo -->
 					<div class="col-sm-12 ">
-						<%= image_tag @school.logo, class: 'img-responsive', style:'margin-left:auto;margin-right:auto;' if @school.logo.present? %>
+						<%= image_tag @school.logo_url, class: 'img-responsive', style:'margin-left:auto;margin-right:auto;' if @school.logo.present? %>
 					</div>
 
 
@@ -159,8 +160,8 @@
 			<div class="row row-fat">
 
 				<div class="col-sm-12" style="padding: 30px;">
-					<p class="brand-secondary">Top tags
-					</p>
+					<!-- <p class="brand-secondary">Top tags -->
+					<!-- </p> -->
 
 					<style>
 						.label {
@@ -172,13 +173,6 @@
 						}
 					</style>
 
-					<% tag_count_hash(@school, 10).each do |tag| %>
-						<span class="label label-context">
-							<%= link_to tag[0], projects_path(:tag => [tag[0]], :school_name => [@school.Institution_Name]) %> (<%= tag[1] %>)
-						</span>
-					<% end %>
-
-				<br>
 				<hr class="brand-secondary">
 				</div>
 
@@ -203,7 +197,7 @@
 						<div class="row load-more-container text-center">
 						        <!-- hide our loading gif image so that we show it when making ajax call via jquery -->
 							<%= image_tag "loading_spinner.gif", style: "display:none;", class: "loading-gif" %>
-							<%= link_to "Load More", @school, class: "load-more"  %>
+							<%= link_to "Load More", @school, class: "load-more" if @projects.size > 12 %>
               <!-- if @total_results > @projects.count -->
 						</div>
 

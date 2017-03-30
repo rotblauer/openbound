@@ -207,6 +207,10 @@ group :development do
   gem 'bullet'
   gem 'query_diet'
   gem 'rack-mini-profiler'
+
+  gem "awesome_print", require:"ap"
+
+  gem 'pry-byebug'
 end
 
 

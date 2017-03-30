@@ -67,6 +67,7 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     ansi (1.5.0)
     arel (6.0.4)
+    awesome_print (1.7.0)
     bcrypt (3.1.9)
     best_in_place (3.0.3)
       actionpack (>= 3.2)
@@ -337,6 +338,9 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    pry-byebug (3.4.2)
+      byebug (~> 9.0)
+      pry (~> 0.10)
     public_suffix (2.0.5)
     puma (3.7.1)
     query_diet (0.6.1)
@@ -493,6 +497,7 @@ DEPENDENCIES
   activeuuid (>= 0.5.0)
   acts-as-taggable-array-on
   ahoy_matey
+  awesome_print
   bcrypt (= 3.1.9)
   best_in_place (~> 3.0.1)
   better_errors
@@ -547,6 +552,7 @@ DEPENDENCIES
   pg
   postgres_ext
   progress_bar
+  pry-byebug
   puma
   query_diet
   rack-cache

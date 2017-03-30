@@ -73,33 +73,34 @@ class SchoolsController < ApplicationController
 	end
 
 	def show
-
+    # binding.pry
 		@school = School.friendly.find(params[:id])
-		@users = @school.users.order("works_count desc").first(24)
+    @users = @school.users.all
     @projects = Project
                 .includes([:school, :user])
                 .search(id: params[:project_id],
-                               query: params[:search].present? ? params[:search] : nil,
-                               school_id: @school.id
-                              )
+                        query: params[:search].present? ? params[:search] : nil,
+                        school_id: @school.id
+                       )
                 .paginate(
-                               page: params[:page] || 1,
-                               per_page: 12
+                  page: params[:page] || 1,
+                  per_page: 12
                 )
     # @total_results = @projects.count
 
-		if !@school.wikipedia_coords.nil?
-			@school_coords_lat = JSON.parse(@school.wikipedia_coords)[0]
-			@school_coords_lng = JSON.parse(@school.wikipedia_coords)[1]
-		elsif !@school.geocode_json.nil?
+		if @school.wikipedia_coords.present?
+      # "[34.9416,-120.4188,\"\",\"earth\"]"
+      j = JSON.parse(@school.wikipedia_coords)
+			@school_coords_lat = j[0]
+			@school_coords_lng = j[1]
+		elsif @school.geocode_json.present?
 			@school_coords_lat = @school.geocode_lat
 			@school_coords_lng = @school.geocode_lng
 		else
 			# TODO: FIXME
-			@school_coords_lat = 0.1
-			@school_coords_lng = 0.1
+			@school_coords_lat = 42.1
+			@school_coords_lng = -75.1
 		end
-
 
 		# I'm going to move all of this to a static one-time-run rake task.
 		# The problem is for under-the-radar schools, the request is hanging and

@@ -6,7 +6,7 @@
 			<!-- 	<img height="20" width="20" src='http://www.google.com/s2/favicons?domain=<%= @school.Institution_Web_Address %>' style="margin-top: 7px; margin-right: 8px; float: left;"></img> -->
 				<h2 class="page-title" style="margin-bottom: 5px;"><%= @school.Institution_Name %></h2>
 			</div>
-			
+
 			<span style="margin-left: 28px;">
 			<span><%= @school.Institution_City %>, <%= @school.Institution_State %></span>
 			<span><%= link_to @school.Institution_Web_Address, "http://#{@school.Institution_Web_Address}", style: "color: darkgray;" %></span>
@@ -14,47 +14,25 @@
 		</div>
 			<div class="pull-left" style="margin-top: 20px; margin-left: 50px;">
 			<%= render_shareable :buttons=> ['facebook', 'twitter'] %></div>
-			
+
 		</div>
-		
-		<%
-			context_hash = context_count_hash(@school, 10)	
-			content_hash = content_count_hash(@school, 10)
-		%>
-		
+
+
 		<div class="col-sm-6" style="height: 170px; overflow: scroll;">
-			
+
 			<% @users.all.each do |user| %>
 				<span class="has-tooltip" data-container="body" data-toggle="tooltip" title="<%= user.name %>" data-placement="bottom" aria-hidden="true">
 					<%= image_tag user.avatar_url(:hand), style: "max-height: 40px; max-width: 40px;" %>
 				</span>
 			<% end %>
-			
-		</div>
 
-		<!-- charters -->
-		<% if false # !params[:search].present? %>
-			<div class="col-sm-3">
-				<% if context_hash.length > 0 %>
-				<div class="school-tags-chart">
-					<%= context_chart(context_hash) %>
-				</div>
-				<% end %>
-			</div>
-			<div class="col-sm-3">
-				<% if content_hash.length > 0 %>
-				<div class="school-tags-chart">
-					<%= content_chart(content_hash) %>
-				</div>
-				<% end %>
-			</div>
-		<% end %>
+		</div>
 
 
 </div> <!-- /row -->
 
-			
-		
+
+
 <% if @projects.count > 0 %>
 	<!-- WORKS INDEX TABLE -->
 	<div class="row">
@@ -64,7 +42,7 @@
 	<div class="row load-more-container text-center">
 	        <!-- hide our loading gif image so that we show it when making ajax call via jquery -->
 		<%= image_tag "loading_spinner.gif", style: "display:none;", class: "loading-gif" %>
-		<%= link_to "Load More", @school, class: "load-more" if @total_results > @projects.count %>
+		<%= link_to "Load More", @school, class: "load-more" if @projects.count > 12 %>
 	</div>
 
 	<script>
@@ -98,7 +76,7 @@
 	            // the response will be a script
 	            dataType: "script",
 
-	            // upon success 
+	            // upon success
 	            success: function () {
 	                // hide the loading gif
 	                $('.loading-gif').hide();
@@ -122,7 +100,7 @@
 	</div>
 
 <% else %>
-	
+
 	<div class="row">
 			<h2 class="text-center" style="color: gray;">no projects yet... what a bunch of slackers!</h2>
 	</div>  <!-- end work uploads div -->

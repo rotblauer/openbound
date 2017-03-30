@@ -1,0 +1,126 @@
+<style>
+	h1 {
+		font-size: 3vw;
+		line-height: 100%;
+		color: #005a9b;
+	}
+	.row-fat {
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+  #map {
+    height: 200px;
+    width: 100%;
+
+  }
+
+</style>
+
+<div class="container">
+
+	<h1 >
+		<%= link_to schools_path, class:'modest-link' do %>
+		<span class="dartmouth-green">
+			schools /
+		</span>
+		<% end %>
+
+		<sup>
+			<%# favicon_for(@school, 20, 20, "margin-top: -1vw;") %>
+		</sup>
+		<%= @school.Institution_Name %>
+	</h1>
+
+	<div class="row row-fat">
+		<div class="col-sm-3">
+
+      <!-- map panel -->
+			<div class="panel panel-default ">
+				<div id="map"></div>
+				<script>
+
+		      var map;
+		      function initMap() {
+
+		      	var schoolLocation = {
+		      		lat: <%=
+		      						@school_coords_lat
+		      					%>,
+		      		lng: <%=
+		      						@school_coords_lng
+		      					%>
+		      		}
+
+		        var map = new google.maps.Map(document.getElementById('map'), {
+		          center: schoolLocation,
+		          zoom: 5
+		        });
+
+		        var marker = new google.maps.Marker({
+		        	position: schoolLocation,
+		        	map: map,
+		        	title: '<%= @school.Institution_Name %>'
+		        });
+
+		      }
+		    </script>
+		    <script src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.secrets.google_api_key %>&callback=initMap" async defer></script>
+
+        <div class="panel-body">
+
+				  <p class="text-muted">
+				    <span class="fa fa-map-marker"></span>
+				    <%= @school.Institution_City %>, <%= @school.Institution_State %></p>
+
+				  <p class="text-muted">
+				    <span class="fa fa-external-link"></span>
+				    <%= link_to @school.Institution_Web_Address, "http://#{@school.Institution_Web_Address}", target:'_blank' %></p>
+				</div>
+      </div>
+      <!-- end map paenl -->
+
+      <!-- users panel -->
+      <div class="panel panel-default">
+        <div class="panel-body">
+
+          <span class="dark-blue">
+            <span class="fa fa-users"></span>
+            <%= pluralize @school.affiliations_count, 'affiliated member' %>
+          </span>
+
+          <% if @school.affiliations_count > 0 %>
+            <div class="portrait-gallery" style="overflow: scroll;">
+              <% @school.affiliations.each do |aff| %>
+                <%= link_to aff.user do %>
+                  <span class="has-tooltip" data-container="body" data-toggle="tooltip" title="<%= aff.user.name %>" data-placement="bottom" aria-hidden="true">
+                    <%= image_tag aff.user.avatar_url(:hand), style: "max-height: 40px; max-width: 40px;" %>
+                  </span>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <!-- end users panel -->
+
+
+
+    </div>
+    <!-- column3 -->
+    <div class="col-sm-9">
+      <!-- testes  -->
+
+      <%=
+      if @school.wikipedia_summary.present?
+        truncate @school.wikipedia_summary, length: 300, separator: ' ', omission: '... (continued)'
+      else
+      'Nothin to see'
+      end
+      %>
+    </div>
+
+  </div>
+  <!-- row -->
+
+</div>
+<!-- container -->
