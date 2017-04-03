@@ -3,8 +3,6 @@
 
 
 
-<div class="row" style="height: 20px;">
-</div>
 
 
 <!-- SHOW AVAILABLE VERSIONS -->
@@ -13,6 +11,28 @@
     <!-- show all works (versions) associated to this project -->
     <!-- and option for uploads -->
     <div class="col-sm-3" style="margin-top: 15px;">
+
+    <div class="" style="margin-bottom: 20px;">
+        <!-- description -->
+
+        <p style="display: inline-block; line-height: 2em; ">
+
+            <% if project_owner?(@project) %>
+              <% if @project.description.blank? %>
+              <span class="text-muted" style="color: #76B3DF; padding: 3px;">Project description</span>
+              <% end %>
+            <span style="color: gray;">
+                <%= best_in_place @project, :description, place_holder: "              ", activator: "#desc-activator-#{@project.id}", :as => :input, class: 'bip-form', inner_class: 'bip-inner' %>
+            </span>
+                <span id="desc-activator-<%= @project.id %>" class="glyphicon glyphicon-pencil glyphicon-edit-work" aria-hidden="true" style="color: lightgray;" title="Edit project description."></span>
+            <% else %>
+                <span style="color: gray;">
+                    <%= @project.description %>
+                </span>
+            <% end %>
+
+        </p>
+    </div>
 
 
     <!-- markdown cheatsheet will collapse open and closed when in editing mode. -->
@@ -26,8 +46,7 @@
     <span id="currently-viewed-id" style="display: none;"><%= @most_recent_work.id %></span>
 
     <p class="brand-secondary">
-        <!-- <span class="glyphicon glyphicon-arrow-up"></span> -->
-        latest
+        Versions
     </p>
     <% @works.each do |work| %>
 
@@ -55,7 +74,33 @@
         </div>
         </div>
     <% end %>
-    <p class="brand-secondary">earliest</p>
+
+    
+    <div id="projects-show-meta"  style="display: inline-block; margin-top: 20px;">
+      <p class="brand-secondary">
+        Share
+      </p>
+
+
+      <!-- SHARE BUTTONS -->
+      <div class="shareable-wrapper">
+
+        <div class="shareables text-right" style="margin-top: 0px;">
+          <div class="share-a-work" style="display: inline-block;">
+            <%= render_shareable :buttons=> ['facebook', 'twitter'] %>
+          </div>
+          <div style="display: inline-block; text-align: center;" >
+            <!-- mail a link -->
+            <%= mail_to "team@openbound.org", subject: "[Openbound] #{if @project.name.present? then @project.name else @project.most_recent_work.file_name end}", body: "#{request.original_url}", class: "modest-link" do %>
+              <button class="btn btn-primary btn-xs " style="position: relative; margin-top: -14px; height: 20px;">
+                <span>Email </span><span class="glyphicon glyphicon-envelope" ></span> </button>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
 
 
 
@@ -171,7 +216,6 @@
                   </p>
 
                   <!-- DOWNLOAD BUTTON --> <!-- pull-right -->
-                  <% if logged_in? %>
                   <div class="dropdown" style="display: inline; ">
                       <!-- link to download work/:id/download => 'works#download' -->
 
@@ -228,9 +272,6 @@
 
                         </ul>
                   </div>
-                  <% else %>
-                  <span class="text text-success">Please sign in for the ability to download in a variety of formats.</span>
-                  <% end %>
 
                   <% if work_owner?(work) && work.from_google_drive? && work.alternate_link.present? %>
                     <%= link_to work.alternate_link do %>
