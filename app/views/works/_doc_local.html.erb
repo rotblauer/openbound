@@ -1,47 +1,10 @@
 # encoding: utf-8
 
-
-
-	<!-- IMAGE -->
-	<% if work.image? %>
-		<div class="text-center" style="margin-left: auto; margin-right: auto;">
-			<%= image_tag work.document_url(:fitted), class: "shadowy-figure-image-preview image-show", style: "margin-right: auto; margin-left: auto;" %>
-		</div>
-
-	<!-- PDF -->
-	<% elsif work.pdf? %>
-	<div class="text-center">
-		<iframe  src=<%= work.document_url %> class="pdf" > </iframe>
-		</div>
-
-	<!-- TEXT -->
-	<% elsif ( work.spreadsheet? || work.powerpoint? || work.open_office? || work.i_works? ) and work.content_type != 'application/vnd.oasis.opendocument.text' %>
-		<div class="doc-text-container">
-			<div class="doc-text-content">
-				<style>
-					pre {
-						background-color: white;
-						border: none;
-					}
-				</style>
-				<%= content_tag('pre', work.file_content_text) %>
-
-			</div>
-		</div>
-
-
-		<!-- <iframe src=<%= work.document_url.force_encoding("UTF-8") %> width="600" height="700" style="border: 1px solid gray;"></iframe> -->
-
-
-	<!-- MARKDOWN -->
-	<!-- show mardown is preference over html because of renderer options -->
-	<% elsif work.docordocx? || work.markdown? || work.type_html? || work.latex? || work.plain_text? || work.type_rtf? || work.content_type.blank? || work.content_type == 'application/vnd.oasis.opendocument.text' %>
-		<div class="doc-text-container" > <!-- style="overflow: scroll;" -->
-
 		<% if project_owner?(@project) %>
 
 		<div class="row" style="margin-bottom: 5px;">
-		<div class="pull-right" style="position: absolute; top: 75px; right: 5px;">
+
+		<div class="pull-right" >
 
 		<!-- delete button -->
 		<% if @project.works_count > 1 %>
@@ -108,6 +71,44 @@
 
 
 		<% end %>
+
+
+
+	<!-- IMAGE -->
+	<% if work.image? %>
+		<div class="text-center" style="margin-left: auto; margin-right: auto;">
+			<%= image_tag work.document_url(:fitted), class: "shadowy-figure-image-preview image-show", style: "margin-right: auto; margin-left: auto;" %>
+		</div>
+
+	<!-- PDF -->
+	<% elsif work.pdf? %>
+	<div class="text-center">
+		<iframe  src=<%= work.document_url %> class="pdf" > </iframe>
+		</div>
+
+	<!-- TEXT -->
+	<% elsif ( work.spreadsheet? || work.powerpoint? || work.open_office? || work.i_works? ) and work.content_type != 'application/vnd.oasis.opendocument.text' %>
+		<div class="doc-text-container">
+			<div class="doc-text-content">
+				<style>
+					pre {
+						background-color: white;
+						border: none;
+					}
+				</style>
+				<%= content_tag('pre', work.file_content_text) %>
+
+			</div>
+		</div>
+
+
+		<!-- <iframe src=<%= work.document_url.force_encoding("UTF-8") %> width="600" height="700" style="border: 1px solid gray;"></iframe> -->
+
+
+	<!-- MARKDOWN -->
+	<!-- show mardown is preference over html because of renderer options -->
+	<% elsif work.docordocx? || work.markdown? || work.type_html? || work.latex? || work.plain_text? || work.type_rtf? || work.content_type.blank? || work.content_type == 'application/vnd.oasis.opendocument.text' %>
+		<div class="doc-text-container" > <!-- style="overflow: scroll;" -->
 
 
 
