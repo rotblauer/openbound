@@ -1,0 +1,20 @@
+<%= link_to school do %>
+<div class="col-sm-4 text-center" style="margin-bottom: 20px;">
+  <div class="text-center" style="height: 20vh;">
+    <div class="text-center">
+    <%= image_tag school.logo_url, class: "img-responsive", style: "height: 10vh; max-width: 80%; margin-left: auto; margin-right: auto;" %>
+    </div>
+<p style="margin-top: 10px;">
+<%= school.Institution_Name %>
+  <br/>
+  <span class="text-muted">
+    <%= school.affiliations_count %> <span class="glyphicon glyphicon-user" style="color: gold;"></span>
+    <% if school.works_count > 0 %>
+    <%= school.works_count %> <span class="glyphicon glyphicon-file brand-primary" ></span>
+    <% end %>
+  </span>
+</p>
+
+  </div>
+</div>
+<% end %>

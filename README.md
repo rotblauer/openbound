@@ -16,6 +16,9 @@ $ rails s # new terminal
 ### Test
 `bundle exec rake test`
 
+### Deploy
+`bundle exec cap production deploy`
+`bundle exec cap production restart`
 
 ### Contributing
 :clap: 

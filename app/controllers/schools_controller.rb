@@ -28,12 +28,21 @@ class SchoolsController < ApplicationController
     # 	paginate(:page => params[:page] || 1, :per_page => 15)
     # end
     # @schools = @searchschools.results
-    @schools = School.search(query: params[:searchschools].present? ? params[:searchschools] : nil )
-               .paginate(
-                             page: params[:page] || 1,
-                             per_page: params[:searchschools].present? ? 25 : 15 # show more results if searching
-                )
-    @results_count = @schools.count
+
+    if params[:searchschools].present?
+      @schools = School.search(query: params[:searchschools].present? ? params[:searchschools] : nil )
+                 .paginate(
+                   page: params[:page] || 1,
+                   per_page: params[:searchschools].present? ? 25 : 15 # show more results if searching
+                 )
+      @results_count = @schools.count
+    else
+      @schools = School.where.not(logo: nil, affiliations_count: 0)
+              .order(works_count: :desc)
+              .order(affiliations_count: :desc)
+              .order(Institution_Name: :asc)
+              .first(25)
+    end
 
     # Override template for prototyping the new schools table.
     render :template => 'schools/index_table'

@@ -1,17 +1,17 @@
 <div class="container">
 
 	<% if !params[:searchschools].present? %>
-	<%= render 'schools/analytics' %>
+	<%# render 'schools/analytics' %>
 	<br>
 	<br>
 	<% end %>
 	<div class="row">
 		<div class="col-sm-12">
 
+      <% if params[:searchschools].present? %>
 			<p class="brand-secondary">
 				Schools ordered by most contributions, then most affiliations.
 			</p>
-
 			<div class="table-responsive">
 				<table class="table table-hover "> <!-- table-condensed -->
 
@@ -47,6 +47,12 @@
 		<div class="text-center">
 			<%= will_paginate @schools, :params => { :searchschools => params[:searchschools] } %>
 		</div>
+
+    <% else %>
+    <div class="row">
+      <%= render partial: "schools/card", collection: @schools, as: :school %>
+    </div>
+    <% end %>
 	</div>
 
 

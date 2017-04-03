@@ -32,14 +32,6 @@
 
       </p>
 
-      <p>
-        <% @user.affiliations.each do |a| %>
-          <p><%= a.inspect %></p>
-
-        <% end %>
-
-      </p>
-
       <p class="signin-advice">Your email is <span style="color: black;"><%= @user.email %></span> <small><%= link_to "change", new_email_update_path, style: "color: blue;", class: "text-muted" %></small> <br><mark>Your email is never visible anywhere on Openbound.</mark></p>
 
       <span id="password-change-toggle" style="color: blue;">Change my password</span>
@@ -56,7 +48,7 @@
         <%= f.check_box :superman, default: false %>
         <span>Enable superhero mode?</span>
       <% end %>
-      <p class="signin-advice">This makes work you upload to be anonymous by default. Work that is anonymous won't show up on your profile.</p>
+      <p class="signin-advice">Your uploads will be anonymous by default, and won't show up on your profile.</p>
 
       <br>
       <%= f.submit "Save changes", class: "btn btn-primary" %>

@@ -1,4 +1,4 @@
-// Bootstrap 
+// Bootstrap
 $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 @import "bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
 @import "bootstrap-sass/assets/stylesheets/bootstrap";
@@ -7,7 +7,7 @@ $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 @import "font-awesome-sprockets";
 @import "font-awesome";
 
-// Base 
+// Base
 @import 'base/colors';
 @import 'base/general';
 @import 'base/google_file_defaults';
@@ -17,11 +17,12 @@ $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 
 // Layout
 @import 'layout/nav';
-@import 'layout/footer'; 
+@import 'layout/footer';
 
 // Modules
 @import 'modules/banners';
 @import 'modules/browsebar';
+@import 'modules/card';
 @import 'modules/citations';
 @import 'modules/comments';
 @import 'modules/dash';
@@ -39,7 +40,7 @@ $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 @import 'modules/shareables';
 @import 'modules/suggested';
 @import 'modules/testes';
-@import 'modules/users';  
+@import 'modules/users';
 @import 'modules/work';
 
 // Objects
@@ -60,5 +61,3 @@ $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 @import 'pages/signin';
 @import 'pages/start';
 @import 'pages/work_show';
-
-
