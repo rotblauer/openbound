@@ -13,7 +13,19 @@
             <%= image_tag project.user.avatar_url(:hand), style: "max-height: 20px; max-width: 20px; text-align: center;"  %>
         <% end %>
 
+
         <span style="color: lightgray;" id="author-name-<%= project.recent_work_id %>" class="<%=  'anony' if project.anonymouse %>"><%= working_author project %></span>
+
+        <% if project.school_name != 'Spy University' %>
+        <span class="brand-secondary"> / </span>
+          <span>
+            <%= favicon_for(project.school, 14, 14, "margin-right: 5x; margin-bottom: 2px; vertical-align: middle;") %>
+            <%= link_to project.school_name, project.school %>
+          </span>
+        <% end %>
+
+
+
         <span class="brand-secondary"> / </span>
         <span class="text-muted">
         <% if project_owner? project %>
@@ -124,12 +136,6 @@
     </div>
 
     <div>
-      <% if project.school_name != 'Spy University' %>
-      <span>
-          <%= favicon_for(project.school, 20, 20, "margin-right: 5x; margin-bottom: 2px; vertical-align: middle;") %>
-          <%= link_to project.school_name, project.school %>
-      </span>
-      <% end %>
     </div>
 
 </div>

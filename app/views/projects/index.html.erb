@@ -1,27 +1,105 @@
+<div class="row" style="min-height: 100vh;">
+  <!-- shadowed -->
+  <div class="col-sm-3 " style="border-right: 3px solid #76B3DF; padding-top: 10px;">
 
-<!-- render partial projects/_hyrbrid_browse -->
-<%# render 'projects/hyrbrid_browse' %>
+    <!-- fake ad -->
+    <div class="banner hidden-xs" >
+      <%# image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
+      <%= link_to "http://www.adidas.com", target: :_blank do %>
+        <%= image_tag('cleverads/Adidas_LineRunner.jpg', class: 'img-responsive') %>
+      <% end %>
+    </div>
 
-<!-- <div class="banner-picture-bg"> -->
-	<!-- <h1>Got homework?</h1> -->
-	<!-- <h1><span class="brand-primary">R</span>stacks, for public education.</h1> -->
-	<%# render 'projects/hyrbrid_browse' %>	
-<!-- </div> -->
-
-<!-- <div class="row" style='background-color: blue;'>
-	uncollapse
-</div> -->
-
-<!-- <hr> -->
-
-
-<!-- render partial projects/_index -->
-<div class="row">
+    <div id="tags-holster" style="background-color: white;">
+  		<%= render partial: 'projects/tag_browse', locals: { projects: @projects } %>
+    </div>
 
 
-	<%= render 'projects/index2' %>
+    <script>
+     /* $("#browsebar").stick_in_parent({*/
+     /* parent: ".navbar",*/
+     /* offset_top: 74*/
+     /* });*/
+    </script>
+
+
+  </div>
+  <div class="col-sm-9" style="padding-top: 10px;">
+		<div class="row" id="project-uploads" >
+			<%= render partial: 'projects/project', collection: @projects, as: :project %>
+			<%#= render partial: 'projects/project2', collection: @projects, as: :project %>
+		</div>
+
+    <% if true # @projects.size > 32 %>
+			<!-- load more -->
+			<div class="row load-more-container text-center">
+				<!-- hide our loading gif image so that we show it when making ajax call via jquery -->
+				<%= image_tag "loading_spinner.gif", style: "display:none;", class: "loading-gif" %>
+				<%= link_to "Load More", projects_path, class: "load-more-projects" %>
+			</div>
+
+			<script>
+			 $(function () {
+					 // when the load more link is clicked
+					 $('a.load-more-projects').click(function (e) {
+
+					     // prevent the default click action
+					     e.preventDefault();
+					     console.log('this is firing!');
+
+					     // hide load more link
+					     $('.load-more-projects').hide();
+
+					     // show loading gif
+					     $('.loading-gif').show();
+
+					     // get the last id and save it in a variable 'last-id'
+					     /* var last_id = $('.-project').last().attr('data-id');*/
+					     var last_id = $('.-work').last().attr('data-id');
+					     // console.log('last_id -> ' + last_id);
+
+
+					     // make an ajax call passing along our last user id
+					     $.ajax({
+
+					         // make a get request to the server
+					         type: "GET",
+					         // get the url from the href attribute of our link
+					         url: $(this).attr('href'),
+					         // send the last id to our rails app
+					         data: {
+					             id: last_id
+					             // updated_at: last_id
+					         },
+					         // the response will be a script
+					         dataType: "script",
+
+					         // error: function (e) {
+					         // 	console.log(e);
+					         // 	// hacky solve to fix 200 (OK) response when no projects to load.
+					             // 	// idk why doesn't happen for Works.
+					             // 	console.log(e.error);
+					         // 	}
+					         // },
+
+					         // upon success
+					         success: function () {
+					             // hide the loading gif
+					             $('.loading-gif').hide();
+					             // show our load more link
+					             $('.load-more-projects').show();
+					             console.log('ajax success!');
+
+					             $('.has-tooltip').tooltip();
+					             /* Activating Best In Place */
+					             jQuery(".best_in_place").best_in_place();
+					         }
+					     });
+
+					 });
+			 });
+      </script>
+    <% end %>
+
+  </div>
 </div>
-
-
-
-

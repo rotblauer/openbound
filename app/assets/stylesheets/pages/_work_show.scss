@@ -24,7 +24,7 @@
 
   font-family: "Times New Roman", Times, serif; // "Lucida Console", Monaco, monospace; // "Courier New", Courier, monospace;
   line-height: 160%;
-  font-size: 110%;
+  font-size: 120%;
 }
 iframe.pdf {
 	width: 100%; 
@@ -95,3 +95,11 @@ span.glyphicon-for-download {
 span#works-show-bookmark-icon {
     font-size: 3em;
 }
+
+ /* .fullscreen { z-index: 9999; } */
+.editor-toolbar { position: absolute; width: auto; border: none; border-bottom: 2px solid gray; border-radius: 0px; border: none; z-index: 5; opacity: 1; background-color: whitesmoke; }
+ .editor-toolbar:hover{opacity: 1;}
+ .editor-toolbar.fullscreen { top: 77px; }
+ .CodeMirror {position: relative; top: 50px; border: none;}
+ .CodeMirror-fullscreen { top: 127px; }
+ .editor-preview-side { top: 127px; border: none !important; }

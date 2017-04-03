@@ -36,13 +36,13 @@
 	<%= render 'layouts/nav' unless @disable_nav %>
 
   <% unless @container_fluid %>
-    <div class="container-fluid" id="everything" style="padding-top: 74px; ">
-      <%= render partial: 'shared/penthouse' if current_page?(:controller => 'projects', :action => 'index') %>
+    <div class="container-fluid" id="everything" style="padding-top: 77px; ">
+      <%# render partial: 'shared/penthouse' if current_page?(:controller => 'projects', :action => 'index') %>
       <%= yield.force_encoding(Encoding::UTF_8) %>
     </div>
   <% else %>
-    <div class="container-fluid" id="everything-else" style="padding: 0px; margin-top: 74px;">
-    <%= render partial: 'shared/penthouse' if current_page?(:controller => 'projects', :action => 'index') %>
+    <div class="container-fluid" id="everything-else" style="padding: 0px; margin-top: 77px;">
+    <%# render partial: 'shared/penthouse' if current_page?(:controller => 'projects', :action => 'index') %>
       <%= yield.force_encoding(Encoding::UTF_8) %>
     </div>
   <% end %>

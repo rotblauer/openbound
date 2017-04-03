@@ -43,8 +43,8 @@
 
     <div class="row" style="">
       <div class="tag-lists">
-        <% if project_owner? @project %>
           <span class="brand-secondary">Tags </span>
+        <% if project_owner? @project %>
 
           <!-- <span class="text-muted"> -->
           <!-- BIP -->
@@ -256,9 +256,9 @@
 
 
 
-                <div class="row" style="margin-bottom: 10px;">
+                <div class="row" style="margin-bottom: 10px;margin-top: 10px;">
                   <!-- TITLE -->
-                  <h4>
+                  <h4 style="display: inline;">
                     <% if work_owner?(work) %>
                       <%= best_in_place work, :name, place_holder: "             ", activator: "#work-name-activator-work-id-#{work.id}", :as => :input, class: "best_in_place" %>
                       <span id="work-name-activator-work-id-<%= work.id %>" class="glyphicon glyphicon-pencil" aria-hidden="true" style="color: lightgray;"></span>
