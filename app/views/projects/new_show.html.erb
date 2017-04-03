@@ -33,16 +33,6 @@
  .navbar-menubar p.navbar-text { margin: 0px; }
 </style>
 
-<!-- <div class="project-desktop-metadata-bar brand-primary background two"> -->
-<!-- <div class="text-right" style="display: inline-block;"> -->
-<!-- <span class="label label-success">Download</span> -->
-<!-- <button class="btn btn-success btn-sm">Save</button> -->
-<!-- </div> -->
-<!-- </div> -->
-
-<!-- navbar-menubar -->
-<!-- <nav class="navbar navbar-menubar" style="background-color: white; border-radius: 0px; border: none; margin-bottom: 2px; margin-top: 2px;"> -->
-
 <div class="row">
   <div class="col-sm-12">
      <span>
@@ -146,17 +136,8 @@
       </a>
 
     </div>
-
-
     </div>
   </div>
-
-  <script>
-  </script>
-
-
-
-
 
   <div id="project-show-column-middle" class="col-sm-8" style="padding: 0px;  ">
     <div class="row" >
@@ -173,22 +154,6 @@
 
 	  <%= render partial: 'comments/comment', collection: @project.comments, as: :comment, locals: {work: @project.most_recent_work} if @project.comments.any? %>
 
-
-      <!-- <div class="col-sm-12" style="padding: 0px;"> -->
-      <!-- <button class="btn btn-success"> -->
-      <!-- <span class="glyphicon glyphicon-folder-open"></span> -->
-      <!-- Fork this project -->
-      <!-- </button> -->
-      <!-- <br/> -->
-      <!-- <button class="btn btn-success"> -->
-      <!-- <span class="glyphicon glyphicon-file"></span> -->
-      <!-- Fork this document -->
-      <!-- </button> -->
-      <!-- <br/> -->
-      <!-- <small class="text-muted"> -->
-      <!-- <span class="glyphicon glyphicon-info-sign"></span><strong>Forking</strong> creates an exact copy of this document that all yours. It's like a photocopy/fax wunderkind. -->
-      <!-- </small> -->
-      <!-- </div> -->
     </div>
   </div>
 

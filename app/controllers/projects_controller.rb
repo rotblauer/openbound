@@ -150,7 +150,7 @@ class ProjectsController < ApplicationController
     @tag_suggestions = Project.all_tags[0...40]
 
     impressionist(@project)
-
+    layout
     # render new template if you know about it
     if params[:v2].present?
       render template: "projects/new_show"
