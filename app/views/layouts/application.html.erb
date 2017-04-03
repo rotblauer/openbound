@@ -32,7 +32,7 @@
 
   <%= render partial: 'shared/custom_flasher', :flash => flash %>
 
-  <%= query_diet_widget if Rails.env.development?  %>
+  <%= query_diet_widget if Rails.env.development? and !current_page? :controller => 'index', :action => "signin" %>
 
 	<%= render 'layouts/nav' unless @disable_nav %>
 

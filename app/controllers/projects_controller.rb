@@ -150,6 +150,13 @@ class ProjectsController < ApplicationController
     @tag_suggestions = Project.all_tags[0...40]
 
     impressionist(@project)
+
+    # render new template if you know about it
+    if params[:v2].present?
+      render template: "projects/new_show"
+    else
+      render template: "projects/show_original"
+    end
   end
 
   # add a work which will be assigned to existing project

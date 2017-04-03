@@ -1,22 +1,32 @@
+<div class="comment-div">
+    <blockquote id="comment" class="shadowy-figure-light" style="padding: 10px;">
+
+        <!-- link to delete if owner -->
+        <% if work_owner?(work) || (current_user == comment.user) %>
+            <%= link_to work_comment_path(work, comment), method: :delete, id: "delete-link" do %>
+                <span class="glyphicon glyphicon-trash" style="float: right; color: gray; margin-left: 4px;"></span>
+                <% end %>
+                    <% end %>
 
 
-<div class="comment-div" >
-		 <blockquote id="comment" class="shadowy-figure-light" style="padding: 10px;">
-
-			<!-- link to delete if owner -->
-			<% if work_owner?(work) || (current_user == comment.user) %><%= link_to work_comment_path(work, comment), method: :delete, id: "delete-link" do %>
-		  		<span class="glyphicon glyphicon-trash" style="float: right; color: gray; margin-left: 4px;"></span><% end %><% end %>
-
-
-		  <!-- comment body -->
-		  <div class=""><p class="comment-body ellipsis multiline"><span class="brand-primary">[re: <%= comment.work.name %>]&nbsp;</span><%= comment.body %></p></div>
+                        <!-- comment body -->
+                        <div class="">
+                          <!-- <p class="comment-body ellipsis multiline"><span class="brand-primary">[re: <%= comment.work.name %>]&nbsp;</span> -->
+                          <p class="comment-body ellipsis multiline">
+                                <%= comment.body %>
+                            </p>
+                        </div>
 
 
-			<!-- signature -->
-		  <p style="margin-left: 15px; margin-bottom: 2px;" class="commentsignature text-right"><%= link_to comment.user.name, comment.user, style: "color: #76B3DF;" %> <%= link_to comment.user.school_primary.Institution_Name, comment.user.school_primary, style: "color: darkgray; font-size: .8em;" %></p>
+                        <!-- signature -->
+                        <p style="margin-left: 15px; margin-bottom: 2px;" class="commentsignature text-right">
+                            <%= link_to comment.user.name, comment.user, style: "color: #76B3DF;" %>
+                                <%= link_to comment.user.school_primary.Institution_Name, comment.user.school_primary, style: "color: darkgray; font-size: .8em;" %>
+                        </p>
 
-		  <p class="commentsignature text-right text-muted" style="font-size: .5em; margin-top: 2px;">
-		  	<%= comment.created_at.strftime("%l:%M%P, %d %b '%y") %></p>
+                        <p class="commentsignature text-right text-muted" style="font-size: .5em; margin-top: 2px;">
+                            <%= comment.created_at.strftime("%l:%M%P, %d %b '%y") %>
+                        </p>
 
-		</blockquote>
+    </blockquote>
 </div>

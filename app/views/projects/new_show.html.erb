@@ -1,0 +1,196 @@
+
+<style>
+ .two {
+   margin-top: 5px;
+   margin-bottom: 5px;
+   padding: 5px;
+
+   }
+ .bordered {
+   border-top: 2px solid #76B3DF;
+   /* border-left: 2px dashed #76B3DF; */
+   /* border-bottom: 2px solid #76B3DF; */
+   /* border-left: 2px solid #76B3DF; */
+   }
+ .sidebar-border {
+   border: 2px solid #76B3DF;
+
+
+   }
+ .navbar.navbar-menubar p,li,a {
+   color: black;
+   }
+ .navbar.navbar-menubar ul li p,a {
+   color: black;
+   }
+
+ .navbar-menubar .navbar-nav > li > a, .navbar-brand, .navbar-text {
+   padding-top:4px !important;
+   padding-bottom:0 !important;
+   height: 28px;
+ }
+ .navbar.navbar-menubar {min-height:28px !important;}
+ .navbar-menubar p.navbar-text { margin: 0px; }
+</style>
+
+<!-- <div class="project-desktop-metadata-bar brand-primary background two"> -->
+<!-- <div class="text-right" style="display: inline-block;"> -->
+<!-- <span class="label label-success">Download</span> -->
+<!-- <button class="btn btn-success btn-sm">Save</button> -->
+<!-- </div> -->
+<!-- </div> -->
+
+<!-- navbar-menubar -->
+<!-- <nav class="navbar navbar-menubar" style="background-color: white; border-radius: 0px; border: none; margin-bottom: 2px; margin-top: 2px;"> -->
+
+<div class="row">
+  <div class="col-sm-12">
+     <span>
+       <%= @project.user.name %>
+     </span>
+
+     <div class="pull-right">
+       <%= render partial: "download_as_button", locals: {work: @project.most_recent_work} %>
+
+
+       <!-- Single button -->
+       <div class="btn-group">
+         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+           Action <span class="caret"></span>
+         </button>
+         <ul class="dropdown-menu">
+           <li><a href="#">Action</a></li>
+           <li><a href="#">Another action</a></li>
+           <li><a href="#">Something else here</a></li>
+           <li role="separator" class="divider"></li>
+           <li><a href="#">Separated link</a></li>
+         </ul>
+       </div>
+     </div>
+  </div>
+
+</div>
+
+
+<script>
+ var $buttonShowComments = $("#comments-visible-activator");
+ var $buttonHideComments = $("#comments-hidden-activator");
+
+
+ var $middleColumn = $("#project-show-column-middle");
+ var $commentsColumn = $("#project-show-column-right");
+
+ $buttonShowComments.on("click", function () {
+     $commentsColumn.removeClass("hidden");
+     $middleColumn.toggleClass("col-sm-10 col-sm-8");
+     $middleColumn.css({"border": "3px solid red"});
+     /* $middleColumn.removeClass("col-sm-10");*/
+     /* $middleColumn.addClass("col-sm-8");*/
+     $buttonShowComments.toggle();
+     $buttonHideComments.toggle();
+ });
+
+</script>
+
+<div class="row bordered">
+  <div class="col-sm-2" style="padding: 0px;" >
+    <p class="brand-secondary" style="margin-bottom: 3px; margin-top: 5px;">
+      Imported as: <%= pretty_content_type @project.most_recent_work %>
+    </p>
+    <p class="brand-secondary" style="margin-bottom: 3px; margin-top: 5px;">
+      Description: <%= @project.description %>
+    </p>
+
+    <div class="row" style="padding: 0px;">
+      <div class="col-xs-12 text-right" style="padding: 0px; ">
+        <div style="background-color: orange; padding: 4px;" class="">
+          <button class="btn btn-sm btn-primary">EDIT</button>
+        </div>
+      </div>
+    </div>
+
+    <style>
+     .list-group.revisions-list-group a {
+       border: none;
+       padding: 2px;
+       font-size: 90%;
+       border-radius: 0px;
+       color: gray;
+       }
+     .list-group.revisions-list-group a.active {
+       border-right: 2px solid #76b3df;
+       background-color: rgb(250,251,252);
+      }
+     .list-group.revisions-list-group a.active:hover {
+       background-color: aliceblue;
+       }
+     .list-group.revisions-list-group a.active .list-group-item-heading {
+       color: black;
+       }
+     .list-group.revisions-list-group a.active .list-group-item-text {
+       color: black;
+       }
+    </style>
+
+    <span class="brand-secondary">Revisions</span>
+    <div class="panel">
+    <div class="list-group revisions-list-group">
+      <a href="#" class="list-group-item active">
+        <h6 class="list-group-item-heading">continue work on bibliography and the checking the quotes</h6>
+        <p class="list-group-item-text">Lorem fugiat in et do reprehenderit veniam officia eiusmod proident veniam cillum ut ex deserunt do occaecat quis laborum elit</p>
+      </a>
+
+      <a href="#" class="list-group-item">
+        <h6 class="list-group-item-heading">Save</h6>
+        <p class="list-group-item-text">Lorem fugiat in et do reprehenderit veniam officia eiusmod proident veniam cillum ut ex deserunt do occaecat quis laborum elit</p>
+      </a>
+
+    </div>
+
+
+    </div>
+  </div>
+
+  <script>
+  </script>
+
+
+
+
+
+  <div id="project-show-column-middle" class="col-sm-8" style="padding: 0px;  ">
+    <div class="row" >
+     <%= render partial: "works/doc_local", locals: {work: @project.most_recent_work} %>
+    </div>
+  </div>
+  <div id="project-show-column-right" class="col-sm-2" style="padding: 0px;">
+    <div class="btn-group btn-group-xs" role="group" aria-label="...">
+      <button type="button" class="btn btn-default">Comments</button>
+      <button type="button" class="btn btn-default">Revisions</button>
+      <button type="button" class="btn btn-default">other</button>
+    </div>
+    <div id="project-show-public-interaction-buttons" class="row project show public interaction" style="padding: 0px;">
+
+	  <%= render partial: 'comments/comment', collection: @project.comments, as: :comment, locals: {work: @project.most_recent_work} if @project.comments.any? %>
+
+
+      <!-- <div class="col-sm-12" style="padding: 0px;"> -->
+      <!-- <button class="btn btn-success"> -->
+      <!-- <span class="glyphicon glyphicon-folder-open"></span> -->
+      <!-- Fork this project -->
+      <!-- </button> -->
+      <!-- <br/> -->
+      <!-- <button class="btn btn-success"> -->
+      <!-- <span class="glyphicon glyphicon-file"></span> -->
+      <!-- Fork this document -->
+      <!-- </button> -->
+      <!-- <br/> -->
+      <!-- <small class="text-muted"> -->
+      <!-- <span class="glyphicon glyphicon-info-sign"></span><strong>Forking</strong> creates an exact copy of this document that all yours. It's like a photocopy/fax wunderkind. -->
+      <!-- </small> -->
+      <!-- </div> -->
+    </div>
+  </div>
+
+
+</div>
