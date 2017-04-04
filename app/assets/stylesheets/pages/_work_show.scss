@@ -16,7 +16,6 @@
 	@media only screen and (max-width: 480px ) { padding: 0px } 
 
 	blockquote { font-size: inherit; }
-	
 	&.diff-text {
 		padding: 1vw;
 		font-size: 1em;
@@ -25,6 +24,10 @@
   font-family: "Times New Roman", Times, serif; // "Lucida Console", Monaco, monospace; // "Courier New", Courier, monospace;
   line-height: 160%;
   font-size: 120%;
+
+  img {
+      @extend .img-responsive;
+  }
 }
 iframe.pdf {
 	width: 100%; 
