@@ -14,7 +14,7 @@ class Comment < ActiveRecord::Base
   validates :project_id, presence: true
 
   include PublicActivity::Model
-  tracked
+  tracked 
 
   # is this in use?? possibly so. same task could possibly be accomplished by the controller@index
   # acts_as_tree order: 'created_at DESC'

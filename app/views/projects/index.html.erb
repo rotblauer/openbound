@@ -26,8 +26,17 @@
   </div>
   <div class="col-sm-9" style="padding-top: 10px;">
 		<div class="row" id="project-uploads" >
-			<%= render partial: 'projects/project', collection: @projects, as: :project %>
+			<%# render partial: 'projects/project', collection: @projects, as: :project %>
 			<%#= render partial: 'projects/project2', collection: @projects, as: :project %>
+
+      <p class="text-muted">
+        Join a school to see updates about what matters to you.
+        <br/>
+        Activity from people and schools you follow will also show up here.
+      </p>
+
+      <%= render_activities(@activities) %> 
+
 		</div>
 
     <% if true # @projects.size > 32 %>

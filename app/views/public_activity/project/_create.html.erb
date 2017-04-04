@@ -1,0 +1,8 @@
+<%
+  project = Project.find(activity.trackable_id)
+%>
+
+<p>
+  <%= image_tag project.most_recent_work.preview_url(:pinky), style: "max-height: 60px;" %>
+  <%= link_to project.user.name, project.user %> created <%= link_to project.name, project %>!
+</p>

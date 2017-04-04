@@ -2,14 +2,17 @@ class Bookmark < ActiveRecord::Base
   belongs_to :user
   belongs_to :project
 
-  counter_culture :user 
+  counter_culture :user
   counter_culture :project
-  
-  validates :project_id, presence: true 
+
+  validates :project_id, presence: true
   validates :user_id, presence: true
   validates :bookmarked, presence: true
-  
+
   validates_uniqueness_of :user_id, scope: :project_id
+
+  include PublicActivity::Model
+  tracked 
 
   # after_commit :update_user_bookmarks_count
   # after_save :udpate_project_bookmarks_count
@@ -25,11 +28,11 @@ class Bookmark < ActiveRecord::Base
   # end
 
   # ----------- project init ------------ #
-  
+
   def assign_to_project
     proj_id = self.work.project.id
     self.update_attributes(project_id: proj_id)
   end
-  
+
 
 end
