@@ -296,11 +296,13 @@ class WorksController < ApplicationController
     respond_to do |format|
       @work = current_user.works.build(work_params.merge(school_id: current_user.school_primary.id)) # change params to work_params
       if @work.save
-        format.html {redirect_to snooty_librarian_path
-                     flash[:success] = "Thank you! Your work was successfully added to the library." }
+        format.html {
+          redirect_to snooty_librarian_path
+          flash[:success] = "Thank you! Your work was successfully added to the library."
+        }
         format.js {
           flash[:success] = "Awesome! Your work was successfully added to the library."
-          render :js => "window.location = '#{project_path(@work.project)}'"
+          render :js => "window.location = '#{user_path(@work.user)}'"
         }
       else
         format.html { flash[:warning] = "Mission failed."
