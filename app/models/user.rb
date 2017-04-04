@@ -7,6 +7,9 @@ class User < ActiveRecord::Base
   extend FriendlyId
   include ActionView::Helpers::NumberHelper
 
+  include PublicActivity::Model
+  tracked
+
   friendly_id :slug_candidates, use: :slugged
 
   devise :trackable

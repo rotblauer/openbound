@@ -46,6 +46,10 @@ class Work < ActiveRecord::Base
   extend FriendlyId
     friendly_id :slug_candidates, use: :slugged # <-- def :slug_candidates in private
 
+  include PublicActivity::Model
+  tracked
+
+
   # Humps ahead.
   mount_uploader :document, DocumentUploader
   mount_uploader :preview, PreviewUploader

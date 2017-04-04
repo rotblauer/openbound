@@ -30,6 +30,9 @@ class Project < ActiveRecord::Base
   extend FriendlyId
     friendly_id :slug_candidates, use: :slugged
 
+  include PublicActivity::Model
+  tracked
+
   # Sunspot Solr indexes
     # text is searchable 'normally', ie search bar query
     # string is facetable, ie filter by tags
