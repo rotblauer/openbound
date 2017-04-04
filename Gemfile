@@ -170,6 +170,8 @@ gem 'time_difference'
 
 gem 'wikipedia-client'
 
+gem 'public_activity'
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
 

@@ -337,6 +337,11 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    public_activity (1.5.0)
+      actionpack (>= 3.0.0)
+      activerecord (>= 3.0)
+      i18n (>= 0.5.0)
+      railties (>= 3.0.0)
     public_suffix (2.0.5)
     puma (3.7.1)
     query_diet (0.6.1)
@@ -547,6 +552,7 @@ DEPENDENCIES
   pg
   postgres_ext
   progress_bar
+  public_activity
   puma
   query_diet
   rack-cache
