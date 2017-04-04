@@ -134,6 +134,10 @@ class Project < ActiveRecord::Base
     self.update_columns(impressions_count: children_view_total)
   end
 
+  def self.searchable_columns
+    [:school_name, :file_content_text, :name, :tags]
+  end
+
   def self.search(query:nil,
                   tags:[],
                   schools:[],

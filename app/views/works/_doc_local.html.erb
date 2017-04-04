@@ -143,8 +143,11 @@
                   $.get("/works/<%= work.slug %>/get", function (res) {
                       if (res.file_content_md !== null && res.file_content_md.trim() !== "") {
                           gotText = true;
-                      $markdownViewText.html(markdown.toHTML(res.file_content_md));
-                          $("textarea#mde-<%= work.id %>").html(res.file_content_md);
+                      // $markdownViewText.html(markdown.toHTML(res.file_content_md));
+                      $markdownViewText.html(res.file_content_html);
+//                          $("#mde-" + res.id).html(res.file_content_md);
+                      versionEditor<%= work.id %>.value(res.file_content_md);
+								$('.leave-edit-mode-dangerously-button').hide();
                           }
                   })
                    .fail(function (err) {

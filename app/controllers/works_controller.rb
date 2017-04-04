@@ -271,7 +271,6 @@ class WorksController < ApplicationController
     end
   end
 
-  # not in use
   def save_as_new_version
     respond_to do |format|
       @work = current_user.works.build(work_params.merge(school_id: current_user.school_primary.id)) # change params to work_params
