@@ -25,6 +25,21 @@
 
   </div>
   <div class="col-sm-9" style="padding-top: 10px;">
+  		<p class="text-muted small">
+  			<%= pluralize @projects.count, "project" %> 
+  			<% 
+  			pretty_map = Hash.new 
+  			pretty_map["school_name"] = "school"
+  			pretty_map["search"] = "search"
+  			pretty_map["tag"] = "tag"
+  			pretty_map["utf8"] = ""
+  			if params[:search].present? || params[:tag].present? || params[:school_name].present? %> 
+  				for
+				<% request.query_parameters.each do |k,v| %>
+					<%= "#{pretty_map[k]}: <strong>#{v.join(',')}</strong> ".html_safe %>
+				<% end %>
+  			<% end %>
+  		</p>
 		<div class="row" id="project-uploads" >
 			<%= render partial: 'projects/project', collection: @projects, as: :project %>
 			<%#= render partial: 'projects/project2', collection: @projects, as: :project %>
