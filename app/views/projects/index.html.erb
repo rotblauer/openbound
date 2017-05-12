@@ -2,6 +2,10 @@
   <!-- shadowed -->
   <div class="col-sm-3 " style="border-right: 3px solid #76B3DF; padding-top: 10px;">
 
+    <div id="tags-holster" style="background-color: white;">
+  		<%= render partial: 'projects/tag_browse', locals: { projects: @projects } %>
+    </div>
+
     <!-- fake ad -->
     <div class="banner hidden-xs" >
       <%# image_tag('drawings/sharey_girl_2.jpg', class: 'img-responsive') %>
@@ -10,9 +14,6 @@
       <% end %>
     </div>
 
-    <div id="tags-holster" style="background-color: white;">
-  		<%= render partial: 'projects/tag_browse', locals: { projects: @projects } %>
-    </div>
 
 
     <script>
