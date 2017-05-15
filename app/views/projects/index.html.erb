@@ -33,11 +33,17 @@
   			pretty_map["school_name"] = "school"
   			pretty_map["search"] = "search"
   			pretty_map["tag"] = "tag"
-  			pretty_map["utf8"] = ""
+  			# pretty_map["utf8"] = ""
   			if params[:search].present? || params[:tag].present? || params[:school_name].present? %> 
   				for
 				<% request.query_parameters.each do |k,v| %>
-					<%= "#{pretty_map[k]}: <strong>#{v.join(',')}</strong> ".html_safe %>
+					<% if pretty_map[k] && v.present? %>
+						<% if v.is_a? %>
+							<%= "#{pretty_map[k]}: <strong>#{v.join(',')}</strong> ".html_safe %>
+						<% else %>
+							<%= "#{pretty_map[k]}: <strong>#{v}</strong> ".html_safe %>
+						<% end %>
+					<% end %>
 				<% end %>
   			<% end %>
   		</p>
