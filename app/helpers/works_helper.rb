@@ -76,6 +76,7 @@ module WorksHelper
         a
       # or it will be a normal local upload, in which case we'll handle with splitting original file name
       else
+
         if !work.file_name.nil? 
           if work.file_name.include? '.' and work.file_name.split('.').size > 1 # ie essay.docx
             return work.file_name.split('.').last 
@@ -84,10 +85,10 @@ module WorksHelper
 
         if !work.content_type.nil?
           a = work.content_type.split('/').last
-          return a.split('.').last if a.include? '.'
+          return a.split('.').last if !a.nil? && a.include? '.'
         end
         
-        return a
+        return 'unknown'
       end
     end
   end
