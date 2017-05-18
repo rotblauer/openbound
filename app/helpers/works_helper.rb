@@ -84,8 +84,12 @@ module WorksHelper
         end
 
         if !work.content_type.nil?
-          a = work.content_type.split('/').last
-          return a.split('.').last if !a.nil? && a.include? '.'
+          if work.content_type.include? '/'
+            a = work.content_type.split('/').last
+          end 
+          if !a.nil? && a.present? && a.length > 1
+            return a.split('.').last if a.include? '.'
+          end
         end
         
         return 'unknown'
