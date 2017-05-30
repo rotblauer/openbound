@@ -9,8 +9,13 @@ class SessionsController < ApplicationController
     # Email+password authentication. 
     if params[:provider].nil?
 
-      user = User.find_by(email: params[:session][:email].downcase)
-      if user && user.authenticate(params[:session][:password])
+      # https://stackoverflow.com/questions/29320369/coping-with-string-contains-null-byte-sent-from-users
+      # bug(whilei): issue #21: users sometimes get 422 on login attempt
+      email = params[:session][:email].gsub("\u0000", '')
+      pword = params[:session][:password].gsub("\u0000", '')
+
+      user = User.find_by(email: email.downcase)
+      if user && user.authenticate(pword)
         if user.activated?
           log_in user
           user.update_tracked_fields(request)
