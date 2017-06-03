@@ -48,10 +48,6 @@ class ProjectsController < ApplicationController
     desired_number_of_school_facets = 15
     @facet_schools = School.order('works_count desc').order('affiliations_count desc').order('updated_at desc').first(desired_number_of_school_facets)
 
-    @works_count = 0
-    @works_count = @projects.each {|p| c += p.works_count }
-
-
     # if @projects.any?
     #   # Schools associated with resulting works (first page),
     #   # could be [Bowdoin College, Bowdoin College, Bowdoin College, Colby College].
