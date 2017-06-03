@@ -29,7 +29,7 @@
   		<p class="text-muted small">
   			<%= pluralize @projects.count, "project" %>
             ,&nbsp;
-            <%= pluralize @works.count, "documents" %>
+            <%= pluralize @works_count, "document" %>
   			<%
   			pretty_map = Hash.new
   			pretty_map["school_name"] = "school"
