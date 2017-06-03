@@ -48,7 +48,7 @@ class ProjectsController < ApplicationController
     desired_number_of_school_facets = 15
     @facet_schools = School.order('works_count desc').order('affiliations_count desc').order('updated_at desc').first(desired_number_of_school_facets)
 
-    @works_count = Work.all.count
+    @works_count = @projects.sum(:works_count)
 
 
     # if @projects.any?
