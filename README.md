@@ -1,4 +1,5 @@
 Homework should be free.
+:
 
 ### Develop
 ```shell
@@ -21,7 +22,8 @@ $ rails s # new terminal
 `bundle exec cap production restart`
 
 ### Contributing
-:clap: 
+:clap:
+:clap:
 
 
 
